@@ -1,0 +1,8 @@
+[
+  {"id":"civil","name":"Código Civil","url":"https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm","identity":"10.406","last_article":2046,"min_characters":200000},
+  {"id":"penal","name":"Código Penal","url":"https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm","identity":"2.848","last_article":361,"min_characters":90000},
+  {"id":"cpc","name":"Código de Processo Civil","url":"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm","identity":"13.105","last_article":1072,"min_characters":200000},
+  {"id":"cdc","name":"Código de Defesa do Consumidor","url":"https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm","identity":"8.078","last_article":119,"min_characters":30000},
+  {"id":"ctn","name":"Código Tributário Nacional","url":"https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm","identity":"5.172","last_article":218,"min_characters":50000},
+  {"id":"cf","name":"Constituição Federal e ADCT","url":"https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm","identity":"CONSTITUIÇÃO DA REPÚBLICA FEDERATIVA DO BRASIL","last_article":250,"last_adct_article":138,"min_characters":200000}
+]

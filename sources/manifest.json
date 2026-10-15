@@ -1,0 +1,62 @@
+{
+  "civil": {
+    "filename": "L10406compilada.pdf",
+    "pdf": "sources/civil.pdf",
+    "pages": 184,
+    "sha256": "3ba44a98d9f7f6b9f161afeffdf7489a8431348443560c893be9d83b6537b918",
+    "importedAt": "2026-10-15",
+    "edition": "PDF do Planalto · impressão de 15/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "penal": {
+    "filename": "DEL2848compilado.pdf",
+    "pdf": "sources/penal.pdf",
+    "pages": 87,
+    "sha256": "abdb017555af3354ac6382b424a92394a37172891f92037ccf7789b75190c2ae",
+    "importedAt": "2026-10-15",
+    "edition": "PDF do Planalto · impressão de 15/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "cpc": {
+    "filename": "L13105.pdf",
+    "pdf": "sources/cpc.pdf",
+    "pages": 172,
+    "sha256": "7b2aaca5bcd59cced8c4a223ff27505e23fbf68e128a6ef89ef00a28b9b12992",
+    "importedAt": "2026-10-15",
+    "edition": "PDF do Planalto · impressão de 15/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "cdc": {
+    "filename": "L8078compilado.pdf",
+    "pdf": "sources/cdc.pdf",
+    "pages": 23,
+    "sha256": "04d2df3a4d086ff7688c8f1d8ce9f1177edf0cd779aa522228e7f42d900259f5",
+    "importedAt": "2026-10-15",
+    "edition": "PDF do Planalto · impressão de 15/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "ctn": {
+    "filename": "L5172COMPILADO.pdf",
+    "pdf": "sources/ctn.pdf",
+    "pages": 41,
+    "sha256": "49d55be2c4993259074386101837699c3afa1b5c96c2f4ddab36dafacfd31256",
+    "importedAt": "2026-10-15",
+    "edition": "PDF do Planalto · impressão de 15/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "cf": {
+    "filename": "cf88_69ed.pdf",
+    "pdf": "sources/cf.pdf",
+    "pages": 298,
+    "sha256": "c46def28277d05716dd592184d0b49ca337a8d2b36b49f7cfae0232a7953c2a5",
+    "importedAt": "2026-10-15",
+    "edition": "Câmara dos Deputados · 69ª edição, 2026 · até a EC 138/2025",
+    "coverage": "Texto constitucional e ADCT. Emendas e tratados anexos disponíveis no PDF original.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "civil": {
+    "articles": 2083,
+    "sections": 315,
+    "deletedRuns": 3,
+    "scopeCounts": {
+      "main": 2083
+    },
+    "lastArticle": "2046",
+    "unassignedLines": []
+  },
+  "penal": {
+    "articles": 434,
+    "sections": 74,
+    "deletedRuns": 0,
+    "scopeCounts": {
+      "main": 434
+    },
+    "lastArticle": "361",
+    "unassignedLines": []
+  },
+  "cpc": {
+    "articles": 1074,
+    "sections": 200,
+    "deletedRuns": 108,
+    "scopeCounts": {
+      "main": 1074
+    },
+    "lastArticle": "1072",
+    "repeatedCaput": 8,
+    "unassignedLines": []
+  },
+  "cdc": {
+    "articles": 130,
+    "sections": 28,
+    "deletedRuns": 0,
+    "scopeCounts": {
+      "main": 130
+    },
+    "lastArticle": "119",
+    "unassignedLines": []
+  },
+  "ctn": {
+    "articles": 234,
+    "sections": 66,
+    "deletedRuns": 2,
+    "scopeCounts": {
+      "main": 234
+    },
+    "lastArticle": "218",
+    "unassignedLines": []
+  },
+  "cf": {
+    "articles": 424,
+    "sections": 79,
+    "deletedRuns": 0,
+    "scopeCounts": {
+      "main": 276,
+      "adct": 148
+    },
+    "lastArticle": "adct-138",
+    "unassignedLines": []
+  }
+}
