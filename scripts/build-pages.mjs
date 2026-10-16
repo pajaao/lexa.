@@ -13,7 +13,7 @@ export async function stagePages(destination=resolve(root,'_site')) {
  }
  await rm(destination,{recursive:true,force:true});
  await mkdir(destination,{recursive:true});
- await cp(resolve(root,'index.html'),resolve(destination,'index.html'));
+ for(const file of ['index.html','favicon.svg','favicon.ico','apple-touch-icon.png'])await cp(resolve(root,file),resolve(destination,file));
  await writeFile(resolve(destination,'.nojekyll'),'');
  for(const {pdf} of documents){
   const target=resolve(destination,pdf);

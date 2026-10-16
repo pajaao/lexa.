@@ -6,11 +6,11 @@ import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {stagePages} from './build-pages.mjs';
 
-test('pacote publicado contém apenas HTML, configuração estática e PDFs íntegros',async()=>{
+test('pacote publicado inclui HTML, ícones e PDFs íntegros',async()=>{
  const output=await mkdtemp(join(tmpdir(),'lexa-pages-'));
  try{
   await stagePages(output);
-  assert.deepEqual((await readdir(output)).sort(),['.nojekyll','index.html','sources']);
+  assert.deepEqual((await readdir(output)).sort(),['.nojekyll','apple-touch-icon.png','favicon.ico','favicon.svg','index.html','sources']);
   const archive=JSON.parse(await readFile(new URL('../sources/manifest.json',import.meta.url),'utf8'));
   const sumulas=JSON.parse(await readFile(new URL('../sources/sumulas-manifest.json',import.meta.url),'utf8'));
   assert.equal((await readdir(join(output,'sources'))).length,7);
@@ -22,5 +22,11 @@ test('pacote publicado contém apenas HTML, configuração estática e PDFs ínt
   assert.match(html,/<style>/);
   assert.doesNotMatch(html,/<(?:script|link)[^>]+(?:src|href)="\//);
   assert.match(html,/Confira a edição indicada e a fonte oficial/);
+  assert.match(html,/Idealizado por João Antônio, UFRN/);
+  for(const file of ['favicon.svg','favicon.ico','apple-touch-icon.png']){
+   const bytes=await readFile(join(output,file));
+   assert.deepEqual(bytes,await readFile(new URL('../'+file,import.meta.url)));
+  }
+  assert.match(html,/rel="icon" href="\.\/favicon\.svg\?v=1"/);
  }finally{await rm(output,{recursive:true,force:true});}
 });
