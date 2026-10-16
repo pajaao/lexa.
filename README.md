@@ -33,6 +33,9 @@ Nas edições PDF, o leitor informa o arquivo e a página inicial; nas edições
 - Constituição e ADCT com buscas separadas. `ADCT 1` também busca diretamente no ADCT.
 - Destaque de resultados, tamanho da fonte e tema escuro.
 - Favoritos armazenados somente no navegador atual, acessíveis pelo filtro “Meus favoritos”.
+- Página “Atualizações” (`#/atualizacoes`), com registros por legislação, filtros por artigo e comparação lado a lado. O verde destaca diferenças na versão coletada; o rosa, na anterior. Riscados já existentes na fonte continuam riscados.
+
+O histórico persistente é gerado em `updates.js` junto com cada proposta de textos oficiais. O primeiro registro estabelece uma referência inicial, sem tratar a conversão de PDFs para HTML como mudança legislativa. As versões seguintes guardam os textos anterior e novo dos artigos modificados. Mudanças apenas de espaços ou quebras de parágrafo não contam como alteração de artigo. Ausência de artigo, adição de texto e alteração de redação são descrições da comparação, não decisões sobre revogação ou vigência. A página não usa dados fictícios para preencher o histórico inicial.
 
 ## Reimportação e manutenção
 

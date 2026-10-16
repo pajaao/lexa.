@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 from check_official_sources import fingerprint
-from import_official import ROOT, convert, prepare
+from import_official import ROOT, convert, prepare, history_event, load_js
 
 
 class OfficialImportTests(unittest.TestCase):
@@ -75,11 +75,51 @@ class OfficialImportTests(unittest.TestCase):
             prepare(root)
             first=(root/'official-content.js').read_bytes()
             manifest=(root/'sources/official-manifest.json').read_bytes()
+            history=(root/'updates.js').read_bytes()
+            recorded=load_js(root/'updates.js','updateHistory')
+            self.assertEqual(len(recorded),6)
+            self.assertTrue(all(e['kind']=='baseline' and not e['changes'] for e in recorded))
             _,report=prepare(root)
             self.assertEqual(first,(root/'official-content.js').read_bytes())
             self.assertEqual(manifest,(root/'sources/official-manifest.json').read_bytes())
+            self.assertEqual(history,(root/'updates.js').read_bytes())
             self.assertEqual(archive,(root/'content.js').read_bytes())
             self.assertTrue(all(not d['added'] and not d['removed'] and not d['changed'] for d in report.values()))
+            # Introducing the history feature after an HTML edition was already
+            # merged establishes its baseline without inventing a text change.
+            (root/'updates.js').unlink()
+            prepare(root)
+            self.assertEqual(history,(root/'updates.js').read_bytes())
+
+    def test_history_compares_real_versions_preserves_full_text_and_deduplicates(self):
+        def doc(sha,text):
+            return {'source':{'sha256':sha,'converterVersion':1,'capturedAt':'2026-10-16T00:33:21+00:00','url':'https://www.planalto.gov.br/'},
+                    'articles':[{'id':'1','number':'1','scope':'main','paragraphs':[{'runs':[{'text':text,'deleted':False}]}]}]}
+        old,new=doc('old','Art. 1º Prazo de dez dias.'),doc('new','Art. 1º Prazo de quinze dias.')
+        baseline=history_event('civil',None,old,[])
+        self.assertEqual(baseline['kind'],'baseline');self.assertEqual(baseline['changes'],[])
+        event=history_event('civil',old,new,[baseline])
+        self.assertEqual(event['kind'],'text');self.assertEqual(event['changes'][0]['type'],'changed')
+        revision=event['changes'][0]
+        self.assertIn('dez',revision['before']['paragraphs'][0]['runs'][0]['text'])
+        self.assertIn('quinze',revision['after']['paragraphs'][0]['runs'][0]['text'])
+        self.assertIsNone(history_event('civil',old,new,[baseline,event]))
+        self.assertIsNone(history_event('civil',new,new,[baseline,event]))
+        formatted=doc('format','Art. 1º  Prazo de\nquinze dias.')
+        event=history_event('civil',new,formatted,[baseline])
+        self.assertEqual(event['kind'],'source');self.assertEqual(event['changes'],[])
+        reprocessed=doc('old','Art. 1º Correção de extração.');reprocessed['source']['converterVersion']=2
+        self.assertEqual(history_event('civil',old,reprocessed,[baseline])['kind'],'processing')
+
+    def test_history_distinguishes_added_and_missing_articles(self):
+        old=copy.deepcopy(self.converted['civil']);new=copy.deepcopy(old)
+        old['source']['sha256']='old';new['source']['sha256']='new'
+        del new['articles'][0]
+        extra=copy.deepcopy(new['articles'][0]);extra['id']='2047';extra['number']='2047';new['articles'].append(extra)
+        baseline=history_event('civil',None,old,[])
+        event=history_event('civil',old,new,[baseline])
+        statuses={c['articleId']:c['type'] for c in event['changes']}
+        self.assertEqual(statuses['1'],'removed');self.assertEqual(statuses['2047'],'added')
 
 
 if __name__=='__main__':

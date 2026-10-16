@@ -14,6 +14,8 @@ on:
       - 'scripts/build.mjs'
       - 'data.js'
       - 'app.js'
+      - 'history.js'
+      - 'scripts/history.test.js'
       - 'monitor/sources.json'
   schedule:
     - cron: '17 9 * * *' # 06:17 em São Paulo (UTC-3); horários do GitHub são aproximados.
@@ -81,6 +83,7 @@ jobs:
           add-paths: |
             monitor/official/*.json
             official-content.js
+            updates.js
             sources/official-manifest.json
             index.html
           delete-branch: true

@@ -167,23 +167,84 @@ def changes(previous, candidate):
             'changed':[key for key in after if key in before and digest(after[key])!=digest(before[key])]}
 
 
+def article_version(article):
+    if article is None:
+        return None
+    return {'title':article.get('title'), 'paragraphs':[
+        {'runs':[{'text':r['text'],'deleted':bool(r['deleted'])} for r in p['runs']]}
+        for p in article['paragraphs']]}
+
+
+def version_signature(version):
+    # Ignore PDF/HTML line wrapping, paragraph boundaries and incidental spaces;
+    # preserve actual words, punctuation and the source's deletion markings.
+    if version is None:
+        return None
+    tokens=[(False,t) for t in (version.get('title') or '').split()]
+    for p in version['paragraphs']:
+        for r in p['runs']:
+            tokens.extend((r['deleted'],t) for t in r['text'].split())
+    return tokens
+
+
+def history_event(code_id, previous, candidate, existing):
+    source=candidate['source']
+    prior=previous['source'] if previous else None
+    recorded=any(event['codeId']==code_id for event in existing)
+    if prior and prior['sha256']==source['sha256'] and prior.get('converterVersion')==source['converterVersion'] and recorded:
+        return None
+    first=previous is None or not recorded
+    event_id=digest({'code':code_id,'from':None if first else prior['sha256'],
+                     'to':source['sha256'],'converter':source['converterVersion']})
+    if any(event['id']==event_id for event in existing):
+        return None
+    revisions=[]
+    if not first:
+        old={a['id']:a for a in previous['articles']}
+        new={a['id']:a for a in candidate['articles']}
+        for key in dict.fromkeys([*new,*old]):
+            before,after=article_version(old.get(key)),article_version(new.get(key))
+            if version_signature(before)==version_signature(after):
+                continue
+            article=new.get(key) or old[key]
+            revisions.append({'articleId':key,'number':article['number'],'scope':article['scope'],
+                              'rangeEnd':article.get('rangeEnd'),
+                              'type':'added' if before is None else ('removed' if after is None else 'changed'),
+                              'before':before,'after':after})
+    kind='baseline' if first else ('processing' if prior['sha256']==source['sha256'] else ('text' if revisions else 'source'))
+    return {'id':event_id,'codeId':code_id,'kind':kind,'capturedAt':source['capturedAt'],
+            'sourceUrl':source['url'],'fromVersion':None if first else prior['sha256'],
+            'toVersion':source['sha256'],'changes':revisions}
+
+
 def prepare(root=ROOT):
     root=Path(root)
     specs=json.loads((root/'monitor/sources.json').read_text())
     archived=load_js(root/'content.js','imported')
     current=load_js(root/'official-content.js','officialImported')
+    history_path=root/'updates.js'
+    history=load_js(history_path,'updateHistory') if history_path.exists() else []
+    if not isinstance(history,list):
+        raise ValueError('Histórico de versões inválido')
     candidates={}
     report={}
     for spec in specs:
         snapshot=json.loads((root/'monitor/official'/(spec['id']+'.json')).read_text())
         candidate=convert(spec,snapshot)
         candidates[spec['id']]=candidate
+        previous=current.get(spec['id'])
+        if previous and not any(event['codeId']==spec['id'] for event in history):
+            history.append(history_event(spec['id'],None,previous,history))
+        event=history_event(spec['id'],previous,candidate,history)
+        if event:
+            history.append(event)
         report[spec['id']]={**changes(current.get(spec['id'],archived[spec['id']]),candidate),
                             'articles':len(candidate['articles']),'source':candidate['source']}
     # Validate every document first; no generated output is written on failure.
     payload='export const officialImported = '+json.dumps(candidates,ensure_ascii=False,separators=(',',':'))+';\n'
     (root/'sources').mkdir(exist_ok=True)
     (root/'official-content.js').write_text(payload)
+    history_path.write_text('export const updateHistory = '+json.dumps(history,ensure_ascii=False,separators=(',',':'))+';\n')
     (root/'sources/official-manifest.json').write_text(json.dumps({id:d['source'] for id,d in candidates.items()},ensure_ascii=False,indent=2)+'\n')
     run_dir=root/'monitor/run';run_dir.mkdir(parents=True,exist_ok=True)
     (run_dir/'reader-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
@@ -198,7 +259,7 @@ Esta proposta prepara os textos do site a partir das seis fontes oficiais monito
 
 A primeira conversão troca a edição baseada nos PDFs pela extração das páginas oficiais. Diferenças de formatação também podem aparecer no relatório; as contagens não são uma classificação jurídica das alterações.
 
-Confira `monitor/official/`, `official-content.js`, `sources/official-manifest.json` e o artefato `reader-report.json`. A prévia `index.html` é gerada e os testes são executados antes desta proposta. Os PDFs originais permanecem arquivados. A data da coleta não certifica vigência: revise notas, revogações e início de efeitos antes de mesclar.
+Confira `monitor/official/`, `official-content.js`, `updates.js`, `sources/official-manifest.json` e o artefato `reader-report.json`. A prévia `index.html` inclui a página “Atualizações” com comparações antes/depois. O primeiro registro estabelece a base do histórico, sem apresentar diferenças de migração como mudanças legislativas. Os testes são executados antes desta proposta. Os PDFs originais permanecem arquivados. A data da coleta não certifica vigência: revise notas, revogações e início de efeitos antes de mesclar.
 
 Mesclar incorpora os arquivos gerados ao repositório. A publicação do site depende da hospedagem utilizada; este workflow não faz implantação.
 '''
