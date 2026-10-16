@@ -1,8 +1,110 @@
 [
-  {"id":"civil","name":"Código Civil","url":"https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm","identity":"10.406","last_article":2046,"min_characters":200000},
-  {"id":"penal","name":"Código Penal","url":"https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm","identity":"2.848","last_article":361,"min_characters":90000},
-  {"id":"cpc","name":"Código de Processo Civil","url":"https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm","identity":"13.105","last_article":1072,"min_characters":200000},
-  {"id":"cdc","name":"Código de Defesa do Consumidor","url":"https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm","identity":"8.078","last_article":119,"min_characters":30000},
-  {"id":"ctn","name":"Código Tributário Nacional","url":"https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm","identity":"5.172","last_article":218,"min_characters":50000},
-  {"id":"cf","name":"Constituição Federal e ADCT","url":"https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm","identity":"CONSTITUIÇÃO DA REPÚBLICA FEDERATIVA DO BRASIL","last_article":250,"last_adct_article":138,"min_characters":200000}
+  {
+    "id": "civil",
+    "name": "Código Civil",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm",
+    "identity": "10.406",
+    "last_article": 2046,
+    "min_characters": 200000
+  },
+  {
+    "id": "penal",
+    "name": "Código Penal",
+    "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm",
+    "identity": "2.848",
+    "last_article": 361,
+    "min_characters": 90000
+  },
+  {
+    "id": "cpc",
+    "name": "Código de Processo Civil",
+    "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm",
+    "identity": "13.105",
+    "last_article": 1072,
+    "min_characters": 200000
+  },
+  {
+    "id": "cdc",
+    "name": "Código de Defesa do Consumidor",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm",
+    "identity": "8.078",
+    "last_article": 119,
+    "min_characters": 30000
+  },
+  {
+    "id": "ctn",
+    "name": "Código Tributário Nacional",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm",
+    "identity": "5.172",
+    "last_article": 218,
+    "min_characters": 50000
+  },
+  {
+    "id": "cf",
+    "name": "Constituição Federal e ADCT",
+    "url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+    "identity": "CONSTITUIÇÃO DA REPÚBLICA FEDERATIVA DO BRASIL",
+    "last_article": 250,
+    "last_adct_article": 138,
+    "min_characters": 200000
+  },
+  {
+    "name": "Código de Processo Penal",
+    "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm",
+    "identity": "3.689",
+    "min_characters": 150000,
+    "id": "cpp",
+    "last_article": 811,
+    "repeated_article_range": [
+      406,
+      497
+    ]
+  },
+  {
+    "name": "Estatuto da Criança e do Adolescente",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8069.htm",
+    "identity": "8.069",
+    "min_characters": 90000,
+    "id": "eca",
+    "last_article": 267
+  },
+  {
+    "name": "Lei de Execução Penal",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l7210.htm",
+    "identity": "7.210",
+    "min_characters": 45000,
+    "id": "lep",
+    "last_article": 204
+  },
+  {
+    "name": "Lei Maria da Penha",
+    "url": "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2006/lei/l11340.htm",
+    "identity": "11.340",
+    "min_characters": 20000,
+    "id": "maria-penha",
+    "last_article": 46
+  },
+  {
+    "name": "Lei de Improbidade Administrativa",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8429.htm",
+    "identity": "8.429",
+    "min_characters": 25000,
+    "id": "improbidade",
+    "last_article": 25
+  },
+  {
+    "name": "Lei de Licitações e Contratos Administrativos",
+    "url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm",
+    "identity": "14.133",
+    "min_characters": 150000,
+    "id": "licitacoes",
+    "last_article": 194,
+    "quoted_amendments": [
+      [
+        178,
+        337,
+        337
+      ]
+    ]
+  }
 ]

@@ -58,5 +58,65 @@
     "edition": "Câmara dos Deputados · 69ª edição, 2026 · até a EC 138/2025",
     "coverage": "Texto constitucional e ADCT. Emendas e tratados anexos disponíveis no PDF original.",
     "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "cpp": {
+    "filename": "Del3689.pdf",
+    "pdf": "sources/cpp.pdf",
+    "pages": 129,
+    "sha256": "30e7059f94352d6c8c51ae7fd3611a361dab1bd806832453c8a387e0639b5ea2",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "eca": {
+    "filename": "L8069.pdf",
+    "pdf": "sources/eca.pdf",
+    "pages": 73,
+    "sha256": "1d7b05a7649b1254b65960d55bb450a7269bdb1b4bcbc502b702f6111e55e61a",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "lep": {
+    "filename": "L7210.pdf",
+    "pdf": "sources/lep.pdf",
+    "pages": 37,
+    "sha256": "6105bfa2fa3c6211d6824b6fc2a1c5ae30834c1bf47ce5c378cba2fcd430a6d4",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "maria-penha": {
+    "filename": "Lei nº 11.340.pdf",
+    "pdf": "sources/maria-penha.pdf",
+    "pages": 9,
+    "sha256": "305cb82f85244cf9749f5becd49cf813bfb77b44e3620fe286187cc3323bdffc",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "improbidade": {
+    "filename": "L8429.pdf",
+    "pdf": "sources/improbidade.pdf",
+    "pages": 18,
+    "sha256": "3523b18d45967862cc4115ffdd7476935f84e546e71ee248b6beafdce4f085e3",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "licitacoes": {
+    "filename": "L14133.pdf",
+    "pdf": "sources/licitacoes.pdf",
+    "pages": 74,
+    "sha256": "6198ec8b9a27d22e7ab725e97c1d61de676490b101b02344a59ed81f04102a32",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
   }
 }

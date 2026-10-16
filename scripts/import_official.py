@@ -1,4 +1,4 @@
-"""Prepare reader candidates from the six monitored official snapshots.
+"""Prepare reader candidates from the configured official snapshots.
 
 No network, no automatic merge and no replacement of archived PDFs. Fail closed
 on corrupt snapshots, incomplete coverage, unsupported deletion CSS or orphaned
@@ -46,6 +46,8 @@ def convert(spec, snapshot):
     scope, high_water = 'main', 0
     hierarchy = {}
     current = None
+    by_id = {}
+    repeated_block = False
     stopped = False
     heading_pending = False
     rubric = None
@@ -76,12 +78,21 @@ def convert(spec, snapshot):
             continue
         group = RANGE.match(text)
         match = group or ARTICLE.match(text)
+        if match and current and any(current['id']==str(parent) and low<=int(match[1].replace('.',''))<=high for parent,low,high in spec.get('quoted_amendments',[])):
+            match=None
         if match:
             base = int(match[1].replace('.', ''))
             number = str(base) + ('' if group else match[2].replace('–','-'))
             key = ('adct-' if scope == 'adct' else '') + number
-            if base >= high_water:
-                if current is None or current['id'] != key:
+            repeated_range=spec.get('repeated_article_range')
+            if repeated_range and base==repeated_range[0] and high_water==repeated_range[1] and current is None:
+                repeated_block=True
+            if repeated_range and base>repeated_range[1]:repeated_block=False
+            if base >= high_water or (repeated_block and key in by_id):
+                if key in by_id:
+                    current=by_id[key]
+                    current['sectionId']=section_id()
+                elif current is None or current['id'] != key:
                     if any(a['id'] == key for a in articles):
                         raise ValueError('Artigo repetido fora da sequência: '+key)
                     current = {'id': key, 'number': number, 'scope': scope, 'sectionId': section_id(),
@@ -92,12 +103,13 @@ def convert(spec, snapshot):
                         current['title'] = rubric
                         rubric = None
                     articles.append(current)
+                    by_id[key]=current
                 high_water = max(high_water, current.get('rangeEnd',base))
                 current['paragraphs'].append({'runs': copy.deepcopy(runs), 'sourceBlock': index+1})
                 in_preamble, heading_pending = False, False
                 continue
             # Quoted amendments to another law remain inside their parent article.
-        if HEADING.match(heading_text):
+        if HEADING.match(heading_text) and not (current and any(current['id']==str(parent) for parent,_,_ in spec.get('quoted_amendments',[]))):
             token = heading_text.split()[0].upper()
             level = {'PARTE':0,'LIVRO':1,'TÍTULO':2,'SUBTÍTULO':3,'CAPÍTULO':4,'SEÇÃO':5,'SUBSEÇÃO':6}.get(token,4)
             hierarchy = {k:v for k,v in hierarchy.items() if k<level}
@@ -127,6 +139,7 @@ def convert(spec, snapshot):
         elif articles:
             orphaned.append((index+1,text[:160]))
 
+    sections=[section for section in sections if any(a['sectionId']==section['id'] for a in articles)]
     if orphaned:
         raise ValueError(f'Parágrafos sem artigo em {spec["id"]}: {orphaned[:5]}')
     covered = {scope:set() for scope in ['main','adct']}
@@ -252,7 +265,7 @@ def prepare(root=ROOT):
     rows='\n'.join(f'| {id} | {d["articles"]} | {len(d["added"])} | {len(d["changed"])} | {len(d["removed"])} |' for id,d in report.items())
     body=f'''## Atualização proposta para o leitor
 
-Esta proposta prepara os textos do site a partir das seis fontes oficiais monitoradas. **Não há aprovação, merge ou implantação automática.**
+Esta proposta prepara os textos do site a partir das {len(specs)} fontes oficiais monitoradas. **Não há aprovação, merge ou implantação automática.**
 
 | Legislação | Entradas | Adicionadas | Alteradas | Removidas |
 | --- | ---: | ---: | ---: | ---: |

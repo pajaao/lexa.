@@ -106,6 +106,16 @@ class OfficialHTML(HTMLParser):
 
 
 def parse_html(raw, encoding=None):
+    if raw.startswith((b'\xff\xfe',b'\xfe\xff')):
+        encoding='utf-16'
+        # Some official pages append raw ASCII padding after complete UTF-16 HTML.
+        endian='utf-16-le' if raw.startswith(b'\xff\xfe') else 'utf-16-be'
+        closing='</html>'.encode(endian)
+        end=raw.lower().rfind(closing)
+        if end>=0 and not raw[end+len(closing):].strip(b' \t\r\n\x00'):
+            raw=raw[:end+len(closing)]
+    elif raw.startswith(b'\xef\xbb\xbf'):
+        encoding='utf-8-sig'
     if not encoding:
         match = re.search(br'charset\s*=\s*["\']?\s*([\w-]+)', raw[:8192], re.I)
         if match:
@@ -255,7 +265,7 @@ Antes de atualizar o leitor: confira fonte, alterações, revogações e início
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--only', choices=['all', 'civil', 'penal', 'cpc', 'cdc', 'ctn', 'cf'], default='all')
+    parser.add_argument('--only', choices=['all']+[spec['id'] for spec in json.loads((ROOT/'monitor/sources.json').read_text())], default='all')
     parser.add_argument('--github-output', type=Path)
     args = parser.parse_args()
     specs = json.loads((ROOT / 'monitor' / 'sources.json').read_text())

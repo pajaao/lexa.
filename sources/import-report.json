@@ -60,5 +60,71 @@
     },
     "lastArticle": "adct-138",
     "unassignedLines": []
+  },
+  "cpp": {
+    "articles": 852,
+    "sections": 100,
+    "deletedRuns": 924,
+    "scopeCounts": {
+      "main": 852
+    },
+    "lastArticle": "811",
+    "repeatedCaput": 245,
+    "unassignedLines": []
+  },
+  "eca": {
+    "articles": 329,
+    "sections": 56,
+    "deletedRuns": 382,
+    "scopeCounts": {
+      "main": 329
+    },
+    "lastArticle": "267",
+    "repeatedCaput": 54,
+    "unassignedLines": []
+  },
+  "lep": {
+    "articles": 219,
+    "sections": 58,
+    "deletedRuns": 183,
+    "scopeCounts": {
+      "main": 219
+    },
+    "lastArticle": "204",
+    "repeatedCaput": 24,
+    "unassignedLines": []
+  },
+  "maria-penha": {
+    "articles": 57,
+    "sections": 16,
+    "deletedRuns": 21,
+    "scopeCounts": {
+      "main": 57
+    },
+    "lastArticle": "46",
+    "repeatedCaput": 3,
+    "unassignedLines": []
+  },
+  "improbidade": {
+    "articles": 35,
+    "sections": 11,
+    "deletedRuns": 175,
+    "scopeCounts": {
+      "main": 35
+    },
+    "lastArticle": "25",
+    "repeatedCaput": 16,
+    "unassignedLines": []
+  },
+  "licitacoes": {
+    "articles": 196,
+    "sections": 46,
+    "deletedRuns": 108,
+    "scopeCounts": {
+      "main": 196
+    },
+    "lastArticle": "194",
+    "repeatedCaput": 3,
+    "unassignedLines": []
   }
 }

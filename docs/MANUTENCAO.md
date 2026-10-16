@@ -19,7 +19,7 @@ Edite o HTML-base em `src/index.html`, os estilos em `src/styles.css`, o catálo
 
 ## Conteúdo e proveniência
 
-Os seis PDFs fornecidos pelo usuário estão preservados em `sources/`. `sources/manifest.json` registra o nome original, número de páginas, data de importação e SHA-256 de cada documento. `data/archive/legislation.js` preserva a extração dos PDFs. `data/official/legislation.js` recebe as edições extraídas das fontes oficiais, depois de geradas e mescladas por proposta revisada; quando existe uma edição oficial para uma legislação, o leitor a utiliza. `sources/official-manifest.json`, quando gerado, registra a procedência dessas edições. `sources/import-report.json` registra a cobertura e possíveis linhas sem atribuição; a importação falha quando há números-base ausentes ou linhas não atribuídas.
+Os PDFs fornecidos pelo usuário estão preservados em `sources/`. `sources/manifest.json` registra o nome original, número de páginas, data de importação e SHA-256 de cada documento. `data/archive/legislation.js` preserva a extração dos PDFs. `data/official/legislation.js` recebe as edições extraídas das fontes oficiais, depois de geradas e mescladas por proposta revisada; quando existe uma edição oficial para uma legislação, o leitor a utiliza. `sources/official-manifest.json`, quando gerado, registra a procedência dessas edições. `sources/import-report.json` registra a cobertura e possíveis linhas sem atribuição; a importação falha quando há números-base ausentes ou linhas não atribuídas.
 
 Os PDFs de referência dos cinco códigos foram impressos do Planalto em 15/10/2026. O PDF da Constituição é a 69ª edição da Câmara (2026), até a EC 138/2025. Essas referências continuam arquivadas. Nas edições HTML incorporadas por revisão, o leitor informa a página oficial, a data de coleta e o hash do texto extraído. **Nenhuma dessas datas certifica a redação vigente ou o início dos efeitos de uma alteração.** Constituição e ADCT permanecem separados; o importador não mistura as emendas ou os tratados anexos aos artigos constitucionais.
 
@@ -58,7 +58,7 @@ npm run build
 
 5. Revise o relatório, o diff dos textos, as redações riscadas, as regras de vigência e a interface antes de publicar. Falhas de validação bloqueiam a importação; não remova essas verificações apenas para aceitar uma nova edição.
 
-O monitor consulta as fontes, `scripts/import_official.py` prepara as seis edições para o leitor e o workflow gera os testes e a prévia antes de propor a atualização. A primeira conversão e as alterações posteriores entram somente após revisão e merge. A implantação pública depende da hospedagem e não é executada por esse workflow. Veja [ativação, revisão e limites](../monitor/README.md).
+O monitor consulta as fontes, `scripts/import_official.py` prepara as edições cadastradas para o leitor e o workflow gera os testes e a prévia antes de propor a atualização. A primeira conversão e as alterações posteriores entram somente após revisão e merge. A implantação pública depende da hospedagem e não é executada por esse workflow. Veja [ativação, revisão e limites](../monitor/README.md).
 
 ### Súmulas vinculantes do STF
 
@@ -68,7 +68,7 @@ A fonte desta importação é **somente** `sources/Sumulas_Vinculantes_STF_Compl
 
 `python3 scripts/import_sumulas.py` reconstrói `data/archive/sumulas.js` usando PyMuPDF (mesma dependência de `scripts/requirements-import.txt`). O processo valida o SHA-256 registrado em `sources/sumulas-manifest.json`, a numeração, os cabeçalhos e os links individuais do STF. Uma nova edição exige revisão do manifesto e das regras de extração; não substitua a fonte apenas para iniciar o site.
 
-A consulta automática das súmulas está **pausada** por decisão do mantenedor, após falhas de acesso ao STF. O arquivo de workflow mantém somente a execução manual para diagnóstico futuro. Não há agenda nem execução por push para as súmulas. A coleção permanece baseada no PDF fornecido e deve ser revista ao receber nova edição. A rotina automática das seis legislações do Planalto continua independente.
+A consulta automática das súmulas está **pausada** por decisão do mantenedor, após falhas de acesso ao STF. O arquivo de workflow mantém somente a execução manual para diagnóstico futuro. Não há agenda nem execução por push para as súmulas. A coleção permanece baseada no PDF fornecido e deve ser revista ao receber nova edição. A rotina automática das legislações cadastradas do Planalto continua independente.
 
 ## Publicar no GitHub Pages
 
@@ -78,7 +78,7 @@ O repositório público inclui o workflow **Publicar Lexa no GitHub Pages**, que
 2. Em **Actions → Publicar Lexa no GitHub Pages**, execute **Run workflow** na `main` se não houver uma execução em andamento após a ativação.
 3. A etapa de publicação informa o endereço real do site; para o nome atual do repositório, o endereço esperado é `https://pajaao.github.io/lexa./`.
 
-`npm run build:pages` gera `dist/` com o HTML autocontido, os ícones do site, `.nojekyll` e os sete PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
+`npm run build:pages` gera `dist/` com o HTML autocontido, os ícones do site, `.nojekyll` e os PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
 
 As rotas usam fragmentos, como `/lexa./#/civil/186` e `/lexa./#/sv/13`, e os PDFs usam caminhos relativos, funcionando tanto em uma subpasta do projeto quanto em um domínio próprio. Favoritos continuam locais ao navegador. A interface informa a fonte e a edição de cada base e traz um aviso de consulta no rodapé. A publicação não executa coletas de fontes na rede: falhas do Planalto ou do STF não impedem publicar uma versão já revisada e testada.
 
@@ -106,7 +106,7 @@ Para validar o ciclo real do worker, com Playwright para Python e `/usr/bin/chro
 
 Os recuos dos parágrafos são classificados pelos marcadores existentes (§, parágrafo único, numerais romanos, letras e itens). O texto, os riscados e a numeração não são reescritos. A classificação é visual, não uma nova interpretação do conteúdo. Os precedentes das súmulas permanecem separados do enunciado.
 
-`npm test` verifica a cobertura e a ordem da árvore. Com Playwright para Python e Chromium, `python3 tests/browser/structure.py` confere as sete coleções, compara os parágrafos renderizados com a base e testa índice, filtros, busca, paginação, ADCT e telas menores.
+`npm test` verifica a cobertura e a ordem da árvore. Com Playwright para Python e Chromium, `python3 tests/browser/structure.py` confere as coleções cadastradas, compara os parágrafos renderizados com a base e testa índice, filtros, busca, paginação, ADCT e telas menores.
 
 ## Favoritos e controles compactos
 
@@ -131,3 +131,13 @@ Quando a API de cópia não está disponível ou a permissão é negada, uma jan
 O índice é preparado em memória no navegador quando necessário, sem serviço externo. As contagens se referem a entradas, não ao número de repetições da expressão. A interface começa com quatro entradas por grupo e permite carregar mais seis. Trechos preservam os caracteres e as marcações de exclusão da base; ocorrências em notas de aplicação são identificadas separadamente do enunciado. Os links carregam a expressão no parâmetro `q` do fragmento para destacá-la no leitor. A última busca da biblioteca é mantida durante a navegação na sessão, sem gravar histórico permanente.
 
 `npm test` compara a cobertura dos resultados com a base e verifica filtros, acentos, escopos, trechos e notas. `python3 tests/browser/library_search.py` verifica grupos, expansão, filtros, referências, abertura no leitor, retorno à busca, estados vazios e celular. O teste de PWA também verifica a busca sem conexão.
+
+## Novas normas federais (16/10/2026)
+
+CPP, ECA, LEP, Lei Maria da Penha, Improbidade e Licitações têm PDFs originais arquivados, extração validada por cobertura dos números-base e edições de leitura consultadas diretamente no Planalto. As seis normas foram adicionadas a `monitor/sources.json`; a rotina passa a consultar doze fontes e bloqueia propostas parciais quando alguma falha. A referência inicial de cada nova norma não é apresentada como alteração jurídica.
+
+O CPP exige preservar duas sequências dos arts. 406 a 497 e caputs repetidos com redações históricas: `repeated_article_range` identifica esse bloco. O conversor reúne os textos pelo identificador, sem anexar os novos arts. 406 a 496 ao art. 497 anterior. Em Licitações, `quoted_amendments` mantém os arts. 337-E a 337-P do Código Penal dentro do art. 178 da Lei nº 14.133, sem criar artigos próprios de numeração 337 na coleção. Alterações nessas convenções exigem revisar os testes de extração.
+
+A página da Lei Maria da Penha possui BOM UTF-16 e preenchimento ASCII após o fechamento do HTML. O coletor reconhece o BOM e desconsidera apenas preenchimento comprovadamente externo a um documento completo, mantendo decodificação estrita e os hashes dos bytes originais.
+
+Para reimportar somente os novos PDFs, use `python3 scripts/import_pdfs.py --only cpp eca lep maria-penha improbidade licitacoes`. A escrita ocorre depois de todas as extrações solicitadas passarem; os dados anteriores das demais normas são preservados. A CLT recebida inicialmente termina no art. 510-C e não foi incorporada: aguarda documento completo.

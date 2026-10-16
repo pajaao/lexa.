@@ -43,7 +43,7 @@ jobs:
         run: curl --version
       - name: Testar o monitor
         run: python -m unittest discover -s tests -p 'test_*.py' -v
-      - name: Consultar as seis fontes
+      - name: Consultar as fontes configuradas
         id: check
         run: python scripts/check_official_sources.py --github-output "$GITHUB_OUTPUT"
       - name: Preparar textos candidatos para o leitor

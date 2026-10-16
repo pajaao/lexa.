@@ -47,5 +47,5 @@ try:
    page.locator('.legal-parte').first.scroll_into_view_if_needed()
    page.screenshot(path=f'/tmp/lexa-hierarchy-{width}.png')
   assert not errors,errors
-  browser.close();print('Hierarquia validada nas sete coleções: texto preservado, árvore, filtros, paginação, busca, ADCT, posição atual e telas menores.')
+  browser.close();print('Hierarquia validada nas coleções cadastradas: texto preservado, árvore, filtros, paginação, busca, ADCT, posição atual e telas menores.')
 finally:server.shutdown();server.server_close()

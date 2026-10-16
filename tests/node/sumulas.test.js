@@ -6,9 +6,9 @@ import {collections,codes,normalize,articleLabel,searchArticles,articleById} fro
 import {sumulas} from '../../data/archive/sumulas.js';
 const sv={...sumulas[0],articles:sumulas[0].articles.map(a=>({...a,text:a.paragraphs.map(p=>p.runs.map(r=>r.text).join('')).join('\n'),searchText:normalize([...a.paragraphs,...a.notes].map(p=>p.runs.map(r=>r.text).join('')).join('\n'))}))};
 
-test('PDF novo preservado, 63 identidades próprias, sem modificar os seis códigos',()=>{
- assert.equal(codes.length,6);
- assert.equal(collections.length,7);
+test('PDF novo preservado, 63 identidades próprias, sem misturar com as legislações',()=>{
+ assert.equal(codes.length,12);
+ assert.equal(collections.length,13);
  assert.equal(sv.articles.length,63);
  assert.deepEqual(sv.articles.map(a=>a.id),Array.from({length:63},(_,i)=>String(i+1)));
  const manifest=JSON.parse(readFileSync(new URL('../../sources/sumulas-manifest.json',import.meta.url)));

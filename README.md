@@ -4,7 +4,7 @@
 
 ### A lei, mais perto. A consulta, mais simples.
 
-Códigos brasileiros, Constituição e súmulas vinculantes do STF, com leitura no próprio site.
+Códigos, leis federais, Constituição e súmulas vinculantes do STF, com leitura no próprio site.
 
 **[Acessar o Lexa](https://pajaao.github.io/lexa./)** · **[Ver atualizações](https://pajaao.github.io/lexa./#/atualizacoes)** · **[Relatar um problema](https://github.com/pajaao/lexa./issues)**
 
@@ -31,6 +31,12 @@ O projeto foi pensado para estudantes, profissionais e qualquer pessoa que queir
 | Código de Processo Civil | CPC | [Ler o código](https://pajaao.github.io/lexa./#/cpc) |
 | Código de Defesa do Consumidor | CDC | [Ler o código](https://pajaao.github.io/lexa./#/cdc) |
 | Código Tributário Nacional | CTN | [Ler o código](https://pajaao.github.io/lexa./#/ctn) |
+| Código de Processo Penal | CPP | [Consultar](https://pajaao.github.io/lexa./#/cpp) |
+| Estatuto da Criança e do Adolescente | ECA | [Consultar](https://pajaao.github.io/lexa./#/eca) |
+| Lei de Execução Penal | LEP | [Consultar](https://pajaao.github.io/lexa./#/lep) |
+| Lei Maria da Penha | LMP | [Consultar](https://pajaao.github.io/lexa./#/maria-penha) |
+| Lei de Improbidade Administrativa | LIA | [Consultar](https://pajaao.github.io/lexa./#/improbidade) |
+| Lei de Licitações e Contratos Administrativos | LLCA | [Consultar](https://pajaao.github.io/lexa./#/licitacoes) |
 | Súmulas Vinculantes do STF | SV | [Consultar as súmulas](https://pajaao.github.io/lexa./#/sv) |
 
 O **ADCT** reúne disposições transitórias da Constituição e tem numeração própria. As **súmulas vinculantes** são enunciados do Supremo Tribunal Federal que consolidam entendimentos sobre questões constitucionais, com efeito vinculante nos termos da Constituição.
@@ -81,7 +87,7 @@ Quando uma nova versão estiver pronta, o site oferecerá **“Atualizar agora�
 
 ## De onde vêm os textos?
 
-As edições dos códigos e da Constituição são extraídas das páginas oficiais do **Planalto**, incorporadas ao site após revisão. Os PDFs utilizados na formação da base permanecem arquivados no repositório.
+As edições dos códigos e da Constituição são extraídas das páginas oficiais do **Planalto**, incorporadas ao site após revisão. Os PDFs utilizados na formação da base permanecem arquivados no repositório. CPP, ECA, Lei de Execução Penal, Lei Maria da Penha, Lei de Improbidade Administrativa e Lei de Licitações integram a biblioteca e o monitoramento das fontes oficiais. A CLT aguarda o fornecimento de um PDF completo para sua incorporação.
 
 As súmulas vinculantes usam o PDF fornecido ao projeto, que declara consulta ao STF em **16/10/2026** e contém **63 entradas**, numeradas de 1 a 63. O site preserva as indicações desse documento, incluindo a **SV 9 como cancelada** e a **SV 30 como pendente de publicação**.
 

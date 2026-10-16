@@ -19,7 +19,7 @@ test('busca textual cobre as coleções e os escopos, sem duplicar entradas',()=
 test('acentos, áreas e referências diretas mantêm seus significados',()=>{
  assert.deepEqual(searchLibraryText('EDUCACAO').map(g=>g.matches.map(m=>m.article.id)),searchLibraryText('educação').map(g=>g.matches.map(m=>m.article.id)));
  assert.ok(searchLibraryText('dignidade').length>1);
- assert.ok(searchLibraryText('dignidade','Penal').every(group=>group.code.id==='penal'));
+ assert.deepEqual(searchLibraryText('dignidade','Penal').map(group=>group.code.id),['penal','cpp','lep','maria-penha']);
  for(const query of ['','a','Art. 60 CF','SV 13','ADCT art. 1','Art. 99999 CF'])assert.deepEqual(searchLibraryText(query),[]);
  assert.equal(searchLibraryReferences('Art. 60 CF')[0].article.id,'60');
  assert.deepEqual(searchLibraryText('umaexpressaoquenuncaexistenabasedolexa'),[]);

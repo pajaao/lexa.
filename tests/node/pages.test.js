@@ -13,7 +13,7 @@ test('pacote publicado inclui HTML, ícones e PDFs íntegros',async()=>{
   assert.deepEqual((await readdir(output)).sort(),['.nojekyll','apple-touch-icon.png','favicon.ico','favicon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','index.html','manifest.webmanifest','sources','sw.js']);
   const archive=JSON.parse(await readFile(new URL('../../sources/manifest.json',import.meta.url),'utf8'));
   const sumulas=JSON.parse(await readFile(new URL('../../sources/sumulas-manifest.json',import.meta.url),'utf8'));
-  assert.equal((await readdir(join(output,'sources'))).length,7);
+  assert.equal((await readdir(join(output,'sources'))).length,Object.keys(archive).length+1);
   for(const source of [...Object.values(archive),sumulas]){
    const bytes=await readFile(join(output,source.pdf));
    assert.equal(createHash('sha256').update(bytes).digest('hex'),source.sha256);

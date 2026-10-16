@@ -70,5 +70,77 @@
     "converterVersion": 1,
     "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
     "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "cpp": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689.htm",
+    "capturedAt": "2026-10-16T14:06:18+00:00",
+    "sha256": "4ed4b66f78c7f5727eb7ffa0dbcbeec2dcf804fdab8c2b6c4cd03c9fb9847854",
+    "rawSha256": "96080a2a6f93c085e9ccfe7e334573dbbcb79c270b08c59e74d55b584f170281",
+    "snapshot": "monitor/official/cpp.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "eca": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8069.htm",
+    "capturedAt": "2026-10-16T14:06:19+00:00",
+    "sha256": "a091fd905c5a5b63ff9c6eeb70a22c3300aadea032c6321b7e60b9a93df2b2eb",
+    "rawSha256": "3d76ffc9239a3786f56500315f1f3d8434ff5e93fb338fc613d3c4ba6284763e",
+    "snapshot": "monitor/official/eca.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "lep": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l7210.htm",
+    "capturedAt": "2026-10-16T14:06:19+00:00",
+    "sha256": "5d4ba23a22f00f10a56e1582ed85034503fd61cfdde8885b445718259d7cdd24",
+    "rawSha256": "ddfc010117d7072ff6fc5351ba5c2ed6edff4c24912ebbb1c6f661a97a50af78",
+    "snapshot": "monitor/official/lep.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "maria-penha": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2006/lei/l11340.htm",
+    "capturedAt": "2026-10-16T14:09:43+00:00",
+    "sha256": "2ec33d27a225c8551257c95cc146ec2236bd6acc4b3b3534cdba853baaadaf80",
+    "rawSha256": "488268242fbb9247107248cd2fca73b00e7084fd6d296d193558ce1236907587",
+    "snapshot": "monitor/official/maria-penha.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "improbidade": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8429.htm",
+    "capturedAt": "2026-10-16T14:06:48+00:00",
+    "sha256": "85905cfd92ad5e7386599f841e0e19028415a02d0224f6c3f6d67e67389b6dd0",
+    "rawSha256": "31ecc51e304ec168714c3a40fbc5fdc833b8b199f0f4f94a7ac76fd225cddc63",
+    "snapshot": "monitor/official/improbidade.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "licitacoes": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm",
+    "capturedAt": "2026-10-16T14:06:48+00:00",
+    "sha256": "f1f9f9e84e2b902f481d8d3580adec1d5eb4ab96fc35a179a0baa6c902ee860e",
+    "rawSha256": "7d49b3a44ec0382e220f8ac14f61410b04339a1b44ef6ede69089520592676fa",
+    "snapshot": "monitor/official/licitacoes.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
   }
 }

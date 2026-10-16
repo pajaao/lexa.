@@ -1,4 +1,4 @@
-"""Import the six supplied PDFs without treating document text as instructions.
+"""Import the configured supplied PDFs without treating document text as instructions.
 
 Keep deleted text marked, retain amendment notes, and namespace ADCT articles.
 The PDFs and manifest remain the evidence; extraction does not certify currency.
@@ -10,6 +10,7 @@ import hashlib
 import json
 import re
 import fitz
+import argparse
 
 ROOT = Path(__file__).resolve().parent.parent
 FILES = {
@@ -19,6 +20,12 @@ FILES = {
     'cdc': ('L8078compilado.pdf', 119),
     'ctn': ('L5172COMPILADO.pdf', 218),
     'cf': ('cf88_69ed.pdf', 250),
+    'cpp': ('Del3689.pdf', 811),
+    'eca': ('L8069.pdf', 267),
+    'lep': ('L7210.pdf', 204),
+    'maria-penha': ('Lei nº 11.340.pdf', 46),
+    'improbidade': ('L8429.pdf', 25),
+    'licitacoes': ('L14133.pdf', 194),
 }
 ARTICLE = re.compile(r'^Art\.?\s*(\d+(?:\.\d{3})*)(?:\s*[º°o])?((?:[-–][A-Z]{1,2}(?=[.\s:\-–]))*)\s*[.:-]?\s*')
 RANGE = re.compile(r'^Arts?\.\s*(\d+(?:\.\d{3})*)\.?\s+a\s+(\d+(?:\.\d{3})*)\.?\s*')
@@ -116,6 +123,7 @@ def extract(id, filename, final):
             sections.append({'id': str(len(sections)), 'title': title, 'scope': scope})
         return sections[-1]['id']
 
+    by_id = {}
     for line_index, line in enumerate(lines):
         text = line['text']
         if is_cf and line['page'] >= 143 and scope != 'adct':
@@ -136,10 +144,12 @@ def extract(id, filename, final):
             key = ('adct-' if scope == 'adct' else '') + number
             # Lower article numbers inside an amendment/quotation belong to that
             # containing article, never to a new article of this code.
-            if (base >= high_water or (current and key == current['id'])) and base <= (999 if scope == 'adct' else final):
-                high_water = base
+            if (base >= high_water or (current and key == current['id']) or (id == 'cpp' and 406 <= base <= 497 and key in by_id)) and base <= (999 if scope == 'adct' else final):
+                high_water = max(high_water,base)
                 heading = False
-                if current and key == current['id']:
+                if key in by_id:
+                    current=by_id[key]
+                    current['sectionId']=new_section()
                     stats['repeatedCaput'] += 1
                 else:
                     current = {'id': key, 'number': number, 'scope': scope,
@@ -151,6 +161,7 @@ def extract(id, filename, final):
                         current['rangeEnd'] = int(range_match[2].replace('.', ''))
                         high_water = current['rangeEnd']
                     articles.append(current)
+                    by_id[key]=current
                 paragraph = None
             else:
                 match = None
@@ -219,19 +230,20 @@ def extract(id, filename, final):
         merge_runs(paragraph['runs'], line['runs'], space=bool(paragraph['runs']) and not soft_join)
         previous = line
 
+    sections=[section for section in sections if any(a['sectionId']==section['id'] for a in articles)]
     for article in articles:
         article['text'] = '\n'.join(paragraph_text(p) for p in article['paragraphs'])
     if preamble:
         introductions.append({'title': 'Preâmbulo', 'text': clean(' '.join(preamble)), 'page': 8})
     source = {'filename': filename, 'pdf': 'sources/' + id + '.pdf', 'pages': len(doc),
               'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
-              'importedAt': '2026-10-15',
-              'edition': 'Câmara dos Deputados · 69ª edição, 2026 · até a EC 138/2025' if is_cf else 'PDF do Planalto · impressão de 15/10/2026',
+              'importedAt': '2026-10-16' if id in ['cpp','eca','lep','maria-penha','improbidade','licitacoes'] else '2026-10-15',
+              'edition': 'Câmara dos Deputados · 69ª edição, 2026 · até a EC 138/2025' if is_cf else ('PDF do Planalto · impressão de 16/10/2026' if id in ['cpp','eca','lep','maria-penha','improbidade','licitacoes'] else 'PDF do Planalto · impressão de 15/10/2026'),
               'coverage': 'Texto constitucional e ADCT. Emendas e tratados anexos disponíveis no PDF original.' if is_cf else 'Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.',
               'reviewStatus': 'Extração automatizada; vigência e alterações posteriores não conferidas.'}
     ids = [a['id'] for a in articles]
     if len(set(ids)) != len(ids):
-        raise ValueError(f'Duplicate article IDs: {id}')
+        raise ValueError(f'Duplicate article IDs: {id}: {[key for key,count in Counter(ids).items() if count>1]}')
     for n in range(1, final + 1):
         covered = any(a['scope'] == 'main' and int(a['number'].split('-')[0]) <= n <= a.get('rangeEnd', int(a['number'].split('-')[0])) and '-' not in a['number'] for a in articles)
         if str(n) not in ids and not covered:
@@ -247,9 +259,16 @@ def extract(id, filename, final):
     return {'articles': articles, 'sections': sections, 'introductions': introductions, 'source': source}, summary
 
 def main():
-    imported, report = {}, {}
-    for id, (filename, final) in FILES.items():
-        imported[id], report[id] = extract(id, filename, final)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--only',nargs='+',choices=list(FILES))
+    args=parser.parse_args()
+    archive_path=ROOT/'data/archive/legislation.js'
+    report_path=ROOT/'sources/import-report.json'
+    imported=json.loads(archive_path.read_text().removeprefix('export const imported = ').strip().removesuffix(';')) if args.only else {}
+    report=json.loads(report_path.read_text()) if args.only else {}
+    for id in args.only or FILES:
+        filename,final=FILES[id]
+        imported[id],report[id]=extract(id,filename,final)
     # Store each text once; the browser reconstructs searchable plain text from runs.
     payload = {id: {**data, 'articles': [{k: v for k, v in a.items() if k != 'text'} for a in data['articles']]}
                for id, data in imported.items()}

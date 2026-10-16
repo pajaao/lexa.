@@ -52,7 +52,7 @@ with tempfile.TemporaryDirectory() as temporary:
             expect(page.locator('#font-size')).to_have_text('20 px')
             assert page.locator('[data-save="60"]').get_attribute('aria-pressed')=='true'
             page.goto(base);page.locator('#library-search').fill('dignidade')
-            expect(page.locator('.text-result-group')).to_have_count(6)
+            expect(page.locator('.text-result-group')).to_have_count(12)
             page.locator('.text-result[href="#/cf/1?q=dignidade"]').click();expect(page.locator('#art-1 mark')).to_have_count(1)
             page.goto(base+'#/sv/13');expect(page.locator('#art-13')).to_be_visible()
             page.goto(base+'#/favoritos');expect(page.locator('.favorite-link[href="#/cf/60"]')).to_be_visible()

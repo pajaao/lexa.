@@ -1,6 +1,6 @@
 # Atualizações das fontes e dos textos do leitor
 
-O workflow consulta as seis fontes oficiais e prepara uma proposta em rascunho com as referências, os textos do leitor e uma prévia. **Não faz aprovação, merge ou implantação automática.** A primeira coleta foi incorporada à `main`; a primeira conversão para o leitor ainda precisa ser revisada e mesclada separadamente.
+O workflow consulta as fontes cadastradas oficiais e prepara uma proposta em rascunho com as referências, os textos do leitor e uma prévia. **Não faz aprovação, merge ou implantação automática.** A primeira coleta foi incorporada à `main`; a primeira conversão para o leitor ainda precisa ser revisada e mesclada separadamente.
 
 ## Fluxo diário
 
@@ -14,7 +14,7 @@ Uma captura sem mudanças mantém as mesmas referências e saídas, sem gerar PR
 
 ## Arquivos e rastreabilidade
 
-- `monitor/sources.json`: URLs e critérios das seis legislações.
+- `monitor/sources.json`: URLs e critérios das legislações cadastradas.
 - `monitor/official/*.json`: referências coletadas, hashes e data de coleta.
 - `data/archive/legislation.js` e `sources/*.pdf`: base PDF arquivada, preservada.
 - `data/official/legislation.js`: edições candidatas ou incorporadas por revisão. Cada artigo/parágrafo aponta para o bloco original da referência. O leitor prefere essa edição quando disponível.
@@ -53,4 +53,4 @@ npm test
 npm run build
 ```
 
-A primeira consulta bem-sucedida estabelece uma referência de monitoramento para revisão. `--only civil` no coletor limita um diagnóstico manual; o workflow completo sempre consulta as seis fontes. O conversor exige todas as referências validadas. Antes de executá-lo localmente, preserve os arquivos gerados que deseja manter: ele prepara os candidatos no checkout atual. Não execute a reimportação dos PDFs como parte da inicialização diária.
+A primeira consulta bem-sucedida estabelece uma referência de monitoramento para revisão. `--only civil` no coletor limita um diagnóstico manual; o workflow completo sempre consulta as fontes cadastradas. O conversor exige todas as referências validadas. Antes de executá-lo localmente, preserve os arquivos gerados que deseja manter: ele prepara os candidatos no checkout atual. Não execute a reimportação dos PDFs como parte da inicialização diária.
