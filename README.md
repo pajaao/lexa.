@@ -47,10 +47,11 @@ Na busca da página inicial, digite o nome ou a sigla de uma coleção, ou indiq
 | `Art. 54-A CDC` | Artigo 54-A do Código de Defesa do Consumidor |
 | `ADCT art. 1` | Artigo 1 do ADCT |
 | `SV 13` | Súmula Vinculante 13 |
+| `dignidade` ou `educação` | Entradas que contêm a expressão, agrupadas por coleção |
 
 Clique no resultado para abrir o texto. Quando houver apenas uma referência encontrada, você também pode pressionar **Enter**.
 
-Dentro de cada coleção, a busca aceita números e expressões do texto, como `superendividamento`. Ela ignora diferenças entre letras maiúsculas, minúsculas e acentos. Na página inicial, buscas por palavras filtram as coleções pelo nome, área, sigla ou descrição.
+Dentro de cada coleção, a busca aceita números e expressões do texto, como `superendividamento`. Ela ignora diferenças entre letras maiúsculas, minúsculas e acentos. Na página inicial, palavras e expressões também são procuradas nos artigos, títulos e materiais de aplicação das súmulas, com resultados agrupados por coleção. Digite pelo menos dois caracteres. Cada resultado mostra um trecho com destaque; ao abri-lo, a busca continua no leitor. Use os filtros de área e “Mostrar mais” para explorar os resultados. Redações riscadas e ocorrências em precedentes ou observações são identificadas. As coleções também continuam sendo encontradas pelo nome, área, sigla ou descrição.
 
 ## Uma leitura mais confortável
 

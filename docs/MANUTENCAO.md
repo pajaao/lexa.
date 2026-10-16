@@ -123,3 +123,11 @@ O menu “Copiar” de cada entrada oferece texto com referência ou somente o l
 Como a área de transferência usa texto simples, cada trecho riscado recebe a indicação explícita `[Trecho riscado na fonte: …]`, sem eliminar as redações históricas nem confundi-las com as demais. Não é gerada uma classificação de vigência ou uma referência acadêmica padronizada.
 
 Quando a API de cópia não está disponível ou a permissão é negada, uma janela oferece o conteúdo em um campo somente de leitura, com seleção manual. A falha não redireciona a pessoa nem altera a leitura. `npm test` verifica o formato e a preservação dos dados; com Playwright e Chromium, `python3 tests/browser/clipboard.py` verifica a área de transferência, a alternativa manual, navegação por teclado e telas pequenas.
+
+## Busca textual em toda a biblioteca
+
+`src/library-search.js` procura palavras e expressões a partir de dois caracteres nos parágrafos e títulos dos artigos e nos enunciados e notas de aplicação das súmulas. A busca ignora acentos e caixa, procura a sequência digitada e agrupa entradas por coleção na ordem dos dispositivos, incluindo CF e ADCT com identidades próprias. Não faz busca semântica nem classifica relevância ou vigência. As referências diretas continuam sob responsabilidade de `searchLibraryReferences`.
+
+O índice é preparado em memória no navegador quando necessário, sem serviço externo. As contagens se referem a entradas, não ao número de repetições da expressão. A interface começa com quatro entradas por grupo e permite carregar mais seis. Trechos preservam os caracteres e as marcações de exclusão da base; ocorrências em notas de aplicação são identificadas separadamente do enunciado. Os links carregam a expressão no parâmetro `q` do fragmento para destacá-la no leitor. A última busca da biblioteca é mantida durante a navegação na sessão, sem gravar histórico permanente.
+
+`npm test` compara a cobertura dos resultados com a base e verifica filtros, acentos, escopos, trechos e notas. `python3 tests/browser/library_search.py` verifica grupos, expansão, filtros, referências, abertura no leitor, retorno à busca, estados vazios e celular. O teste de PWA também verifica a busca sem conexão.
