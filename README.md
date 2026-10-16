@@ -57,3 +57,13 @@ npm run build
 5. Revise o relatório, o diff dos textos, as redações riscadas, as regras de vigência e a interface antes de publicar. Falhas de validação bloqueiam a importação; não remova essas verificações apenas para aceitar uma nova edição.
 
 O monitor consulta as fontes, `scripts/import_official.py` prepara as seis edições para o leitor e o workflow gera os testes e a prévia antes de propor a atualização. A primeira conversão e as alterações posteriores entram somente após revisão e merge. A implantação pública depende da hospedagem e não é executada por esse workflow. Veja [ativação, revisão e limites](monitor/README.md).
+
+### Súmulas vinculantes do STF
+
+A biblioteca inclui uma coleção própria em `#/sv`, com links como `#/sv/13`, busca por `SV 13`, `Súmula Vinculante 13` ou expressão, favoritos e navegação por intervalos. O enunciado aparece primeiro; precedentes, jurisprudência e observações ficam em uma seção expansível. A busca também alcança esse material de aplicação.
+
+A fonte desta importação é **somente** `sources/Sumulas_Vinculantes_STF_Completo.pdf`, com 236 páginas e 63 entradas numeradas de 1 a 63. O PDF declara consulta em 16/10/2026; isso não equivale a uma conferência ao vivo pelo importador. A SV 9 permanece identificada como cancelada e a SV 30 como pendente de publicação, conforme o documento. O arquivo `revsum.pdf` foi descartado e não integra esta base.
+
+`python3 scripts/import_sumulas.py` reconstrói `sumulas-content.js` usando PyMuPDF (mesma dependência de `scripts/requirements-import.txt`). O processo valida o SHA-256 registrado em `sources/sumulas-manifest.json`, a numeração, os cabeçalhos e os links individuais do STF. Uma nova edição exige revisão do manifesto e das regras de extração; não substitua a fonte apenas para iniciar o site.
+
+O workflow atual testa e incorpora esta coleção nas prévias, mas **a coleta automática do STF ainda não está implementada nem validada**. A rotina diária das seis legislações do Planalto continua separada dessa base em PDF.

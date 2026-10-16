@@ -1,5 +1,6 @@
 import { imported } from './content.js';
 import { officialImported } from './official-content.js';
+import { sumulas } from './sumulas-content.js';
 
 const catalog = [
  {id:'cf',short:'CF',name:'Constituição Federal',area:'Direito Constitucional',law:'Constituição da República de 1988',description:'Direitos fundamentais e a organização do Estado brasileiro.',icon:'◇',url:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'},
@@ -18,7 +19,13 @@ export const codes = catalog.map(code => {
   return {...article,text,section:bySection.get(article.sectionId),searchText:normalize((article.title||'')+' '+text)};
  })};
 });
+export const collections = [...codes, ...sumulas.map(collection=>({...collection,articles:collection.articles.map(article=>{
+ const text=article.paragraphs.map(p=>p.runs.map(r=>r.text).join('')).join('\n');
+ const notes=(article.notes||[]).map(p=>p.runs.map(r=>r.text).join('')).join('\n');
+ return {...article,text,section:collection.sections.find(s=>s.id===article.sectionId)?.title,searchText:normalize(text+' '+notes)};
+})}))];
 export function articleLabel(article) {
+ if(article.kind==='vinculante')return `Súmula Vinculante ${article.number}`;
  const format = n => String(n).replace(/^(\d+)(.*)$/,(_,base,suffix)=>Number(base).toLocaleString('pt-BR')+suffix);
  return `${article.scope==='adct'?'ADCT · ':''}${article.rangeEnd?'Arts.':'Art.'} ${format(article.number)}${article.rangeEnd?' a '+format(article.rangeEnd):''}`;
 }
@@ -33,6 +40,8 @@ export function searchArticles(code, query, scope = 'main') {
  const q = normalize(query.trim());
  let pool = code.articles.filter(article=>scope==='all'||article.scope===scope);
  if(!q) return pool;
+ const sumula = q.match(/^(?:sv|sumula(?: vinculante)?)\s*(?:n[º°o.]?\s*)?(\d+)[.]?$/);
+ if(sumula)return code.kind==='sumulas'?pool.filter(article=>article.number===sumula[1]):[];
  const match = q.match(/^(adct\s*)?(?:arts?\.?\s*)?(\d+(?:\.\d{3})*)(?:[º°])?\s*((?:-\s*[a-z]+)*)\.?$/);
  if(match) {
   if(match[1]) pool=code.articles.filter(article=>article.scope==='adct');
