@@ -1,0 +1,74 @@
+{
+  "civil": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 15/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm",
+    "capturedAt": "2026-10-16T00:33:21+00:00",
+    "sha256": "1f72229130f25db9a886e27d32905dbe83bb5cce2c1be922cd821cf24489576b",
+    "rawSha256": "acd292f668266347611c257a7cc08c069ce5d15cf61c7b41efeb864d893a680a",
+    "snapshot": "monitor/official/civil.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "penal": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 15/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm",
+    "capturedAt": "2026-10-16T00:33:21+00:00",
+    "sha256": "80a307be51e5db989648162ebbf33fe5877a23722b94976633a023dcc578a89d",
+    "rawSha256": "5886b77315da4642f902bc4e2dab99dbea31571b1b3c1304cdc212716a775f9c",
+    "snapshot": "monitor/official/penal.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "cpc": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 15/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm",
+    "capturedAt": "2026-10-16T00:33:21+00:00",
+    "sha256": "4d7a49c8aecc2d0d2c8f2c026e6727af46ab91bfbd2d4690771885f50a0ed1ab",
+    "rawSha256": "0a86728ef1774403d50a26bab0245a817aa56ffe82d66edd403f0bedd78cae84",
+    "snapshot": "monitor/official/cpc.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "cdc": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 15/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm",
+    "capturedAt": "2026-10-16T00:33:21+00:00",
+    "sha256": "f82218fe42b0ff9960cb8f7acb5e30bed2e8cd12a8ca2f1ba17bb1cdaffd279c",
+    "rawSha256": "140a6e68f1c22837690a25205dc127bec5ed65fcd937ed4d6afdffc450d110e8",
+    "snapshot": "monitor/official/cdc.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "ctn": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 15/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm",
+    "capturedAt": "2026-10-16T00:33:21+00:00",
+    "sha256": "d5f3a89af56df0069e817b90d42561ac0bb89481bf380f8925a50ef6b64b2a9a",
+    "rawSha256": "27f1f43c2e54cbe83197aef942649270d42b6a0d75f88d5474b306b05c02a58d",
+    "snapshot": "monitor/official/ctn.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "cf": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 15/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+    "capturedAt": "2026-10-16T00:33:21+00:00",
+    "sha256": "c1ed359e0f6357e481a30bc1bd290a39ff9f1b16ba487bd270e180840aa475e9",
+    "rawSha256": "f6bc7a6b5e62fcf38d9f280e16f670e53e659e251725c2aefcacc064ce02370e",
+    "snapshot": "monitor/official/cf.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  }
+}
