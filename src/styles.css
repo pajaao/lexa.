@@ -66,12 +66,13 @@ footer .creator-credit{flex-basis:100%;margin:0;font-size:11px;line-height:1.8;c
 .reading-position{display:flex;gap:9px;align-items:baseline;min-width:0;flex:1}.reading-position>strong{white-space:nowrap;font-size:11px}
 #reading-location{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:10px;line-height:1.6;overflow-wrap:anywhere}
 .reading-context>#focus-mode{flex-shrink:0}
-.reader-index{position:sticky;top:18px;max-height:calc(100vh - 36px);overflow-y:auto;scrollbar-width:thin}
+.reader-layout aside{scrollbar-width:thin}
+.reader-index{position:static;max-height:none;overflow:visible}
 .index-branch{margin:8px 0}.index-branch>summary{font-size:11px;line-height:1.7;padding:10px 4px;overflow-wrap:anywhere}.index-branch>summary small{display:block;color:var(--muted);font-size:9px;font-weight:400;margin-top:5px}
 .index-children{margin-left:5px;padding-left:11px;border-left:1px solid var(--border)}
 #index-list .index-entry{width:100%;text-align:left;white-space:normal}.index-entry[aria-current=location]{background:var(--soft);box-shadow:inset 3px 0 #789064}
 .index-all{padding:9px 7px;background:var(--soft);border:1px solid var(--border);border-radius:4px;font:10px/1.7 var(--sans);margin:4px 0;color:var(--muted);width:100%;text-align:left}.index-all.selected{color:var(--ink);border-color:#789064}
-@media(max-width:700px){.reader-index{position:static;max-height:65vh}.legal-parte,.legal-livro{padding:16px}.legal-heading>strong{font-size:22px}.legal-parte>strong,.legal-livro>strong{font-size:27px}.reading .article>.unit-inciso{padding-left:18px}.reading .article>.unit-alinea{padding-left:30px}.reading .article>.unit-item{padding-left:40px}.reading-position{display:block}.reading-position>strong{display:block;margin-bottom:4px}}
+@media(max-width:700px){.reader-index{position:static;max-height:none}.legal-parte,.legal-livro{padding:16px}.legal-heading>strong{font-size:22px}.legal-parte>strong,.legal-livro>strong{font-size:27px}.reading .article>.unit-inciso{padding-left:18px}.reading .article>.unit-alinea{padding-left:30px}.reading .article>.unit-item{padding-left:40px}.reading-position{display:block}.reading-position>strong{display:block;margin-bottom:4px}}
 .legal-division>span{font:24px/1.55 var(--serif);letter-spacing:0;color:var(--ink)}
 
 /* Keep secondary reading controls together, collapsed on small screens. */
