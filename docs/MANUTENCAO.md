@@ -115,3 +115,11 @@ A rota `#/favoritos` reúne as marcações da chave existente `lexa-saved`, agru
 Os controles de fonte e espaçamento ficam em um `details` chamado “Ajustes de leitura”, recolhido inicialmente em telas de até 700px. Um ResizeObserver ajusta a margem de rolagem dos artigos à altura real da barra, inclusive quando os ajustes estão abertos. Preferências continuam na mesma chave `lexa-reading`.
 
 Com Playwright e Chromium, execute `python3 tests/browser/favorites.py` após gerar o pacote. O teste confere favoritos preexistentes, referências de CF/ADCT e súmulas, busca, remoção, persistência, estados vazios e controles em telas pequenas.
+
+## Copiar texto e referência
+
+O menu “Copiar” de cada entrada oferece texto com referência ou somente o link. `src/copy.js` mantém a ordem e o conteúdo dos parágrafos, a identidade CF/ADCT, intervalos de revogação agrupada e as situações registradas nas súmulas. O texto inclui edição, documento/páginas quando disponíveis, fonte oficial para conferência e link do Lexa. Nas súmulas, são copiados os parágrafos do enunciado, sem misturar precedentes ou notas de aplicação.
+
+Como a área de transferência usa texto simples, cada trecho riscado recebe a indicação explícita `[Trecho riscado na fonte: …]`, sem eliminar as redações históricas nem confundi-las com as demais. Não é gerada uma classificação de vigência ou uma referência acadêmica padronizada.
+
+Quando a API de cópia não está disponível ou a permissão é negada, uma janela oferece o conteúdo em um campo somente de leitura, com seleção manual. A falha não redireciona a pessoa nem altera a leitura. `npm test` verifica o formato e a preservação dos dados; com Playwright e Chromium, `python3 tests/browser/clipboard.py` verifica a área de transferência, a alternativa manual, navegação por teclado e telas pequenas.

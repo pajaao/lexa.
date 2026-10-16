@@ -61,7 +61,7 @@ Dentro de cada coleção, a busca aceita números e expressões do texto, como `
 - **Modo de foco:** concentre a tela no texto e nos controles de leitura. Use “Sair do foco” ou a tecla Esc para voltar.
 - **Continuar leitura:** retome pela biblioteca o último artigo ou súmula consultado. O registro fica somente neste navegador e pode ser removido no próprio cartão.
 - **Favoritos:** use a estrela para guardar uma entrada no navegador atual. A página “Favoritos”, no menu, reúne as marcações por norma, com busca e remoção individual.
-- **Links diretos:** compartilhe um artigo ou uma súmula sem precisar explicar o caminho.
+- **Cópia com referência:** no menu “Copiar” de cada entrada, copie o texto com a identificação da norma, a edição e os links de consulta, ou copie somente o link. Nas súmulas, a cópia inclui o enunciado, separado dos precedentes. Trechos riscados são identificados no texto copiado.
 - **Contexto das súmulas:** abra a seção de precedentes, jurisprudência e observações quando precisar aprofundar a consulta.
 - **Histórico de versões:** acompanhe as edições incorporadas e compare as diferenças registradas.
 

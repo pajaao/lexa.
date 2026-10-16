@@ -1,3 +1,4 @@
+import { articleCopyText } from './copy.js';
 import { sectionPath, headingKind, unitKind, buildSectionTree } from './structure.js';
 import { setupPwa } from './pwa.js';
 import { collections, normalize, searchArticles, articleById, articleLabel, parseReference, searchLibraryReferences } from './data.js';
@@ -72,6 +73,16 @@ function favoritesPage(){
  input.addEventListener('input',draw);draw();
 }
 
+async function copyContent(text,button,message){
+ try{
+  await navigator.clipboard.writeText(text);toast(message);
+  const menu=button.closest('.article-copy');menu.open=false;menu.querySelector('summary').focus({preventScroll:true});
+ }catch{
+  const dialog=document.querySelector('#copy-dialog');
+  const content=document.querySelector('#copy-content');content.value=text;
+  dialog.showModal();content.focus();content.select();
+ }
+}
 function home() {
  const resume=lastReading();
  document.title='Lexa — Legislação, com clareza';
@@ -226,7 +237,7 @@ function reader(code, requested, params) {
   else focusButton.scrollIntoView({block:'nearest'});
  }
  focusButton.onclick=()=>setFocus(!focusMode);
- const onEscape=e=>{if(e.key==='Escape'&&focusMode){setFocus(false);focusButton.focus();}};
+ const onEscape=e=>{if(e.key==='Escape'&&focusMode&&!document.querySelector('#copy-dialog').open){setFocus(false);focusButton.focus();}};
  document.addEventListener('keydown',onEscape);
  const previousCleanup=cleanupReader;cleanupReader=()=>{document.removeEventListener('keydown',onEscape);previousCleanup();};
  applyPreferences();
@@ -289,14 +300,22 @@ function reader(code, requested, params) {
    const heading=last!==a.sectionId?sectionHeadings(sectionMap.get(a.sectionId),sectionMap.get(last)):'';
    last=a.sectionId;
    const hasDeleted=a.paragraphs.some(p=>p.runs.some(r=>r.deleted));
-   return `${heading}<article id="art-${a.id}" data-section-id="${a.sectionId}" class="article ${target?.id===a.id?'focused-article':''}"><div class="article-heading"><a href="${codeHref(code,a.id)}">${articleLabel(a)}</a><div><button data-save="${a.id}" aria-label="Favoritar ${articleLabel(a)}" aria-pressed="${saved.includes(code.id+'/'+a.id)}">${saved.includes(code.id+'/'+a.id)?'★':'☆'}</button><button data-copy="${a.id}" aria-label="Copiar link de ${articleLabel(a)}">↗</button></div></div>${a.status==='cancelled'?`<p class="sumula-status">Cancelada — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='pending'?`<p class="sumula-status">Pendente de publicação — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='suspended'?'<p class="sumula-status">Suspensa — conforme indicado na fonte consultada</p>':''}${a.title?`<h3 class="article-title">${highlight(a.title,query)}</h3>`:''}${hasDeleted?'<p class="deleted-note">Trechos riscados na fonte original estão preservados como redações anteriores ou suprimidas.</p>':''}${a.paragraphs.map((p,index)=>`<p class="legal-unit unit-${unitKind(p,index)}${p.runs.every(r=>r.deleted||!r.text.trim())?' deleted-paragraph':''}">${p.runs.map(r=>r.deleted?`<del>${highlight(r.text,query)}</del>`:highlight(r.text,query)).join('')}</p>`).join('')}${a.notes?.length?`<details class="sumula-notes" ${searchNotes&&a.notes.some(p=>normalize(p.runs.map(r=>r.text).join('')).includes(normalize(query)))?'open':''}><summary>Precedentes, jurisprudência e observações</summary><div>${a.notes.map(p=>`<${p.heading?'h4':'p'}>${p.runs.map(r=>highlight(r.text,query)).join('')}</${p.heading?'h4':'p'}>`).join('')}</div></details>`:''}<div class="article-source">${['official_html','official_stf'].includes(source.kind)?'Fonte: '+(isSumula?'STF':'Planalto')+' · coleta em '+collectionDate(source):escape(source.filename)+' · página '+a.page+(a.endPage&&a.endPage!==a.page?' a '+a.endPage:'')}${a.url?` · <a href="${escape(a.url)}" target="_blank" rel="noopener noreferrer">Página desta súmula no STF ↗</a>`:''}${a.rangeEnd?' · revogação agrupada no documento':''}${historyArticleIds.has(code.id+'/'+a.id)?` · <a href="#/atualizacoes?codigo=${code.id}&artigo=${a.id}">${isSumula?'Ver alterações desta súmula':'Ver alterações deste artigo'} →</a>`:''}</div></article>`;
+   return `${heading}<article id="art-${a.id}" data-section-id="${a.sectionId}" class="article ${target?.id===a.id?'focused-article':''}"><div class="article-heading"><a href="${codeHref(code,a.id)}">${articleLabel(a)}</a><div><button data-save="${a.id}" aria-label="Favoritar ${articleLabel(a)}" aria-pressed="${saved.includes(code.id+'/'+a.id)}">${saved.includes(code.id+'/'+a.id)?'★':'☆'}</button><details class="article-copy"><summary aria-label="Opções de cópia de ${articleLabel(a)}">Copiar <span aria-hidden="true">⌄</span></summary><div class="copy-menu"><button data-copy-text="${a.id}">${isSumula?'Enunciado e referência':'Texto e referência'}</button><button data-copy="${a.id}">Copiar link</button></div></details></div></div>${a.status==='cancelled'?`<p class="sumula-status">Cancelada — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='pending'?`<p class="sumula-status">Pendente de publicação — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='suspended'?'<p class="sumula-status">Suspensa — conforme indicado na fonte consultada</p>':''}${a.title?`<h3 class="article-title">${highlight(a.title,query)}</h3>`:''}${hasDeleted?'<p class="deleted-note">Trechos riscados na fonte original estão preservados como redações anteriores ou suprimidas.</p>':''}${a.paragraphs.map((p,index)=>`<p class="legal-unit unit-${unitKind(p,index)}${p.runs.every(r=>r.deleted||!r.text.trim())?' deleted-paragraph':''}">${p.runs.map(r=>r.deleted?`<del>${highlight(r.text,query)}</del>`:highlight(r.text,query)).join('')}</p>`).join('')}${a.notes?.length?`<details class="sumula-notes" ${searchNotes&&a.notes.some(p=>normalize(p.runs.map(r=>r.text).join('')).includes(normalize(query)))?'open':''}><summary>Precedentes, jurisprudência e observações</summary><div>${a.notes.map(p=>`<${p.heading?'h4':'p'}>${p.runs.map(r=>highlight(r.text,query)).join('')}</${p.heading?'h4':'p'}>`).join('')}</div></details>`:''}<div class="article-source">${['official_html','official_stf'].includes(source.kind)?'Fonte: '+(isSumula?'STF':'Planalto')+' · coleta em '+collectionDate(source):escape(source.filename)+' · página '+a.page+(a.endPage&&a.endPage!==a.page?' a '+a.endPage:'')}${a.url?` · <a href="${escape(a.url)}" target="_blank" rel="noopener noreferrer">Página desta súmula no STF ↗</a>`:''}${a.rangeEnd?' · revogação agrupada no documento':''}${historyArticleIds.has(code.id+'/'+a.id)?` · <a href="#/atualizacoes?codigo=${code.id}&artigo=${a.id}">${isSumula?'Ver alterações desta súmula':'Ver alterações deste artigo'} →</a>`:''}</div></article>`;
   }).join('')||`<div class="empty"><h3>${onlySaved?'Nenhum favorito nesta seleção':isSumula?'Nenhuma súmula encontrada':'Nenhum artigo encontrado'}</h3><p>${onlySaved?'Use a estrela ao lado de uma entrada para guardá-la neste navegador.':'Tente outra expressão, limpe o filtro de divisão ou confira a parte selecionada.'}</p>${otherReference?`<p><a href="${codeHref(otherReference.code,otherReference.article.id)}">Abrir ${articleLabel(otherReference.article)} · ${escape(otherReference.code.name)} →</a></p>`:''}<button id="reset-search">Limpar filtros</button></div>`;
   document.querySelector('#reset-search')?.addEventListener('click',()=>{query='';sectionId=null;onlySaved=false;input.value='';page=0;draw();});
   document.querySelector('#page-label').textContent=list.length?`${page*pageSize+1}–${Math.min((page+1)*pageSize,list.length)} de ${number(list.length)}`:'Sem resultados';
   document.querySelector('#previous-page').disabled=page===0;
   document.querySelector('#next-page').disabled=page>=pages-1;
   document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>{const key=code.id+'/'+b.dataset.save;saved=saved.includes(key)?saved.filter(x=>x!==key):[...saved,key];try{localStorage.setItem('lexa-saved',JSON.stringify(saved));toast(saved.includes(key)?(isSumula?'Súmula salva neste dispositivo':'Artigo salvo neste dispositivo'):'Marcação removida');}catch{toast('Marcação temporária: armazenamento indisponível');}draw();});
-  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const link=location.href.split('#')[0]+codeHref(code,b.dataset.copy);try{await navigator.clipboard.writeText(link);toast(isSumula?'Link da súmula copiado':'Link do artigo copiado');}catch{location.hash=codeHref(code,b.dataset.copy);toast(isSumula?'Súmula aberta. Copie o endereço da página.':'Artigo aberto. Copie o endereço da página.');}});
+  document.querySelectorAll('.article-copy').forEach(menu=>menu.addEventListener('toggle',()=>{
+   if(menu.open)document.querySelectorAll('.article-copy').forEach(other=>{if(other!==menu)other.open=false;});
+  }));
+  document.querySelectorAll('[data-copy],[data-copy-text]').forEach(button=>button.onclick=async()=>{
+   const id=button.dataset.copyText||button.dataset.copy;
+   const article=articleById(code,id),link=location.href.split('#')[0]+codeHref(code,id);
+   const text=button.dataset.copyText?articleCopyText(code,article,link):link;
+   await copyContent(text,button,button.dataset.copyText?'Texto e referência copiados':isSumula?'Link da súmula copiado':'Link do artigo copiado');
+  });
   drawIndex(visible[0]?.sectionId);
   requestAnimationFrame(()=>{if(active)rememberPosition();});
  }
@@ -315,6 +334,7 @@ function reader(code, requested, params) {
 }
 
 function route(){
+ const copyDialog=document.querySelector('#copy-dialog');if(copyDialog.open)copyDialog.close();
  cleanupReader();cleanupReader=()=>{};
  const [path,query='']=location.hash.slice(1).split('?');
  const [,id,article]=path.split('/');
@@ -327,7 +347,11 @@ function route(){
 let dark=false;try{dark=localStorage.getItem('lexa-theme')==='dark';}catch{}
 document.documentElement.classList.toggle('dark',dark);
 document.querySelector('#theme').onclick=()=>{dark=!dark;document.documentElement.classList.toggle('dark',dark);try{localStorage.setItem('lexa-theme',dark?'dark':'light');}catch{}};
-document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();document.querySelector('input')?.focus();}});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape'&&!document.querySelector('#copy-dialog').open){const menu=document.querySelector('.article-copy[open]');if(menu){menu.open=false;menu.querySelector('summary').focus({preventScroll:true});e.stopImmediatePropagation();return;}}
+ if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();document.querySelector('input')?.focus();}});
+document.addEventListener('pointerdown',event=>{if(!document.querySelector('#copy-dialog').open&&!event.target.closest('.article-copy'))document.querySelectorAll('.article-copy[open]').forEach(menu=>menu.open=false);});
+document.querySelector('#copy-select').onclick=()=>{const field=document.querySelector('#copy-content');field.focus();field.select();};
 window.addEventListener('hashchange',route);route();
 
 setupPwa();
