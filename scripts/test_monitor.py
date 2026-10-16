@@ -1,10 +1,13 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import Mock, patch
 from pathlib import Path
 from urllib.error import URLError
 
 from check_official_sources import ROOT, check_url, parse_html, validate, fingerprint, run
+from official_http import SourceFetchError, download_once, fetch, response_headers, retry_delay
+import subprocess
 
 
 SPEC = {'id': 'civil', 'name': 'Teste', 'url': 'https://www.planalto.gov.br/lei.htm',
@@ -54,6 +57,24 @@ class MonitorTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate(parse_html(raw.replace(b'Art. 2', b'Nota 2')), spec)
 
+    def test_legacy_page_without_charset_and_struck_leading_whitespace(self):
+        raw = ('<h1>Lei 10.406</h1><p><span> </span><strike> Art 1. Redação revogada.</strike></p>'
+               '<p><strike> </strike> Art. 2º Ação de proteção.</p>'
+               '<p>Art. 3º São protegidas as pessoas.</p>').encode('cp1252')
+        document = parse_html(raw)
+        self.assertEqual(validate(document, SPEC), {'main': 3})
+        self.assertIn('Ação', json.dumps(document, ensure_ascii=False))
+        with self.assertRaises(ValueError):
+            parse_html(raw, 'utf-8') # An explicit contradictory charset must not be ignored.
+
+    def test_constitution_adct_link_in_the_top_index_does_not_change_scope(self):
+        spec = {**SPEC, 'id': 'cf', 'last_adct_article': 2}
+        raw = ('<h1>Lei 10.406</h1><p><a href="#adct">Ato das Disposições Constitucionais Transitórias</a></p>'
+               '<p>Art. 1º Primeiro artigo constitucional.</p><p>Art. 2º Segundo artigo constitucional.</p>'
+               '<p>Art. 3º Terceiro artigo constitucional.</p><h2>ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS</h2>'
+               '<p>Art. 1º Primeiro artigo transitório.</p><p>Art. 2º Segundo artigo transitório.</p>').encode()
+        self.assertEqual(validate(parse_html(raw), spec), {'main': 3, 'adct': 2})
+
     def test_first_capture_unchanged_run_and_real_change(self):
         with tempfile.TemporaryDirectory() as directory:
             base, evidence = Path(directory)/'official', Path(directory)/'run'
@@ -99,7 +120,7 @@ class MonitorTests(unittest.TestCase):
 
     def test_redirect_destinations_require_official_https(self):
         check_url(SPEC['url'])
-        for url in ['http://www.planalto.gov.br/', 'https://example.com/', 'https://user:pass@www.planalto.gov.br/']:
+        for url in ['http://www.planalto.gov.br/', 'https://example.com/', 'https://user:pass@www.planalto.gov.br/', 'https://www.planalto.gov.br:8443/']:
             with self.assertRaises(ValueError):
                 check_url(url)
 
@@ -124,6 +145,83 @@ class MonitorTests(unittest.TestCase):
                         blocks.append('<p>'+text+'</p>')
                 counts = validate(parse_html(''.join(blocks).encode()), spec)
                 self.assertGreaterEqual(counts['main'], spec['last_article'])
+
+
+class OfficialHTTPTests(unittest.TestCase):
+    @staticmethod
+    def response(command, status=200, headers=b'Content-Type: text/html; charset=utf-8\r\n', body=HTML, code=0):
+        if not code:
+            Path(command[command.index('--output')+1]).write_bytes(body)
+            Path(command[command.index('--dump-header')+1]).write_bytes(
+                b'HTTP/1.1 200 Connection established\r\n\r\nHTTP/1.1 '+str(status).encode()+b' Status\r\n'+headers+b'\r\n')
+        return subprocess.CompletedProcess(command, code, str(status), 'potentially private proxy diagnostic')
+
+    @patch('official_http.shutil.which', return_value='/usr/bin/curl')
+    def test_retries_closed_connections_using_identified_http1_client(self, _):
+        commands=[]
+        def transfer(command, **kwargs):
+            commands.append(command)
+            return self.response(command, code=52 if len(commands)==1 else 0)
+        sleeper=Mock()
+        with patch('official_http.subprocess.run', side_effect=transfer):
+            raw,encoding=fetch(SPEC,sleeper=sleeper)
+        self.assertEqual(raw,HTML)
+        self.assertEqual(encoding,'utf-8')
+        self.assertEqual(len(commands),2)
+        sleeper.assert_called_once_with(2)
+        for cmd in commands:
+            self.assertEqual(cmd[1],'--disable')
+            self.assertIn('--http1.1',cmd)
+            self.assertIn('--max-filesize',cmd)
+            self.assertNotIn('--insecure',cmd)
+            self.assertNotIn('-k',cmd)
+
+    @patch('official_http.shutil.which', return_value='/usr/bin/curl')
+    def test_redirect_checked_before_following(self, _):
+        with patch('official_http.subprocess.run', side_effect=lambda cmd,**kw:self.response(cmd,status=302,headers=b'Location: https://example.com/\r\n')) as transfer:
+            with self.assertRaises(ValueError):
+                download_once(SPEC['url'])
+            self.assertEqual(transfer.call_count,1)
+
+    @patch('official_http.shutil.which', return_value='/usr/bin/curl')
+    def test_tls_verification_failure_is_fatal_and_does_not_expose_proxy_details(self, _):
+        sleeper=Mock()
+        with patch('official_http.subprocess.run', side_effect=lambda cmd,**kw:self.response(cmd,code=60)) as transfer:
+            with self.assertRaises(SourceFetchError) as caught:
+                fetch(SPEC,sleeper=sleeper)
+            self.assertEqual(transfer.call_count,1)
+        self.assertNotIn('private proxy',str(caught.exception))
+        sleeper.assert_not_called()
+
+    def test_transient_failure_backoff_is_bounded(self):
+        sleeper=Mock()
+        with patch('official_http.download_once',side_effect=SourceFetchError('Conexão encerrada',retryable=True)) as transfer:
+            with self.assertRaisesRegex(SourceFetchError,'Tentativas realizadas: 3'):
+                fetch(SPEC,sleeper=sleeper)
+            self.assertEqual(transfer.call_count,3)
+        self.assertEqual([call.args[0] for call in sleeper.call_args_list],[2,4])
+
+    def test_honors_retry_after_without_retrying_earlier_than_requested(self):
+        sleeper=Mock()
+        with patch('official_http.download_once',side_effect=[SourceFetchError('HTTP 503',retryable=True,retry_after=3),(HTML,'utf-8')]):
+            self.assertEqual(fetch(SPEC,sleeper=sleeper),(HTML,'utf-8'))
+        sleeper.assert_called_once_with(3)
+        sleeper.reset_mock()
+        with patch('official_http.download_once',side_effect=SourceFetchError('HTTP 429',retryable=True,retry_after=120)) as transfer:
+            with self.assertRaisesRegex(SourceFetchError,'próxima execução'):
+                fetch(SPEC,sleeper=sleeper)
+            self.assertEqual(transfer.call_count,1)
+        sleeper.assert_not_called()
+        self.assertEqual(retry_delay('15'),15)
+        self.assertIsNone(retry_delay('invalid'))
+
+    @patch('official_http.shutil.which', return_value='/usr/bin/curl')
+    def test_http_error_page_and_non_html_payload_are_rejected(self, _):
+        for status,headers in [(503,b'Content-Type: text/html\r\n'),(200,b'Content-Type: application/pdf\r\n')]:
+            with self.subTest(status=status):
+                with patch('official_http.subprocess.run',side_effect=lambda cmd,**kw:self.response(cmd,status=status,headers=headers)):
+                    with self.assertRaises(SourceFetchError):
+                        download_once(SPEC['url'])
 
 
 if __name__ == '__main__':

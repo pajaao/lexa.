@@ -3,7 +3,7 @@
 Source text is untrusted data, never an instruction or executable code. The first
 successful capture is a monitoring baseline for review, not proof that the PDFs
 match it. A source outage or incomplete document blocks all baseline mutations.
-Python 3.12+, standard library only. No credentials are needed for public sources.
+Python 3.12+ (standard library) and curl. No credentials are needed for public sources.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -11,8 +11,7 @@ from hashlib import sha256
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlsplit
-from urllib.request import Request, HTTPRedirectHandler, build_opener
+from official_http import fetch, check_url
 import argparse
 import difflib
 import json
@@ -21,8 +20,6 @@ import sys
 import unicodedata
 
 ROOT = Path(__file__).resolve().parent.parent
-MAX_BYTES = 12 * 1024 * 1024
-ALLOWED_HOSTS = {'www.planalto.gov.br', 'planalto.gov.br'}
 ADCT = 'ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS'
 ARTICLE = re.compile(r'^Art\.?\s*(\d+(?:\.\d{3})*)', re.I)
 RANGE = re.compile(r'^Arts?\.\s*(\d+(?:\.\d{3})*)\.?\s+a\s+(\d+(?:\.\d{3})*)', re.I)
@@ -49,6 +46,12 @@ class OfficialHTML(HTMLParser):
         if not any(run['text'].strip() for run in self.runs):
             self.runs = []
             return
+        # A whitespace-only inline span may precede a struck article. Strip
+        # boundary whitespace until reaching actual text, not just the first run.
+        while self.runs and not self.runs[0]['text'].strip():
+            self.runs.pop(0)
+        while self.runs and not self.runs[-1]['text'].strip():
+            self.runs.pop()
         self.runs[0]['text'] = self.runs[0]['text'].lstrip()
         self.runs[-1]['text'] = self.runs[-1]['text'].rstrip()
         self.blocks.append([r for r in self.runs if r['text']])
@@ -105,7 +108,16 @@ class OfficialHTML(HTMLParser):
 def parse_html(raw, encoding=None):
     if not encoding:
         match = re.search(br'charset\s*=\s*["\']?\s*([\w-]+)', raw[:8192], re.I)
-        encoding = match[1].decode('ascii') if match else 'utf-8'
+        if match:
+            encoding = match[1].decode('ascii')
+        else:
+            # Legacy Planalto pages often omit the charset entirely. Browsers
+            # accept Windows-1252; prefer strict UTF-8 when it is actually valid.
+            try:
+                raw.decode('utf-8', errors='strict')
+                encoding = 'utf-8'
+            except UnicodeDecodeError:
+                encoding = 'cp1252'
     aliases = {'iso-8859-1': 'cp1252', 'latin1': 'cp1252'}
     encoding = aliases.get(encoding.lower(), encoding)
     try:
@@ -120,14 +132,14 @@ def parse_html(raw, encoding=None):
 
 
 def validate(document, spec):
-    texts = [''.join(run['text'] for run in block) for block in document['blocks']]
+    texts = [''.join(run['text'] for run in block).strip() for block in document['blocks']]
     body = '\n'.join(texts)
     if len(body) < spec['min_characters'] or spec['identity'].casefold() not in body.casefold():
         raise ValueError('Documento curto demais ou identidade da legislação ausente; possível bloqueio ou página de erro')
     found = {'main': set(), 'adct': set()}
     scope = 'main'
     for text in texts:
-        if spec['id'] == 'cf' and text.strip().upper() == ADCT:
+        if spec['id'] == 'cf' and text.upper() == ADCT and spec['last_article'] in found['main']:
             scope = 'adct'
         group = RANGE.match(text)
         match = group or ARTICLE.match(text)
@@ -145,32 +157,6 @@ def validate(document, spec):
         if missing:
             raise ValueError('ADCT ausente ou incompleto')
     return {scope: len(numbers) for scope, numbers in found.items() if numbers}
-
-
-class OfficialRedirects(HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        check_url(newurl)
-        return super().redirect_request(req, fp, code, msg, headers, newurl)
-
-
-def check_url(url):
-    parts = urlsplit(url)
-    if parts.scheme != 'https' or parts.hostname not in ALLOWED_HOSTS or parts.port not in (None, 443) or parts.username or parts.password:
-        raise ValueError('Destino diferente das fontes HTTPS oficiais permitidas')
-
-
-def fetch(spec):
-    check_url(spec['url'])
-    request = Request(spec['url'], headers={'User-Agent': 'Lexa-Legislacao/0.1 (official-text change monitor)', 'Accept': 'text/html,application/xhtml+xml'})
-    # The default opener preserves proxy configuration and TLS certificate checks.
-    with build_opener(OfficialRedirects()).open(request, timeout=20) as response:
-        check_url(response.url)
-        if response.headers.get_content_type() not in {'text/html', 'application/xhtml+xml'}:
-            raise ValueError('Tipo de resposta diferente de HTML')
-        raw = response.read(MAX_BYTES + 1)
-        if len(raw) > MAX_BYTES:
-            raise ValueError('Documento ultrapassa o limite de tamanho')
-        return raw, response.headers.get_content_charset()
 
 
 def fingerprint(document):
@@ -226,7 +212,8 @@ def run(specs, baseline, run_dir, fetcher=fetch, checked_at=None):
     # artifact as if it had been downloaded successfully in this execution.
     for path in [*run_dir.glob('*.diff.txt'), *(run_dir / 'downloads').glob('*.html.txt')]:
         path.unlink()
-    with ThreadPoolExecutor(max_workers=3) as pool:
+    # Keep one request in flight per official host; avoid bursts from CI runners.
+    with ThreadPoolExecutor(max_workers=1) as pool:
         captures = list(pool.map(lambda spec: capture(spec, baseline, run_dir, checked_at, fetcher), specs))
     results = [result for result, _ in captures]
     failed = sum(r['status'] == 'failed' for r in results)
