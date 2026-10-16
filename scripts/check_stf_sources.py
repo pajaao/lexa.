@@ -213,6 +213,7 @@ def run(root=ROOT, fetcher=None, sleeper=time.sleep, now=None):
         raise ValueError('Histórico de súmulas inválido')
     current = previous or pdf
     fetcher = fetcher or (lambda url: fetch({'url': url}, allowed_hosts=HOSTS))
+    stage, active_url = 'index', INDEX
     try:
         raw, encoding = fetcher(INDEX)
         (run_dir / 'index.html').write_bytes(raw)
@@ -221,6 +222,7 @@ def run(root=ROOT, fetcher=None, sleeper=time.sleep, now=None):
         snapshots, articles = {}, []
         for number, url in index.items():
             sleeper(.2)
+            stage, active_url = f'sv-{number}', url
             raw, encoding = fetcher(url)
             # Preserve raw evidence only as a workflow artifact, never as executable site HTML.
             (run_dir / f'sv-{number}.html').write_bytes(raw)
@@ -283,16 +285,22 @@ Revise `monitor/stf/`, `official-sumulas.js`, `sumulas-updates.js` e o relatóri
         print(f'STF: {len(articles)} entradas validadas; {len(diffs)} diferenças para revisão.')
         return candidate, report
     except Exception as error:
-        save_json(run_dir / 'report.json', {'status': 'failed', 'error': f'{type(error).__name__}: {error}', 'captured_at': stamp})
+        save_json(run_dir / 'report.json', {'status': 'failed', 'stage': stage, 'url': active_url, 'error': f'{type(error).__name__}: {error}', 'captured_at': stamp})
         raise
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=ROOT)
+    parser.add_argument('--transport', choices=['http', 'browser'], default='http')
     args = parser.parse_args()
     try:
-        run(args.root)
+        if args.transport == 'browser':
+            from stf_browser import STFBrowser
+            with STFBrowser(args.root / 'monitor/run/stf') as browser:
+                run(args.root, fetcher=browser.fetch)
+        else:
+            run(args.root)
     except Exception as error:
         print(f'STF: coleta bloqueada — {error}', file=sys.stderr)
         sys.exit(1)

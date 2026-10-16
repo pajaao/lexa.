@@ -10,6 +10,9 @@ on:
       - '.github/workflows/monitor-sumulas.yml'
       - 'scripts/check_stf_sources.py'
       - 'scripts/official_http.py'
+      - 'scripts/stf_browser.py'
+      - 'scripts/requirements-stf.txt'
+      - 'scripts/test_stf_browser.py'
       - 'scripts/check_official_sources.py'
       - 'scripts/import_official.py'
       - 'scripts/test_stf_monitor.py'
@@ -52,8 +55,17 @@ jobs:
         run: curl --version
       - name: Testar os monitores
         run: python -m unittest discover -s scripts -p 'test_*.py' -v
-      - name: Consultar índice e páginas das súmulas do STF
-        run: python scripts/check_stf_sources.py
+      - name: Instalar cliente de navegação
+        run: python -m pip install -r scripts/requirements-stf.txt
+      - name: Reutilizar Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-stf-playwright-1.58.0
+      - name: Preparar Chromium e dependências
+        run: python -m playwright install --with-deps chromium
+      - name: Consultar índice e páginas das súmulas no Chromium
+        run: python scripts/check_stf_sources.py --transport browser
       - name: Gerar e testar prévia candidata
         run: |
           npm run build
