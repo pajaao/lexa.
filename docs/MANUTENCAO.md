@@ -99,3 +99,11 @@ A instalação do worker baixa o HTML autocontido, manifesto e ícones. O HTML b
 Não são armazenados PDFs nem páginas externas. O worker intercepta somente navegação para a raiz do aplicativo ou `index.html` e os recursos explícitos do pacote, dentro do próprio escopo. A leitura offline não verifica alterações nas fontes oficiais nem certifica vigência. Em navegação privada, falta de espaço ou limpeza de dados, o armazenamento pode ficar indisponível.
 
 Para validar o ciclo real do worker, com Playwright para Python e `/usr/bin/chromium`, execute `npm run build` e `python3 tests/browser/pwa.py`. O teste usa uma subpasta temporária, desconecta a rede, simula versões novas e uma instalação incompleta, e verifica a preservação das preferências e de caches de outros projetos. A instalação pela interface do sistema operacional deve ser conferida no dispositivo de destino.
+
+## Hierarquia na leitura
+
+`src/structure.js` organiza os caminhos já registrados em `sections[].title`, preservando ordem, identidades e separação entre Constituição e ADCT. O índice permite expandir os níveis e filtrar uma divisão com seus descendentes. A apresentação não acrescenta títulos ausentes na edição importada. No começo de cada página de leitura, a cadeia de divisões é exibida novamente para manter o contexto.
+
+Os recuos dos parágrafos são classificados pelos marcadores existentes (§, parágrafo único, numerais romanos, letras e itens). O texto, os riscados e a numeração não são reescritos. A classificação é visual, não uma nova interpretação do conteúdo. Os precedentes das súmulas permanecem separados do enunciado.
+
+`npm test` verifica a cobertura e a ordem da árvore. Com Playwright para Python e Chromium, `python3 tests/browser/structure.py` confere as sete coleções, compara os parágrafos renderizados com a base e testa índice, filtros, busca, paginação, ADCT e telas menores.

@@ -1,3 +1,4 @@
+import { sectionPath, headingKind, unitKind, buildSectionTree } from './structure.js';
 import { setupPwa } from './pwa.js';
 import { collections, normalize, searchArticles, articleById, articleLabel, parseReference, searchLibraryReferences } from './data.js';
 import { updateHistory } from '../data/history/legislation.js';
@@ -151,7 +152,7 @@ function reader(code, requested, params) {
  document.title=`${code.short} · ${code.name} — Lexa`;
  const source=code.source;
  const isSumula=code.kind==='sumulas';
- app.innerHTML=`<section class="reader-top"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">${code.area}</div><h1>${code.name}</h1><p>${code.law} <span>·</span> <a href="#/atualizacoes?codigo=${code.id}">Histórico de versões</a> <span>·</span> <a href="${code.url}" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a></p><div class="reading-notice"><strong>${escape(source.edition)}</strong><br>${['official_html','official_stf'].includes(source.kind)?'Coleta da fonte oficial · '+collectionDate(source):isSumula?'Data de consulta declarada no PDF · 16/10/2026':'Edição dos PDFs fornecidos · 15/10/2026'} · Confira as notas de vigência.</div><details class="source-details"><summary>Sobre esta versão e a fonte de origem</summary>${sourcePanel(source)}</details></section><div class="reader-layout"><aside><details class="reader-index" ${window.innerWidth>700?'open':''}><summary>${isSumula?'Índice das súmulas':'Índice da legislação'}</summary><p class="index-note">${isSumula?'Escolha um intervalo para navegar pelas súmulas.':'Escolha um capítulo para navegar pelos artigos.'}</p><div id="index-list"></div></details></aside><section class="reading">${code.id==='cf'?'<div class="scope-tabs" role="group" aria-label="Parte da Constituição"><button data-scope="main">Constituição</button><button data-scope="adct">ADCT</button></div>':''}<div class="reading-controls"><div class="reading-context"><span>${escape(code.short)} · Leitura</span><button id="focus-mode" aria-pressed="false">Modo de foco</button></div><div class="reading-toolbar"><label class="search"><span>⌕</span><input id="article-search" placeholder="${isSumula?'Buscar expressão ou súmula (ex.: SV 13)':'Buscar expressão ou artigo (ex.: 5 ou 54-A)'}" aria-label="${isSumula?'Buscar nas súmulas vinculantes':'Buscar nesta legislação'}"></label><button id="font-down" aria-label="Diminuir fonte">A−</button><button id="font-up" aria-label="Aumentar fonte">A+</button></div><div class="reading-adjustments"><label for="reading-spacing">Espaçamento</label><select id="reading-spacing"><option value="standard">Padrão</option><option value="comfortable">Confortável</option><option value="wide">Amplo</option></select><span id="font-size" role="status"></span><button id="reset-reading">Restaurar leitura</button></div></div><div class="reader-options"><button id="saved-filter" aria-pressed="${onlySaved}">☆ Meus favoritos</button><button id="clear-section" hidden>Limpar filtro de capítulo ×</button><span id="results-label" role="status"></span></div><div id="introduction"></div><div id="articles"></div><nav class="pagination" aria-label="Páginas de leitura"><button id="previous-page">← Anteriores</button><span id="page-label"></span><button id="next-page">Próximos →</button></nav></section></div>`;
+ app.innerHTML=`<section class="reader-top"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">${code.area}</div><h1>${code.name}</h1><p>${code.law} <span>·</span> <a href="#/atualizacoes?codigo=${code.id}">Histórico de versões</a> <span>·</span> <a href="${code.url}" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a></p><div class="reading-notice"><strong>${escape(source.edition)}</strong><br>${['official_html','official_stf'].includes(source.kind)?'Coleta da fonte oficial · '+collectionDate(source):isSumula?'Data de consulta declarada no PDF · 16/10/2026':'Edição dos PDFs fornecidos · 15/10/2026'} · Confira as notas de vigência.</div><details class="source-details"><summary>Sobre esta versão e a fonte de origem</summary>${sourcePanel(source)}</details></section><div class="reader-layout"><aside><details class="reader-index" ${window.innerWidth>700?'open':''}><summary>${isSumula?'Índice das súmulas':'Índice da legislação'}</summary><p class="index-note">${isSumula?'Escolha um intervalo para navegar pelas súmulas.':'Expanda as divisões e escolha o trecho que deseja ler.'}</p><div id="index-list"></div></details></aside><section class="reading">${code.id==='cf'?'<div class="scope-tabs" role="group" aria-label="Parte da Constituição"><button data-scope="main">Constituição</button><button data-scope="adct">ADCT</button></div>':''}<div class="reading-controls"><div class="reading-context"><span class="reading-position"><strong>${escape(code.short)}</strong><span id="reading-location">Leitura</span></span><button id="focus-mode" aria-pressed="false">Modo de foco</button></div><div class="reading-toolbar"><label class="search"><span>⌕</span><input id="article-search" placeholder="${isSumula?'Buscar expressão ou súmula (ex.: SV 13)':'Buscar expressão ou artigo (ex.: 5 ou 54-A)'}" aria-label="${isSumula?'Buscar nas súmulas vinculantes':'Buscar nesta legislação'}"></label><button id="font-down" aria-label="Diminuir fonte">A−</button><button id="font-up" aria-label="Aumentar fonte">A+</button></div><div class="reading-adjustments"><label for="reading-spacing">Espaçamento</label><select id="reading-spacing"><option value="standard">Padrão</option><option value="comfortable">Confortável</option><option value="wide">Amplo</option></select><span id="font-size" role="status"></span><button id="reset-reading">Restaurar leitura</button></div></div><div class="reader-options"><button id="saved-filter" aria-pressed="${onlySaved}">☆ Meus favoritos</button><button id="clear-section" hidden>Limpar divisão selecionada ×</button><span id="results-label" role="status"></span></div><div id="introduction"></div><div id="articles"></div><nav class="pagination" aria-label="Páginas de leitura"><button id="previous-page">← Anteriores</button><span id="page-label"></span><button id="next-page">Próximos →</button></nav></section></div>`;
  const input=document.querySelector('#article-search');input.value=query;
  let active=true, positionTimer, focusMode=false;
  const reading=document.querySelector('.reading');
@@ -160,7 +161,7 @@ function reader(code, requested, params) {
   const entries=[...document.querySelectorAll('#articles .article')];
   const line=Math.min(window.innerHeight*0.45,300);
   const current=entries.find(el=>{const rect=el.getBoundingClientRect();return rect.bottom>line&&rect.top<=line;});
-  if(current)storageWrite('lexa-last-reading',{codeId:code.id,articleId:current.id.slice(4)});
+  if(current){storageWrite('lexa-last-reading',{codeId:code.id,articleId:current.id.slice(4)});updateLocation(current.dataset.sectionId);}
  }
  const onScroll=()=>{clearTimeout(positionTimer);positionTimer=setTimeout(rememberPosition,180);};
  window.addEventListener('scroll',onScroll,{passive:true});
@@ -191,16 +192,47 @@ function reader(code, requested, params) {
  document.addEventListener('keydown',onEscape);
  const previousCleanup=cleanupReader;cleanupReader=()=>{document.removeEventListener('keydown',onEscape);previousCleanup();};
  applyPreferences();
- function selectedArticles(){return searchArticles(code,query,scope).filter(a=>(!sectionId||a.sectionId===sectionId)&&(!onlySaved||saved.includes(code.id+'/'+a.id)));}
  const sectionMap=new Map(code.sections.map(s=>[s.id,s]));
- function drawIndex(){
-  const sections=code.sections.filter(s=>s.scope===scope);
-  document.querySelector('#index-list').innerHTML=sections.map(s=>{
-   const list=code.articles.filter(a=>a.sectionId===s.id);
-   const parts=s.title.split(' › ');
-   return `<button class="index-entry ${sectionId===s.id?'selected':''}" data-section="${s.id}" title="${escape(s.title)}"><span>${escape(parts.at(-1))}</span><small>${list[0]?.number || ''}${list.length>1?' – '+(list.at(-1).rangeEnd||list.at(-1).number):''} · ${list.length} ${list.length===1?'entrada':'entradas'}</small></button>`;
-  }).join('');
-  document.querySelectorAll('[data-section]').forEach(b=>b.onclick=()=>{sectionId=b.dataset.section;query='';input.value='';page=0;draw();if(window.innerWidth<=700)document.querySelector('.reader-index').open=false;scrollReading();});
+ const trees=new Map(['main','adct'].map(part=>[part,buildSectionTree(code.sections,code.articles,part)]));
+ let expanded=new Set(),indexInitialized=false;
+ function selectedArticles(){
+  const ids=sectionId?.startsWith('branch:')?trees.get(scope).nodes.get(sectionId.slice(7))?.sectionIds:null;
+  return searchArticles(code,query,scope).filter(a=>(!sectionId||(ids?ids.includes(a.sectionId):a.sectionId===sectionId))&&(!onlySaved||saved.includes(code.id+'/'+a.id)));
+ }
+ function updateLocation(id){
+  const section=sectionMap.get(id);if(!section)return;
+  const locationLabel=document.querySelector('#reading-location');
+  locationLabel.textContent=sectionPath(section).slice(-2).join(' › ');locationLabel.title=section.title;
+  document.querySelectorAll('#index-list [data-section]').forEach(button=>{
+   if(button.dataset.section===id)button.setAttribute('aria-current','location');else button.removeAttribute('aria-current');
+  });
+ }
+ function drawIndex(currentSection){
+  const tree=trees.get(scope);
+  if(!indexInitialized||query||sectionId){for(const node of tree.nodes.values())if(node.sectionIds.includes(currentSection))expanded.add(node.id);indexInitialized=true;}
+  const range=entries=>{const first=entries[0],last=entries.at(-1);return first?`${articleLabel(first)}${entries.length>1?' – '+articleLabel(last):''}`:'';};
+  const render=node=>{
+   const title=escape(node.label);
+   const renderSection=id=>`<button class="index-entry ${sectionId===id?'selected':''}" data-section="${id}"><span>${node.children.length?'Ler os artigos desta divisão':title}</span><small>${escape(range(code.articles.filter(a=>a.sectionId===id)))}</small></button>`;
+   const body=node.items.map(item=>item.kind==='section'?renderSection(item.id):render(item.node)).join('');
+   if(!node.children.length)return body;
+   return `<details class="index-branch" data-node="${node.id}" ${expanded.has(node.id)?'open':''}><summary>${title}<small>${escape(range(node.articles))}</small></summary><div class="index-children"><button class="index-all ${sectionId==='branch:'+node.id?'selected':''}" data-branch="${node.id}" aria-pressed="${sectionId==='branch:'+node.id}">Ler esta divisão · ${node.articles.length} entradas</button>${body}</div></details>`;
+  };
+  document.querySelector('#index-list').innerHTML=tree.roots.map(render).join('');
+  document.querySelectorAll('#index-list [data-node]').forEach(details=>details.addEventListener('toggle',()=>{if(details.open)expanded.add(details.dataset.node);else expanded.delete(details.dataset.node);}));
+  document.querySelectorAll('#index-list [data-section],#index-list [data-branch]').forEach(button=>button.onclick=()=>{
+   sectionId=button.dataset.branch?'branch:'+button.dataset.branch:button.dataset.section;
+   query='';input.value='';page=0;draw();if(window.innerWidth<=700)document.querySelector('.reader-index').open=false;scrollReading();
+  });
+  updateLocation(currentSection);
+ }
+ function sectionHeadings(section,previous){
+  const path=sectionPath(section),before=previous?sectionPath(previous):[];
+  let shared=0;while(shared<path.length&&path[shared]===before[shared])shared++;
+  return `<div class="legal-divisions">${path.slice(shared).map((text,offset)=>{
+   const depth=shared+offset,level=Math.min(6,depth+2),[label,...description]=text.split(' — ');
+   return `<h${level} class="legal-heading legal-${headingKind(text)}"><span>${escape(label)}</span>${description.length?`<strong>${escape(description.join(' — '))}</strong>`:''}</h${level}>`;
+  }).join('')}</div>`;
  }
  function scrollReading(){document.querySelector('.reading-toolbar').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
  function draw(){
@@ -214,20 +246,20 @@ function reader(code, requested, params) {
   document.querySelector('#clear-section').hidden=!sectionId;
   document.querySelectorAll('[data-scope]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scope===scope)));
   document.querySelector('#introduction').innerHTML=code.id==='cf'&&scope==='main'&&!query&&!onlySaved&&!sectionId&&page===0?code.introductions.map(intro=>`<details class="preamble"><summary>${escape(intro.title)}</summary><p>${escape(intro.text)}</p></details>`).join(''):'';
-  let last='';
+  let last=null;
   document.querySelector('#articles').innerHTML=visible.map(a=>{
-   const heading=last!==a.sectionId?`<h2 class="chapter">${escape(sectionMap.get(a.sectionId).title.split(' › ').at(-1))}</h2>`:'';
+   const heading=last!==a.sectionId?sectionHeadings(sectionMap.get(a.sectionId),sectionMap.get(last)):'';
    last=a.sectionId;
    const hasDeleted=a.paragraphs.some(p=>p.runs.some(r=>r.deleted));
-   return `${heading}<article id="art-${a.id}" class="article ${target?.id===a.id?'focused-article':''}"><div class="article-heading"><a href="${codeHref(code,a.id)}">${articleLabel(a)}</a><div><button data-save="${a.id}" aria-label="Favoritar ${articleLabel(a)}" aria-pressed="${saved.includes(code.id+'/'+a.id)}">${saved.includes(code.id+'/'+a.id)?'★':'☆'}</button><button data-copy="${a.id}" aria-label="Copiar link de ${articleLabel(a)}">↗</button></div></div>${a.status==='cancelled'?`<p class="sumula-status">Cancelada — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='pending'?`<p class="sumula-status">Pendente de publicação — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='suspended'?'<p class="sumula-status">Suspensa — conforme indicado na fonte consultada</p>':''}${a.title?`<h3 class="article-title">${highlight(a.title,query)}</h3>`:''}${hasDeleted?'<p class="deleted-note">Trechos riscados na fonte original estão preservados como redações anteriores ou suprimidas.</p>':''}${a.paragraphs.map(p=>`<p${p.runs.every(r=>r.deleted||!r.text.trim())?' class="deleted-paragraph"':''}>${p.runs.map(r=>r.deleted?`<del>${highlight(r.text,query)}</del>`:highlight(r.text,query)).join('')}</p>`).join('')}${a.notes?.length?`<details class="sumula-notes" ${searchNotes&&a.notes.some(p=>normalize(p.runs.map(r=>r.text).join('')).includes(normalize(query)))?'open':''}><summary>Precedentes, jurisprudência e observações</summary><div>${a.notes.map(p=>`<${p.heading?'h4':'p'}>${p.runs.map(r=>highlight(r.text,query)).join('')}</${p.heading?'h4':'p'}>`).join('')}</div></details>`:''}<div class="article-source">${['official_html','official_stf'].includes(source.kind)?'Fonte: '+(isSumula?'STF':'Planalto')+' · coleta em '+collectionDate(source):escape(source.filename)+' · página '+a.page+(a.endPage&&a.endPage!==a.page?' a '+a.endPage:'')}${a.url?` · <a href="${escape(a.url)}" target="_blank" rel="noopener noreferrer">Página desta súmula no STF ↗</a>`:''}${a.rangeEnd?' · revogação agrupada no documento':''}${historyArticleIds.has(code.id+'/'+a.id)?` · <a href="#/atualizacoes?codigo=${code.id}&artigo=${a.id}">${isSumula?'Ver alterações desta súmula':'Ver alterações deste artigo'} →</a>`:''}</div></article>`;
-  }).join('')||`<div class="empty"><h3>${onlySaved?'Nenhum favorito nesta seleção':isSumula?'Nenhuma súmula encontrada':'Nenhum artigo encontrado'}</h3><p>${onlySaved?'Use a estrela ao lado de uma entrada para guardá-la neste navegador.':'Tente outra expressão, limpe o filtro de capítulo ou confira a parte selecionada.'}</p>${otherReference?`<p><a href="${codeHref(otherReference.code,otherReference.article.id)}">Abrir ${articleLabel(otherReference.article)} · ${escape(otherReference.code.name)} →</a></p>`:''}<button id="reset-search">Limpar filtros</button></div>`;
+   return `${heading}<article id="art-${a.id}" data-section-id="${a.sectionId}" class="article ${target?.id===a.id?'focused-article':''}"><div class="article-heading"><a href="${codeHref(code,a.id)}">${articleLabel(a)}</a><div><button data-save="${a.id}" aria-label="Favoritar ${articleLabel(a)}" aria-pressed="${saved.includes(code.id+'/'+a.id)}">${saved.includes(code.id+'/'+a.id)?'★':'☆'}</button><button data-copy="${a.id}" aria-label="Copiar link de ${articleLabel(a)}">↗</button></div></div>${a.status==='cancelled'?`<p class="sumula-status">Cancelada — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='pending'?`<p class="sumula-status">Pendente de publicação — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='suspended'?'<p class="sumula-status">Suspensa — conforme indicado na fonte consultada</p>':''}${a.title?`<h3 class="article-title">${highlight(a.title,query)}</h3>`:''}${hasDeleted?'<p class="deleted-note">Trechos riscados na fonte original estão preservados como redações anteriores ou suprimidas.</p>':''}${a.paragraphs.map((p,index)=>`<p class="legal-unit unit-${unitKind(p,index)}${p.runs.every(r=>r.deleted||!r.text.trim())?' deleted-paragraph':''}">${p.runs.map(r=>r.deleted?`<del>${highlight(r.text,query)}</del>`:highlight(r.text,query)).join('')}</p>`).join('')}${a.notes?.length?`<details class="sumula-notes" ${searchNotes&&a.notes.some(p=>normalize(p.runs.map(r=>r.text).join('')).includes(normalize(query)))?'open':''}><summary>Precedentes, jurisprudência e observações</summary><div>${a.notes.map(p=>`<${p.heading?'h4':'p'}>${p.runs.map(r=>highlight(r.text,query)).join('')}</${p.heading?'h4':'p'}>`).join('')}</div></details>`:''}<div class="article-source">${['official_html','official_stf'].includes(source.kind)?'Fonte: '+(isSumula?'STF':'Planalto')+' · coleta em '+collectionDate(source):escape(source.filename)+' · página '+a.page+(a.endPage&&a.endPage!==a.page?' a '+a.endPage:'')}${a.url?` · <a href="${escape(a.url)}" target="_blank" rel="noopener noreferrer">Página desta súmula no STF ↗</a>`:''}${a.rangeEnd?' · revogação agrupada no documento':''}${historyArticleIds.has(code.id+'/'+a.id)?` · <a href="#/atualizacoes?codigo=${code.id}&artigo=${a.id}">${isSumula?'Ver alterações desta súmula':'Ver alterações deste artigo'} →</a>`:''}</div></article>`;
+  }).join('')||`<div class="empty"><h3>${onlySaved?'Nenhum favorito nesta seleção':isSumula?'Nenhuma súmula encontrada':'Nenhum artigo encontrado'}</h3><p>${onlySaved?'Use a estrela ao lado de uma entrada para guardá-la neste navegador.':'Tente outra expressão, limpe o filtro de divisão ou confira a parte selecionada.'}</p>${otherReference?`<p><a href="${codeHref(otherReference.code,otherReference.article.id)}">Abrir ${articleLabel(otherReference.article)} · ${escape(otherReference.code.name)} →</a></p>`:''}<button id="reset-search">Limpar filtros</button></div>`;
   document.querySelector('#reset-search')?.addEventListener('click',()=>{query='';sectionId=null;onlySaved=false;input.value='';page=0;draw();});
   document.querySelector('#page-label').textContent=list.length?`${page*pageSize+1}–${Math.min((page+1)*pageSize,list.length)} de ${number(list.length)}`:'Sem resultados';
   document.querySelector('#previous-page').disabled=page===0;
   document.querySelector('#next-page').disabled=page>=pages-1;
   document.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>{const key=code.id+'/'+b.dataset.save;saved=saved.includes(key)?saved.filter(x=>x!==key):[...saved,key];try{localStorage.setItem('lexa-saved',JSON.stringify(saved));toast(saved.includes(key)?(isSumula?'Súmula salva neste dispositivo':'Artigo salvo neste dispositivo'):'Marcação removida');}catch{toast('Marcação temporária: armazenamento indisponível');}draw();});
   document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const link=location.href.split('#')[0]+codeHref(code,b.dataset.copy);try{await navigator.clipboard.writeText(link);toast(isSumula?'Link da súmula copiado':'Link do artigo copiado');}catch{location.hash=codeHref(code,b.dataset.copy);toast(isSumula?'Súmula aberta. Copie o endereço da página.':'Artigo aberto. Copie o endereço da página.');}});
-  drawIndex();
+  drawIndex(visible[0]?.sectionId);
   requestAnimationFrame(()=>{if(active)rememberPosition();});
  }
  if(target){const index=selectedArticles().findIndex(a=>a.id===target.id);page=Math.max(0,Math.floor(index/pageSize));}
@@ -237,7 +269,7 @@ function reader(code, requested, params) {
  document.querySelector('#font-up').onclick=()=>{readingPreferences.size=Math.min(26,readingPreferences.size+1);savePreferences();};
  document.querySelector('#saved-filter').onclick=()=>{onlySaved=!onlySaved;page=0;draw();};
  document.querySelector('#clear-section').onclick=()=>{sectionId=null;page=0;draw();};
- document.querySelectorAll('[data-scope]').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;query='';input.value='';sectionId=null;page=0;draw();});
+ document.querySelectorAll('[data-scope]').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;indexInitialized=false;query='';input.value='';sectionId=null;page=0;draw();});
  document.querySelector('#previous-page').onclick=()=>{page--;draw();scrollReading();};
  document.querySelector('#next-page').onclick=()=>{page++;draw();scrollReading();};
  draw();

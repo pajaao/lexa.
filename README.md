@@ -54,7 +54,8 @@ Dentro de cada coleção, a busca aceita números e expressões do texto, como `
 
 ## Uma leitura mais confortável
 
-- **Navegação por capítulos e intervalos:** encontre seu lugar no texto e avance entre os resultados.
+- **Estrutura da norma:** partes, livros, títulos, capítulos e seções têm destaque próprio; parágrafos, incisos e alíneas usam recuos para facilitar a leitura.
+- **Índice expansível:** abra as divisões, consulte seus intervalos e selecione um capítulo ou uma divisão inteira. A barra de leitura indica a posição atual.
 - **Tema claro ou escuro:** escolha o que fica mais confortável para você.
 - **Fonte e espaçamento ajustáveis:** escolha o tamanho do texto e o espaço entre linhas e parágrafos. As preferências ficam salvas neste navegador.
 - **Modo de foco:** concentre a tela no texto e nos controles de leitura. Use “Sair do foco” ou a tecla Esc para voltar.
