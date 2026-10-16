@@ -100,3 +100,16 @@ footer .creator-credit{flex-basis:100%;margin:0;font-size:11px;line-height:1.8;c
 
 .text-results{margin-top:28px}.text-results:empty{display:none}.text-search-heading h2{font:30px var(--serif);margin:0 0 10px}.text-search-heading>p{font-size:12px;line-height:1.8;color:var(--muted);max-width:720px;margin-bottom:28px}.text-result-group{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:22px;margin-bottom:20px}.text-group-heading{display:flex;align-items:baseline;justify-content:space-between;gap:15px;padding-bottom:16px}.text-group-heading h3{font:26px/1.3 var(--serif);margin:0}.text-group-heading>span{font-size:11px;color:var(--muted);white-space:nowrap}.text-result-group ul{list-style:none;padding:0;margin:0}.text-result-group li{border-top:1px solid var(--border)}.text-result{display:block;padding:20px 6px;border-radius:4px}.text-result:hover,.text-result:focus-visible{background:var(--soft)}.text-result-title{display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:14px}.text-result-title>strong{border-left:3px solid #789064;padding-left:10px}.text-result p{font:16px/1.9 Georgia,serif;overflow-wrap:anywhere;margin:14px 0 12px}.text-result>small{font-size:10px;line-height:1.8;color:var(--muted);overflow-wrap:anywhere;display:block}.text-result del{color:var(--muted)}.search-badge{display:inline-block;font-size:10px;line-height:1.7;color:var(--muted);padding:5px 8px;background:var(--soft);border-radius:4px;margin:10px 6px 0 0}.text-more{padding:12px 16px;background:var(--soft);border:1px solid var(--border);border-radius:5px;font:12px var(--sans);color:var(--ink);margin-top:10px}
 @media(max-width:700px){.text-result-group{padding:18px 14px}.text-group-heading{flex-wrap:wrap;gap:8px}.text-group-heading h3{font-size:24px}.text-result{padding:18px 0}.text-search-heading h2{font-size:28px}}
+
+/* Shared scrollbar colors follow the page theme; keep native sizing and controls. */
+:root{--scroll-thumb:#7b8c80;--scroll-thumb-hover:#526d5b}
+:root.dark{--scroll-thumb:#758f7d;--scroll-thumb-hover:#a0b793}
+*{scrollbar-color:var(--scroll-thumb) var(--bg)}
+@supports not (scrollbar-color:auto){
+  ::-webkit-scrollbar{width:12px;height:12px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--scroll-thumb);border:3px solid var(--bg);border-radius:12px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--scroll-thumb-hover)}
+  ::-webkit-scrollbar-corner{background:var(--bg)}
+}
+@media(forced-colors:active){*{scrollbar-color:auto}}
