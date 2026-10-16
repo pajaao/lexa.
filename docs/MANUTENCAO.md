@@ -140,4 +140,10 @@ O CPP exige preservar duas sequências dos arts. 406 a 497 e caputs repetidos co
 
 A página da Lei Maria da Penha possui BOM UTF-16 e preenchimento ASCII após o fechamento do HTML. O coletor reconhece o BOM e desconsidera apenas preenchimento comprovadamente externo a um documento completo, mantendo decodificação estrita e os hashes dos bytes originais.
 
-Para reimportar somente os novos PDFs, use `python3 scripts/import_pdfs.py --only cpp eca lep maria-penha improbidade licitacoes`. A escrita ocorre depois de todas as extrações solicitadas passarem; os dados anteriores das demais normas são preservados. A CLT recebida inicialmente termina no art. 510-C e não foi incorporada: aguarda documento completo.
+Para reimportar somente os novos PDFs, use `python3 scripts/import_pdfs.py --only cpp eca lep maria-penha improbidade licitacoes`. A escrita ocorre depois de todas as extrações solicitadas passarem; os dados anteriores das demais normas são preservados. O primeiro PDF da CLT terminava no art. 510-C e foi substituído por um documento completo antes da incorporação.
+
+## CLT
+
+O PDF completo `sources/clt.pdf` tem 205 páginas e inclui o art. 922 e os anexos. A extração e a edição HTML começam somente no marcador “CONSOLIDAÇÃO DAS LEIS DO TRABALHO”, para não confundir os arts. 1º e 2º do decreto aprovador com os arts. 1º e 2º da CLT. Esse limite é configurado como `content_start` no monitor e também é aplicado na validação de cobertura. O decreto de aprovação e os anexos permanecem disponíveis no PDF integral.
+
+Para reimportar esse PDF, use `python3 scripts/import_pdfs.py --only clt`. Rubricas em negrito são preservadas como títulos dos dispositivos; a referência “Capítulo I do CPC” no art. 896 permanece no parágrafo correspondente, sem ser tomada como capítulo da CLT. São verificadas a cobertura dos 922 números-base, as entradas com letras e a preservação de notas e riscados. A biblioteca e o monitor passam a incluir treze legislações, além das súmulas.

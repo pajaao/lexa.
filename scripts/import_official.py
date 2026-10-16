@@ -48,6 +48,7 @@ def convert(spec, snapshot):
     current = None
     by_id = {}
     repeated_block = False
+    content_started = not spec.get('content_start')
     stopped = False
     heading_pending = False
     rubric = None
@@ -63,6 +64,9 @@ def convert(spec, snapshot):
 
     for index, runs in enumerate(blocks):
         text = text_of(runs)
+        if not content_started:
+            content_started = text.upper() == spec['content_start'].upper()
+            continue
         compact = re.sub(r'\s+', '', text).upper()
         heading_text = 'PARTE GERAL' if compact == 'PARTEGERAL' else ('PARTE ESPECIAL' if compact == 'PARTEESPECIAL' else text)
         # Ignore the ADCT link in the top index; only the actual boundary after

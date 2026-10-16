@@ -135,6 +135,7 @@ class MonitorTests(unittest.TestCase):
             with self.subTest(source=spec['id']):
                 doc = imported[spec['id']]
                 blocks = ['<h1>'+escape(spec['identity'])+'</h1>']
+                if spec.get('content_start'):blocks.append('<h2>'+escape(spec['content_start'])+'</h2>')
                 adct = False
                 for article in doc['articles']:
                     if article['scope'] == 'adct' and not adct:

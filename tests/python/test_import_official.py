@@ -23,7 +23,7 @@ class OfficialImportTests(unittest.TestCase):
         return '\n'.join(''.join(r['text'] for r in p['runs']) for p in article['paragraphs'])
 
     def test_configured_actual_snapshots_and_source_timezone(self):
-        self.assertEqual(len(self.converted),12)
+        self.assertEqual(len(self.converted),13)
         for id,doc in self.converted.items():
             self.assertEqual(doc['source']['sha256'],self.snapshots[id]['semantic_sha256'])
             self.assertEqual(len({a['id'] for a in doc['articles']}),len(doc['articles']))
@@ -78,7 +78,7 @@ class OfficialImportTests(unittest.TestCase):
             manifest=(root/'sources/official-manifest.json').read_bytes()
             history=(root/'data/history/legislation.js').read_bytes()
             recorded=load_js(root/'data/history/legislation.js','updateHistory')
-            self.assertEqual(len(recorded),12)
+            self.assertEqual(len(recorded),13)
             self.assertTrue(all(e['kind']=='baseline' and not e['changes'] for e in recorded))
             _,report=prepare(root)
             self.assertEqual(first,(root/'data/official/legislation.js').read_bytes())

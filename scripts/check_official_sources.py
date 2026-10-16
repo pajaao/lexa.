@@ -146,6 +146,10 @@ def validate(document, spec):
     body = '\n'.join(texts)
     if len(body) < spec['min_characters'] or spec['identity'].casefold() not in body.casefold():
         raise ValueError('Documento curto demais ou identidade da legislação ausente; possível bloqueio ou página de erro')
+    if spec.get('content_start'):
+        start=next((index for index,text in enumerate(texts) if text.upper()==spec['content_start'].upper()),None)
+        if start is None:raise ValueError('Início do articulado ausente')
+        texts=texts[start+1:]
     found = {'main': set(), 'adct': set()}
     scope = 'main'
     for text in texts:

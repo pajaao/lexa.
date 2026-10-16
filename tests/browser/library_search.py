@@ -27,7 +27,7 @@ try:
   search.fill('Art. 60 CF');expect(page.locator('#quick-reference a')).to_have_attribute('href','#/cf/60')
   assert page.locator('.text-result-group').count()==0
   search.press('Enter');page.wait_for_url('**/#/cf/60');expect(page.locator('#art-60')).to_be_visible()
-  page.locator('.reader-top .back').click();search.fill('educacao');expect(page.locator('.text-result-group')).to_have_count(11)
+  page.locator('.reader-top .back').click();search.fill('educacao');expect(page.locator('.text-result-group')).to_have_count(12)
   assert 'Educação' in page.locator('#text-results').inner_text() or 'educação' in page.locator('#text-results').inner_text()
   search.fill('dignidade');expect(page.locator('.text-result-group')).to_have_count(12)
   sv=page.locator('#search-group-sv').locator('..').locator('..')

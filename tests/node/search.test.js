@@ -53,13 +53,13 @@ test('redação histórica riscada no CPC permanece distinta da substituta',()=>
  assert.equal(code('cpc').articles.filter(a=>a.id==='12').length,1);
 });
 test('todos os números-base até os artigos finais têm entrada ou revogação agrupada',()=>{
- for(const [id,last] of Object.entries({civil:2046,penal:361,cpc:1072,cdc:119,ctn:218,cf:250,cpp:811,eca:267,lep:204,"maria-penha":46,improbidade:25,licitacoes:194})){
+ for(const [id,last] of Object.entries({civil:2046,penal:361,cpc:1072,cdc:119,ctn:218,cf:250,cpp:811,eca:267,lep:204,"maria-penha":46,improbidade:25,licitacoes:194,clt:922})){
   for(let n=1;n<=last;n++)assert.ok(articleById(code(id),String(n)),`${id}: artigo ${n} ausente`);
  }
  for(let n=1;n<=138;n++)assert.ok(articleById(code('cf'),'adct-'+n));
 });
 test('PDFs originais preservados e procedência de cada edição consistente',()=>{
- assert.equal(codes.length,12);
+ assert.equal(codes.length,13);
  const archive=JSON.parse(readFileSync(new URL('../../sources/manifest.json',import.meta.url),'utf8'));
  for(const c of codes){
   const original=readFileSync(new URL('../../'+archive[c.id].pdf,import.meta.url));

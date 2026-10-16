@@ -36,7 +36,7 @@ class AdditionalLegislationTests(unittest.TestCase):
   self.assertIn('IPCA-E',''.join(r['text'] for p in article['paragraphs'] for r in p['runs']))
 
  def test_new_sources_and_all_base_articles(self):
-  finals={'cpp':811,'eca':267,'lep':204,'maria-penha':46,'improbidade':25,'licitacoes':194}
+  finals={'cpp':811,'eca':267,'lep':204,'maria-penha':46,'improbidade':25,'licitacoes':194,'clt':922}
   for location,export in [('data/archive/legislation.js','imported'),('data/official/legislation.js','officialImported')]:
    data=load_js(ROOT/location,export)
    for id,last in finals.items():
@@ -44,3 +44,21 @@ class AdditionalLegislationTests(unittest.TestCase):
      ids={a['id'] for a in data[id]['articles']}
      self.assertTrue({str(n) for n in range(1,last+1)}<=ids)
      self.assertTrue(data[id]['sections'])
+
+ def test_clt_starts_at_consolidation_and_preserves_last_article(self):
+  for location,export in [('data/archive/legislation.js','imported'),('data/official/legislation.js','officialImported')]:
+   data=load_js(ROOT/location,export)['clt']
+   first=next(a for a in data['articles'] if a['id']=='1')
+   text=' '.join(r['text'] for p in first['paragraphs'] for r in p['runs'])
+   self.assertIn('Esta Consolidação estatui',text)
+   self.assertNotIn('Fica aprovada',text)
+   last=next(a for a in data['articles'] if a['id']=='922')
+   self.assertIn('art. 301',''.join(r['text'] for p in last['paragraphs'] for r in p['runs']))
+   self.assertTrue(any(a['id']=='510-C' for a in data['articles']))
+   self.assertIn('Uniforme do Tribunal Superior do Trabalho',''.join(r['text'] for a in data['articles'] if a['id']=='896' for p in a['paragraphs'] for r in p['runs']))
+
+ def test_approval_decree_does_not_fill_missing_clt_articles(self):
+  from check_official_sources import validate
+  spec={'id':'clt','identity':'CLT','last_article':2,'min_characters':10,'content_start':'CONSOLIDAÇÃO DAS LEIS DO TRABALHO'}
+  doc=parse_html('<p>CLT</p><p>Art. 1 Decreto.</p><p>Art. 2 Decreto.</p><h1>CONSOLIDAÇÃO DAS LEIS DO TRABALHO</h1><p>Art. 2 Consolidação.</p>'.encode())
+  with self.assertRaisesRegex(ValueError,'artigos-base'):validate(doc,spec)

@@ -106,5 +106,14 @@
         337
       ]
     ]
+  },
+  {
+    "name": "Consolidação das Leis do Trabalho",
+    "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm",
+    "identity": "5.452",
+    "min_characters": 300000,
+    "id": "clt",
+    "last_article": 922,
+    "content_start": "CONSOLIDAÇÃO DAS LEIS DO TRABALHO"
   }
 ]

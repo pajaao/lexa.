@@ -21,6 +21,7 @@ FILES = {
     'ctn': ('L5172COMPILADO.pdf', 218),
     'cf': ('cf88_69ed.pdf', 250),
     'cpp': ('Del3689.pdf', 811),
+    'clt': ('DEL5452.pdf', 922),
     'eca': ('L8069.pdf', 267),
     'lep': ('L7210.pdf', 204),
     'maria-penha': ('Lei nº 11.340.pdf', 46),
@@ -124,8 +125,12 @@ def extract(id, filename, final):
         return sections[-1]['id']
 
     by_id = {}
+    content_started = id != 'clt'
     for line_index, line in enumerate(lines):
         text = line['text']
+        if not content_started:
+            content_started = text.upper() == 'CONSOLIDAÇÃO DAS LEIS DO TRABALHO'
+            continue
         if is_cf and line['page'] >= 143 and scope != 'adct':
             scope, current, paragraph, hierarchy = 'adct', None, None, {}
             stopped, high_water, heading = False, 0, False
@@ -166,7 +171,7 @@ def extract(id, filename, final):
             else:
                 match = None
         centered = abs((line['x0'] + line['x1']) / 2 - line['width'] / 2) < 32
-        if not match and HEADING.match(text) and (centered or text.split()[0].upper() in ['SEÇÃO', 'SUBSEÇÃO']):
+        if not match and HEADING.match(text) and not (id=='clt' and re.match(r'^Capítulo\s+[IVXLCDM]+\s+do\s+CPC\b',text,re.I)) and (centered or text.split()[0].upper() in ['SEÇÃO', 'SUBSEÇÃO']):
             # Structural headings are always standalone, outside article paragraphs.
             token = text.split()[0].upper()
             levels = {'PARTE': 0, 'LIVRO': 1, 'TÍTULO': 2, 'CAPÍTULO': 3, 'SEÇÃO': 4, 'SUBSEÇÃO': 5}
@@ -184,7 +189,7 @@ def extract(id, filename, final):
                 previous = line
                 continue
             heading = False
-        is_rubric = id == 'penal' and not match and line['startsBold'] and len(text) < 250 and not UNIT.match(text) and not text.startswith('(')
+        is_rubric = id in ['penal','clt'] and not match and line['startsBold'] and len(text) < 250 and not UNIT.match(text) and not text.startswith('(')
         if is_rubric:
             next_article = False
             for later in lines[line_index + 1:line_index + 9]:
@@ -237,8 +242,8 @@ def extract(id, filename, final):
         introductions.append({'title': 'Preâmbulo', 'text': clean(' '.join(preamble)), 'page': 8})
     source = {'filename': filename, 'pdf': 'sources/' + id + '.pdf', 'pages': len(doc),
               'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
-              'importedAt': '2026-10-16' if id in ['cpp','eca','lep','maria-penha','improbidade','licitacoes'] else '2026-10-15',
-              'edition': 'Câmara dos Deputados · 69ª edição, 2026 · até a EC 138/2025' if is_cf else ('PDF do Planalto · impressão de 16/10/2026' if id in ['cpp','eca','lep','maria-penha','improbidade','licitacoes'] else 'PDF do Planalto · impressão de 15/10/2026'),
+              'importedAt': '2026-10-16' if id in ['cpp','clt','eca','lep','maria-penha','improbidade','licitacoes'] else '2026-10-15',
+              'edition': 'Câmara dos Deputados · 69ª edição, 2026 · até a EC 138/2025' if is_cf else ('PDF do Planalto · impressão de 16/10/2026' if id in ['cpp','clt','eca','lep','maria-penha','improbidade','licitacoes'] else 'PDF do Planalto · impressão de 15/10/2026'),
               'coverage': 'Texto constitucional e ADCT. Emendas e tratados anexos disponíveis no PDF original.' if is_cf else 'Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.',
               'reviewStatus': 'Extração automatizada; vigência e alterações posteriores não conferidas.'}
     ids = [a['id'] for a in articles]

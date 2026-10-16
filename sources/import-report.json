@@ -126,5 +126,16 @@
     "lastArticle": "194",
     "repeatedCaput": 3,
     "unassignedLines": []
+  },
+  "clt": {
+    "articles": 1043,
+    "sections": 183,
+    "deletedRuns": 6970,
+    "scopeCounts": {
+      "main": 1043
+    },
+    "lastArticle": "922",
+    "repeatedCaput": 800,
+    "unassignedLines": []
   }
 }

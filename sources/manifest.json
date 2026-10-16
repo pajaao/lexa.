@@ -118,5 +118,15 @@
     "edition": "PDF do Planalto · impressão de 16/10/2026",
     "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
     "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
+  },
+  "clt": {
+    "filename": "DEL5452.pdf",
+    "pdf": "sources/clt.pdf",
+    "pages": 205,
+    "sha256": "4a1c5d5ef53a249560c7d2c9afc2616952b42e64de2f90e82490b498bd9f213d",
+    "importedAt": "2026-10-16",
+    "edition": "PDF do Planalto · impressão de 16/10/2026",
+    "coverage": "Articulado extraído do PDF fornecido; notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada; vigência e alterações posteriores não conferidas."
   }
 }

@@ -28,6 +28,7 @@ O projeto foi pensado para estudantes, profissionais e qualquer pessoa que queir
 | Ato das Disposições Constitucionais Transitórias | ADCT | [Ler o ADCT](https://pajaao.github.io/lexa./#/cf/adct-1) |
 | Código Civil | CC | [Ler o código](https://pajaao.github.io/lexa./#/civil) |
 | Código Penal | CP | [Ler o código](https://pajaao.github.io/lexa./#/penal) |
+| Consolidação das Leis do Trabalho | CLT | [Ler a CLT](https://pajaao.github.io/lexa./#/clt) |
 | Código de Processo Civil | CPC | [Ler o código](https://pajaao.github.io/lexa./#/cpc) |
 | Código de Defesa do Consumidor | CDC | [Ler o código](https://pajaao.github.io/lexa./#/cdc) |
 | Código Tributário Nacional | CTN | [Ler o código](https://pajaao.github.io/lexa./#/ctn) |
@@ -87,7 +88,7 @@ Quando uma nova versão estiver pronta, o site oferecerá **“Atualizar agora�
 
 ## De onde vêm os textos?
 
-As edições dos códigos e da Constituição são extraídas das páginas oficiais do **Planalto**, incorporadas ao site após revisão. Os PDFs utilizados na formação da base permanecem arquivados no repositório. CPP, ECA, Lei de Execução Penal, Lei Maria da Penha, Lei de Improbidade Administrativa e Lei de Licitações integram a biblioteca e o monitoramento das fontes oficiais. A CLT aguarda o fornecimento de um PDF completo para sua incorporação.
+As edições dos códigos e da Constituição são extraídas das páginas oficiais do **Planalto**, incorporadas ao site após revisão. Os PDFs utilizados na formação da base permanecem arquivados no repositório. CPP, ECA, Lei de Execução Penal, Lei Maria da Penha, Lei de Improbidade Administrativa e Lei de Licitações integram a biblioteca e o monitoramento das fontes oficiais. A CLT também integra a biblioteca e o monitoramento; o PDF completo de 205 páginas fica arquivado, com os anexos disponíveis no documento original.
 
 As súmulas vinculantes usam o PDF fornecido ao projeto, que declara consulta ao STF em **16/10/2026** e contém **63 entradas**, numeradas de 1 a 63. O site preserva as indicações desse documento, incluindo a **SV 9 como cancelada** e a **SV 30 como pendente de publicação**.
 

@@ -142,5 +142,17 @@
     "converterVersion": 1,
     "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
     "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
+  },
+  "clt": {
+    "kind": "official_html",
+    "edition": "Planalto · texto consultado em 16/10/2026",
+    "url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm",
+    "capturedAt": "2026-10-16T14:19:55+00:00",
+    "sha256": "d7c3621f2543a7a3adb090a4703d2da773bc41eb5e4eb2105e352c3e6a96c88b",
+    "rawSha256": "dfeac85c94dea156deee60c8cff8149e01b62507c64e5b466ba81db77bc77112",
+    "snapshot": "monitor/official/clt.json",
+    "converterVersion": 1,
+    "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
+    "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
   }
 }
