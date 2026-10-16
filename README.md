@@ -56,7 +56,9 @@ Dentro de cada coleção, a busca aceita números e expressões do texto, como `
 
 - **Navegação por capítulos e intervalos:** encontre seu lugar no texto e avance entre os resultados.
 - **Tema claro ou escuro:** escolha o que fica mais confortável para você.
-- **Fonte ajustável:** aumente ou diminua o tamanho durante a leitura.
+- **Fonte e espaçamento ajustáveis:** escolha o tamanho do texto e o espaço entre linhas e parágrafos. As preferências ficam salvas neste navegador.
+- **Modo de foco:** concentre a tela no texto e nos controles de leitura. Use “Sair do foco” ou a tecla Esc para voltar.
+- **Continuar leitura:** retome pela biblioteca o último artigo ou súmula consultado. O registro fica somente neste navegador e pode ser removido no próprio cartão.
 - **Favoritos:** use a estrela para guardar uma entrada no navegador atual.
 - **Links diretos:** compartilhe um artigo ou uma súmula sem precisar explicar o caminho.
 - **Contexto das súmulas:** abra a seção de precedentes, jurisprudência e observações quando precisar aprofundar a consulta.

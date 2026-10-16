@@ -81,3 +81,9 @@ O repositório público inclui o workflow **Publicar Lexa no GitHub Pages**, que
 `npm run build:pages` gera `dist/` com o HTML autocontido, os ícones do site, `.nojekyll` e os sete PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
 
 As rotas usam fragmentos, como `/lexa./#/civil/186` e `/lexa./#/sv/13`, e os PDFs usam caminhos relativos, funcionando tanto em uma subpasta do projeto quanto em um domínio próprio. Favoritos continuam locais ao navegador. A interface informa a fonte e a edição de cada base e traz um aviso de consulta no rodapé. A publicação não executa coletas de fontes na rede: falhas do Planalto ou do STF não impedem publicar uma versão já revisada e testada.
+
+## Verificar os controles de leitura no navegador
+
+Com Playwright para Python e Chromium disponíveis, execute `npm run build` e `python3 tests/browser/reading.py`. O teste usa `/usr/bin/chromium`, inicia um servidor local temporário e verifica fonte, espaçamento, foco, retomada, telas menores e armazenamento indisponível. É uma verificação adicional de interface; não consulta fontes jurídicas na rede.
+
+Os ajustes de fonte e espaçamento são salvos em `lexa-reading`, e a última entrada consultada em `lexa-last-reading`, no armazenamento local do navegador. A retomada guarda a referência do artigo ou da súmula, sem sincronização entre aparelhos. O modo de foco dura somente durante a leitura atual.
