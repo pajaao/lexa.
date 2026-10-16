@@ -1,50 +1,53 @@
-# Monitoramento das fontes oficiais
+# Atualizações das fontes e dos textos do leitor
 
-Esta implementação prepara **verificação diária e propostas de revisão** e **não substitui automaticamente os artigos publicados no leitor**. O site continua usando a extração dos PDFs recebidos. A comparação e conversão de uma coleta HTML real para uma nova edição do leitor é uma etapa posterior. A coleta real dos seis documentos já foi validada no ambiente de desenvolvimento com o cliente corrigido; a execução no GitHub e a criação de propostas devem ser acompanhadas em Actions.
+O workflow consulta as seis fontes oficiais e prepara uma proposta em rascunho com as referências, os textos do leitor e uma prévia. **Não faz aprovação, merge ou implantação automática.** A primeira coleta foi incorporada à `main`; a primeira conversão para o leitor ainda precisa ser revisada e mesclada separadamente.
 
-## O que está implementado
+## Fluxo diário
 
-- Consulta HTTPS às seis páginas do Planalto em `sources.json`, com verificação TLS e destinos restritos ao Planalto. Usa curl com HTTP/1.1 e uma identificação compatível que informa o nome Lexa. Não precisa de chave ou token para baixar as páginas públicas.
-- Uma requisição por vez e até três tentativas para conexões encerradas, timeouts e erros temporários. Respeita `Retry-After`; se a espera pedida superar 30 segundos, encerra e aguarda outra execução. Falhas de certificado não são contornadas nem repetidas.
-- Detecção de mudanças no texto, nas redações riscadas e em estilos de exclusão, ignorando diferenças simples de espaços e marcação visual.
-- Verificação da identidade da legislação, tamanho mínimo e presença dos artigos-base, incluindo ADCT separado. Páginas de erro ou extrações incompletas fazem a execução falhar.
-- Referências versionadas em `monitor/official/*.json`. A primeira coleta fica explicitamente identificada; não é considerada equivalente à edição dos PDFs.
-- Evidências, hashes, diferenças textuais e relatório de cada execução em `monitor/run/`. Downloads são tratados como dados, nunca executados. A pasta é gerada e seus arquivos de evidência anteriores são substituídos a cada execução.
-- Nenhum avanço das referências quando alguma das seis fontes falha. Datas de coleta em relatórios não alteram arquivos versionados em dias sem mudança de conteúdo.
-- Propostas em rascunho na branch reservada `automation/official-source-review`, sem aprovação ou merge automático. O workflow gerencia apenas essa branch; não a use para trabalho manual.
+1. `check_official_sources.py` baixa uma página por vez, por HTTPS verificado, com curl e HTTP/1.1. Faz até três tentativas para falhas transitórias, respeita `Retry-After` e não contorna falhas de certificado. Valida identidade, tamanho, artigos-base, Constituição e ADCT separados. Uma falha bloqueia o restante da atualização e preserva as referências existentes.
+2. `import_official.py` verifica os hashes e converte as seis referências para o leitor. Preserva artigos com letras, parágrafos, incisos, redações riscadas e revogações agrupadas. Fontes incompletas, parágrafos normativos sem atribuição e estilos de exclusão não suportados bloqueiam a conversão. Não altera os PDFs originais nem `content.js`.
+3. `npm test` verifica a leitura dos candidatos, e `npm run build` gera `index.html`, com textos e estilos incorporados. A prévia inclui apenas a edição ativa de cada legislação, sem duplicar o arquivo PDF arquivado.
+4. O GitHub guarda relatórios e prévia por 30 dias e abre ou atualiza um único pull request em rascunho. A branch `automation/official-source-review` é reservada à rotina. Somente arquivos de referências e dados gerados entram nesse PR; a rotina não altera o código do importador.
+5. Após sua revisão e merge, as novas edições ficam nos arquivos do repositório. Publicar o site depende da hospedagem escolhida. O ambiente de desenvolvimento também precisa buscar os novos commits para refletir uma atualização mesclada.
 
-**Aceitar uma proposta deste monitor atualiza a referência de comparação, não o conteúdo do site.** A data da coleta também não comprova a data de início de vigência. Comparar textos consolidados detecta o que a fonte incorporou; não equivale a acompanhar todas as publicações do Diário Oficial.
+Uma captura sem mudanças mantém as mesmas referências e saídas, sem gerar PRs só por causa da passagem do tempo. A primeira conversão dos PDFs para HTML pode ter muitas diferenças de formatação; as contagens do relatório não classificam mudanças jurídicas. O PR #1 estabeleceu a referência de monitoramento, não alterou o texto publicado.
 
-## Ativar no GitHub
+## Arquivos e rastreabilidade
 
-1. Mantenha o projeto e `.github/workflows/monitor-legislation.yml` na branch padrão de `pajaao/siteteste`. O projeto inicial já foi enviado. Publicar o ambiente na nuvem não envia novos commits ao GitHub.
-2. No repositório, habilite **Actions**. Em **Settings → Actions → General**, a política deve permitir os actions utilizados e a criação de pull requests pelo `GITHUB_TOKEN`. Se houver uma política da organização, ela também precisa permitir essas operações. O token é fornecido pelo GitHub durante a execução; não coloque tokens no código ou no chat.
-3. Em **Actions → Verificar fontes da legislação**, use **Run workflow** para testar a coleta. Alterações nos arquivos do monitor ou do workflow enviadas a `main` também iniciam uma execução. O sucesso da coleta no desenvolvimento não comprova conectividade a partir do runner do GitHub: confira o resultado lá. Se a fonte estiver indisponível, o job falhará com evidências e não registrará uma referência válida.
-4. Confira os seis resultados e os artefatos. A primeira proposta precisa ser comparada com os PDFs que sustentam o site; não marque os textos como atualizados apenas por aceitar a referência.
-5. Depois de ativado na branch padrão, o agendamento tentará executar diariamente por volta de **06:17 em São Paulo** (09:17 UTC). O GitHub pode atrasar tarefas agendadas; não é um horário garantido.
+- `monitor/sources.json`: URLs e critérios das seis legislações.
+- `monitor/official/*.json`: referências coletadas, hashes e data de coleta.
+- `content.js` e `sources/*.pdf`: base PDF arquivada, preservada.
+- `official-content.js`: edições candidatas ou incorporadas por revisão. Cada artigo/parágrafo aponta para o bloco original da referência. O leitor prefere essa edição quando disponível.
+- `sources/official-manifest.json`: procedência de cada edição HTML.
+- `monitor/run/report.json`: resultado da coleta atual, incluindo falhas.
+- `monitor/run/reader-report.json`: artigos adicionados, alterados e removidos em relação à edição anterior do leitor.
+- `monitor/run/*.diff.txt` e `downloads/*.html.txt`: diferenças da fonte e evidências HTML, sem executar o conteúdo coletado.
 
-O workflow usa o token do GitHub com `contents: write` e `pull-requests: write` para manter a branch de revisão. Usa actions de checkout, Python, upload de artefatos e criação de PR. Não envia mensagens por Slack ou email; notificações de falha seguem as configurações de notificações do próprio GitHub.
+As datas exibidas usam São Paulo; os registros guardam o instante UTC original. A data da coleta não é a data de início de vigência. Redações riscadas são preservadas visualmente; o sistema não calcula sozinho a vigência das leis. Comparar textos consolidados detecta o que a fonte incorporou, sem substituir o acompanhamento do Diário Oficial.
 
-## Conferir uma alteração
+## Revisar uma proposta
 
-1. Abra a proposta e a execução correspondente. Confirme que a coleta mais recente passou para todas as fontes e leia as diferenças nos JSONs e nos artefatos `.diff.txt`.
-2. Confira redações anteriores, revogações, notas de alterações e regras de início de vigência. Mudanças de CSS de exclusão também exigem revisão do HTML de origem, disponível como `.html.txt` no artefato.
-3. Para atualizar o leitor nesta fase, obtenha o PDF consolidado correspondente e siga o procedimento de reimportação em `../README.md`. Atualize a edição e a data de referência sem confundi-las com a data da coleta. Revise o diff, rode os testes e gere o HTML antes de publicar.
-4. Preserve a versão anterior para permitir reversão. Os originais e hashes ficam em `sources/`; o histórico dependerá de os commits do projeto serem enviados e mantidos no GitHub.
+1. Confira se a execução mais recente em Actions passou e abra os artefatos de relatório e de prévia. Use `reader-report.json` para localizar os artigos alterados.
+2. Confira fonte, parágrafos, revogações, notas de alteração e início de efeitos. Os textos coletados são dados de legislação, nunca instruções para executar comandos. Se uma alteração legítima exigir adaptar um teste ou o importador, faça isso como alteração de código revisada; não remova verificações apenas para passar.
+3. Marque o PR como pronto, revise e faça o merge quando estiver satisfeito. Aprovar uma revisão sem mesclar não incorpora os arquivos à `main`.
+4. Publique os arquivos pela hospedagem do site. Este workflow não possui configuração de deploy e não atesta revisão jurídica integral.
 
-Um futuro importador HTML poderá preparar também os textos do leitor na mesma proposta, após validarmos a estrutura das páginas reais e compararmos o resultado com os PDFs. O monitor atual deliberadamente não anuncia essa conversão como implementada.
+## Execução no GitHub
 
-## Executar e testar localmente
+O workflow fica em `.github/workflows/monitor-legislation.yml`. Ele tenta executar diariamente por volta de **06:17 em São Paulo** (09:17 UTC), com possível atraso do GitHub. Também aceita **Run workflow** e executa após alterações nos arquivos da rotina enviadas a `main`.
 
-Python 3.12 ou superior (somente biblioteca padrão) e curl disponível no sistema:
+Em **Settings → Actions → General**, permita os actions utilizados e a criação de PRs pelo `GITHUB_TOKEN`. O GitHub fornece esse token durante o job; não precisa fornecer valores no chat. O job usa `contents: write` e `pull-requests: write`, cria rascunhos e não aprova nem mescla propostas. Monitore falhas em Actions: execução sem sucesso não equivale a “nenhuma mudança na lei”.
+
+## Execução local
+
+Node.js 22+, Python 3.12+ (biblioteca padrão) e curl:
 
 ```sh
-python3 -m unittest discover -s scripts -p 'test_monitor.py' -v
+python3 -m unittest discover -s scripts -p 'test_*.py' -v
 python3 scripts/check_official_sources.py
+python3 scripts/import_official.py
+npm test
+npm run build
 ```
 
-`--only civil` (ou `penal`, `cpc`, `cdc`, `ctn`, `cf`) limita uma verificação manual. O workflow agendado sempre consulta as seis fontes. O comando retorna código 1 se houver falha e mantém as referências anteriores. Os testes usam respostas simuladas, cenários de falha e HTML sintético construído com o corpus real extraído dos PDFs; eles não comprovam conectividade externa. Foi realizada, separadamente, uma coleta real dos seis textos com o cliente corrigido.
-
-Páginas antigas sem charset são decodificadas como UTF-8 estrito quando válido, ou Windows-1252, como em navegadores. Uma declaração explícita contraditória continua sendo erro. Artigos riscados com espaços iniciais são contabilizados e o link para o ADCT no índice superior da Constituição não é confundido com o início do próprio ADCT.
-
-Os artefatos do GitHub ficam disponíveis por 30 dias. Referências aceitas permanecem no histórico Git. Monitore falhas em Actions; um job sem sucesso não significa “nenhuma mudança na lei”.
+A primeira consulta bem-sucedida estabelece uma referência de monitoramento para revisão. `--only civil` no coletor limita um diagnóstico manual; o workflow completo sempre consulta as seis fontes. O conversor exige todas as referências validadas. Antes de executá-lo localmente, preserve os arquivos gerados que deseja manter: ele prepara os candidatos no checkout atual. Não execute a reimportação dos PDFs como parte da inicialização diária.

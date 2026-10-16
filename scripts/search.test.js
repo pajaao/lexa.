@@ -58,18 +58,31 @@ test('todos os números-base até os artigos finais têm entrada ou revogação 
  }
  for(let n=1;n<=138;n++)assert.ok(articleById(code('cf'),'adct-'+n));
 });
-test('seis fontes preservadas com SHA-256 correspondente e páginas válidas',()=>{
+test('PDFs originais preservados e procedência de cada edição consistente',()=>{
  assert.equal(codes.length,6);
+ const archive=JSON.parse(readFileSync(new URL('../sources/manifest.json',import.meta.url),'utf8'));
  for(const c of codes){
-  const original=readFileSync(new URL('../'+c.source.pdf,import.meta.url));
-  assert.equal(createHash('sha256').update(original).digest('hex'),c.source.sha256);
+  const original=readFileSync(new URL('../'+archive[c.id].pdf,import.meta.url));
+  assert.equal(createHash('sha256').update(original).digest('hex'),archive[c.id].sha256);
+  let snapshot;
+  if(c.source.kind==='official_html'){
+   snapshot=JSON.parse(readFileSync(new URL('../'+c.source.snapshot,import.meta.url),'utf8'));
+   assert.equal(c.source.sha256,snapshot.semantic_sha256);
+   assert.equal(c.source.capturedAt,snapshot.captured_at);
+   assert.equal(c.source.url,c.url);
+  }
   const sections=new Set(c.sections.map(s=>s.id));
   assert.equal(new Set(c.articles.map(a=>a.id)).size,c.articles.length);
   for(const a of c.articles){
    assert.ok(sections.has(a.sectionId));
    assert.ok(a.text.trim().length>8);
-   assert.ok(a.page>=1&&a.page<=c.source.pages);
-   for(const p of a.paragraphs)assert.ok(p.page>=a.page&&p.page<=c.source.pages);
+   if(snapshot){
+    assert.ok(a.sourceBlock>=1&&a.sourceBlock<=snapshot.document.blocks.length);
+    for(const p of a.paragraphs)assert.ok(p.sourceBlock>=a.sourceBlock&&p.sourceBlock<=snapshot.document.blocks.length);
+   }else{
+    assert.ok(a.page>=1&&a.page<=c.source.pages);
+    for(const p of a.paragraphs)assert.ok(p.page>=a.page&&p.page<=c.source.pages);
+   }
   }
  }
 });

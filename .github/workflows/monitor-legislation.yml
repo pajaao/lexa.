@@ -8,6 +8,12 @@ on:
       - 'scripts/check_official_sources.py'
       - 'scripts/official_http.py'
       - 'scripts/test_monitor.py'
+      - 'scripts/import_official.py'
+      - 'scripts/test_import_official.py'
+      - 'scripts/search.test.js'
+      - 'scripts/build.mjs'
+      - 'data.js'
+      - 'app.js'
       - 'monitor/sources.json'
   schedule:
     - cron: '17 9 * * *' # 06:17 em São Paulo (UTC-3); horários do GitHub são aproximados.
@@ -30,13 +36,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Verificar cliente HTTPS
         run: curl --version
       - name: Testar o monitor
-        run: python -m unittest discover -s scripts -p 'test_monitor.py' -v
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
       - name: Consultar as seis fontes
         id: check
         run: python scripts/check_official_sources.py --github-output "$GITHUB_OUTPUT"
+      - name: Preparar textos candidatos para o leitor
+        run: python scripts/import_official.py
+      - name: Validar textos e gerar a prévia
+        run: |
+          npm test
+          npm run build
       - name: Guardar evidências e diferenças
         if: always()
         uses: actions/upload-artifact@v4
@@ -44,6 +59,13 @@ jobs:
           name: verificacao-legislacao-${{ github.run_id }}
           path: monitor/run/
           if-no-files-found: warn
+          retention-days: 30
+      - name: Guardar prévia da atualização
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: previa-legislacao-${{ github.run_id }}
+          path: index.html
           retention-days: 30
       - name: Propor revisão da referência monitorada
         # Also run after an unchanged capture so a proposal whose changes were
@@ -53,9 +75,13 @@ jobs:
         with:
           token: ${{ github.token }}
           branch: automation/official-source-review
-          commit-message: 'Registrar coleta das fontes oficiais para revisão'
-          title: 'Revisar a coleta das fontes oficiais da legislação'
+          commit-message: 'Preparar textos e coleta das fontes oficiais para revisão'
+          title: 'Revisar atualização dos textos da legislação'
           body-path: monitor/run/pr-body.md
-          add-paths: monitor/official/*.json
+          add-paths: |
+            monitor/official/*.json
+            official-content.js
+            sources/official-manifest.json
+            index.html
           delete-branch: true
           draft: true

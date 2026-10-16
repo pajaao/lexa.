@@ -1,4 +1,5 @@
 import { imported } from './content.js';
+import { officialImported } from './official-content.js';
 
 const catalog = [
  {id:'cf',short:'CF',name:'Constituição Federal',area:'Direito Constitucional',law:'Constituição da República de 1988',description:'Direitos fundamentais e a organização do Estado brasileiro.',icon:'◇',url:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'},
@@ -10,7 +11,7 @@ const catalog = [
 ];
 export const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export const codes = catalog.map(code => {
- const content = imported[code.id];
+ const content = officialImported[code.id] || imported[code.id];
  const bySection = new Map(content.sections.map(section=>[section.id,section.title]));
  return {...code,...content,articles:content.articles.map(article=>{
   const text=article.text ?? article.paragraphs.map(p=>p.runs.map(r=>r.text).join('').replace(/\s+/g,' ').trim()).join('\n');

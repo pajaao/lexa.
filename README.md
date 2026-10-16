@@ -17,13 +17,13 @@ Edite o HTML-base em `scripts/index.template.html`, os estilos em `style.css`, o
 
 ## Conteúdo e proveniência
 
-Os seis PDFs fornecidos pelo usuário estão preservados em `sources/`. `sources/manifest.json` registra o nome original, número de páginas, data de importação e SHA-256 de cada documento. `content.js` é a extração gerada. `sources/import-report.json` registra a cobertura e possíveis linhas sem atribuição; a importação falha quando há números-base ausentes ou linhas não atribuídas.
+Os seis PDFs fornecidos pelo usuário estão preservados em `sources/`. `sources/manifest.json` registra o nome original, número de páginas, data de importação e SHA-256 de cada documento. `content.js` preserva a extração dos PDFs. `official-content.js` recebe as edições extraídas das fontes oficiais, depois de geradas e mescladas por proposta revisada; quando existe uma edição oficial para uma legislação, o leitor a utiliza. `sources/official-manifest.json`, quando gerado, registra a procedência dessas edições. `sources/import-report.json` registra a cobertura e possíveis linhas sem atribuição; a importação falha quando há números-base ausentes ou linhas não atribuídas.
 
-Os cinco códigos foram impressos do Planalto em 15/10/2026, conforme os cabeçalhos dos documentos. Essa é a data de impressão, **não uma certificação da redação vigente**. A Constituição é a 69ª edição da Câmara, de 2026, que declara alterações até a EC 138/2025. O leitor separa o texto constitucional e o ADCT; as emendas e tratados anexos à edição continuam disponíveis no PDF original.
+Os PDFs de referência dos cinco códigos foram impressos do Planalto em 15/10/2026. O PDF da Constituição é a 69ª edição da Câmara (2026), até a EC 138/2025. Essas referências continuam arquivadas. Nas edições HTML incorporadas por revisão, o leitor informa a página oficial, a data de coleta e o hash do texto extraído. **Nenhuma dessas datas certifica a redação vigente ou o início dos efeitos de uma alteração.** Constituição e ADCT permanecem separados; o importador não mistura as emendas ou os tratados anexos aos artigos constitucionais.
 
 A extração preserva parágrafos, incisos, alíneas, notas de alterações e redações riscadas. Artigos com letras têm identificadores próprios, inclusive sufixos como `359-M-A`. Revogações agrupadas são mantidas como no documento: buscar o art. 55 do CTN abre a referência aos arts. 52 a 58, sem inventar uma redação para cada dispositivo revogado.
 
-O leitor informa o arquivo e a página inicial de cada artigo. Houve validação automatizada e conferência de casos representativos; **não houve revisão jurídica integral nem comparação com alterações posteriores aos PDFs**. A presença de notas de vigência no arquivo não significa que o sistema tenha calculado automaticamente seus efeitos.
+Nas edições PDF, o leitor informa o arquivo e a página inicial; nas edições oficiais HTML, informa fonte e data da coleta, com referências internas ao bloco original para rastreabilidade. Houve validação automatizada e conferência de casos representativos; **não houve revisão jurídica integral nem comparação com alterações posteriores aos PDFs**. A presença de notas de vigência no arquivo não significa que o sistema tenha calculado automaticamente seus efeitos.
 
 ## Navegação
 
@@ -36,7 +36,7 @@ O leitor informa o arquivo e a página inicial de cada artigo. Houve validação
 
 ## Reimportação e manutenção
 
-A atualização automática **não está ativa**. Esta versão é uma base local dos arquivos recebidos. Para atualizar de forma controlada:
+A rotina diária prepara propostas com os textos do leitor, testes e prévia; não faz merge nem implantação automática. Consulte `monitor/README.md`. O procedimento abaixo continua disponível para reconstruir a base PDF arquivada; ele não substitui edições HTML já incorporadas em `official-content.js`:
 
 1. Obtenha nova edição consolidada em fonte oficial. Confirme sua data de referência e guarde a versão anterior em histórico de Git ou armazenamento versionado antes da substituição.
 2. Compare os arquivos e as alterações de redação. A Constituição desta importação tem limites de páginas específicos (texto constitucional nas páginas PDF 8–142 e ADCT nas páginas 143–193). Antes de importar outra edição, revise esses limites, o ano, a referência às emendas e os números finais em `scripts/import_pdfs.py`. Não reutilize os metadados antigos em outra edição.
@@ -53,4 +53,4 @@ npm run build
 
 5. Revise o relatório, o diff dos textos, as redações riscadas, as regras de vigência e a interface antes de publicar. Falhas de validação bloqueiam a importação; não remova essas verificações apenas para aceitar uma nova edição.
 
-O monitor em `scripts/check_official_sources.py` e o workflow `.github/workflows/monitor-legislation.yml` preparam uma coleta diária e propostas de revisão das referências oficiais. O projeto inicial já foi enviado ao GitHub; confira as execuções e permissões de propostas em Actions. O cliente HTTPS corrigido foi validado com os seis textos no desenvolvimento; o resultado no runner deve ser conferido separadamente. O monitor não atualiza automaticamente os textos publicados. Veja [ativação, revisão e limites do monitor](monitor/README.md). O site não declara atualização automática ativa.
+O monitor consulta as fontes, `scripts/import_official.py` prepara as seis edições para o leitor e o workflow gera os testes e a prévia antes de propor a atualização. A primeira conversão e as alterações posteriores entram somente após revisão e merge. A implantação pública depende da hospedagem e não é executada por esse workflow. Veja [ativação, revisão e limites](monitor/README.md).
