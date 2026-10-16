@@ -18,6 +18,8 @@ on:
       - 'scripts/build.mjs'
       - 'scripts/index.template.html'
       - 'sumulas-content.js'
+      - 'official-content.js'
+      - 'updates.js'
       - 'official-sumulas.js'
       - 'sumulas-updates.js'
       - 'sources/sumulas-manifest.json'

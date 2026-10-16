@@ -7,7 +7,7 @@ Workflow: **Verificar súmulas vinculantes do STF**, em `.github/workflows/monit
 - Também executa quando a configuração, os importadores ou a interface relevante mudam na main.
 - Branch da proposta: `automation/stf-source-review`; pull request em rascunho, sem merge, aprovação ou implantação automática.
 
-A rotina consulta o índice de súmulas vinculantes e as páginas individuais do portal do STF. Novos números são descobertos pelo índice; não há um limite fixo de 63 entradas no coletor. Há um limite técnico de 300, sujeito a revisão, para manter a execução limitada. O monitor é independente do Planalto: uma indisponibilidade do STF não impede a rotina das seis legislações.
+A rotina consulta o índice de súmulas vinculantes e as páginas individuais do portal do STF. Novos números são descobertos pelo índice; não há um limite fixo de 63 entradas no coletor. Há um limite técnico de 300, sujeito a revisão, para manter a execução limitada. O workflow também acompanha a incorporação das versões do Planalto para regenerar a prévia sobre a main atual, pois os dois monitores produzem `index.html`. Os históricos permanecem em arquivos separados. O monitor é independente do Planalto: uma indisponibilidade do STF não impede a rotina das seis legislações.
 
 ## Dados e revisão
 
