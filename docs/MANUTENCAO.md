@@ -87,3 +87,15 @@ As rotas usam fragmentos, como `/lexa./#/civil/186` e `/lexa./#/sv/13`, e os PDF
 Com Playwright para Python e Chromium disponíveis, execute `npm run build` e `python3 tests/browser/reading.py`. O teste usa `/usr/bin/chromium`, inicia um servidor local temporário e verifica fonte, espaçamento, foco, retomada, telas menores e armazenamento indisponível. É uma verificação adicional de interface; não consulta fontes jurídicas na rede.
 
 Os ajustes de fonte e espaçamento são salvos em `lexa-reading`, e a última entrada consultada em `lexa-last-reading`, no armazenamento local do navegador. A retomada guarda a referência do artigo ou da súmula, sem sincronização entre aparelhos. O modo de foco dura somente durante a leitura atual.
+
+## PWA e versões offline
+
+`public/manifest.webmanifest` usa caminhos relativos para funcionar na subpasta do GitHub Pages e em um domínio próprio. Os ícones PNG de 192 e 512 pixels incluem uma variante com área segura para recorte. A instalação depende do suporte do navegador; o Safari usa o menu Compartilhar.
+
+`src/pwa.js` registra o worker somente em contexto seguro, mostra o estado offline e oferece a ativação de uma versão pendente. `src/sw.js` é o modelo do service worker. O build calcula uma versão SHA-256 a partir do HTML, worker e recursos offline; cada atualização de textos também produz uma nova versão. Não edite `dist/sw.js` diretamente.
+
+A instalação do worker baixa o HTML autocontido, manifesto e ícones. O HTML baixado deve corresponder ao SHA-256 calculado no build. Uma falha impede a instalação da versão; a edição anterior continua ativa. O pacote ativo é servido do cache até a pessoa aceitar “Atualizar agora”. Não há ativação automática de uma versão pendente. Somente depois da ativação são removidos os caches anteriores desse aplicativo e escopo. Favoritos e preferências usam localStorage e não são apagados na atualização.
+
+Não são armazenados PDFs nem páginas externas. O worker intercepta somente navegação para a raiz do aplicativo ou `index.html` e os recursos explícitos do pacote, dentro do próprio escopo. A leitura offline não verifica alterações nas fontes oficiais nem certifica vigência. Em navegação privada, falta de espaço ou limpeza de dados, o armazenamento pode ficar indisponível.
+
+Para validar o ciclo real do worker, com Playwright para Python e `/usr/bin/chromium`, execute `npm run build` e `python3 tests/browser/pwa.py`. O teste usa uma subpasta temporária, desconecta a rede, simula versões novas e uma instalação incompleta, e verifica a preservação das preferências e de caches de outros projetos. A instalação pela interface do sistema operacional deve ser conferida no dispositivo de destino.

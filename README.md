@@ -66,6 +66,17 @@ Dentro de cada coleção, a busca aceita números e expressões do texto, como `
 
 Os favoritos ficam no seu dispositivo e navegador. Eles não são sincronizados entre aparelhos e podem ser perdidos ao limpar os dados do navegador.
 
+## Instalar e consultar offline
+
+O Lexa pode ser instalado como aplicativo web, sem loja de aplicativos:
+
+- **Android e computador:** abra o site e procure a opção de instalar no menu ou na barra de endereços do navegador. Quando disponível, o botão “Instalar Lexa” aparece em “Instalar e usar offline”, no rodapé.
+- **iPhone e iPad:** abra no Safari, toque em **Compartilhar → Adicionar à Tela de Início**.
+
+Na primeira visita com internet, aguarde a indicação **“Leitura offline preparada neste navegador”** no rodapé. Os códigos, a Constituição, as súmulas e o histórico dessa edição poderão ser consultados sem conexão. PDFs e páginas oficiais externas precisam de internet. O navegador pode remover os dados offline para liberar espaço.
+
+Quando uma nova versão estiver pronta, o site oferecerá **“Atualizar agora”**. A atualização recarrega a página e preserva favoritos e preferências. Durante uma consulta offline, confira a edição indicada: ela corresponde ao conteúdo salvo no dispositivo. A instalação não é necessária para usar o site.
+
 ## De onde vêm os textos?
 
 As edições dos códigos e da Constituição são extraídas das páginas oficiais do **Planalto**, incorporadas ao site após revisão. Os PDFs utilizados na formação da base permanecem arquivados no repositório.

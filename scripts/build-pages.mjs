@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import {buildHtml} from './build.mjs';
 import {cp, mkdir, readFile, rm, writeFile} from 'node:fs/promises';
 import {resolve, dirname} from 'node:path';
@@ -16,7 +17,11 @@ export async function stagePages(destination=resolve(root,'dist')) {
  await rm(destination,{recursive:true,force:true});
  await mkdir(destination,{recursive:true});
  await writeFile(resolve(destination,'index.html'),html);
- for(const file of ['favicon.svg','favicon.ico','apple-touch-icon.png'])await cp(resolve(root,'public',file),resolve(destination,file));
+ const files=['favicon.svg','favicon.ico','apple-touch-icon.png','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
+ const worker=await readFile(resolve(root,'src/sw.js'),'utf8');
+ const hash=createHash('sha256').update(html).update(worker);
+ for(const file of files){const bytes=await readFile(resolve(root,'public',file));hash.update(file).update(bytes);await writeFile(resolve(destination,file),bytes);}
+ await writeFile(resolve(destination,'sw.js'),worker.replace('__LEXA_VERSION__',hash.digest('hex')).replace('__LEXA_HTML_SHA256__',createHash('sha256').update(html).digest('hex')));
  await writeFile(resolve(destination,'.nojekyll'),'');
  for(const {pdf} of documents){
   const target=resolve(destination,pdf);

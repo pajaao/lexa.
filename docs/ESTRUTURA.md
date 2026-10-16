@@ -11,7 +11,8 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 | `src/app.js` | Navegação e controles de leitura | Editar comportamentos aqui |
 | `src/data.js` | Catálogo, busca e escolha das edições | Editar a lógica aqui |
 | `src/history.js` | Comparação e filtros do histórico | Editar a lógica aqui |
-| `public/` | Favicon e ícone para dispositivos | Substituir os arquivos quando necessário |
+| `public/` | Ícones e manifesto da PWA | Atualizar os recursos de instalação aqui |
+| `src/pwa.js` e `src/sw.js` | Instalação, leitura offline e atualização da PWA | Editar o worker de origem; sua versão é gerada no build |
 | `data/archive/` | Extrações dos PDFs de referência | Geradas pelos importadores de PDFs |
 | `data/official/` | Edições de fontes oficiais | Geradas pelos coletores e conversores, incorporadas após revisão |
 | `data/history/` | Versões e diferenças registradas | Geradas junto com as propostas de atualização |

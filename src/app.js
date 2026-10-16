@@ -1,3 +1,4 @@
+import { setupPwa } from './pwa.js';
 import { collections, normalize, searchArticles, articleById, articleLabel, parseReference, searchLibraryReferences } from './data.js';
 import { updateHistory } from '../data/history/legislation.js';
 import { sumulaUpdates } from '../data/history/sumulas.js';
@@ -257,3 +258,5 @@ document.documentElement.classList.toggle('dark',dark);
 document.querySelector('#theme').onclick=()=>{dark=!dark;document.documentElement.classList.toggle('dark',dark);try{localStorage.setItem('lexa-theme',dark?'dark':'light');}catch{}};
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();document.querySelector('input')?.focus();}});
 window.addEventListener('hashchange',route);route();
+
+setupPwa();
