@@ -57,10 +57,10 @@ Dentro de cada coleção, a busca aceita números e expressões do texto, como `
 - **Estrutura da norma:** partes, livros, títulos, capítulos e seções têm destaque próprio; parágrafos, incisos e alíneas usam recuos para facilitar a leitura.
 - **Índice expansível:** abra as divisões, consulte seus intervalos e selecione um capítulo ou uma divisão inteira. A barra de leitura indica a posição atual.
 - **Tema claro ou escuro:** escolha o que fica mais confortável para você.
-- **Fonte e espaçamento ajustáveis:** escolha o tamanho do texto e o espaço entre linhas e parágrafos. As preferências ficam salvas neste navegador.
+- **Fonte e espaçamento ajustáveis:** abra “Ajustes de leitura” para escolher o tamanho do texto e o espaço entre linhas e parágrafos. No celular, esses controles ficam recolhidos para liberar espaço. As preferências ficam salvas neste navegador.
 - **Modo de foco:** concentre a tela no texto e nos controles de leitura. Use “Sair do foco” ou a tecla Esc para voltar.
 - **Continuar leitura:** retome pela biblioteca o último artigo ou súmula consultado. O registro fica somente neste navegador e pode ser removido no próprio cartão.
-- **Favoritos:** use a estrela para guardar uma entrada no navegador atual.
+- **Favoritos:** use a estrela para guardar uma entrada no navegador atual. A página “Favoritos”, no menu, reúne as marcações por norma, com busca e remoção individual.
 - **Links diretos:** compartilhe um artigo ou uma súmula sem precisar explicar o caminho.
 - **Contexto das súmulas:** abra a seção de precedentes, jurisprudência e observações quando precisar aprofundar a consulta.
 - **Histórico de versões:** acompanhe as edições incorporadas e compare as diferenças registradas.

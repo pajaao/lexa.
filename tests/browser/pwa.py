@@ -52,6 +52,7 @@ with tempfile.TemporaryDirectory() as temporary:
             expect(page.locator('#font-size')).to_have_text('20 px')
             assert page.locator('[data-save="60"]').get_attribute('aria-pressed')=='true'
             page.goto(base+'#/sv/13');expect(page.locator('#art-13')).to_be_visible()
+            page.goto(base+'#/favoritos');expect(page.locator('.favorite-link[href="#/cf/60"]')).to_be_visible()
             page.goto(base+'#/atualizacoes');expect(page.locator('.updates-hero')).to_be_visible()
             # There is no offline promise for PDFs or external official sources.
             assert page.evaluate("fetch('./sources/missing.pdf').then(()=>false,()=>true)")

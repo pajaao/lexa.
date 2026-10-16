@@ -107,3 +107,11 @@ Para validar o ciclo real do worker, com Playwright para Python e `/usr/bin/chro
 Os recuos dos parágrafos são classificados pelos marcadores existentes (§, parágrafo único, numerais romanos, letras e itens). O texto, os riscados e a numeração não são reescritos. A classificação é visual, não uma nova interpretação do conteúdo. Os precedentes das súmulas permanecem separados do enunciado.
 
 `npm test` verifica a cobertura e a ordem da árvore. Com Playwright para Python e Chromium, `python3 tests/browser/structure.py` confere as sete coleções, compara os parágrafos renderizados com a base e testa índice, filtros, busca, paginação, ADCT e telas menores.
+
+## Favoritos e controles compactos
+
+A rota `#/favoritos` reúne as marcações da chave existente `lexa-saved`, agrupadas por norma, sem migração de armazenamento. A busca aceita nome, expressão e referências como `Art. 186 CC` e `SV 13`. A remoção atualiza a mesma lista usada pelas estrelas e pelo filtro de favoritos de cada norma. Referências indisponíveis na edição atual permanecem identificadas na lista para conferência ou remoção pelo usuário.
+
+Os controles de fonte e espaçamento ficam em um `details` chamado “Ajustes de leitura”, recolhido inicialmente em telas de até 700px. Um ResizeObserver ajusta a margem de rolagem dos artigos à altura real da barra, inclusive quando os ajustes estão abertos. Preferências continuam na mesma chave `lexa-reading`.
+
+Com Playwright e Chromium, execute `python3 tests/browser/favorites.py` após gerar o pacote. O teste confere favoritos preexistentes, referências de CF/ADCT e súmulas, busca, remoção, persistência, estados vazios e controles em telas pequenas.

@@ -38,6 +38,40 @@ function sourcePanel(source) {
  if(['official_html','official_stf'].includes(source.kind))return `<p>${escape(source.coverage)}</p><p>${escape(source.reviewStatus)}</p><p>Coleta da fonte oficial: ${collectionDate(source)}. Novas versões são propostas para revisão no GitHub.</p><p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Consultar página oficial ↗</a></p><p class="source-hash">SHA-256 do texto extraído: ${source.sha256}</p>`;
  return `<p>${escape(source.coverage)}</p><p>${escape(source.reviewStatus)}</p><p>Arquivo: ${escape(source.filename)} · ${source.pages} páginas.</p><p><a href="./${source.pdf}" target="_blank" rel="noopener">Abrir PDF fornecido ↗</a> <small>(disponível ao executar o site completo)</small></p><p class="source-hash">SHA-256: ${source.sha256}</p>`;
 }
+function favoritesPage(){
+ document.title='Meus favoritos — Lexa';
+ app.innerHTML=`<section class="favorites-page"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">SUA SELEÇÃO</div><h1>Meus favoritos</h1><p class="favorites-intro">Artigos e súmulas que você guardou, reunidos por norma.<br>As marcações ficam somente neste navegador.</p><label class="search favorites-search"><span>⌕</span><input id="favorites-search" placeholder="Buscar nos favoritos…" aria-label="Buscar nos favoritos"></label><p id="favorites-count" role="status"></p><div id="favorites-list"></div></section>`;
+ const input=document.querySelector('#favorites-search');
+ const entries=()=>[...new Set(saved)].map(key=>{
+  const separator=key.indexOf('/'),code=collections.find(c=>c.id===key.slice(0,separator));
+  const article=code&&articleById(code,key.slice(separator+1));
+  return {key,code,article};
+ });
+ function draw(){
+  const q=normalize(input.value).trim();
+  const all=entries();
+  const references=searchLibraryReferences(input.value);
+  const matches=all.filter(({key,code,article})=>!q||(references!==null?references.some(result=>result.code.id===code?.id&&result.article.id===article?.id):normalize(code?code.name+' '+code.short+' '+(article?articleLabel(article)+' '+article.text:key):key).includes(q)));
+  const groups=collections.map(code=>({code,items:matches.filter(item=>item.code?.id===code.id)}));
+  const unknown=matches.filter(item=>!item.code);if(unknown.length)groups.push({code:null,items:unknown});
+  document.querySelector('#favorites-count').textContent=`${matches.length} ${matches.length===1?'favorito':'favoritos'}${q?(matches.length===1?' encontrado':' encontrados'):''}`;
+  document.querySelector('#favorites-list').innerHTML=matches.length?groups.filter(group=>group.items.length).map(({code,items})=>`<section class="favorite-group"><h2>${code?escape(code.name):'Marcações indisponíveis'} <span>${items.length}</span></h2><ul>${items.map(({key,article})=>{
+   const label=article?articleLabel(article):key;
+   const paragraph=article?.paragraphs.find(p=>p.runs.some(run=>!run.deleted&&run.text.trim()));
+   const preview=paragraph?.runs.filter(run=>!run.deleted).map(run=>run.text).join('')||article?.text||'';
+   return `<li class="favorite-entry"><div>${article?`<a class="favorite-link" href="${codeHref(code,article.id)}"><strong>${escape(label)}</strong><span aria-hidden="true">→</span></a>${['cancelled','pending','suspended'].includes(article.status)?`<small class="favorite-status">${{cancelled:'Cancelada',pending:'Pendente de publicação',suspended:'Suspensa'}[article.status]} — conforme indicado na edição</small>`:''}<p>${escape(preview.slice(0,220))}${preview.length>220?'…':''}</p>`:`<strong>${escape(label)}</strong><p>Esta referência não foi encontrada na edição atual. A marcação foi mantida para sua conferência.</p>`}</div><button data-remove-favorite="${escape(key)}" aria-label="Remover favorito ${escape(label)}${code?' de '+escape(code.short):''}">Remover</button></li>`;
+  }).join('')}</ul></section>`).join(''):`<div class="favorites-empty"><span aria-hidden="true">☆</span><h2>${all.length?'Nenhum favorito encontrado':'Sua seleção começa aqui'}</h2><p>${all.length?'Tente o nome da norma, o número ou uma palavra do texto.':'Use a estrela ao lado de um artigo ou súmula para encontrá-lo aqui depois.'}</p><a href="#">Explorar a biblioteca →</a></div>`;
+  document.querySelectorAll('[data-remove-favorite]').forEach(button=>button.onclick=()=>{
+   const key=button.dataset.removeFavorite;
+   const buttons=[...document.querySelectorAll('[data-remove-favorite]')],index=buttons.indexOf(button);
+   saved=saved.filter(item=>item!==key);
+   toast(storageWrite('lexa-saved',saved)?'Favorito removido':'Remoção temporária: armazenamento indisponível');
+   draw();const remaining=document.querySelectorAll('[data-remove-favorite]');(remaining[Math.min(index,remaining.length-1)]||input).focus();
+  });
+ }
+ input.addEventListener('input',draw);draw();
+}
+
 function home() {
  const resume=lastReading();
  document.title='Lexa — Legislação, com clareza';
@@ -152,10 +186,14 @@ function reader(code, requested, params) {
  document.title=`${code.short} · ${code.name} — Lexa`;
  const source=code.source;
  const isSumula=code.kind==='sumulas';
- app.innerHTML=`<section class="reader-top"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">${code.area}</div><h1>${code.name}</h1><p>${code.law} <span>·</span> <a href="#/atualizacoes?codigo=${code.id}">Histórico de versões</a> <span>·</span> <a href="${code.url}" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a></p><div class="reading-notice"><strong>${escape(source.edition)}</strong><br>${['official_html','official_stf'].includes(source.kind)?'Coleta da fonte oficial · '+collectionDate(source):isSumula?'Data de consulta declarada no PDF · 16/10/2026':'Edição dos PDFs fornecidos · 15/10/2026'} · Confira as notas de vigência.</div><details class="source-details"><summary>Sobre esta versão e a fonte de origem</summary>${sourcePanel(source)}</details></section><div class="reader-layout"><aside><details class="reader-index" ${window.innerWidth>700?'open':''}><summary>${isSumula?'Índice das súmulas':'Índice da legislação'}</summary><p class="index-note">${isSumula?'Escolha um intervalo para navegar pelas súmulas.':'Expanda as divisões e escolha o trecho que deseja ler.'}</p><div id="index-list"></div></details></aside><section class="reading">${code.id==='cf'?'<div class="scope-tabs" role="group" aria-label="Parte da Constituição"><button data-scope="main">Constituição</button><button data-scope="adct">ADCT</button></div>':''}<div class="reading-controls"><div class="reading-context"><span class="reading-position"><strong>${escape(code.short)}</strong><span id="reading-location">Leitura</span></span><button id="focus-mode" aria-pressed="false">Modo de foco</button></div><div class="reading-toolbar"><label class="search"><span>⌕</span><input id="article-search" placeholder="${isSumula?'Buscar expressão ou súmula (ex.: SV 13)':'Buscar expressão ou artigo (ex.: 5 ou 54-A)'}" aria-label="${isSumula?'Buscar nas súmulas vinculantes':'Buscar nesta legislação'}"></label><button id="font-down" aria-label="Diminuir fonte">A−</button><button id="font-up" aria-label="Aumentar fonte">A+</button></div><div class="reading-adjustments"><label for="reading-spacing">Espaçamento</label><select id="reading-spacing"><option value="standard">Padrão</option><option value="comfortable">Confortável</option><option value="wide">Amplo</option></select><span id="font-size" role="status"></span><button id="reset-reading">Restaurar leitura</button></div></div><div class="reader-options"><button id="saved-filter" aria-pressed="${onlySaved}">☆ Meus favoritos</button><button id="clear-section" hidden>Limpar divisão selecionada ×</button><span id="results-label" role="status"></span></div><div id="introduction"></div><div id="articles"></div><nav class="pagination" aria-label="Páginas de leitura"><button id="previous-page">← Anteriores</button><span id="page-label"></span><button id="next-page">Próximos →</button></nav></section></div>`;
+ app.innerHTML=`<section class="reader-top"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">${code.area}</div><h1>${code.name}</h1><p>${code.law} <span>·</span> <a href="#/atualizacoes?codigo=${code.id}">Histórico de versões</a> <span>·</span> <a href="${code.url}" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a></p><div class="reading-notice"><strong>${escape(source.edition)}</strong><br>${['official_html','official_stf'].includes(source.kind)?'Coleta da fonte oficial · '+collectionDate(source):isSumula?'Data de consulta declarada no PDF · 16/10/2026':'Edição dos PDFs fornecidos · 15/10/2026'} · Confira as notas de vigência.</div><details class="source-details"><summary>Sobre esta versão e a fonte de origem</summary>${sourcePanel(source)}</details></section><div class="reader-layout"><aside><details class="reader-index" ${window.innerWidth>700?'open':''}><summary>${isSumula?'Índice das súmulas':'Índice da legislação'}</summary><p class="index-note">${isSumula?'Escolha um intervalo para navegar pelas súmulas.':'Expanda as divisões e escolha o trecho que deseja ler.'}</p><div id="index-list"></div></details></aside><section class="reading">${code.id==='cf'?'<div class="scope-tabs" role="group" aria-label="Parte da Constituição"><button data-scope="main">Constituição</button><button data-scope="adct">ADCT</button></div>':''}<div class="reading-controls"><div class="reading-context"><span class="reading-position"><strong>${escape(code.short)}</strong><span id="reading-location">Leitura</span></span><button id="focus-mode" aria-pressed="false">Modo de foco</button></div><div class="reading-toolbar"><label class="search"><span>⌕</span><input id="article-search" placeholder="${isSumula?'Buscar expressão ou súmula (ex.: SV 13)':'Buscar expressão ou artigo (ex.: 5 ou 54-A)'}" aria-label="${isSumula?'Buscar nas súmulas vinculantes':'Buscar nesta legislação'}"></label></div><details class="reading-settings" ${window.innerWidth>700?'open':''}><summary>Ajustes de leitura <span id="font-size" role="status"></span></summary><div class="reading-adjustments"><div class="font-controls" role="group" aria-label="Tamanho da fonte"><button id="font-down" aria-label="Diminuir fonte">A−</button><button id="font-up" aria-label="Aumentar fonte">A+</button></div><label for="reading-spacing">Espaçamento</label><select id="reading-spacing"><option value="standard">Padrão</option><option value="comfortable">Confortável</option><option value="wide">Amplo</option></select><button id="reset-reading">Restaurar leitura</button></div></details></div><div class="reader-options"><button id="saved-filter" aria-pressed="${onlySaved}">☆ Meus favoritos</button><button id="clear-section" hidden>Limpar divisão selecionada ×</button><span id="results-label" role="status"></span></div><div id="introduction"></div><div id="articles"></div><nav class="pagination" aria-label="Páginas de leitura"><button id="previous-page">← Anteriores</button><span id="page-label"></span><button id="next-page">Próximos →</button></nav></section></div>`;
  const input=document.querySelector('#article-search');input.value=query;
  let active=true, positionTimer, focusMode=false;
  const reading=document.querySelector('.reading');
+ const controls=document.querySelector('.reading-controls');
+ const updateReadingOffset=()=>reading.style.setProperty('--reading-offset',Math.ceil(controls.getBoundingClientRect().height+24)+'px');
+ const controlsObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(updateReadingOffset):null;
+ controlsObserver?.observe(controls);updateReadingOffset();
  function rememberPosition(){
   if(!active)return;
   const entries=[...document.querySelectorAll('#articles .article')];
@@ -165,7 +203,7 @@ function reader(code, requested, params) {
  }
  const onScroll=()=>{clearTimeout(positionTimer);positionTimer=setTimeout(rememberPosition,180);};
  window.addEventListener('scroll',onScroll,{passive:true});
- cleanupReader=()=>{rememberPosition();active=false;clearTimeout(positionTimer);window.removeEventListener('scroll',onScroll);document.body.classList.remove('reading-focus');};
+ cleanupReader=()=>{rememberPosition();controlsObserver?.disconnect();active=false;clearTimeout(positionTimer);window.removeEventListener('scroll',onScroll);document.body.classList.remove('reading-focus');};
  function applyPreferences(){
   reading.style.setProperty('--reading-size',readingPreferences.size+'px');
   reading.dataset.spacing=readingPreferences.spacing;
@@ -280,6 +318,7 @@ function route(){
  cleanupReader();cleanupReader=()=>{};
  const [path,query='']=location.hash.slice(1).split('?');
  const [,id,article]=path.split('/');
+ if(id==='favoritos'){favoritesPage();window.scrollTo(0,0);return;}
  if(id==='atualizacoes'){updatesPage(new URLSearchParams(query));window.scrollTo(0,0);return;}
  const code=collections.find(c=>c.id===id);
  if(code)reader(code,article,new URLSearchParams(query));else home();
