@@ -1,0 +1,90 @@
+name: Verificar súmulas vinculantes do STF
+
+on:
+  schedule:
+    - cron: '47 9 * * *' # 06:47 em São Paulo (UTC-3); execução aproximada.
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/monitor-sumulas.yml'
+      - 'scripts/check_stf_sources.py'
+      - 'scripts/official_http.py'
+      - 'scripts/check_official_sources.py'
+      - 'scripts/import_official.py'
+      - 'scripts/test_stf_monitor.py'
+      - 'scripts/sumulas.test.js'
+      - 'scripts/build.test.js'
+      - 'scripts/build.mjs'
+      - 'scripts/index.template.html'
+      - 'sumulas-content.js'
+      - 'official-sumulas.js'
+      - 'sumulas-updates.js'
+      - 'sources/sumulas-manifest.json'
+      - 'data.js'
+      - 'app.js'
+      - 'history.js'
+      - 'style.css'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: lexa-stf-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor-stf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar cliente HTTPS
+        run: curl --version
+      - name: Testar os monitores
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Consultar índice e páginas das súmulas do STF
+        run: python scripts/check_stf_sources.py
+      - name: Gerar e testar prévia candidata
+        run: |
+          npm run build
+          npm test
+      - name: Guardar relatório e evidências
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verificacao-sumulas-stf-${{ github.run_id }}
+          path: monitor/run/stf/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Guardar prévia
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: previa-sumulas-stf-${{ github.run_id }}
+          path: index.html
+          retention-days: 30
+      - name: Propor revisão das súmulas
+        if: success()
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ github.token }}
+          branch: automation/stf-source-review
+          commit-message: 'Preparar atualização das súmulas vinculantes para revisão'
+          title: 'Revisar atualização das súmulas vinculantes do STF'
+          body-path: monitor/run/stf/pr-body.md
+          add-paths: |
+            monitor/stf/index.json
+            monitor/stf/items/*.json
+            official-sumulas.js
+            sumulas-updates.js
+            index.html
+          draft: true
+          delete-branch: true

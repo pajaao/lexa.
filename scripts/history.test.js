@@ -37,3 +37,14 @@ test('filtros de código e artigo preservam o contexto de Constituição e ADCT'
  assert.equal(filterUpdates(events,'civil').length,2);
  assert.equal(events[0].changes.length,2);
 });
+
+test('histórico das súmulas filtra referência por sigla, nome e número',()=>{
+ const events=[{codeId:'sv',changes:[{articleId:'13',number:'13',kind:'vinculante'},{articleId:'14',number:'14',kind:'vinculante'}]}, {codeId:'civil',changes:[{articleId:'13',number:'13'}]}];
+ for(const query of ['13','SV 13','Súmula Vinculante 13','Sumula nº 13']){
+  const result=filterUpdates(events,'sv',query);
+  assert.equal(result.length,1);
+  assert.equal(result[0].changes.length,1);
+  assert.equal(result[0].changes[0].articleId,'13');
+ }
+ assert.equal(events[0].changes.length,2);
+});

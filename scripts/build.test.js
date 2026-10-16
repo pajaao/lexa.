@@ -20,5 +20,5 @@ test('HTML autocontido inicializa a biblioteca completa, inclusive súmulas, sem
  },{timeout:5000});
  assert.equal((node('#cards').innerHTML.match(/class="code-card"/g)||[]).length,collections.length);
  assert.match(node('#cards').innerHTML,/href="#\/sv"/);
- assert.match(node('#app').innerHTML,/63 súmulas vinculantes/);
+ assert.match(node('#app').innerHTML,new RegExp(collections.find(c=>c.id==='sv').articles.length+' súmulas vinculantes'));
 });

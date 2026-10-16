@@ -1,5 +1,5 @@
 export function filterUpdates(events, codeId = '', articleId = '') {
- const query=articleId.trim().replace(/^art\.?\s*/i,'').replace(/\.(?=\d{3}(?:\D|$))/g,'').toUpperCase();
+ const query=articleId.trim().replace(/^(?:art\.?|sv|s[úu]mula(?: vinculante)?)\s*(?:n[º°o.]?\s*)?/i,'').replace(/\.(?=\d{3}(?:\D|$))/g,'').toUpperCase();
  return events.filter(event=>!codeId||event.codeId===codeId).map(event=>({...event,changes:event.changes.filter(change=>!query||change.articleId.toUpperCase()===query||change.number.toUpperCase()===query)})).filter(event=>!query||event.changes.length);
 }
 

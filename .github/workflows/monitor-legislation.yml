@@ -12,6 +12,9 @@ on:
       - 'scripts/test_import_official.py'
       - 'scripts/search.test.js'
       - 'scripts/build.mjs'
+      - 'official-sumulas.js'
+      - 'sumulas-updates.js'
+      - 'scripts/build.test.js'
       - 'sumulas-content.js'
       - 'scripts/sumulas.test.js'
       - 'scripts/import_sumulas.py'
@@ -59,8 +62,8 @@ jobs:
         run: python scripts/import_official.py
       - name: Validar textos e gerar a prévia
         run: |
-          npm test
           npm run build
+          npm test
       - name: Guardar evidências e diferenças
         if: always()
         uses: actions/upload-artifact@v4

@@ -29,9 +29,9 @@ class SourceFetchError(RuntimeError):
         self.retry_after = retry_after
 
 
-def check_url(url):
+def check_url(url, allowed_hosts=None):
     parts = urlsplit(url)
-    if parts.scheme != 'https' or parts.hostname not in ALLOWED_HOSTS or parts.port not in (None, 443) or parts.username or parts.password:
+    if parts.scheme != 'https' or parts.hostname not in (ALLOWED_HOSTS if allowed_hosts is None else allowed_hosts) or parts.port not in (None, 443) or parts.username or parts.password:
         raise ValueError('Destino diferente das fontes HTTPS oficiais permitidas')
 
 
@@ -59,8 +59,8 @@ def response_headers(raw):
     return BytesParser(policy=policy.default).parsebytes(last + b'\n\n')
 
 
-def download_once(url):
-    check_url(url)
+def download_once(url, allowed_hosts=None):
+    check_url(url, allowed_hosts)
     curl = shutil.which('curl')
     if not curl:
         raise SourceFetchError('curl não está instalado; necessário para a coleta HTTPS.')
@@ -69,7 +69,7 @@ def download_once(url):
         headers = Path(directory) / 'headers'
         current = url
         for hop in range(4):
-            check_url(current)
+            check_url(current, allowed_hosts)
             command = [curl, '--disable', '--silent', '--show-error', '--http1.1',
                        '--compressed', '--proto', '=https', '--connect-timeout', '8',
                        '--max-time', '25', '--max-filesize', str(MAX_BYTES),
@@ -94,7 +94,7 @@ def download_once(url):
                 if not location or hop == 3:
                     raise SourceFetchError('Redirecionamento ausente ou limite de redirecionamentos excedido.')
                 current = urljoin(current, location)
-                check_url(current)
+                check_url(current, allowed_hosts)
                 continue
             if status != 200:
                 raise SourceFetchError(f'Falha HTTP {status}; a fonte não foi validada.',
@@ -108,11 +108,11 @@ def download_once(url):
     raise SourceFetchError('Não foi possível concluir a transferência HTTPS.')
 
 
-def fetch(spec, attempts=3, sleeper=time.sleep):
+def fetch(spec, attempts=3, sleeper=time.sleep, allowed_hosts=None):
     """Retry transient failures only; never fall back to insecure TLS or HTTP."""
     for attempt in range(1, attempts + 1):
         try:
-            return download_once(spec['url'])
+            return download_once(spec['url']) if allowed_hosts is None else download_once(spec['url'], allowed_hosts)
         except SourceFetchError as error:
             if not error.retryable or attempt == attempts:
                 raise SourceFetchError(f'{error} Tentativas realizadas: {attempt}.') from error
