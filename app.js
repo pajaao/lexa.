@@ -12,6 +12,7 @@ let category = 'Todas as áreas';
 let saved = [];
 try { const value=JSON.parse(localStorage.getItem('lexa-saved') || '[]'); if(Array.isArray(value))saved=value.filter(x=>typeof x==='string'); } catch {}
 function toast(message) { const el=document.querySelector('#toast'); el.textContent=message; el.classList.add('visible'); setTimeout(()=>el.classList.remove('visible'),2500); }
+document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();app.focus();app.scrollIntoView({block:'start'});});
 const codeHref = (code,article='') => `#/${code.id}${article?'/'+article:''}`;
 const historyArticleIds=new Set(recordedUpdates.flatMap(event=>event.changes.map(change=>event.codeId+'/'+change.articleId)));
 
@@ -124,7 +125,7 @@ function reader(code, requested, params) {
   }).join('');
   document.querySelectorAll('[data-section]').forEach(b=>b.onclick=()=>{sectionId=b.dataset.section;query='';input.value='';page=0;draw();if(window.innerWidth<=700)document.querySelector('.reader-index').open=false;scrollReading();});
  }
- function scrollReading(){document.querySelector('.reading-toolbar').scrollIntoView({block:'start',behavior:'smooth'});}
+ function scrollReading(){document.querySelector('.reading-toolbar').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
  function draw(){
   const list=selectedArticles();
   const searchNotes=query.trim()&&!/^(?:(?:sv|sumula(?: vinculante)?)\s*(?:n[º°o.]?\s*)?)?\d+\.?$/i.test(normalize(query));
@@ -175,5 +176,5 @@ function route(){
 let dark=false;try{dark=localStorage.getItem('lexa-theme')==='dark';}catch{}
 document.documentElement.classList.toggle('dark',dark);
 document.querySelector('#theme').onclick=()=>{dark=!dark;document.documentElement.classList.toggle('dark',dark);try{localStorage.setItem('lexa-theme',dark?'dark':'light');}catch{}};
-document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();document.querySelector('input')?.focus();}});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();document.querySelector('input')?.focus();}});
 window.addEventListener('hashchange',route);route();

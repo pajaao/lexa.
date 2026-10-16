@@ -66,4 +66,16 @@ A fonte desta importação é **somente** `sources/Sumulas_Vinculantes_STF_Compl
 
 `python3 scripts/import_sumulas.py` reconstrói `sumulas-content.js` usando PyMuPDF (mesma dependência de `scripts/requirements-import.txt`). O processo valida o SHA-256 registrado em `sources/sumulas-manifest.json`, a numeração, os cabeçalhos e os links individuais do STF. Uma nova edição exige revisão do manifesto e das regras de extração; não substitua a fonte apenas para iniciar o site.
 
-O workflow **Verificar súmulas vinculantes do STF** consulta diariamente o índice e as páginas individuais, prepara a edição candidata e propõe revisão em uma branch própria. O Actions usa Chromium para renderizar as páginas. A consulta por HTTP simples retornou 403 no GitHub; a tentativa com navegador ainda precisa validar o acesso e o formato real do portal. Os testes locais usam páginas simuladas, pois o proxy deste ambiente bloqueia o STF. Falhas não substituem a base atual. Consulte [execução, revisão e limites do monitor STF](monitor/stf/README.md). A rotina das seis legislações do Planalto continua independente.
+A consulta automática das súmulas está **pausada** por decisão do mantenedor, após falhas de acesso ao STF. O arquivo de workflow mantém somente a execução manual para diagnóstico futuro. Não há agenda nem execução por push para as súmulas. A coleção permanece baseada no PDF fornecido e deve ser revista ao receber nova edição. A rotina automática das seis legislações do Planalto continua independente.
+
+## Publicar no GitHub Pages
+
+O repositório público inclui o workflow **Publicar Lexa no GitHub Pages**, que testa e publica cada mudança incorporada na `main`. Pull requests em rascunho dos monitores não são publicados até serem revisados e mesclados.
+
+1. Em **Settings → Pages → Build and deployment → Source**, escolha **GitHub Actions**.
+2. Em **Actions → Publicar Lexa no GitHub Pages**, execute **Run workflow** na `main` se não houver uma execução em andamento após a ativação.
+3. A etapa de publicação informa o endereço real do site; para o nome atual do repositório, o endereço esperado é `https://pajaao.github.io/lexa./`.
+
+`npm run build:pages` gera `_site/` com o HTML autocontido, `.nojekyll` e os sete PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
+
+As rotas usam fragmentos, como `/lexa./#/civil/186` e `/lexa./#/sv/13`, e os PDFs usam caminhos relativos, funcionando tanto em uma subpasta do projeto quanto em um domínio próprio. Favoritos continuam locais ao navegador. A interface informa a fonte e a edição de cada base e traz um aviso de consulta no rodapé. A publicação não executa coletas de fontes na rede: falhas do Planalto ou do STF não impedem publicar uma versão já revisada e testada.

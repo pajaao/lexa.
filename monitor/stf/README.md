@@ -1,13 +1,15 @@
 # Monitor das súmulas vinculantes do STF
 
+**Situação atual: automação pausada.** Após falhas de acesso ao STF, o mantenedor optou por atualizar periodicamente a coleção com novos documentos. O workflow tem somente `workflow_dispatch`, sem agenda nem execução por push. As regras abaixo documentam o diagnóstico manual e uma eventual retomada futura. A atualização das legislações do Planalto continua ativa.
+
 Workflow: **Verificar súmulas vinculantes do STF**, em `.github/workflows/monitor-sumulas.yml`.
 
-- Agenda diária: `47 9 * * *`, aproximadamente 06:47 em São Paulo (UTC-3).
+- Agenda diária: desativada.
 - Execução manual: GitHub → Actions → Verificar súmulas vinculantes do STF → Run workflow → main.
-- Também executa quando a configuração, os importadores ou a interface relevante mudam na main.
+- Execução por alterações na main: desativada.
 - Branch da proposta: `automation/stf-source-review`; pull request em rascunho, sem merge, aprovação ou implantação automática.
 
-A rotina consulta o índice de súmulas vinculantes e as páginas individuais do portal do STF. Novos números são descobertos pelo índice; não há um limite fixo de 63 entradas no coletor. Há um limite técnico de 300, sujeito a revisão, para manter a execução limitada. O workflow também acompanha a incorporação das versões do Planalto para regenerar a prévia sobre a main atual, pois os dois monitores produzem `index.html`. Os históricos permanecem em arquivos separados. O monitor é independente do Planalto: uma indisponibilidade do STF não impede a rotina das seis legislações.
+A rotina consulta o índice de súmulas vinculantes e as páginas individuais do portal do STF. Novos números são descobertos pelo índice; não há um limite fixo de 63 entradas no coletor. Há um limite técnico de 300, sujeito a revisão, para manter a execução limitada. O gatilho anterior que regenerava a prévia após incorporar versões do Planalto também está pausado. Os históricos permanecem em arquivos separados. O monitor é independente do Planalto: uma indisponibilidade do STF não impede a rotina das seis legislações.
 
 ## Dados e revisão
 

@@ -1,35 +1,9 @@
 name: Verificar súmulas vinculantes do STF
 
 on:
-  schedule:
-    - cron: '47 9 * * *' # 06:47 em São Paulo (UTC-3); execução aproximada.
+  # Automatic collection paused: STF access failed; updates are maintained manually.
+  # Keep explicit manual execution available for a future access diagnosis.
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/monitor-sumulas.yml'
-      - 'scripts/check_stf_sources.py'
-      - 'scripts/official_http.py'
-      - 'scripts/stf_browser.py'
-      - 'scripts/requirements-stf.txt'
-      - 'scripts/test_stf_browser.py'
-      - 'scripts/check_official_sources.py'
-      - 'scripts/import_official.py'
-      - 'scripts/test_stf_monitor.py'
-      - 'scripts/sumulas.test.js'
-      - 'scripts/build.test.js'
-      - 'scripts/build.mjs'
-      - 'scripts/index.template.html'
-      - 'sumulas-content.js'
-      - 'official-content.js'
-      - 'updates.js'
-      - 'official-sumulas.js'
-      - 'sumulas-updates.js'
-      - 'sources/sumulas-manifest.json'
-      - 'data.js'
-      - 'app.js'
-      - 'history.js'
-      - 'style.css'
 
 permissions:
   contents: write

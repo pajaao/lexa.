@@ -2,3 +2,5 @@ node_modules/
 *.log
 __pycache__/
 monitor/run/
+
+_site/
