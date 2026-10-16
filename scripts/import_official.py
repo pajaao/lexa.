@@ -220,9 +220,9 @@ def history_event(code_id, previous, candidate, existing):
 def prepare(root=ROOT):
     root=Path(root)
     specs=json.loads((root/'monitor/sources.json').read_text())
-    archived=load_js(root/'content.js','imported')
-    current=load_js(root/'official-content.js','officialImported')
-    history_path=root/'updates.js'
+    archived=load_js(root/'data/archive/legislation.js','imported')
+    current=load_js(root/'data/official/legislation.js','officialImported')
+    history_path=root/'data/history/legislation.js'
     history=load_js(history_path,'updateHistory') if history_path.exists() else []
     if not isinstance(history,list):
         raise ValueError('Histórico de versões inválido')
@@ -243,7 +243,8 @@ def prepare(root=ROOT):
     # Validate every document first; no generated output is written on failure.
     payload='export const officialImported = '+json.dumps(candidates,ensure_ascii=False,separators=(',',':'))+';\n'
     (root/'sources').mkdir(exist_ok=True)
-    (root/'official-content.js').write_text(payload)
+    for folder in ['data/official','data/history']:(root/folder).mkdir(parents=True,exist_ok=True)
+    (root/'data/official/legislation.js').write_text(payload)
     history_path.write_text('export const updateHistory = '+json.dumps(history,ensure_ascii=False,separators=(',',':'))+';\n')
     (root/'sources/official-manifest.json').write_text(json.dumps({id:d['source'] for id,d in candidates.items()},ensure_ascii=False,indent=2)+'\n')
     run_dir=root/'monitor/run';run_dir.mkdir(parents=True,exist_ok=True)
@@ -259,7 +260,7 @@ Esta proposta prepara os textos do site a partir das seis fontes oficiais monito
 
 A primeira conversão troca a edição baseada nos PDFs pela extração das páginas oficiais. Diferenças de formatação também podem aparecer no relatório; as contagens não são uma classificação jurídica das alterações.
 
-Confira `monitor/official/`, `official-content.js`, `updates.js`, `sources/official-manifest.json` e o artefato `reader-report.json`. A prévia `index.html` inclui a página “Atualizações” com comparações antes/depois. O primeiro registro estabelece a base do histórico, sem apresentar diferenças de migração como mudanças legislativas. Os testes são executados antes desta proposta. Os PDFs originais permanecem arquivados. A data da coleta não certifica vigência: revise notas, revogações e início de efeitos antes de mesclar.
+Confira `monitor/official/`, `data/official/legislation.js`, `data/history/legislation.js`, `sources/official-manifest.json` e o artefato `reader-report.json`. A prévia `index.html` inclui a página “Atualizações” com comparações antes/depois. O primeiro registro estabelece a base do histórico, sem apresentar diferenças de migração como mudanças legislativas. Os testes são executados antes desta proposta. Os PDFs originais permanecem arquivados. A data da coleta não certifica vigência: revise notas, revogações e início de efeitos antes de mesclar.
 
 Mesclar incorpora os arquivos gerados ao repositório. A publicação do site depende da hospedagem utilizada; este workflow não faz implantação.
 '''

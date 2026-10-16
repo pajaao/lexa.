@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {compareVersions,filterUpdates} from '../history.js';
+import {compareVersions,filterUpdates} from '../../src/history.js';
 const version=(text,deleted=false)=>({title:null,paragraphs:[{runs:[{text,deleted}]}]});
 const text=tokens=>tokens.map(t=>t.text).join('');
 

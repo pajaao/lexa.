@@ -5,27 +5,15 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/monitor-legislation.yml'
-      - 'scripts/check_official_sources.py'
-      - 'scripts/official_http.py'
-      - 'scripts/test_monitor.py'
-      - 'scripts/import_official.py'
-      - 'scripts/test_import_official.py'
-      - 'scripts/search.test.js'
-      - 'scripts/build.mjs'
-      - 'official-sumulas.js'
-      - 'sumulas-updates.js'
-      - 'scripts/build.test.js'
-      - 'sumulas-content.js'
-      - 'scripts/sumulas.test.js'
-      - 'scripts/import_sumulas.py'
-      - 'scripts/test_sumulas.py'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'data/archive/**'
+      - 'data/official/sumulas.js'
+      - 'data/history/sumulas.js'
       - 'sources/sumulas-manifest.json'
-      - 'style.css'
-      - 'scripts/index.template.html'
-      - 'data.js'
-      - 'app.js'
-      - 'history.js'
-      - 'scripts/history.test.js'
       - 'monitor/sources.json'
   schedule:
     - cron: '17 9 * * *' # 06:17 em São Paulo (UTC-3); horários do GitHub são aproximados.
@@ -54,16 +42,14 @@ jobs:
       - name: Verificar cliente HTTPS
         run: curl --version
       - name: Testar o monitor
-        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Consultar as seis fontes
         id: check
         run: python scripts/check_official_sources.py --github-output "$GITHUB_OUTPUT"
       - name: Preparar textos candidatos para o leitor
         run: python scripts/import_official.py
       - name: Validar textos e gerar a prévia
-        run: |
-          npm run build
-          npm test
+        run: npm test
       - name: Guardar evidências e diferenças
         if: always()
         uses: actions/upload-artifact@v4
@@ -77,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: previa-legislacao-${{ github.run_id }}
-          path: index.html
+          path: dist/index.html
           retention-days: 30
       - name: Propor revisão da referência monitorada
         # Also run after an unchanged capture so a proposal whose changes were
@@ -92,9 +78,8 @@ jobs:
           body-path: monitor/run/pr-body.md
           add-paths: |
             monitor/official/*.json
-            official-content.js
-            updates.js
+            data/official/legislation.js
+            data/history/legislation.js
             sources/official-manifest.json
-            index.html
           delete-branch: true
           draft: true

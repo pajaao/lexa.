@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {collections} from '../data.js';
+import {collections} from '../../src/data.js';
 
 test('HTML autocontido inicializa a biblioteca completa, inclusive súmulas, sem importar arquivos',()=>{
- const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+ const html=readFileSync(new URL('../../dist/index.html',import.meta.url),'utf8');
  assert.match(html,/<style>/);
  assert.doesNotMatch(html,/<script[^>]+src=/);
  const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];

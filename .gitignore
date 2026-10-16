@@ -4,3 +4,7 @@ __pycache__/
 monitor/run/
 
 _site/
+
+# Generated site and legacy build outputs
+/dist/
+/index.html

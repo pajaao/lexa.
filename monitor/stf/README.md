@@ -13,17 +13,17 @@ A rotina consulta o índice de súmulas vinculantes e as páginas individuais do
 
 ## Dados e revisão
 
-O PDF fornecido e `sumulas-content.js` ficam arquivados. Somente após mesclar uma proposta, `official-sumulas.js` passa a fornecer a edição do leitor. A primeira coleta oficial estabelece uma referência inicial no histórico, sem apresentar a migração entre PDF e HTML como uma nova alteração jurídica. O relatório da proposta compara essa coleta ao PDF para revisão humana.
+O PDF fornecido e `data/archive/sumulas.js` ficam arquivados. Somente após mesclar uma proposta, `data/official/sumulas.js` passa a fornecer a edição do leitor. A primeira coleta oficial estabelece uma referência inicial no histórico, sem apresentar a migração entre PDF e HTML como uma nova alteração jurídica. O relatório da proposta compara essa coleta ao PDF para revisão humana.
 
-As versões seguintes comparam enunciados, situações registradas, precedentes, jurisprudência e observações. As alterações aparecem em `sumulas-updates.js`, integrado à página Atualizações com filtros e comparação antes/depois. Cada versão inclui a situação e o material de aplicação; a tela identifica as entradas como súmulas vinculantes.
+As versões seguintes comparam enunciados, situações registradas, precedentes, jurisprudência e observações. As alterações aparecem em `data/history/sumulas.js`, integrado à página Atualizações com filtros e comparação antes/depois. Cada versão inclui a situação e o material de aplicação; a tela identifica as entradas como súmulas vinculantes.
 
 O bot prepara:
 
 - `index.json`: índice validado e hash da coleção;
 - `items/<número>.json`: texto estruturado, link individual, hashes e data da coleta de cada entrada;
-- `official-sumulas.js`: edição candidata para o leitor;
-- `sumulas-updates.js`: histórico independente, preservando o histórico das legislações;
-- `index.html`: prévia autocontida com a edição candidata.
+- `data/official/sumulas.js`: edição candidata para o leitor;
+- `data/history/sumulas.js`: histórico independente, preservando o histórico das legislações;
+- `dist/index.html`: prévia autocontida com a edição candidata.
 
 Os artefatos `verificacao-sumulas-stf-<execução>` e `previa-sumulas-stf-<execução>` ficam disponíveis por 30 dias. O primeiro contém `report.json`, o texto da proposta e o HTML bruto coletado; esse HTML é evidência, não é executado no site. A prévia mostra os dados extraídos e escapados. Confira enunciados, situações, precedentes e links antes de mesclar. Mesclar o PR incorpora os arquivos; a publicação depende da hospedagem configurada.
 

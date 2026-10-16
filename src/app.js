@@ -1,6 +1,6 @@
 import { collections, normalize, searchArticles, articleById, articleLabel, parseReference, searchLibraryReferences } from './data.js';
-import { updateHistory } from './updates.js';
-import { sumulaUpdates } from './sumulas-updates.js';
+import { updateHistory } from '../data/history/legislation.js';
+import { sumulaUpdates } from '../data/history/sumulas.js';
 import { filterUpdates, compareVersions } from './history.js';
 
 const recordedUpdates=[...updateHistory,...sumulaUpdates];

@@ -5,9 +5,9 @@ O workflow consulta as seis fontes oficiais e prepara uma proposta em rascunho c
 ## Fluxo diário
 
 1. `check_official_sources.py` baixa uma página por vez, por HTTPS verificado, com curl e HTTP/1.1. Faz até três tentativas para falhas transitórias, respeita `Retry-After` e não contorna falhas de certificado. Valida identidade, tamanho, artigos-base, Constituição e ADCT separados. Uma falha bloqueia o restante da atualização e preserva as referências existentes.
-2. `import_official.py` verifica os hashes e converte as seis referências para o leitor. Preserva artigos com letras, parágrafos, incisos, redações riscadas e revogações agrupadas. Fontes incompletas, parágrafos normativos sem atribuição e estilos de exclusão não suportados bloqueiam a conversão. Não altera os PDFs originais nem `content.js`.
-3. `npm test` verifica a leitura dos candidatos, e `npm run build` gera `index.html`, com textos e estilos incorporados. A prévia inclui apenas a edição ativa de cada legislação, sem duplicar o arquivo PDF arquivado.
-4. O GitHub guarda relatórios e prévia por 30 dias e abre ou atualiza um único pull request em rascunho. O histórico `updates.js` entra na mesma proposta, com as comparações e a página “Atualizações” na prévia. A branch `automation/official-source-review` é reservada à rotina. Somente arquivos de referências e dados gerados entram nesse PR; a rotina não altera o código do importador.
+2. `import_official.py` verifica os hashes e converte as seis referências para o leitor. Preserva artigos com letras, parágrafos, incisos, redações riscadas e revogações agrupadas. Fontes incompletas, parágrafos normativos sem atribuição e estilos de exclusão não suportados bloqueiam a conversão. Não altera os PDFs originais nem `data/archive/legislation.js`.
+3. `npm test` verifica a leitura dos candidatos, e `npm run build` gera `dist/index.html`, com textos e estilos incorporados. A prévia inclui apenas a edição ativa de cada legislação, sem duplicar o arquivo PDF arquivado.
+4. O GitHub guarda relatórios e prévia por 30 dias e abre ou atualiza um único pull request em rascunho. O histórico `data/history/legislation.js` entra na mesma proposta, com as comparações e a página “Atualizações” na prévia. A branch `automation/official-source-review` é reservada à rotina. Somente arquivos de referências e dados gerados entram nesse PR; a rotina não altera o código do importador.
 5. Após sua revisão e merge, as novas edições ficam nos arquivos do repositório. Publicar o site depende da hospedagem escolhida. O ambiente de desenvolvimento também precisa buscar os novos commits para refletir uma atualização mesclada.
 
 Uma captura sem mudanças mantém as mesmas referências e saídas, sem gerar PRs só por causa da passagem do tempo. A primeira conversão dos PDFs para HTML pode ter muitas diferenças de formatação; as contagens do relatório não classificam mudanças jurídicas. O PR #1 estabeleceu a referência de monitoramento, não alterou o texto publicado.
@@ -16,9 +16,9 @@ Uma captura sem mudanças mantém as mesmas referências e saídas, sem gerar PR
 
 - `monitor/sources.json`: URLs e critérios das seis legislações.
 - `monitor/official/*.json`: referências coletadas, hashes e data de coleta.
-- `content.js` e `sources/*.pdf`: base PDF arquivada, preservada.
-- `official-content.js`: edições candidatas ou incorporadas por revisão. Cada artigo/parágrafo aponta para o bloco original da referência. O leitor prefere essa edição quando disponível.
-- `updates.js`: histórico persistente de referências e diferenças dos artigos, com os textos anterior e novo. Não é apagado com os artefatos. A primeira edição registrada estabelece a base; diferenças de migração não são anunciadas como alterações legais. Comparações ignoram espaços e quebras de parágrafo, preservam palavras, pontuação e marcações de exclusão. Registros de ajustes de processamento são identificados separadamente.
+- `data/archive/legislation.js` e `sources/*.pdf`: base PDF arquivada, preservada.
+- `data/official/legislation.js`: edições candidatas ou incorporadas por revisão. Cada artigo/parágrafo aponta para o bloco original da referência. O leitor prefere essa edição quando disponível.
+- `data/history/legislation.js`: histórico persistente de referências e diferenças dos artigos, com os textos anterior e novo. Não é apagado com os artefatos. A primeira edição registrada estabelece a base; diferenças de migração não são anunciadas como alterações legais. Comparações ignoram espaços e quebras de parágrafo, preservam palavras, pontuação e marcações de exclusão. Registros de ajustes de processamento são identificados separadamente.
 - `sources/official-manifest.json`: procedência de cada edição HTML.
 - `monitor/run/report.json`: resultado da coleta atual, incluindo falhas.
 - `monitor/run/reader-report.json`: artigos adicionados, alterados e removidos em relação à edição anterior do leitor.
@@ -46,7 +46,7 @@ Em **Settings → Actions → General**, permita os actions utilizados e a cria�
 Node.js 22+, Python 3.12+ (biblioteca padrão) e curl:
 
 ```sh
-python3 -m unittest discover -s scripts -p 'test_*.py' -v
+npm run test:python
 python3 scripts/check_official_sources.py
 python3 scripts/import_official.py
 npm test

@@ -91,6 +91,21 @@ Sugestões para melhorar a navegação e a leitura também são bem-vindas.
 <details>
 <summary><strong>Para quem quer executar ou manter o projeto</strong></summary>
 
+### Organização do repositório
+
+| Pasta | Conteúdo |
+| --- | --- |
+| `src/` | Interface, estilos, navegação e busca |
+| `data/` | Bases jurídicas e históricos de versões |
+| `public/` | Ícones do site |
+| `sources/` | PDFs originais e registros de procedência |
+| `scripts/` | Geração, servidor, importadores e monitores |
+| `tests/` | Testes JavaScript e Python |
+| `monitor/` | Configuração e referências das coletas |
+| `docs/` | Guias de estrutura e manutenção |
+
+Veja o [guia da estrutura](docs/ESTRUTURA.md) para saber o que editar e o que é gerado.
+
 ### Executar no computador
 
 Use **Node.js 22 ou superior**, sem necessidade de instalar dependências npm. Depois de baixar o repositório, abra um terminal na pasta do projeto e execute:
@@ -102,8 +117,8 @@ npm start
 O terminal informa a porta local do servidor. Para gerar o pacote de publicação e executar os testes da aplicação:
 
 ```sh
-npm run build:pages
 npm test
+npm run test:python
 ```
 
 A hospedagem usa GitHub Pages. Cada mudança incorporada na `main` passa pelas verificações do workflow antes da publicação.

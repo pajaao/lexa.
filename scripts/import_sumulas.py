@@ -108,7 +108,8 @@ def generate(root=ROOT):
         'sections': [{'id': f'grupo-{i}', 'scope': 'main', 'title': f'Súmulas {i * 10 + 1} a {min((i + 1) * 10, 63)}'} for i in range(7)],
         'introductions': [], 'articles': articles,
     }
-    (root / 'sumulas-content.js').write_text('// Generated from the supplied PDF by scripts/import_sumulas.py.\nexport const sumulas = ' + json.dumps([result], ensure_ascii=False, separators=(',', ':')) + ';\n')
+    (root / 'data/archive').mkdir(parents=True,exist_ok=True)
+    (root / 'data/archive/sumulas.js').write_text('// Generated from the supplied PDF by scripts/import_sumulas.py.\nexport const sumulas = ' + json.dumps([result], ensure_ascii=False, separators=(',', ':')) + ';\n')
     return result
 
 

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseReference,searchLibraryReferences} from '../data.js';
+import {parseReference,searchLibraryReferences} from '../../src/data.js';
 
 test('biblioteca resolve referências, artigos agrupados e identidades CF/ADCT/SV',()=>{
  const cases=[['Art. 60 CF','cf','60'],['Art. 186 CC','civil','186'],['artigo 186 do Código Civil','civil','186'],['Art. 1.022 CPC','cpc','1022'],['ADCT art. 1','cf','adct-1'],['CF ADCT 1','cf','adct-1'],['Art. 1 CF','cf','1'],['SV13','sv','13'],['Súmula Vinculante nº 13 STF','sv','13'],['Art. 55 CTN','ctn','52']];

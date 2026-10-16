@@ -67,29 +67,30 @@ class OfficialImportTests(unittest.TestCase):
     def test_preparation_is_repeatable_and_leaves_pdfs_and_archive_untouched(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory)
+            for folder in ['data/archive','data/official','data/history']:(root/folder).mkdir(parents=True,exist_ok=True)
             shutil.copytree(ROOT/'monitor/official',root/'monitor/official')
             shutil.copyfile(ROOT/'monitor/sources.json',root/'monitor/sources.json')
-            shutil.copyfile(ROOT/'content.js',root/'content.js')
-            (root/'official-content.js').write_text('export const officialImported = {};\n')
-            archive=(root/'content.js').read_bytes()
+            shutil.copyfile(ROOT/'data/archive/legislation.js',root/'data/archive/legislation.js')
+            (root/'data/official/legislation.js').write_text('export const officialImported = {};\n')
+            archive=(root/'data/archive/legislation.js').read_bytes()
             prepare(root)
-            first=(root/'official-content.js').read_bytes()
+            first=(root/'data/official/legislation.js').read_bytes()
             manifest=(root/'sources/official-manifest.json').read_bytes()
-            history=(root/'updates.js').read_bytes()
-            recorded=load_js(root/'updates.js','updateHistory')
+            history=(root/'data/history/legislation.js').read_bytes()
+            recorded=load_js(root/'data/history/legislation.js','updateHistory')
             self.assertEqual(len(recorded),6)
             self.assertTrue(all(e['kind']=='baseline' and not e['changes'] for e in recorded))
             _,report=prepare(root)
-            self.assertEqual(first,(root/'official-content.js').read_bytes())
+            self.assertEqual(first,(root/'data/official/legislation.js').read_bytes())
             self.assertEqual(manifest,(root/'sources/official-manifest.json').read_bytes())
-            self.assertEqual(history,(root/'updates.js').read_bytes())
-            self.assertEqual(archive,(root/'content.js').read_bytes())
+            self.assertEqual(history,(root/'data/history/legislation.js').read_bytes())
+            self.assertEqual(archive,(root/'data/archive/legislation.js').read_bytes())
             self.assertTrue(all(not d['added'] and not d['removed'] and not d['changed'] for d in report.values()))
             # Introducing the history feature after an HTML edition was already
             # merged establishes its baseline without inventing a text change.
-            (root/'updates.js').unlink()
+            (root/'data/history/legislation.js').unlink()
             prepare(root)
-            self.assertEqual(history,(root/'updates.js').read_bytes())
+            self.assertEqual(history,(root/'data/history/legislation.js').read_bytes())
 
     def test_history_compares_real_versions_preserves_full_text_and_deduplicates(self):
         def doc(sha,text):

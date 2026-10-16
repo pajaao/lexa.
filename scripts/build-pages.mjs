@@ -1,9 +1,10 @@
+import {buildHtml} from './build.mjs';
 import {cp, mkdir, readFile, rm, writeFile} from 'node:fs/promises';
 import {resolve, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 
-export async function stagePages(destination=resolve(root,'_site')) {
+export async function stagePages(destination=resolve(root,'dist')) {
  const archive=JSON.parse(await readFile(resolve(root,'sources/manifest.json'),'utf8'));
  const sumulas=JSON.parse(await readFile(resolve(root,'sources/sumulas-manifest.json'),'utf8'));
  const documents=[...Object.values(archive),sumulas];
@@ -11,9 +12,11 @@ export async function stagePages(destination=resolve(root,'_site')) {
  for(const source of documents){
   if(!/^sources\/[A-Za-z0-9_.-]+\.pdf$/.test(source.pdf))throw new Error('Caminho de PDF inválido');
  }
+ const html=await buildHtml();
  await rm(destination,{recursive:true,force:true});
  await mkdir(destination,{recursive:true});
- for(const file of ['index.html','favicon.svg','favicon.ico','apple-touch-icon.png'])await cp(resolve(root,file),resolve(destination,file));
+ await writeFile(resolve(destination,'index.html'),html);
+ for(const file of ['favicon.svg','favicon.ico','apple-touch-icon.png'])await cp(resolve(root,'public',file),resolve(destination,file));
  await writeFile(resolve(destination,'.nojekyll'),'');
  for(const {pdf} of documents){
   const target=resolve(destination,pdf);
@@ -24,6 +27,5 @@ export async function stagePages(destination=resolve(root,'_site')) {
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
- await import('./build.mjs');
  await stagePages();
 }

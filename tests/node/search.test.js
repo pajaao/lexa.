@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
-import {codes,searchArticles,articleById,articleLabel} from '../data.js';
+import {codes,searchArticles,articleById,articleLabel} from '../../src/data.js';
 const code = id => codes.find(c=>c.id===id);
 
 test('artigos por número, referência e separador de milhar',()=>{
@@ -60,13 +60,13 @@ test('todos os números-base até os artigos finais têm entrada ou revogação 
 });
 test('PDFs originais preservados e procedência de cada edição consistente',()=>{
  assert.equal(codes.length,6);
- const archive=JSON.parse(readFileSync(new URL('../sources/manifest.json',import.meta.url),'utf8'));
+ const archive=JSON.parse(readFileSync(new URL('../../sources/manifest.json',import.meta.url),'utf8'));
  for(const c of codes){
-  const original=readFileSync(new URL('../'+archive[c.id].pdf,import.meta.url));
+  const original=readFileSync(new URL('../../'+archive[c.id].pdf,import.meta.url));
   assert.equal(createHash('sha256').update(original).digest('hex'),archive[c.id].sha256);
   let snapshot;
   if(c.source.kind==='official_html'){
-   snapshot=JSON.parse(readFileSync(new URL('../'+c.source.snapshot,import.meta.url),'utf8'));
+   snapshot=JSON.parse(readFileSync(new URL('../../'+c.source.snapshot,import.meta.url),'utf8'));
    assert.equal(c.source.sha256,snapshot.semantic_sha256);
    assert.equal(c.source.capturedAt,snapshot.captured_at);
    assert.equal(c.source.url,c.url);

@@ -28,7 +28,7 @@ jobs:
       - name: Verificar cliente HTTPS
         run: curl --version
       - name: Testar os monitores
-        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Instalar cliente de navegação
         run: python -m pip install -r scripts/requirements-stf.txt
       - name: Reutilizar Chromium
@@ -41,9 +41,7 @@ jobs:
       - name: Consultar índice e páginas das súmulas no Chromium
         run: python scripts/check_stf_sources.py --transport browser
       - name: Gerar e testar prévia candidata
-        run: |
-          npm run build
-          npm test
+        run: npm test
       - name: Guardar relatório e evidências
         if: always()
         uses: actions/upload-artifact@v4
@@ -57,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: previa-sumulas-stf-${{ github.run_id }}
-          path: index.html
+          path: dist/index.html
           retention-days: 30
       - name: Propor revisão das súmulas
         if: success()
@@ -71,8 +69,7 @@ jobs:
           add-paths: |
             monitor/stf/index.json
             monitor/stf/items/*.json
-            official-sumulas.js
-            sumulas-updates.js
-            index.html
+            data/official/sumulas.js
+            data/history/sumulas.js
           draft: true
           delete-branch: true

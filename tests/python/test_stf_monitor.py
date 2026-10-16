@@ -22,13 +22,15 @@ def html(number=1, body='Texto de teste do enunciado, com conteúdo suficienteme
 
 
 def seed(root):
+    for folder in ['data/archive','data/official','data/history']:
+        (root / folder).mkdir(parents=True,exist_ok=True)
     first = parse_item(html(), 1, URL)
     second = parse_item(html(2), 2, INDEX + '&sumula=1186')
     pdf = {'id': 'sv', 'short': 'SV · STF', 'name': 'Súmulas Vinculantes do STF', 'area': 'Súmulas',
            'kind': 'sumulas', 'source': {'kind': 'supplied_pdf'}, 'articles': [first, second]}
-    (root / 'sumulas-content.js').write_text('export const sumulas = ' + json.dumps([pdf]) + ';\n')
-    (root / 'official-sumulas.js').write_text('export const officialSumulas = [];\n')
-    (root / 'sumulas-updates.js').write_text('export const sumulaUpdates = [];\n')
+    (root / 'data/archive/sumulas.js').write_text('export const sumulas = ' + json.dumps([pdf]) + ';\n')
+    (root / 'data/official/sumulas.js').write_text('export const officialSumulas = [];\n')
+    (root / 'data/history/sumulas.js').write_text('export const sumulaUpdates = [];\n')
     return pdf
 
 
@@ -89,17 +91,17 @@ class STFMonitorTests(unittest.TestCase):
             seed(root)
             candidate, report = run(root, fixture_fetch(), sleeper=lambda _: None, now='2026-10-16T12:00:00+00:00')
             self.assertTrue(report['first_official_capture'])
-            history = load_js(root / 'sumulas-updates.js', 'sumulaUpdates')
+            history = load_js(root / 'data/history/sumulas.js', 'sumulaUpdates')
             self.assertEqual(history[0]['kind'], 'baseline')
             self.assertEqual(history[0]['changes'], [])
-            tracked = ['official-sumulas.js', 'sumulas-updates.js', 'monitor/stf/index.json', 'monitor/stf/items/1.json']
+            tracked = ['data/official/sumulas.js', 'data/history/sumulas.js', 'monitor/stf/index.json', 'monitor/stf/items/1.json']
             before = {path: (root / path).read_bytes() for path in tracked}
             run(root, fixture_fetch(), sleeper=lambda _: None, now='2026-10-17T12:00:00+00:00')
             self.assertEqual(before, {path: (root / path).read_bytes() for path in tracked})
             new_index = b'<a href="?base=26&amp;sumula=1185">1</a><a href="?base=26&amp;sumula=1186">2</a><a href="?base=26&amp;sumula=1500">3</a>'
             changed = fixture_fetch({INDEX: new_index, URL: html(status=' (cancelada)', note='Novo precedente de teste.'), INDEX + '&sumula=1500': html(3)})
             candidate, _ = run(root, changed, sleeper=lambda _: None)
-            event = load_js(root / 'sumulas-updates.js', 'sumulaUpdates')[-1]
+            event = load_js(root / 'data/history/sumulas.js', 'sumulaUpdates')[-1]
             self.assertEqual([c['type'] for c in event['changes']], ['changed', 'added'])
             self.assertEqual(event['changes'][0]['kind'], 'vinculante')
             self.assertIn('Cancelada', event['changes'][0]['after']['title'])

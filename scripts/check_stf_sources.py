@@ -205,10 +205,10 @@ def run(root=ROOT, fetcher=None, sleeper=time.sleep, now=None):
     run_dir = root / 'monitor/run/stf'
     run_dir.mkdir(parents=True, exist_ok=True)
     stamp = now or datetime.now(timezone.utc).isoformat()
-    pdf = load_js(root / 'sumulas-content.js', 'sumulas')[0]
-    current_list = load_js(root / 'official-sumulas.js', 'officialSumulas')
+    pdf = load_js(root / 'data/archive/sumulas.js', 'sumulas')[0]
+    current_list = load_js(root / 'data/official/sumulas.js', 'officialSumulas')
     previous = current_list[0] if current_list else None
-    history = load_js(root / 'sumulas-updates.js', 'sumulaUpdates')
+    history = load_js(root / 'data/history/sumulas.js', 'sumulaUpdates')
     if not isinstance(history, list) or any(e['codeId'] != 'sv' for e in history):
         raise ValueError('Histórico de súmulas inválido')
     current = previous or pdf
@@ -267,7 +267,7 @@ Diferenças em relação à edição do leitor: **{len(diffs)}** entradas (enunc
 
 {'**Primeira coleta oficial:** a comparação do relatório usa o PDF fornecido como referência. O histórico começa com uma referência inicial; diferenças de migração não são apresentadas como novas mudanças jurídicas.' if previous is None else 'O histórico inclui comparações antes/depois dos enunciados, situações registradas e precedentes alterados.'}
 
-Revise `monitor/stf/`, `official-sumulas.js`, `sumulas-updates.js` e o relatório `report.json` no artefato da execução. A prévia inclui o leitor e a página Atualizações. O PDF fornecido permanece arquivado. Ausências ou falhas de validação bloqueiam esta proposta, sem excluir entradas do leitor.
+Revise `monitor/stf/`, `data/official/sumulas.js`, `data/history/sumulas.js` e o relatório `report.json` no artefato da execução. A prévia inclui o leitor e a página Atualizações. O PDF fornecido permanece arquivado. Ausências ou falhas de validação bloqueiam esta proposta, sem excluir entradas do leitor.
 
 **Sem aprovação, merge ou implantação automática.** As datas indicam a coleta; situações e início de efeitos precisam ser conferidos na fonte. Mesclar incorpora a versão ao repositório; a publicação depende da hospedagem.
 '''
@@ -280,8 +280,9 @@ Revise `monitor/stf/`, `official-sumulas.js`, `sumulas-updates.js` e o relatóri
         index_snapshot = {'schema_version': 1, 'source_url': INDEX, 'captured_at': source['capturedAt'],
                           'semantic_sha256': semantic_hash, 'links': {str(n): url for n, url in index.items()}}
         save_json(index_path, index_snapshot)
-        (root / 'official-sumulas.js').write_text('export const officialSumulas = ' + json.dumps([candidate], ensure_ascii=False, separators=(',', ':')) + ';\n')
-        (root / 'sumulas-updates.js').write_text('export const sumulaUpdates = ' + json.dumps(history, ensure_ascii=False, separators=(',', ':')) + ';\n')
+        for folder in ['data/official','data/history']:(root / folder).mkdir(parents=True,exist_ok=True)
+        (root / 'data/official/sumulas.js').write_text('export const officialSumulas = ' + json.dumps([candidate], ensure_ascii=False, separators=(',', ':')) + ';\n')
+        (root / 'data/history/sumulas.js').write_text('export const sumulaUpdates = ' + json.dumps(history, ensure_ascii=False, separators=(',', ':')) + ';\n')
         print(f'STF: {len(articles)} entradas validadas; {len(diffs)} diferenças para revisão.')
         return candidate, report
     except Exception as error:

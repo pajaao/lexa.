@@ -1,7 +1,7 @@
-import { imported } from './content.js';
-import { officialImported } from './official-content.js';
-import { sumulas } from './sumulas-content.js';
-import { officialSumulas } from './official-sumulas.js';
+import { imported } from '../data/archive/legislation.js';
+import { officialImported } from '../data/official/legislation.js';
+import { sumulas } from '../data/archive/sumulas.js';
+import { officialSumulas } from '../data/official/sumulas.js';
 
 const catalog = [
  {id:'cf',short:'CF',name:'Constituição Federal',area:'Direito Constitucional',law:'Constituição da República de 1988',description:'Direitos fundamentais e a organização do Estado brasileiro.',icon:'◇',url:'https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm'},

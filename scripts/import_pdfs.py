@@ -253,7 +253,8 @@ def main():
     # Store each text once; the browser reconstructs searchable plain text from runs.
     payload = {id: {**data, 'articles': [{k: v for k, v in a.items() if k != 'text'} for a in data['articles']]}
                for id, data in imported.items()}
-    (ROOT / 'content.js').write_text('export const imported = ' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';\n')
+    (ROOT / 'data/archive').mkdir(parents=True,exist_ok=True)
+    (ROOT / 'data/archive/legislation.js').write_text('export const imported = ' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + ';\n')
     (ROOT / 'sources' / 'manifest.json').write_text(json.dumps({id: data['source'] for id, data in imported.items()}, ensure_ascii=False, indent=2) + '\n')
     (ROOT / 'sources' / 'import-report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
 

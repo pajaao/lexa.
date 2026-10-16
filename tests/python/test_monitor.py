@@ -128,7 +128,7 @@ class MonitorTests(unittest.TestCase):
         # Synthetic HTML from the supplied PDF extraction, not a claim of live
         # source connectivity. Exercises coverage with all actual article IDs.
         from html import escape
-        content = (ROOT/'content.js').read_text()
+        content = (ROOT/'data/archive/legislation.js').read_text()
         imported = json.loads(content[len('export const imported = '):-2])
         specs = json.loads((ROOT/'monitor/sources.json').read_text())
         for spec in specs:

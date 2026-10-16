@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {collections,codes,normalize,articleLabel,searchArticles,articleById} from '../data.js';
-import {sumulas} from '../sumulas-content.js';
+import {collections,codes,normalize,articleLabel,searchArticles,articleById} from '../../src/data.js';
+import {sumulas} from '../../data/archive/sumulas.js';
 const sv={...sumulas[0],articles:sumulas[0].articles.map(a=>({...a,text:a.paragraphs.map(p=>p.runs.map(r=>r.text).join('')).join('\n'),searchText:normalize([...a.paragraphs,...a.notes].map(p=>p.runs.map(r=>r.text).join('')).join('\n'))}))};
 
 test('PDF novo preservado, 63 identidades próprias, sem modificar os seis códigos',()=>{
@@ -11,8 +11,8 @@ test('PDF novo preservado, 63 identidades próprias, sem modificar os seis códi
  assert.equal(collections.length,7);
  assert.equal(sv.articles.length,63);
  assert.deepEqual(sv.articles.map(a=>a.id),Array.from({length:63},(_,i)=>String(i+1)));
- const manifest=JSON.parse(readFileSync(new URL('../sources/sumulas-manifest.json',import.meta.url)));
- assert.equal(createHash('sha256').update(readFileSync(new URL('../'+manifest.pdf,import.meta.url))).digest('hex'),manifest.sha256);
+ const manifest=JSON.parse(readFileSync(new URL('../../sources/sumulas-manifest.json',import.meta.url)));
+ assert.equal(createHash('sha256').update(readFileSync(new URL('../../'+manifest.pdf,import.meta.url))).digest('hex'),manifest.sha256);
  assert.equal(manifest.declaredConsultationDate,'2026-10-16');
  for(const a of sv.articles){
   assert.equal(articleLabel(a),'Súmula Vinculante '+a.number);
@@ -45,11 +45,11 @@ test('situações do documento preservadas sem confundir precedentes com enuncia
  assert.ok(active.articles.length>=63);
  for(let n=1;n<=active.articles.length;n++)assert.ok(articleById(active,String(n)));
  if(active.source.kind==='official_stf'){
-  const snapshot=JSON.parse(readFileSync(new URL('../'+active.source.snapshot,import.meta.url)));
+  const snapshot=JSON.parse(readFileSync(new URL('../../'+active.source.snapshot,import.meta.url)));
   assert.equal(snapshot.semantic_sha256,active.source.sha256);
   assert.equal(snapshot.captured_at,active.source.capturedAt);
   for(const article of active.articles){
-   const item=JSON.parse(readFileSync(new URL('../monitor/stf/items/'+article.number+'.json',import.meta.url)));
+   const item=JSON.parse(readFileSync(new URL('../../monitor/stf/items/'+article.number+'.json',import.meta.url)));
    assert.deepEqual(item.article.paragraphs,article.paragraphs);
    assert.equal(item.source_url,article.url);
   }

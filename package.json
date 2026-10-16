@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "dev": "node scripts/build.mjs && node scripts/server.mjs",
-    "start": "node scripts/build.mjs && node scripts/server.mjs",
-    "test": "node --test",
-    "build:pages": "node scripts/build-pages.mjs"
+    "build": "node scripts/build-pages.mjs",
+    "build:pages": "npm run build",
+    "dev": "npm start",
+    "start": "npm run build && node scripts/server.mjs",
+    "test": "npm run build && node --test tests/node/*.test.js",
+    "test:python": "python3 -m unittest discover -s tests -p 'test_*.py'"
   },
   "engines": {
     "node": ">=22"

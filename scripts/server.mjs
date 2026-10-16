@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve, extname, sep } from 'node:path';
-const root = resolve(fileURLToPath(new URL('../', import.meta.url)));
+const root = resolve(fileURLToPath(new URL('../dist/', import.meta.url)));
 const types = { '.svg':'image/svg+xml', '.ico':'image/vnd.microsoft.icon', '.png':'image/png', '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.pdf': 'application/pdf' };
 createServer(async (req, res) => {
   try {
