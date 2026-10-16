@@ -86,3 +86,15 @@ test('PDFs originais preservados e procedência de cada edição consistente',()
   }
  }
 });
+
+test('referências qualificadas encontram o dispositivo na coleção correta',()=>{
+ for(const query of ['Art. 60 CF','CF art. 60','artigo 60 da Constituição Federal','60 CF/88','Art. 60 da CF']){
+  assert.deepEqual(searchArticles(code('cf'),query).map(a=>a.id),['60']);
+  assert.equal(searchArticles(code('civil'),query).length,0);
+ }
+ assert.deepEqual(searchArticles(code('cpc'),'Art. 1.022 CPC').map(a=>a.id),['1022']);
+ assert.deepEqual(searchArticles(code('cdc'),'Art. 54-A CDC').map(a=>a.id),['54-A']);
+ assert.deepEqual(searchArticles(code('penal'),'Art. 359-M-A CP').map(a=>a.id),['359-M-A']);
+ assert.deepEqual(searchArticles(code('cf'),'Art. 1 do ADCT').map(a=>a.id),['adct-1']);
+ assert.deepEqual(searchArticles(code('cf'),'Art. 60 CF','adct').map(a=>a.id),['60']);
+});

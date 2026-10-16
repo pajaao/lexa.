@@ -11,6 +11,10 @@
 .sumula-status{font:600 12px/1.7 var(--sans)!important;padding:10px 14px;border-left:3px solid #b58a47;background:var(--soft);border-radius:3px}.sumula-notes{margin:22px 0;border:1px solid var(--border);border-radius:7px;font-family:var(--sans)}.sumula-notes>summary{cursor:pointer;padding:15px;font-size:12px;font-weight:600;line-height:1.7}.sumula-notes>div{border-top:1px solid var(--border);padding:4px 18px 15px;overflow-wrap:anywhere}.sumula-notes h4{font:600 16px/1.7 var(--sans);margin:24px 0 12px}.sumula-notes p{font:16px/1.9 Georgia,serif}.article-source{overflow-wrap:anywhere}
 
 .skip-link{position:fixed;top:10px;left:10px;z-index:1000;padding:12px 18px;background:var(--ink);color:var(--bg);border-radius:5px;transform:translateY(-180%)}.skip-link:focus{transform:none}footer{flex-wrap:wrap}footer .consultation-note{flex-basis:100%;margin:0;font-size:11px;line-height:1.9}.article,.sumula-notes{scroll-margin-top:20px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+.library-results{font-size:12px;color:var(--muted);margin:0 0 16px}.library-results:empty{display:none}.reference-result p{line-height:1.9}.empty a{text-decoration:underline}
+
+.quick-reference{position:relative;z-index:2;max-width:535px;margin:10px 0 0;background:var(--surface);border:1px solid var(--border);border-radius:7px;box-shadow:0 6px 18px #00000008}.quick-reference[hidden]{display:none}.quick-reference a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 16px}.quick-reference a+a{border-top:1px solid var(--border)}.quick-reference a:hover,.quick-reference a:focus-visible{background:var(--soft)}.quick-reference strong,.quick-reference small{display:block;line-height:1.7}.quick-reference strong{font-size:13px}.quick-reference small{font-size:11px;color:var(--muted)}.quick-reference p{font-size:12px!important;line-height:1.8!important;margin:0!important;padding:12px 16px!important}
 </style></head>
 <body>
 <a class="skip-link" href="#app">Pular para o conteúdo</a>
@@ -91,17 +95,54 @@ function articleById(code, id) {
  const n = Number(id.replace('adct-',''));
  return code.articles.find(article=>article.scope===scope && article.rangeEnd && n>=Number(article.number) && n<=article.rangeEnd);
 }
+const referenceAliases = [
+ ...catalog.flatMap(code=>[code.short,code.name].map(alias=>({alias:normalize(alias),codeId:code.id}))),
+ {alias:'cf/88',codeId:'cf'}, {alias:'cf88',codeId:'cf'}, {alias:'constituição',codeId:'cf'},
+ {alias:'adct',codeId:'cf',scope:'adct'},
+ ...['súmula vinculante','súmula','sv'].map(alias=>({alias:normalize(alias),codeId:'sv'}))
+].map(item=>({...item,alias:normalize(item.alias)})).sort((a,b)=>b.alias.length-a.alias.length);
+
+function parseReference(query) {
+ let rest=normalize(query).trim().replace(/\s+/g,' ').replace(/[–—]/g,'-').replace(/^(sv|adct)(?=\d)/,'$1 ');
+ if(/^(?:sv|sumula)\b/.test(rest))rest=rest.replace(/\s+(?:do )?stf$/,'');
+ let codeId=null,scope=null;
+ for(let pass=0;pass<3;pass++){
+  let matched=false;
+  for(const item of referenceAliases){
+   let next;
+   if(rest.startsWith(item.alias+' '))next=rest.slice(item.alias.length).trim();
+   else if(rest.endsWith(' '+item.alias))next=rest.slice(0,-item.alias.length).trim().replace(/\s+(?:da|do|de)$/,'');
+   else continue;
+   if(codeId&&codeId!==item.codeId)return null;
+   codeId=item.codeId;scope=item.scope||scope;rest=next;matched=true;break;
+  }
+  if(!matched)break;
+ }
+ const isArticle=/^(?:arts?\.?|artigos?)\s*/.test(rest);
+ rest=rest.replace(/^(?:artigos?|arts?\.?)\s*/,'').replace(/^n[.º°o]*\s*/,'');
+ const number=rest.match(/^(\d+(?:\.\d{3})*)(?:[º°])?\s*((?:-\s*[a-z]+)*)\.?$/);
+ if(!number||(isArticle&&codeId==='sv'))return null;
+ return {codeId,scope:scope||(codeId?'main':null),number:number[1].replace(/\./g,'')+number[2].replace(/\s/g,'').toUpperCase(),kind:codeId==='sv'?'vinculante':isArticle?'article':null};
+}
+
+function searchLibraryReferences(query) {
+ const ref=parseReference(query);
+ if(!ref)return null;
+ return collections.filter(code=>(!ref.codeId||code.id===ref.codeId)&&!(ref.kind==='article'&&code.kind==='sumulas')).flatMap(code=>{
+  const article=articleById(code,(ref.scope==='adct'?'adct-':'')+ref.number);
+  return article?[{code,article}]:[];
+ });
+}
+
 function searchArticles(code, query, scope = 'main') {
- const q = normalize(query.trim());
- let pool = code.articles.filter(article=>scope==='all'||article.scope===scope);
- if(!q) return pool;
- const sumula = q.match(/^(?:sv|sumula(?: vinculante)?)\s*(?:n[º°o.]?\s*)?(\d+)[.]?$/);
- if(sumula)return code.kind==='sumulas'?pool.filter(article=>article.number===sumula[1]):[];
- const match = q.match(/^(adct\s*)?(?:arts?\.?\s*)?(\d+(?:\.\d{3})*)(?:[º°])?\s*((?:-\s*[a-z]+)*)\.?$/);
- if(match) {
-  if(match[1]) pool=code.articles.filter(article=>article.scope==='adct');
-  const n=match[2].replace(/\./g,'')+match[3].replace(/\s/g,'').toUpperCase();
-  return pool.filter(article=>article.number===n||(!match[3] && article.rangeEnd && Number(n)>=Number(article.number) && Number(n)<=article.rangeEnd));
+ const q=normalize(query.trim());
+ const ref=parseReference(q);
+ let pool=code.articles.filter(article=>scope==='all'||article.scope===scope);
+ if(!q)return pool;
+ if(ref){
+  if(ref.codeId&&ref.codeId!==code.id||ref.kind==='article'&&code.kind==='sumulas')return [];
+  if(ref.scope)pool=code.articles.filter(article=>article.scope===ref.scope);
+  return pool.filter(article=>article.number===ref.number||(!ref.number.includes('-')&&article.rangeEnd&&Number(ref.number)>=Number(article.number)&&Number(ref.number)<=article.rangeEnd));
  }
  return pool.filter(article=>article.searchText.includes(q));
 }
@@ -127,13 +168,34 @@ function sourcePanel(source) {
 }
 function home() {
  document.title='Lexa — Legislação, com clareza';
- app.innerHTML=`<section class="hero"><div class="eyebrow"><span></span> SEU PONTO DE PARTIDA NO DIREITO</div><h1>A lei, mais perto.<br><em>A consulta, mais simples.</em></h1><p>Códigos, Constituição e súmulas vinculantes do STF em um só lugar.<br>Encontre o que precisa. Leia com tranquilidade.</p><label class="search hero-search"><span>⌕</span><input id="library-search" placeholder="Busque uma legislação, área ou sigla…" aria-label="Buscar na biblioteca"><kbd>/</kbd></label><div class="hero-note">§ <span>6 legislações · ${number(total)} entradas de artigos · ${collections.find(c=>c.id==='sv').articles.length} súmulas vinculantes</span></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="book book-back"></div><div class="book book-front"><span>LEXA / BIBLIOTECA JURÍDICA</span><b>O direito<br>ao seu<br>alcance.</b><i>§</i><small>LEGISLAÇÃO FEDERAL BRASILEIRA</small></div><div class="art-tag">↗ Clareza em cada artigo</div></div></section><section class="library"><div class="section-heading"><div class="eyebrow">EXPLORE A BIBLIOTECA</div><h2>O que você quer consultar?</h2><p>Busque por assunto ou vá direto ao artigo ou à súmula.</p></div><div class="filters" aria-label="Filtrar por área">${['Todas as áreas','Constitucional','Civil','Penal','Processual','Consumidor','Tributário','Súmulas'].map(x=>`<button class="${x===category?'active':''}" data-category="${x}" aria-pressed="${x===category}">${x}</button>`).join('')}</div><div class="cards" id="cards"></div><div class="notice"><span>ⓘ</span><div><strong>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'Textos extraídos das fontes oficiais':'Base de leitura e atualização'}</strong><p>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'As seis legislações foram extraídas das páginas oficiais do Planalto. A data de coleta aparece em cada legislação.':'Esta edição usa os PDFs fornecidos. A Constituição segue a 69ª edição da Câmara (2026), até a EC 138/2025.'} Novas coletas são propostas para revisão antes de incorporar os textos ao site. A data de coleta não certifica o início de vigência de cada alteração. ${collections.find(c=>c.id==='sv').source.kind==='official_stf'?'As súmulas vinculantes usam a edição das páginas oficiais do STF incorporada após revisão.':'As súmulas vinculantes usam o PDF fornecido, com consulta declarada em 16/10/2026.'} As situações constam em cada entrada.</p></div></div></section><section class="history-invite"><div><div class="eyebrow">DE OLHO NAS VERSÕES</div><h2>Entenda o que mudou.</h2><p>Acompanhe os registros e compare os textos das atualizações.</p></div><a href="#/atualizacoes">Ver atualizações →</a></section><section class="features"><div><span>01 / ENCONTRE</span><h3>Menos caminhos.<br>Mais respostas.</h3><p>Legislações e súmulas organizadas, com indicação da edição consultada.</p></div><div><span>02 / NAVEGUE</span><h3>Direto ao artigo<br>que você precisa.</h3><p>Busque por palavras, artigos com letras ou números como 1.022. Constituição e ADCT têm navegação separada.</p></div><div><span>03 / LEIA</span><h3>Espaço para<br>se concentrar.</h3><p>Fonte ajustável, tema escuro e marcações salvas no seu dispositivo.</p></div></section>`;
+ app.innerHTML=`<section class="hero"><div class="eyebrow"><span></span> SEU PONTO DE PARTIDA NO DIREITO</div><h1>A lei, mais perto.<br><em>A consulta, mais simples.</em></h1><p>Códigos, Constituição e súmulas vinculantes do STF em um só lugar.<br>Encontre o que precisa. Leia com tranquilidade.</p><label class="search hero-search"><span>⌕</span><input id="library-search" placeholder="Ex.: Art. 60 CF, CPC ou consumidor…" aria-label="Buscar na biblioteca"><kbd>/</kbd></label><div class="quick-reference" id="quick-reference" aria-label="Resultados por referência" hidden></div><div class="hero-note">§ <span>6 legislações · ${number(total)} entradas de artigos · ${collections.find(c=>c.id==='sv').articles.length} súmulas vinculantes</span></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="book book-back"></div><div class="book book-front"><span>LEXA / BIBLIOTECA JURÍDICA</span><b>O direito<br>ao seu<br>alcance.</b><i>§</i><small>LEGISLAÇÃO FEDERAL BRASILEIRA</small></div><div class="art-tag">↗ Clareza em cada artigo</div></div></section><section class="library"><div class="section-heading"><div class="eyebrow">EXPLORE A BIBLIOTECA</div><h2>O que você quer consultar?</h2><p>Busque pelo nome da coleção ou por uma referência, como Art. 60 CF ou SV 13.</p></div><div class="filters" aria-label="Filtrar por área">${['Todas as áreas','Constitucional','Civil','Penal','Processual','Consumidor','Tributário','Súmulas'].map(x=>`<button class="${x===category?'active':''}" data-category="${x}" aria-pressed="${x===category}">${x}</button>`).join('')}</div><p id="library-results" class="library-results" role="status"></p><div class="cards" id="cards"></div><div class="notice"><span>ⓘ</span><div><strong>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'Textos extraídos das fontes oficiais':'Base de leitura e atualização'}</strong><p>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'As seis legislações foram extraídas das páginas oficiais do Planalto. A data de coleta aparece em cada legislação.':'Esta edição usa os PDFs fornecidos. A Constituição segue a 69ª edição da Câmara (2026), até a EC 138/2025.'} Novas coletas são propostas para revisão antes de incorporar os textos ao site. A data de coleta não certifica o início de vigência de cada alteração. ${collections.find(c=>c.id==='sv').source.kind==='official_stf'?'As súmulas vinculantes usam a edição das páginas oficiais do STF incorporada após revisão.':'As súmulas vinculantes usam o PDF fornecido, com consulta declarada em 16/10/2026.'} As situações constam em cada entrada.</p></div></div></section><section class="history-invite"><div><div class="eyebrow">DE OLHO NAS VERSÕES</div><h2>Entenda o que mudou.</h2><p>Acompanhe os registros e compare os textos das atualizações.</p></div><a href="#/atualizacoes">Ver atualizações →</a></section><section class="features"><div><span>01 / ENCONTRE</span><h3>Menos caminhos.<br>Mais respostas.</h3><p>Legislações e súmulas organizadas, com indicação da edição consultada.</p></div><div><span>02 / NAVEGUE</span><h3>Direto ao artigo<br>que você precisa.</h3><p>Busque por palavras, artigos com letras ou números como 1.022. Constituição e ADCT têm navegação separada.</p></div><div><span>03 / LEIA</span><h3>Espaço para<br>se concentrar.</h3><p>Fonte ajustável, tema escuro e marcações salvas no seu dispositivo.</p></div></section>`;
+ const findReferences=query=>{
+  const results=searchLibraryReferences(query);
+  return results===null?null:results.filter(({code})=>parseReference(query).codeId||category==='Todas as áreas'||code.area.includes(category));
+ };
  const draw=()=>{
   const q=normalize(document.querySelector('#library-search').value);
+  const references=findReferences(q);
+  const quick=document.querySelector('#quick-reference');
+  quick.hidden=references===null;
+  quick.innerHTML='';
+  if(references!==null){
+   quick.innerHTML=references.length?references.map(({code,article})=>`<a href="${codeHref(code,article.id)}"><span><strong>${articleLabel(article)}</strong><small>${escape(code.name)}</small></span><b aria-hidden="true">→</b></a>`).join(''):'<p>Referência não encontrada. Confira o número e a sigla.</p>';
+   if(parseReference(q).codeId){category='Todas as áreas';document.querySelectorAll('[data-category]').forEach(button=>{button.classList.toggle('active',button.dataset.category===category);button.setAttribute('aria-pressed',String(button.dataset.category===category));});}
+   document.querySelector('#library-results').textContent=`${references.length} ${references.length===1?'referência encontrada':'referências encontradas'}`;
+   document.querySelector('#cards').innerHTML=references.length?references.map(({code,article})=>{
+    const paragraph=article.paragraphs.find(p=>p.runs.some(r=>!r.deleted&&r.text.trim()));
+    const preview=paragraph?.runs.filter(r=>!r.deleted).map(r=>r.text).join('')||article.text;
+    return `<a class="code-card reference-result" href="${codeHref(code,article.id)}"><span class="area">${escape(code.name)}</span><h3>${articleLabel(article)}</h3><p>${escape(preview.slice(0,220))}${preview.length>220?'…':''}</p><div class="card-bottom"><small>${escape(code.short)}</small><span>Abrir no leitor →</span></div></a>`;
+   }).join(''):'<p class="empty">Referência não encontrada. Confira o número e a sigla da coleção.</p>';
+   return;
+  }
+  document.querySelector('#library-results').textContent='';
   const filtered=collections.filter(c=>(category==='Todas as áreas'||c.area.includes(category))&&normalize(c.name+' '+c.short+' '+c.area+' '+c.description).includes(q));
   document.querySelector('#cards').innerHTML=filtered.length?filtered.map(c=>`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-icon">${c.icon}</span><span class="code-short">${c.short}</span></div><span class="area">${c.area}</span><h3>${c.name}</h3><p>${c.description}</p><span class="card-count">${number(c.articles.length)} ${c.kind==='sumulas'?'súmulas':'entradas'}${c.id==='cf'?' · inclui ADCT':''}</span><div class="card-bottom"><small>${c.law}</small><span>Consultar <b>↗</b></span></div></a>`).join(''):'<p class="empty">Nenhuma legislação encontrada. Tente outra palavra ou área.</p>';
  };
  document.querySelector('#library-search').addEventListener('input',draw);
+ document.querySelector('#library-search').addEventListener('keydown',event=>{if(event.key==='Enter'){const results=findReferences(event.target.value);if(results?.length===1){location.hash=codeHref(results[0].code,results[0].article.id);}}});
  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});draw();});
  draw();
 }
@@ -232,6 +294,7 @@ function reader(code, requested, params) {
  function scrollReading(){document.querySelector('.reading-toolbar').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
  function draw(){
   const list=selectedArticles();
+  const otherReference=!list.length?searchLibraryReferences(query)?.find(result=>result.code.id!==code.id):null;
   const searchNotes=query.trim()&&!/^(?:(?:sv|sumula(?: vinculante)?)\s*(?:n[º°o.]?\s*)?)?\d+\.?$/i.test(normalize(query));
   const pages=Math.max(1,Math.ceil(list.length/pageSize));page=Math.min(page,pages-1);
   const visible=list.slice(page*pageSize,(page+1)*pageSize);
@@ -246,7 +309,7 @@ function reader(code, requested, params) {
    last=a.sectionId;
    const hasDeleted=a.paragraphs.some(p=>p.runs.some(r=>r.deleted));
    return `${heading}<article id="art-${a.id}" class="article ${target?.id===a.id?'focused-article':''}"><div class="article-heading"><a href="${codeHref(code,a.id)}">${articleLabel(a)}</a><div><button data-save="${a.id}" aria-label="Favoritar ${articleLabel(a)}" aria-pressed="${saved.includes(code.id+'/'+a.id)}">${saved.includes(code.id+'/'+a.id)?'★':'☆'}</button><button data-copy="${a.id}" aria-label="Copiar link de ${articleLabel(a)}">↗</button></div></div>${a.status==='cancelled'?`<p class="sumula-status">Cancelada — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='pending'?`<p class="sumula-status">Pendente de publicação — conforme indicado ${source.kind==='official_stf'?'na fonte consultada':'no PDF'}</p>`:a.status==='suspended'?'<p class="sumula-status">Suspensa — conforme indicado na fonte consultada</p>':''}${a.title?`<h3 class="article-title">${highlight(a.title,query)}</h3>`:''}${hasDeleted?'<p class="deleted-note">Trechos riscados na fonte original estão preservados como redações anteriores ou suprimidas.</p>':''}${a.paragraphs.map(p=>`<p${p.runs.every(r=>r.deleted||!r.text.trim())?' class="deleted-paragraph"':''}>${p.runs.map(r=>r.deleted?`<del>${highlight(r.text,query)}</del>`:highlight(r.text,query)).join('')}</p>`).join('')}${a.notes?.length?`<details class="sumula-notes" ${searchNotes&&a.notes.some(p=>normalize(p.runs.map(r=>r.text).join('')).includes(normalize(query)))?'open':''}><summary>Precedentes, jurisprudência e observações</summary><div>${a.notes.map(p=>`<${p.heading?'h4':'p'}>${p.runs.map(r=>highlight(r.text,query)).join('')}</${p.heading?'h4':'p'}>`).join('')}</div></details>`:''}<div class="article-source">${['official_html','official_stf'].includes(source.kind)?'Fonte: '+(isSumula?'STF':'Planalto')+' · coleta em '+collectionDate(source):escape(source.filename)+' · página '+a.page+(a.endPage&&a.endPage!==a.page?' a '+a.endPage:'')}${a.url?` · <a href="${escape(a.url)}" target="_blank" rel="noopener noreferrer">Página desta súmula no STF ↗</a>`:''}${a.rangeEnd?' · revogação agrupada no documento':''}${historyArticleIds.has(code.id+'/'+a.id)?` · <a href="#/atualizacoes?codigo=${code.id}&artigo=${a.id}">${isSumula?'Ver alterações desta súmula':'Ver alterações deste artigo'} →</a>`:''}</div></article>`;
-  }).join('')||`<div class="empty"><h3>${onlySaved?'Nenhum favorito nesta seleção':isSumula?'Nenhuma súmula encontrada':'Nenhum artigo encontrado'}</h3><p>${onlySaved?'Use a estrela ao lado de uma entrada para guardá-la neste navegador.':'Tente outra expressão, limpe o filtro de capítulo ou confira a parte selecionada.'}</p><button id="reset-search">Limpar filtros</button></div>`;
+  }).join('')||`<div class="empty"><h3>${onlySaved?'Nenhum favorito nesta seleção':isSumula?'Nenhuma súmula encontrada':'Nenhum artigo encontrado'}</h3><p>${onlySaved?'Use a estrela ao lado de uma entrada para guardá-la neste navegador.':'Tente outra expressão, limpe o filtro de capítulo ou confira a parte selecionada.'}</p>${otherReference?`<p><a href="${codeHref(otherReference.code,otherReference.article.id)}">Abrir ${articleLabel(otherReference.article)} · ${escape(otherReference.code.name)} →</a></p>`:''}<button id="reset-search">Limpar filtros</button></div>`;
   document.querySelector('#reset-search')?.addEventListener('click',()=>{query='';sectionId=null;onlySaved=false;input.value='';page=0;draw();});
   document.querySelector('#page-label').textContent=list.length?`${page*pageSize+1}–${Math.min((page+1)*pageSize,list.length)} de ${number(list.length)}`:'Sem resultados';
   document.querySelector('#previous-page').disabled=page===0;
@@ -257,7 +320,7 @@ function reader(code, requested, params) {
  }
  if(target){const index=selectedArticles().findIndex(a=>a.id===target.id);page=Math.max(0,Math.floor(index/pageSize));}
  let debounce;
- input.addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(()=>{query=input.value;page=0;draw();},120);});
+ input.addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(()=>{query=input.value;const ref=parseReference(query);if(ref&&(!ref.codeId||ref.codeId===code.id)){if(ref.scope)scope=ref.scope;sectionId=null;}page=0;draw();},120);});
  document.querySelector('#font-down').onclick=()=>{size=Math.max(16,size-1);document.querySelector('#articles').style.fontSize=size+'px';};
  document.querySelector('#font-up').onclick=()=>{size=Math.min(26,size+1);document.querySelector('#articles').style.fontSize=size+'px';};
  document.querySelector('#saved-filter').onclick=()=>{onlySaved=!onlySaved;page=0;draw();};

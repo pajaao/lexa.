@@ -1,81 +1,113 @@
-# Lexa
+<div align="center">
 
-Biblioteca de legislação federal brasileira com leitura dentro do site. Inclui Código Civil, Código Penal, CPC, CDC, CTN e Constituição Federal com ADCT.
+# § Lexa
 
-## Executar e validar
+### A lei, mais perto. A consulta, mais simples.
 
-Use Node.js 22 ou superior, sem dependências npm:
+Códigos brasileiros, Constituição e súmulas vinculantes do STF, com leitura no próprio site.
+
+**[Acessar o Lexa](https://pajaao.github.io/lexa./)** · **[Ver atualizações](https://pajaao.github.io/lexa./#/atualizacoes)** · **[Relatar um problema](https://github.com/pajaao/lexa./issues)**
+
+[![Publicação no GitHub Pages](https://github.com/pajaao/lexa./actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/pajaao/lexa./actions/workflows/deploy-pages.yml)
+
+</div>
+
+---
+
+## O que é o Lexa?
+
+O Lexa é uma biblioteca jurídica gratuita para encontrar e ler alguns dos textos federais mais utilizados no Brasil. Você pode abrir uma coleção, ir direto a um artigo, pesquisar uma expressão e compartilhar o link do trecho que está consultando.
+
+O projeto foi pensado para estudantes, profissionais e qualquer pessoa que queira consultar esses textos com uma navegação simples. O acesso é livre, sem cadastro, no computador ou no celular.
+
+## O que você encontra
+
+| Coleção | Sigla | Acesso |
+| --- | --- | --- |
+| Constituição Federal de 1988 | CF | [Ler a Constituição](https://pajaao.github.io/lexa./#/cf) |
+| Ato das Disposições Constitucionais Transitórias | ADCT | [Ler o ADCT](https://pajaao.github.io/lexa./#/cf/adct-1) |
+| Código Civil | CC | [Ler o código](https://pajaao.github.io/lexa./#/civil) |
+| Código Penal | CP | [Ler o código](https://pajaao.github.io/lexa./#/penal) |
+| Código de Processo Civil | CPC | [Ler o código](https://pajaao.github.io/lexa./#/cpc) |
+| Código de Defesa do Consumidor | CDC | [Ler o código](https://pajaao.github.io/lexa./#/cdc) |
+| Código Tributário Nacional | CTN | [Ler o código](https://pajaao.github.io/lexa./#/ctn) |
+| Súmulas Vinculantes do STF | SV | [Consultar as súmulas](https://pajaao.github.io/lexa./#/sv) |
+
+O **ADCT** reúne disposições transitórias da Constituição e tem numeração própria. As **súmulas vinculantes** são enunciados do Supremo Tribunal Federal que consolidam entendimentos sobre questões constitucionais, com efeito vinculante nos termos da Constituição.
+
+## Encontre o que precisa
+
+Na busca da página inicial, digite o nome ou a sigla de uma coleção, ou indique uma referência completa:
+
+| Você pode escrever | O que será encontrado |
+| --- | --- |
+| `Art. 60 CF` ou `CF art. 60` | Artigo 60 da Constituição Federal |
+| `Art. 186 CC` | Artigo 186 do Código Civil |
+| `Art. 1.022 CPC` | Artigo 1.022 do Código de Processo Civil |
+| `Art. 54-A CDC` | Artigo 54-A do Código de Defesa do Consumidor |
+| `ADCT art. 1` | Artigo 1 do ADCT |
+| `SV 13` | Súmula Vinculante 13 |
+
+Clique no resultado para abrir o texto. Quando houver apenas uma referência encontrada, você também pode pressionar **Enter**.
+
+Dentro de cada coleção, a busca aceita números e expressões do texto, como `superendividamento`. Ela ignora diferenças entre letras maiúsculas, minúsculas e acentos. Na página inicial, buscas por palavras filtram as coleções pelo nome, área, sigla ou descrição.
+
+## Uma leitura mais confortável
+
+- **Navegação por capítulos e intervalos:** encontre seu lugar no texto e avance entre os resultados.
+- **Tema claro ou escuro:** escolha o que fica mais confortável para você.
+- **Fonte ajustável:** aumente ou diminua o tamanho durante a leitura.
+- **Favoritos:** use a estrela para guardar uma entrada no navegador atual.
+- **Links diretos:** compartilhe um artigo ou uma súmula sem precisar explicar o caminho.
+- **Contexto das súmulas:** abra a seção de precedentes, jurisprudência e observações quando precisar aprofundar a consulta.
+- **Histórico de versões:** acompanhe as edições incorporadas e compare as diferenças registradas.
+
+Os favoritos ficam no seu dispositivo e navegador. Eles não são sincronizados entre aparelhos e podem ser perdidos ao limpar os dados do navegador.
+
+## De onde vêm os textos?
+
+As edições dos códigos e da Constituição são extraídas das páginas oficiais do **Planalto**, incorporadas ao site após revisão. Os PDFs utilizados na formação da base permanecem arquivados no repositório.
+
+As súmulas vinculantes usam o PDF fornecido ao projeto, que declara consulta ao STF em **16/10/2026** e contém **63 entradas**, numeradas de 1 a 63. O site preserva as indicações desse documento, incluindo a **SV 9 como cancelada** e a **SV 30 como pendente de publicação**.
+
+Cada coleção mostra sua edição e procedência em **“Sobre esta versão e a fonte de origem”**, com links para conferência.
+
+> **Para utilizar os textos:** confira a edição consultada, a redação e as notas na fonte oficial. A data de coleta indica quando uma fonte foi consultada; o sistema não calcula automaticamente a vigência ou o início dos efeitos de cada alteração.
+
+## Como as atualizações funcionam?
+
+**Códigos e Constituição:** uma rotina diária consulta as fontes do Planalto. Quando detecta diferenças, prepara uma proposta de atualização no GitHub — chamada *pull request* — com relatório e prévia. A incorporação depende de revisão e aceitação pelo mantenedor. Depois disso, o site é publicado automaticamente.
+
+**Súmulas vinculantes:** a atualização é periódica e manual, a partir de uma nova edição conferida pelo mantenedor. A coleta automática do STF está pausada por dificuldades de acesso ao portal.
+
+Na página **[Atualizações](https://pajaao.github.io/lexa./#/atualizacoes)**, o primeiro registro estabelece a referência inicial. As versões seguintes mostram as diferenças registradas. Os destaques descrevem mudanças no texto; a classificação jurídica de seus efeitos depende de conferência na fonte.
+
+## Encontrou algo que podemos melhorar?
+
+Abra um registro na aba **[Issues](https://github.com/pajaao/lexa./issues)** do repositório. Conte o que você tentou fazer, qual resultado esperava e o que apareceu. Para um problema de conteúdo, inclua o número do artigo ou da súmula e o link da fonte oficial, se tiver.
+
+Sugestões para melhorar a navegação e a leitura também são bem-vindas.
+
+<details>
+<summary><strong>Para quem quer executar ou manter o projeto</strong></summary>
+
+### Executar no computador
+
+Use **Node.js 22 ou superior**, sem necessidade de instalar dependências npm. Depois de baixar o repositório, abra um terminal na pasta do projeto e execute:
 
 ```sh
 npm start
-npm test
 ```
 
-O servidor usa a porta 3000 (`PORT` permite substituí-la). `npm run build` gera `index.html` com CSS, dados e JavaScript incorporados, para que a leitura funcione também na prévia isolada do arquivo, sem requisições externas. Os PDFs de origem estão disponíveis quando o site é servido completo; não são incorporados ao HTML.
-
-Edite o HTML-base em `scripts/index.template.html`, os estilos em `style.css`, o catálogo e a busca em `data.js` e o comportamento em `app.js`. `npm start` e `npm run dev` também geram o HTML antes de iniciar. O código usa fontes locais.
-
-## Conteúdo e proveniência
-
-Os seis PDFs fornecidos pelo usuário estão preservados em `sources/`. `sources/manifest.json` registra o nome original, número de páginas, data de importação e SHA-256 de cada documento. `content.js` preserva a extração dos PDFs. `official-content.js` recebe as edições extraídas das fontes oficiais, depois de geradas e mescladas por proposta revisada; quando existe uma edição oficial para uma legislação, o leitor a utiliza. `sources/official-manifest.json`, quando gerado, registra a procedência dessas edições. `sources/import-report.json` registra a cobertura e possíveis linhas sem atribuição; a importação falha quando há números-base ausentes ou linhas não atribuídas.
-
-Os PDFs de referência dos cinco códigos foram impressos do Planalto em 15/10/2026. O PDF da Constituição é a 69ª edição da Câmara (2026), até a EC 138/2025. Essas referências continuam arquivadas. Nas edições HTML incorporadas por revisão, o leitor informa a página oficial, a data de coleta e o hash do texto extraído. **Nenhuma dessas datas certifica a redação vigente ou o início dos efeitos de uma alteração.** Constituição e ADCT permanecem separados; o importador não mistura as emendas ou os tratados anexos aos artigos constitucionais.
-
-A extração preserva parágrafos, incisos, alíneas, notas de alterações e redações riscadas. Artigos com letras têm identificadores próprios, inclusive sufixos como `359-M-A`. Revogações agrupadas são mantidas como no documento: buscar o art. 55 do CTN abre a referência aos arts. 52 a 58, sem inventar uma redação para cada dispositivo revogado.
-
-Nas edições PDF, o leitor informa o arquivo e a página inicial; nas edições oficiais HTML, informa fonte e data da coleta, com referências internas ao bloco original para rastreabilidade. Houve validação automatizada e conferência de casos representativos; **não houve revisão jurídica integral nem comparação com alterações posteriores aos PDFs**. A presença de notas de vigência no arquivo não significa que o sistema tenha calculado automaticamente seus efeitos.
-
-## Navegação
-
-- Busca por expressão, sem distinção de acentos, ou número (`186`, `Art. 1.022`, `54-A`).
-- Links diretos: `#/civil/186`, `#/cpc/1022`, `#/cf/5`, `#/cf/adct-1`.
-- Índice de capítulos, leitura em grupos de 15 entradas e navegação anterior/próxima.
-- Constituição e ADCT com buscas separadas. `ADCT 1` também busca diretamente no ADCT.
-- Destaque de resultados, tamanho da fonte e tema escuro.
-- Favoritos armazenados somente no navegador atual, acessíveis pelo filtro “Meus favoritos”.
-- Página “Atualizações” (`#/atualizacoes`), com registros por legislação, filtros por artigo e comparação lado a lado. O verde destaca diferenças na versão coletada; o rosa, na anterior. Riscados já existentes na fonte continuam riscados.
-
-O histórico persistente é gerado em `updates.js` junto com cada proposta de textos oficiais. O primeiro registro estabelece uma referência inicial, sem tratar a conversão de PDFs para HTML como mudança legislativa. As versões seguintes guardam os textos anterior e novo dos artigos modificados. Mudanças apenas de espaços ou quebras de parágrafo não contam como alteração de artigo. Ausência de artigo, adição de texto e alteração de redação são descrições da comparação, não decisões sobre revogação ou vigência. A página não usa dados fictícios para preencher o histórico inicial.
-
-## Reimportação e manutenção
-
-A rotina diária prepara propostas com os textos do leitor, testes e prévia; não faz merge nem implantação automática. Consulte `monitor/README.md`. O procedimento abaixo continua disponível para reconstruir a base PDF arquivada; ele não substitui edições HTML já incorporadas em `official-content.js`:
-
-1. Obtenha nova edição consolidada em fonte oficial. Confirme sua data de referência e guarde a versão anterior em histórico de Git ou armazenamento versionado antes da substituição.
-2. Compare os arquivos e as alterações de redação. A Constituição desta importação tem limites de páginas específicos (texto constitucional nas páginas PDF 8–142 e ADCT nas páginas 143–193). Antes de importar outra edição, revise esses limites, o ano, a referência às emendas e os números finais em `scripts/import_pdfs.py`. Não reutilize os metadados antigos em outra edição.
-3. Substitua os PDFs correspondentes em `sources/` e atualize os metadados do importador. Os nomes internos são `civil.pdf`, `penal.pdf`, `cpc.pdf`, `cdc.pdf`, `ctn.pdf`, `cf.pdf`.
-4. Em ambiente Python com PyMuPDF, execute:
+O terminal informa a porta local do servidor. Para gerar o pacote de publicação e executar os testes da aplicação:
 
 ```sh
-python3 -m venv /tmp/lexa-import-venv
-/tmp/lexa-import-venv/bin/pip install -r scripts/requirements-import.txt
-/tmp/lexa-import-venv/bin/python scripts/import_pdfs.py
+npm run build:pages
 npm test
-npm run build
 ```
 
-5. Revise o relatório, o diff dos textos, as redações riscadas, as regras de vigência e a interface antes de publicar. Falhas de validação bloqueiam a importação; não remova essas verificações apenas para aceitar uma nova edição.
+A hospedagem usa GitHub Pages. Cada mudança incorporada na `main` passa pelas verificações do workflow antes da publicação.
 
-O monitor consulta as fontes, `scripts/import_official.py` prepara as seis edições para o leitor e o workflow gera os testes e a prévia antes de propor a atualização. A primeira conversão e as alterações posteriores entram somente após revisão e merge. A implantação pública depende da hospedagem e não é executada por esse workflow. Veja [ativação, revisão e limites](monitor/README.md).
+Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhes sobre fontes, importação de PDFs, testes, estrutura dos arquivos e configuração do Pages. Veja também o **[monitor das legislações](monitor/README.md)** e a documentação da **[coleta pausada do STF](monitor/stf/README.md)**.
 
-### Súmulas vinculantes do STF
-
-A biblioteca inclui uma coleção própria em `#/sv`, com links como `#/sv/13`, busca por `SV 13`, `Súmula Vinculante 13` ou expressão, favoritos e navegação por intervalos. O enunciado aparece primeiro; precedentes, jurisprudência e observações ficam em uma seção expansível. A busca também alcança esse material de aplicação.
-
-A fonte desta importação é **somente** `sources/Sumulas_Vinculantes_STF_Completo.pdf`, com 236 páginas e 63 entradas numeradas de 1 a 63. O PDF declara consulta em 16/10/2026; isso não equivale a uma conferência ao vivo pelo importador. A SV 9 permanece identificada como cancelada e a SV 30 como pendente de publicação, conforme o documento. O arquivo `revsum.pdf` foi descartado e não integra esta base.
-
-`python3 scripts/import_sumulas.py` reconstrói `sumulas-content.js` usando PyMuPDF (mesma dependência de `scripts/requirements-import.txt`). O processo valida o SHA-256 registrado em `sources/sumulas-manifest.json`, a numeração, os cabeçalhos e os links individuais do STF. Uma nova edição exige revisão do manifesto e das regras de extração; não substitua a fonte apenas para iniciar o site.
-
-A consulta automática das súmulas está **pausada** por decisão do mantenedor, após falhas de acesso ao STF. O arquivo de workflow mantém somente a execução manual para diagnóstico futuro. Não há agenda nem execução por push para as súmulas. A coleção permanece baseada no PDF fornecido e deve ser revista ao receber nova edição. A rotina automática das seis legislações do Planalto continua independente.
-
-## Publicar no GitHub Pages
-
-O repositório público inclui o workflow **Publicar Lexa no GitHub Pages**, que testa e publica cada mudança incorporada na `main`. Pull requests em rascunho dos monitores não são publicados até serem revisados e mesclados.
-
-1. Em **Settings → Pages → Build and deployment → Source**, escolha **GitHub Actions**.
-2. Em **Actions → Publicar Lexa no GitHub Pages**, execute **Run workflow** na `main` se não houver uma execução em andamento após a ativação.
-3. A etapa de publicação informa o endereço real do site; para o nome atual do repositório, o endereço esperado é `https://pajaao.github.io/lexa./`.
-
-`npm run build:pages` gera `_site/` com o HTML autocontido, `.nojekyll` e os sete PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
-
-As rotas usam fragmentos, como `/lexa./#/civil/186` e `/lexa./#/sv/13`, e os PDFs usam caminhos relativos, funcionando tanto em uma subpasta do projeto quanto em um domínio próprio. Favoritos continuam locais ao navegador. A interface informa a fonte e a edição de cada base e traz um aviso de consulta no rodapé. A publicação não executa coletas de fontes na rede: falhas do Planalto ou do STF não impedem publicar uma versão já revisada e testada.
+</details>
