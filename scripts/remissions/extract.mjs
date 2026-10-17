@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {lexArticles,implicitExpressions} from './grammar.mjs';
 import {normCatalog,attachedNorm,precedingNorm} from './norms.mjs';
-export const RULES_VERSION='0.5.0';
+export const RULES_VERSION='0.5.1';
 export const sha256=value=>createHash('sha256').update(value).digest('hex');
 export const RULES_SHA256=sha256(['grammar.mjs','norms.mjs','extract.mjs','graph.mjs'].map(name=>name+'\0'+readFileSync(new URL(name,import.meta.url),'utf8')).join('\0'));
 const raw=p=>p.runs.map(r=>r.text).join('');
@@ -47,7 +47,11 @@ function amendmentContext(article){
 }
 function normFor(text,expression,source,catalog,previous){
  const candidate=attachedNorm(text,expression.end,source,catalog,{allowSuas:previous?.norm?.codeId==='cf'&&previous.norm.scope==='main'});
- if(candidate)return candidate;
+ if(candidate){
+  if(/^\s*(?:e|ou)\s+d[ao]\s+(?:Lei|C[oó]digo|Constitui[çc][aã]o)\b/iu.test(text.slice(candidate.end)))return {...candidate,status:'unresolved',reason:'multiple-norm-qualifiers-not-supported'};
+  return candidate;
+ }
+ if(/^\s*[-–]\s*\p{L}/u.test(text.slice(expression.end)))return {status:'unresolved',reason:'unrecognized-post-reference-suffix'};
  const preceding=precedingNorm(text,expression.start,source,catalog);if(preceding)return preceding;
  const priorText=text.slice(sentenceStart(text,expression.start),expression.start);
  if(/\b(?:Lei(?:s|\s+Complementar)?\s+n|C[oó]digo\s+(?:Civil|Penal|de\s+Processo)|Constitui[çc][aã]o)\b/iu.test(priorText))return {status:'unresolved',reason:'unattached-prior-norm-context'};

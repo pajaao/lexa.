@@ -140,3 +140,33 @@ test('ponto final delimita norma posterior e norma anterior sem ligação sintá
  const second=extractRemissions(paragraphFixture('Conforme o Código Penal, o art. 186 trata da questão.'));
  assert.equal(find(second,'civil','927',0)[0].classification,'C');
 });
+test('não confunde números malformados ou sufixos longos com artigo interno válido',()=>{
+ const decimal=extractRemissions(paragraphFixture('Aplicam-se o art. 1.22 e o art. 186.5 deste Código.'));
+ assert.deepEqual(targets(find(decimal,'civil','927',0)),[]);
+ const longSuffix=extractRemissions(paragraphFixture('Aplica-se o art. 186-XYZ.'));
+ assert.equal(find(longSuffix,'civil','927',0)[0].classification,'C');
+});
+test('deste Ato sem origem ADCT não significa automaticamente ADCT; nome completo permanece explícito',()=>{
+ const bare=extractRemissions(paragraphFixture('Conforme o art. 54 deste Ato.'));assert.deepEqual(targets(find(bare,'civil','927',0)),[]);
+ const full=extractRemissions(paragraphFixture('Conforme o art. 54 do Ato das Disposições Constitucionais Transitórias.'));assert.deepEqual(targets(find(full,'civil','927',0)),['cf:adct-54']);
+});
+test('Constituição estadual ou antiga e CódigoCivilde1916 não são a edição catalogada',()=>{
+ for(const qualifier of ['da Constituição Estadual','da Constituição do Estado','da Constituição de 1946','do Código Civil de 1916']){
+  const data=extractRemissions(paragraphFixture('Conforme o art. 186 '+qualifier+'.'));assert.deepEqual(targets(find(data,'civil','927',0)),[],qualifier);
+ }
+});
+test('qualificação concorrente por duas normas provoca abstenção, sem escolher a primeira',()=>{
+ const data=extractRemissions(paragraphFixture('Aplica-se o art. 186 da Lei nº 10.406/2002 ou da Lei nº 13.105/2015.'));
+ const ref=find(data,'civil','927',0)[0];assert.equal(ref.classification,'C');assert.equal(ref.reason,'multiple-norm-qualifiers-not-supported');
+});
+test('remissões reais à Constituição de1967 no ADCT não apontam para CF1988',()=>{
+ for(const [article,paragraph] of [['adct-28',0],['adct-41',3]]){
+  const refs=find(extractRemissions(corpus),'cf',article,paragraph).filter(o=>o.norm.identity?.year==='1967');
+  assert.ok(refs.length);assert.ok(refs.every(o=>o.classification==='B'&&o.resolution.status==='external'));assert.deepEqual(targets(refs),[]);
+ }
+});
+test('sufixos sucessivos preservam a identidade completa e não geram remissão do próprio cabeçalho',()=>{
+ for(const article of ['359-M-A','359-M-B'])assert.ok(!find(extractRemissions(corpus),'penal',article,0).some(o=>o.location.start===0));
+ const data=extractRemissions(paragraphFixture('Conforme o art. 359-M-A do Código Penal.'));
+ assert.deepEqual(targets(find(data,'civil','927',0)),['penal:359-M-A']);
+});

@@ -7,14 +7,14 @@ export function lawIdentity(value){
 }
 export const lawKey=law=>law?[law.kind,law.number,law.year].join(':'):null;
 export function normCatalog(corpus){
- const byLaw=new Map(),byName=[];
+ const byLaw=new Map(),byName=[],byCodeLaw=new Map();
  for(const {code} of corpus.collections){
   if(code.id==='sv')continue;
-  const law=lawIdentity(code.law);if(law)byLaw.set(lawKey(law),code.id);
+  const law=lawIdentity(code.law);if(law){byLaw.set(lawKey(law),code.id);byCodeLaw.set(code.id,law);}
   byName.push([normalize(code.name),code.id]);
  }
  byName.push(['codigo civil','civil'],['codigo penal','penal'],['codigo de processo civil','cpc'],['codigo de processo penal','cpp'],['codigo de defesa do consumidor','cdc'],['codigo tributario nacional','ctn'],['consolidacao das leis do trabalho','clt']);
- return {byLaw,byName:byName.sort((a,b)=>b[0].length-a[0].length)};
+ return {byLaw,byCodeLaw,byName:byName.sort((a,b)=>b[0].length-a[0].length)};
 }
 export function attachedNorm(text,start,source,catalog,{allowSuas=false}={}){
  // Skip only punctuation and explicit grammatical connectors, not intervening prose.
@@ -33,9 +33,14 @@ export function attachedNorm(text,start,source,catalog,{allowSuas=false}={}){
   const explicit=tail.slice(match[0].length).match(/^\s*,\s*/u),old=explicit&&tail.slice(match[0].length+explicit[0].length).match(lawAt);
   return make(match[0].length+(old?explicit[0].length+old[0].length:0),{status:old?'external':'unresolved',law:old?lawIdentity(old[0]):null,reason:old?'previous-code-explicit-law':'previous-code-identity-incomplete'});
  }
- if((match=tail.match(/^(?:deste\s+Ato(?:\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias)?|Ato\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias|ADCT)\b/iu)))return make(match[0].length,{status:'resolved',codeId:'cf',scope:'adct',reason:'explicit-adct'});
+ if((match=tail.match(/^(?:deste\s+Ato(?:\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias)?|Ato\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias|ADCT)\b/iu)))return make(match[0].length,{status:/^deste\s+Ato$/iu.test(match[0])&&(source.codeId!=='cf'||source.scope!=='adct')?'unresolved':'resolved',codeId:'cf',scope:'adct',reason:/^deste\s+Ato$/iu.test(match[0])&&(source.codeId!=='cf'||source.scope!=='adct')?'bare-ato-without-adct-origin':'explicit-adct'});
  if((match=tail.match(/^suas\s+Disposi[çc][oõ]es\s+Transit[oó]rias\b/iu)))return make(match[0].length,{status:allowSuas?'resolved':'unresolved',codeId:allowSuas?'cf':undefined,scope:'adct',reason:allowSuas?'coordinated-constitution-adct':'scope-pronoun-without-antecedent'});
- if((match=tail.match(/^(?:desta\s+)?(?:Constitui[çc][aã]o(?:\s+Federal|\s+da\s+Rep[úu]blica)?|CF(?:\/88)?)\b/iu)))return make(match[0].length,{status:'resolved',codeId:'cf',scope:'main',reason:'explicit-constitution'});
+ if((match=tail.match(/^(?:desta\s+)?(?:Constitui[çc][aã]o(?:\s+Federal|\s+da\s+Rep[úu]blica)?|CF(?:\/88)?)\b/iu))){
+  const after=tail.slice(match[0].length),year=after.match(/^\s+de\s+(\d{4})\b/u);
+  if(/^\s*(?:Estadual|do\s+Estado)\b/iu.test(after))return make(match[0].length,{status:'unresolved',reason:'state-constitution-identity-not-supported'});
+  if(year&&year[1]!=='1988')return make(match[0].length+year[0].length,{status:'external',law:{kind:'constitution',number:null,year:year[1],raw:match[0]+year[0]},reason:'external-constitution-edition'});
+  return make(match[0].length+(year?year[0].length:0),{status:'resolved',codeId:'cf',scope:'main',reason:'explicit-constitution'});
+ }
  if((match=tail.match(/^dest[ea]\s+(?:Lei|C[oó]digo|Consolida[çc][aã]o)\b/iu)))return make(match[0].length,{status:'resolved',codeId:source.codeId,scope:source.scope,reason:'explicit-self'});
  // Named codes are explicit identities, not topic aliases. A contradictory law
  // or former edition immediately after the name must not be discarded.
@@ -43,6 +48,7 @@ export function attachedNorm(text,start,source,catalog,{allowSuas=false}={}){
   const value=normalize(tail.slice(0,name.length));
   if(value!==name||/[\p{L}\d]/u.test(tail[name.length]||''))continue;
   const after=tail.slice(name.length);
+  if(/^\s+(?:de\s+)?(\d{4})\b/u.test(after)&&after.match(/^\s+(?:de\s+)?(\d{4})\b/u)[1]!==catalog.byCodeLaw.get(codeId)?.year)return make(name.length,{status:'unresolved',reason:'named-code-edition-not-supported'});
   if(/^\s+(?:anterior|revogado)|^\s*[,(/]\s*(?:19\d{2}|de\s+19\d{2})/iu.test(after))return make(name.length,{status:'unresolved',reason:'named-code-edition-not-supported'});
   const appended=after.match(/^\s*,\s*/u),explicit=appended&&after.slice(appended[0].length).match(lawAt);
   if(explicit){const identity=lawIdentity(explicit[0]),actual=catalog.byLaw.get(lawKey(identity));return make(name.length+appended[0].length+explicit[0].length,{status:actual===codeId?'resolved':actual?'unresolved':'external',codeId:actual,scope:'main',law:identity,reason:actual===codeId?'named-and-numbered-code':actual?'conflicting-norm-identities':'external-code-edition'});}

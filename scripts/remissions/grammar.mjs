@@ -1,6 +1,6 @@
 // Experimental build-time grammar. Offsets are native JavaScript UTF-16 indices.
 // A bounded lexer and small list parser, not the user-query parser or a legal interpreter.
-const numberSource=String.raw`(?:\d{1,3}(?:\.\d{3})+|\d+)(?:\s*[º°o])?(?:\s*[-–]\s*[A-Za-z]{1,2}(?!\p{L}))?(?![\p{L}\d])`;
+const numberSource=String.raw`(?:\d{1,3}(?:\.\d{3})+|\d+)(?:\s*[º°o])?(?:\s*[-–]\s*[A-Za-z]{1,2}(?!\p{L}))*(?![\p{L}\d]|\.\d)`;
 const numberAt=new RegExp('^'+numberSource,'u');
 const prefixSource=String.raw`\b(?:arts?\.\s*|(?:arts?|artigos?)\s+)`;
 const articleHead=new RegExp(prefixSource+'(?='+numberSource+')','giu');
