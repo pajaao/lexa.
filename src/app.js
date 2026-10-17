@@ -1,5 +1,5 @@
 import {readerModel} from './reader-model.js';
-import {loadCollection,loadCollections,loadHistory,loadSearchIndexes,loadSearchIndex} from './loading.js';
+import {loadCollection,loadCollections,loadHistory,loadSearchIndexes,loadSearchIndex,activateCollection} from './loading.js';
 import { searchLibraryText, libraryExcerpt } from './library-search.js';
 import { articleCopyText } from './copy.js';
 import { sectionPath, headingKind, unitKind, buildSectionTree } from './structure.js';
@@ -406,11 +406,12 @@ async function route(){
   else link.removeAttribute('aria-current');
  });
  const code=collections.find(c=>c.id===id);
+ activateCollection(code?.id||null);
  const needsData=code&&!code.loaded||id==='favoritos'||id==='atualizacoes';
  if(needsData)app.innerHTML=`<section class="loading-panel"><p role="status">${code?'Carregando '+escape(code.name)+'…':id==='favoritos'?'Carregando favoritos…':'Carregando histórico…'}</p></section>`;
  try{
   if(id==='favoritos'){
-   await loadCollections(collections.filter(code=>saved.some(key=>key.startsWith(code.id+'/'))));
+   await loadSearchIndexes(collections.filter(code=>saved.some(key=>key.startsWith(code.id+'/'))));
    if(generation!==routeGeneration)return;
    favoritesPage();window.scrollTo(0,0);return;
   }

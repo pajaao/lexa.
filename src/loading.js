@@ -1,7 +1,9 @@
+import {createCollectionCache} from './collection-cache.js';
 import {collections} from './data.js';
 import {prepareCollection} from './collection-model.js';
 
-const pendingCollections=new Map(),pendingSearch=new Map();
+const pendingCollections=new Map(),pendingSearch=new Map(),readerCache=createCollectionCache(3);
+export function activateCollection(id){readerCache.activate(id);}
 let pendingHistory;
 async function fetchVerifiedJson(spec){
  const response=await fetch(new URL(spec.file,document.baseURI),{cache:'default'});
@@ -12,12 +14,12 @@ async function fetchVerifiedJson(spec){
  return JSON.parse(new TextDecoder().decode(bytes));
 }
 export function loadCollection(code){
- if(code.loaded)return Promise.resolve(code);
+ if(code.loaded){readerCache.remember(code);return Promise.resolve(code);}
  if(!pendingCollections.has(code.id)){
   const task=fetchVerifiedJson(code).then(content=>{
    if(content.id!==code.id||content.articles.length!==code.articleCount)throw new Error('Coleção incompleta.');
-   Object.assign(code,prepareCollection(content));return code;
-  }).catch(error=>{pendingCollections.delete(code.id);throw error;});
+   Object.assign(code,prepareCollection(content));readerCache.remember(code);return code;
+  }).finally(()=>{pendingCollections.delete(code.id);});
   pendingCollections.set(code.id,task);
  }
  return pendingCollections.get(code.id);
@@ -39,7 +41,7 @@ export function loadSearchIndex(code){
  if(!pendingSearch.has(code.id))pendingSearch.set(code.id,fetchVerifiedJson(code.search).then(index=>{
   if(index.id!==code.id||index.articles.length!==code.articleCount)throw new Error('Índice incompleto.');
   code.searchIndex=index;return index;
- }).catch(error=>{pendingSearch.delete(code.id);throw error;}));
+ }).finally(()=>{pendingSearch.delete(code.id);}));
  return pendingSearch.get(code.id);
 }
 export async function loadSearchIndexes(selected=collections){

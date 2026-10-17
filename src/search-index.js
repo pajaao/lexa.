@@ -29,6 +29,6 @@ export function searchArticle(entry,index){
  article.section=index.sections[entry.section];
  // References need a preview; textual search only needs metadata and the hit.
  Object.defineProperty(article,'paragraphs',{get:()=>fields.filter(f=>f[0]==='text').map(f=>({runs:fieldRuns(f)}))});
- Object.defineProperty(article,'text',{get:()=>fields.filter(f=>f[0]==='text').map(f=>f[1]).join('\n')});
+ Object.defineProperty(article,'text',{get:()=>fields.filter(f=>f[0]==='text').map(f=>article.kind==='vinculante'?f[1]:f[1].replace(/\s+/g,' ').trim()).join('\n')});
  return article;
 }

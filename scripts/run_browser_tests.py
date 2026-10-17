@@ -9,7 +9,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 ESSENTIAL = ['interface_review', 'data_loading', 'reading', 'library_search', 'favorites', 'clipboard', 'pwa', 'benchmark_contract']
-ALL = [*ESSENTIAL, 'structure', 'additional_legislation']
+ALL = [*ESSENTIAL, 'structure', 'additional_legislation', 'memory_session']
 
 
 def main():

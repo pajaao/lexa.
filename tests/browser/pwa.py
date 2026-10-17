@@ -78,9 +78,10 @@ with tempfile.TemporaryDirectory() as temporary:
             assert page.evaluate("caches.has('unrelated-project')")
             assert page.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==1
             context.set_offline(True);page.reload();expect(page.locator('body')).to_have_attribute('data-test-version','v2')
+            # Arm the server fault before re-enabling automatic online updates.
+            failure['enabled']=True;deploy('v3')
             context.set_offline(False)
             # A failed precache must leave the usable prior edition intact.
-            deploy('v3');failure['enabled']=True
             page.evaluate('''async()=>{
                 const r=await navigator.serviceWorker.getRegistration();
                 await new Promise((resolve,reject)=>{
@@ -97,7 +98,7 @@ with tempfile.TemporaryDirectory() as temporary:
             assert page.locator('#pwa-update').is_hidden()
             context.set_offline(True);page.reload();expect(page.locator('body')).to_have_attribute('data-test-version','v2')
             # A new immutable legal file with the wrong bytes must also be rejected.
-            context.set_offline(False);failure['enabled']=False;deploy('v4')
+            failure['enabled']=False;deploy('v4')
             worker=(site/'sw.js').read_text()
             specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
             spec=next(item for item in specs if item['file'].startswith('data/clt.'))
@@ -107,6 +108,7 @@ with tempfile.TemporaryDirectory() as temporary:
             (site/spec['file']).write_bytes(original) # deliberately wrong bytes
             worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker)
             (site/'sw.js').write_text(worker)
+            context.set_offline(False)
             page.evaluate('''async()=>{
                 const r=await navigator.serviceWorker.getRegistration();
                 await new Promise((resolve,reject)=>{

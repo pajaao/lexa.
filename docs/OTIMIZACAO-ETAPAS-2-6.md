@@ -44,3 +44,15 @@ O custo da primeira busca e o volume/heap caíram; a busca posterior ficou mais 
 | reader_open_clt:cold | 445.2 |
 | reader_next_clt:cold | 163.4 |
 | reader_previous_clt:cold | 131.2 |
+
+## Etapa 4 — memória e indexação
+
+**Causa:** todos os leitores abertos permaneciam no catálogo durante a sessão; promessas concluídas também ficavam guardadas. A busca consultava um WeakMap por campo normalizado a cada nova consulta.
+
+**Decisão:** conjunto de trabalho LRU de três leitores completos, com proteção do leitor ativo contra respostas atrasadas. Descartar significa soltar referências derivadas do catálogo, nunca modificar arrays/textos originais. Favoritos são resolvidos nos índices compactos e recarregam o original ao abrir a entrada. Os mapas/modelos do leitor têm chaves fracas pelos arrays de dados. Promessas mantêm apenas tarefas em andamento. Campos normalizados são guardados por índice em arrays, evitando consultas repetidas ao cache por campo. Getters não capturam a coleção original inteira quando bastam seus parágrafos e uma flag.
+
+Os índices compactos do acervo são mantidos após a busca global, pois ela precisa cobrir todas as normas e consultas seguintes não devem repetir parse/download de cada arquivo. Não foi introduzido cache ilimitado de resultados por palavra nem um limite artificial que elimine ocorrências.
+
+**Validação:** Node, 46 testes Python e os fluxos essenciais passaram; a sessão longa validou limite de três leitores, recarga de artigo descartado, favoritos persistentes e a mesma fixture de 52 resultados. A falha do teste de PWA foi tornada determinística: o servidor agora arma a falha antes de reativar a conexão, impedindo uma instalação válida acidental entre o deploy de teste e a ativação do erro.
+
+**Memória intermediária:** uma sessão controlada por compilação, CPU 4×, duas voltas pelas 14 coleções, snapshots do heap da página após GC. Antes do limite (etapa 3), após a segunda volta: 38.496.712 bytes e 14 leitores. Durante a etapa 4: 31.589.728 bytes e 3 leitores. Não é mediana nem medida de RAM total, e os getters receberam depois um refinamento adicional de retenção. A validação final repete a sessão na arquitetura consolidada. Não se afirmou que o crescimento entre snapshots caracteriza vazamento.

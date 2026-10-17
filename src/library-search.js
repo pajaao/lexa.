@@ -1,25 +1,27 @@
 import {collections,normalize,searchLibraryReferences} from './data.js';
 
 import {createSearchIndex,searchArticle,fieldRuns} from './search-index.js';
-const localIndexes=new WeakMap(),normalizedFields=new WeakMap();
+const localIndexes=new WeakMap(),normalizedIndexes=new WeakMap();
 function searchIndex(code){
  if(code.searchIndex)return code.searchIndex;
  if(!localIndexes.has(code))localIndexes.set(code,createSearchIndex(code));
  return localIndexes.get(code);
 }
-function normalizedField(field){
- if(!normalizedFields.has(field))normalizedFields.set(field,normalize(field[1]));
- return normalizedFields.get(field);
+function normalizedIndex(index){
+ if(!normalizedIndexes.has(index))normalizedIndexes.set(index,index.articles.map(entry=>entry.fields.map(field=>normalize(field[1]))));
+ return normalizedIndexes.get(index);
 }
 export function searchLibraryText(query,area='Todas as áreas'){
  const q=normalize(query.trim());
  if(q.length<2||searchLibraryReferences(q)!==null)return [];
  return collections.filter(code=>area==='Todas as áreas'||code.area.includes(area)).map(code=>{
   const matches=[];
-  const index=searchIndex(code);
-  for(const entry of index.articles){
-   const field=entry.fields.find(field=>normalizedField(field).includes(q));
-   if(field)matches.push({article:searchArticle(entry,index),match:{kind:field[0],runs:fieldRuns(field),text:field[1],index:normalizedField(field).indexOf(q),query:q}});
+  const index=searchIndex(code),normalized=normalizedIndex(index);
+  for(let articleIndex=0;articleIndex<index.articles.length;articleIndex++){
+   const entry=index.articles[articleIndex],fieldIndex=normalized[articleIndex].findIndex(text=>text.includes(q));
+   if(fieldIndex<0)continue;
+   const field=entry.fields[fieldIndex];
+   matches.push({article:searchArticle(entry,index),match:{kind:field[0],runs:fieldRuns(field),text:field[1],index:normalized[articleIndex][fieldIndex].indexOf(q),query:q}});
   }
   return {code,matches};
  }).filter(group=>group.matches.length);
