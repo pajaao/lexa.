@@ -3,6 +3,7 @@ Requires Playwright for Python and /usr/bin/chromium; run npm run build first.
 """
 from pathlib import Path
 import functools, hashlib, http.server, re, shutil, tempfile, threading, json
+from support import chromium_executable
 from playwright.sync_api import sync_playwright, expect
 
 root=Path(__file__).resolve().parents[2]
@@ -36,7 +37,7 @@ with tempfile.TemporaryDirectory() as temporary:
         (site/'sw.js').write_text(worker)
     try:
         with sync_playwright() as p:
-            browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
+            browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
             context=browser.new_context();page=context.new_page();errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
             base=f'http://127.0.0.1:{server.server_port}/lexa./'

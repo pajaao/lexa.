@@ -1,6 +1,7 @@
 """Check hierarchy, chapter filters and unchanged legal wording in Chromium."""
 from pathlib import Path
 import functools,http.server,threading,json,subprocess
+from support import chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 model=json.loads(subprocess.check_output(['node','--input-type=module','-e',"import {collections} from './src/data.js'; console.log(JSON.stringify(collections));"],cwd=root))
@@ -10,7 +11,7 @@ server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
  with sync_playwright() as p:
-  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
+  browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
   context=browser.new_context(service_workers='block');page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   base=f'http://127.0.0.1:{server.server_port}/'
   for code in model:

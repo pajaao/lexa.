@@ -1,6 +1,7 @@
 """Lazy legal data, retry, stale navigation and exact pre-refactor search results."""
 from pathlib import Path
 import functools,http.server,threading,json
+from support import chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -9,7 +10,7 @@ server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,direc
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
  with sync_playwright() as p:
-  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage'])
+  browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage'])
   context=browser.new_context(service_workers='block');page=context.new_page();errors=[];requested=[]
   page.on('pageerror',lambda error:errors.append(str(error)))
   page.on('request',lambda req:requested.append(req.url))
