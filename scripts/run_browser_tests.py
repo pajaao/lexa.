@@ -8,7 +8,7 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
-ESSENTIAL = ['interface_review', 'data_loading', 'reading', 'library_search', 'favorites', 'clipboard', 'pwa', 'offline_policy', 'benchmark_contract']
+ESSENTIAL = ['interface_review', 'data_loading', 'reading', 'reader_navigation', 'library_search', 'favorites', 'clipboard', 'pwa', 'offline_policy', 'benchmark_contract']
 ALL = [*ESSENTIAL, 'structure', 'additional_legislation', 'memory_session', 'partial_update']
 
 
