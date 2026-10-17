@@ -5,7 +5,7 @@ import {resolve, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 
-export async function stagePages(destination=resolve(root,'dist')) {
+export async function stagePages(destination=resolve(root,'dist'),options={}) {
  const archive=JSON.parse(await readFile(resolve(root,'sources/manifest.json'),'utf8'));
  const sumulas=JSON.parse(await readFile(resolve(root,'sources/sumulas-manifest.json'),'utf8'));
  const documents=[...Object.values(archive),sumulas];
@@ -13,7 +13,7 @@ export async function stagePages(destination=resolve(root,'dist')) {
  for(const source of documents){
   if(!/^sources\/[A-Za-z0-9_.-]+\.pdf$/.test(source.pdf))throw new Error('Caminho de PDF inválido');
  }
- const {html,files:dataFiles,manifest}=await buildPackage();
+ const {html,files:dataFiles,manifest}=await buildPackage(options);
  await rm(destination,{recursive:true,force:true});
  await mkdir(destination,{recursive:true});
  await writeFile(resolve(destination,'index.html'),html);
