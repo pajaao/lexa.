@@ -13,9 +13,9 @@ npm start
 npm test
 ```
 
-O servidor usa a porta 3000 (`PORT` permite substituí-la). `npm run build` gera `dist/index.html` com CSS, dados e JavaScript incorporados, para que a leitura funcione também na prévia isolada do arquivo, sem requisições externas. Os PDFs de origem estão disponíveis quando o site é servido completo; não são incorporados ao HTML.
+O servidor usa a porta 3000 (`PORT` permite substituí-la). `npm run build` gera um shell `dist/index.html` com CSS, JavaScript e metadados, `dist/catalog.json` e arquivos `dist/data/<id>.<sha256>.json` por norma e para o histórico. Os textos não ficam no HTML. Sirva o diretório completo por HTTP; uma prévia com somente `index.html` não funciona para leitura. Os PDFs de origem estão disponíveis quando o site é servido completo; não são incorporados ao HTML.
 
-Edite o HTML-base em `src/index.html`, os estilos em `src/styles.css`, o catálogo e a busca em `src/data.js` e o comportamento em `src/app.js`. `npm start` e `npm run dev` também geram o HTML antes de iniciar. O código usa fontes locais.
+Edite o HTML-base em `src/index.html`, os estilos em `src/styles.css`, o catálogo em `src/catalog.js`, a busca em `src/data.js` e o carregamento em `src/loading.js` e o comportamento em `src/app.js`. `npm start` e `npm run dev` também geram o HTML antes de iniciar. O código usa fontes locais.
 
 ## Conteúdo e proveniência
 
@@ -78,7 +78,7 @@ O repositório público inclui o workflow **Publicar Lexa no GitHub Pages**, que
 2. Em **Actions → Publicar Lexa no GitHub Pages**, execute **Run workflow** na `main` se não houver uma execução em andamento após a ativação.
 3. A etapa de publicação informa o endereço real do site; para o nome atual do repositório, o endereço esperado é `https://pajaao.github.io/lexa./`.
 
-`npm run build:pages` gera `dist/` com o HTML autocontido, os ícones do site, `.nojekyll` e os PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
+`npm run build:pages` gera `dist/` com o shell HTML, catálogo, JSONs com hash, os ícones do site, `.nojekyll` e os PDFs arquivados. Somente esse pacote é enviado ao Pages; scripts de manutenção, capturas brutas, relatórios e arquivos Git não fazem parte da publicação. O pacote é gerado novamente a cada execução e não é versionado. Nenhum token pessoal é necessário: o workflow usa as permissões oficiais do GitHub Pages.
 
 As rotas usam fragmentos, como `/lexa./#/civil/186` e `/lexa./#/sv/13`, e os PDFs usam caminhos relativos, funcionando tanto em uma subpasta do projeto quanto em um domínio próprio. Favoritos continuam locais ao navegador. A interface informa a fonte e a edição de cada base e traz um aviso de consulta no rodapé. A publicação não executa coletas de fontes na rede: falhas do Planalto ou do STF não impedem publicar uma versão já revisada e testada.
 
@@ -94,11 +94,11 @@ Os ajustes de fonte e espaçamento são salvos em `lexa-reading`, e a última en
 
 `src/pwa.js` registra o worker somente em contexto seguro, mostra o estado offline e oferece a ativação de uma versão pendente. `src/sw.js` é o modelo do service worker. O build calcula uma versão SHA-256 a partir do HTML, worker e recursos offline; cada atualização de textos também produz uma nova versão. Não edite `dist/sw.js` diretamente.
 
-A instalação do worker baixa o HTML autocontido, manifesto e ícones. O HTML baixado deve corresponder ao SHA-256 calculado no build. Uma falha impede a instalação da versão; a edição anterior continua ativa. O pacote ativo é servido do cache até a pessoa aceitar “Atualizar agora”. Não há ativação automática de uma versão pendente. Somente depois da ativação são removidos os caches anteriores desse aplicativo e escopo. Favoritos e preferências usam localStorage e não são apagados na atualização.
+A instalação do worker prepara o shell, catálogo, manifesto, ícones e todos os JSONs de normas e histórico. O build incorpora no worker a lista de arquivos e o SHA-256 de cada um. Todos os arquivos são verificados antes de a instalação ser aceita. A carga interativa de JSON também confere o hash. JSONs imutáveis usam `cache:default` e são reutilizados dos caches anteriores do mesmo escopo, com nova verificação, sem serem baixados novamente quando só a interface muda. Arquivos do shell usam recarga para evitar misturar edições. Uma instalação rejeitada remove seu cache parcial. Uma falha impede a instalação da versão; a edição anterior continua ativa. O pacote ativo é servido do cache até a pessoa aceitar “Atualizar agora”. Não há ativação automática de uma versão pendente. Somente depois da ativação são removidos os caches anteriores desse aplicativo e escopo. Favoritos e preferências usam localStorage e não são apagados na atualização.
 
 Não são armazenados PDFs nem páginas externas. O worker intercepta somente navegação para a raiz do aplicativo ou `index.html` e os recursos explícitos do pacote, dentro do próprio escopo. A leitura offline não verifica alterações nas fontes oficiais nem certifica vigência. Em navegação privada, falta de espaço ou limpeza de dados, o armazenamento pode ficar indisponível.
 
-Para validar o ciclo real do worker, com Playwright para Python e `/usr/bin/chromium`, execute `npm run build` e `python3 tests/browser/pwa.py`. O teste usa uma subpasta temporária, desconecta a rede, simula versões novas e uma instalação incompleta, e verifica a preservação das preferências e de caches de outros projetos. A instalação pela interface do sistema operacional deve ser conferida no dispositivo de destino.
+Para validar o ciclo real do worker, com Playwright para Python e `/usr/bin/chromium`, execute `npm run build` e `python3 tests/browser/pwa.py`. O teste usa uma subpasta temporária, desconecta a rede, simula versões novas, um shell indisponível e JSON adulterado em atualização e em primeira instalação, e verifica a preservação das preferências e de caches de outros projetos e a ausência de download de JSONs inalterados. A instalação pela interface do sistema operacional deve ser conferida no dispositivo de destino.
 
 ## Hierarquia na leitura
 
@@ -147,3 +147,13 @@ Para reimportar somente os novos PDFs, use `python3 scripts/import_pdfs.py --onl
 O PDF completo `sources/clt.pdf` tem 205 páginas e inclui o art. 922 e os anexos. A extração e a edição HTML começam somente no marcador “CONSOLIDAÇÃO DAS LEIS DO TRABALHO”, para não confundir os arts. 1º e 2º do decreto aprovador com os arts. 1º e 2º da CLT. Esse limite é configurado como `content_start` no monitor e também é aplicado na validação de cobertura. O decreto de aprovação e os anexos permanecem disponíveis no PDF integral.
 
 Para reimportar esse PDF, use `python3 scripts/import_pdfs.py --only clt`. Rubricas em negrito são preservadas como títulos dos dispositivos; a referência “Capítulo I do CPC” no art. 896 permanece no parágrafo correspondente, sem ser tomada como capítulo da CLT. São verificadas a cobertura dos 922 números-base, as entradas com letras e a preservação de notas e riscados. A biblioteca e o monitor passam a incluir treze legislações, além das súmulas.
+
+## Carregamento e desempenho
+
+A home usa somente metadados, contagens e fontes. Não há download de JSONs jurídicos pela interface até abrir uma norma ou iniciar uma busca; a instalação independente da PWA baixa todos para o acesso offline. Favoritos carregam apenas as normas marcadas. O histórico usa um JSON próprio. A retomada usa a referência local e a valida assim que a norma é carregada.
+
+Uma referência com sigla carrega apenas sua coleção; referências sem sigla e busca textual preparam todas as coleções, com no máximo três carregamentos simultâneos. Os índices de busca são calculados por norma quando usados. A interface mostra estados acessíveis de carregamento, permite repetir uma falha e ignora respostas que chegam após trocar de página ou consulta. Favoritos, avisos legais e rotas públicas permanecem preservados.
+
+`python3 tests/browser/data_loading.py` confere carga seletiva, retry, navegação concorrente e a lista exata dos 52 resultados de “dignidade” em 12 coleções registrada antes da refatoração. `tests/browser/interface_review.py` confere frases no celular, chips por teclado, histórico inicial, SVG e recuo. `python3 tests/browser/performance.py` mede cinco visitas locais com cache novo, service worker bloqueado e CPU 4× mais lenta; requer Playwright e Chromium e não consulta a internet. Um diretório alternativo pode ser passado como argumento para medir outra compilação.
+
+O teste de build impõe HTML abaixo de 300 KB e verifica que mudar somente CSS preserva todos os nomes e bytes dos JSONs. O servidor local fornece JSON com MIME apropriado e cache imutável para nomes com hash. O artefato de prévia do monitor contém `dist/` inteiro.

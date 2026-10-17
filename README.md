@@ -143,6 +143,8 @@ npm test
 npm run test:python
 ```
 
+O build gera um shell leve em `dist/index.html`, um catálogo pequeno em `dist/catalog.json` e um JSON com nome baseado em SHA-256 por norma. A home abre sem carregar o acervo; o leitor carrega a norma escolhida e a primeira busca textual prepara as demais coleções. A PWA prepara todos esses arquivos para a leitura offline e reutiliza JSONs inalterados nas atualizações. Para testar ou compartilhar uma prévia, sirva a pasta `dist/` inteira por HTTP; abrir somente o HTML como arquivo não é suficiente.
+
 A hospedagem usa GitHub Pages. Cada mudança incorporada na `main` passa pelas verificações do workflow antes da publicação.
 
 Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhes sobre fontes, importação de PDFs, testes, estrutura dos arquivos e configuração do Pages. Veja também o **[monitor das legislações](monitor/README.md)** e a documentação da **[coleta pausada do STF](monitor/stf/README.md)**.

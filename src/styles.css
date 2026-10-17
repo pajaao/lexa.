@@ -291,3 +291,5 @@ select,select option{color:var(--ink);background-color:var(--surface)}
 @media(max-width:900px){.hero-art{display:none}.hero{padding-right:44px}.hero-search{min-width:0}.hero p{max-width:590px}}
 @media(max-width:700px){.hero{padding-right:22px}}
 @media(max-width:400px){header nav{gap:2px}header nav>a,header nav>button{padding-inline:5px;font-size:10px}#theme{gap:4px}}
+.loading-panel{padding:44px;min-height:40vh}.loading-panel h1{font-size:36px}.loading-panel p{font-size:14px;line-height:1.8}.loading-panel button{border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--ink);padding:12px 16px;margin-right:20px}.loading-panel>a{text-decoration:underline}
+@media(max-width:700px){.loading-panel{padding:30px 22px}}

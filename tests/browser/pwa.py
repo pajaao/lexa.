@@ -2,14 +2,14 @@
 Requires Playwright for Python and /usr/bin/chromium; run npm run build first.
 """
 from pathlib import Path
-import functools, hashlib, http.server, re, shutil, tempfile, threading
+import functools, hashlib, http.server, re, shutil, tempfile, threading, json
 from playwright.sync_api import sync_playwright, expect
 
 root=Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory() as temporary:
     site=Path(temporary)/'lexa.'
     shutil.copytree(root/'dist',site)
-    failure={'enabled':False}
+    failure={'enabled':False};requests=[]
     class Handler(http.server.SimpleHTTPRequestHandler):
         extensions_map={**http.server.SimpleHTTPRequestHandler.extensions_map,'.webmanifest':'application/manifest+json'}
         def log_message(self,*args):pass
@@ -17,6 +17,7 @@ with tempfile.TemporaryDirectory() as temporary:
             self.send_header('Cache-Control','no-store')
             super().end_headers()
         def do_GET(self):
+            requests.append(self.path.split('?')[0])
             if failure['enabled'] and self.path.split('?')[0]=='/lexa./index.html':
                 self.send_error(503);return
             super().do_GET()
@@ -28,7 +29,10 @@ with tempfile.TemporaryDirectory() as temporary:
         (site/'index.html').write_text(html)
         worker=(site/'sw.js').read_text()
         worker=re.sub(r"const VERSION = '[a-f0-9]{64}'",f"const VERSION = '{hashlib.sha256(version.encode()).hexdigest()}'",worker)
-        worker=re.sub(r"const HTML_SHA256 = '[a-f0-9]{64}'",f"const HTML_SHA256 = '{hashlib.sha256(html.encode()).hexdigest()}'",worker)
+        specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
+        for spec in specs:
+            if spec['file']=='index.html':spec['sha256']=hashlib.sha256(html.encode()).hexdigest()
+        worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker)
         (site/'sw.js').write_text(worker)
     try:
         with sync_playwright() as p:
@@ -60,9 +64,11 @@ with tempfile.TemporaryDirectory() as temporary:
             # There is no offline promise for PDFs or external official sources.
             assert page.evaluate("fetch('./sources/missing.pdf').then(()=>false,()=>true)")
             context.set_offline(False)
+            before_json=len([path for path in requests if '/data/' in path])
             deploy('v2')
             page.evaluate('(async()=> (await navigator.serviceWorker.getRegistration()).update())()')
             expect(page.locator('#pwa-update')).to_be_visible(timeout=20000)
+            assert len([path for path in requests if '/data/' in path])==before_json,'Atualização só de shell baixou dados inalterados'
             assert page.locator('body').get_attribute('data-test-version') is None
             with page.expect_navigation():page.locator('#pwa-refresh').click()
             expect(page.locator('body')).to_have_attribute('data-test-version','v2')
@@ -87,7 +93,35 @@ with tempfile.TemporaryDirectory() as temporary:
             }''')
             assert page.locator('#pwa-update').is_hidden()
             context.set_offline(True);page.reload();expect(page.locator('body')).to_have_attribute('data-test-version','v2')
+            # A new immutable legal file with the wrong bytes must also be rejected.
+            context.set_offline(False);failure['enabled']=False;deploy('v4')
+            worker=(site/'sw.js').read_text()
+            specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
+            spec=next(item for item in specs if item['file'].startswith('data/clt.'))
+            original=(site/spec['file']).read_bytes();new_bytes=original+b' '
+            new_hash=hashlib.sha256(new_bytes).hexdigest()
+            spec['file']='data/clt.'+new_hash+'.json';spec['sha256']=new_hash
+            (site/spec['file']).write_bytes(original) # deliberately wrong bytes
+            worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker)
+            (site/'sw.js').write_text(worker)
+            page.evaluate('''async()=>{
+                const r=await navigator.serviceWorker.getRegistration();
+                await new Promise((resolve,reject)=>{
+                    const timer=setTimeout(()=>reject(new Error('Instalação adulterada não terminou')),20000);
+                    r.addEventListener('updatefound',()=>{const w=r.installing;w.addEventListener('statechange',()=>{if(w.state==='redundant'){clearTimeout(timer);resolve();}});},{once:true});
+                    r.update().catch(reject);
+                });
+            }''')
+            assert page.locator('#pwa-update').is_hidden()
+            context.set_offline(True);page.goto(base+'#/clt/922');expect(page.locator('#art-922')).to_be_visible()
+            assert page.locator('body').get_attribute('data-test-version')=='v2'
+            assert page.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==1
+            fresh=browser.new_context();first=fresh.new_page();first.goto(base)
+            expect(first.locator('#pwa-status')).to_contain_text('Não foi possível preparar',timeout=20000)
+            assert first.evaluate('navigator.serviceWorker.controller===null')
+            assert first.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==0
+            fresh.close()
             assert not errors,errors
             browser.close()
-            print('PWA validada: subpasta, leitura offline, atualização consentida, preservação de favoritos/preferências, limpeza isolada e rejeição de pacote incompleto.')
+            print('PWA validada: subpasta, leitura offline, atualização consentida, preservação de favoritos/preferências, limpeza isolada e reutilização sem download de JSON e rejeição de shell incompleto e JSON adulterado.')
     finally:server.shutdown();server.server_close()

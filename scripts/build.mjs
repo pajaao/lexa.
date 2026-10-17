@@ -1,24 +1,35 @@
-import { readFile } from 'node:fs/promises';
-const root = new URL('../', import.meta.url);
-export async function buildHtml() {
-const [template, css, content, official, updates, history, sumulas, officialSumulas, sumulaUpdates, data, structure, copy, librarySearch, pwa, app] = await Promise.all([
-  'src/index.html', 'src/styles.css', 'data/archive/legislation.js', 'data/official/legislation.js', 'data/history/legislation.js', 'src/history.js', 'data/archive/sumulas.js', 'data/official/sumulas.js', 'data/history/sumulas.js', 'src/data.js', 'src/structure.js', 'src/copy.js', 'src/library-search.js', 'src/pwa.js', 'src/app.js'
-].map(path => readFile(new URL(path, root), 'utf8')));
-function jsonExport(source, name) {
-  const marker = `export const ${name} = `;
-  const index = source.indexOf(marker);
-  if (index < 0) throw new Error(`Dados ausentes: ${name}`);
-  return JSON.parse(source.slice(index + marker.length).trim().replace(/;$/, ''));
+import {readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {catalog} from '../src/catalog.js';
+import {imported} from '../data/archive/legislation.js';
+import {officialImported} from '../data/official/legislation.js';
+import {sumulas} from '../data/archive/sumulas.js';
+import {officialSumulas} from '../data/official/sumulas.js';
+import {updateHistory} from '../data/history/legislation.js';
+import {sumulaUpdates} from '../data/history/sumulas.js';
+const root=new URL('../',import.meta.url);
+export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
+export async function buildPackage({css:cssOverride}={}){
+ const files=new Map();
+ function asset(id,value){
+  const bytes=JSON.stringify(value),sha=sha256(bytes),file=`data/${id}.${sha}.json`;
+  files.set(file,bytes);return {file,sha256:sha};
+ }
+ const history=[...updateHistory,...sumulaUpdates];
+ const norms=[...catalog.map(code=>({...code,...(officialImported[code.id]||imported[code.id])})),...(officialSumulas.length?officialSumulas:sumulas)];
+ const metadata=norms.map(norm=>{
+  const {articles,sections,introductions,...fields}=norm;
+  return {...fields,articleCount:articles.length,...asset(norm.id,norm),changedArticleIds:[...new Set(history.filter(event=>event.codeId===norm.id).flatMap(event=>event.changes.map(change=>change.articleId)))]};
+ });
+ const manifest={collections:metadata,history:asset('history',history)};
+ files.set('catalog.json',JSON.stringify(manifest));
+ const paths=['index.html','styles.css','history.js','collection-model.js','data.js','structure.js','copy.js','library-search.js','loading.js','pwa.js','app.js'];
+ const [template,originalCss,...modules]=await Promise.all(paths.map(path=>readFile(new URL('src/'+path,root),'utf8')));
+ const css=cssOverride??originalCss;
+ const bootstrap=`const initialCatalog=${JSON.stringify(manifest)};\nconst collections=initialCatalog.collections.map(code=>({...code,articles:[],sections:[],loaded:false}));\nconst codes=collections.filter(code=>code.kind!=='sumulas');\nconst catalog=codes;\nconst updateHistory=[];const sumulaUpdates=[];`;
+ const javascript=[bootstrap,...modules].map(source=>source.replace(/^export \{[^\n]*\};?\n/gm,'').replace(/^export /gm,'').replace(/^import .*?;\n/gm,'')).join('\n');
+ if(/<\/script/i.test(javascript)||/<\/style/i.test(css))throw new Error('Conteúdo incompatível com incorporação HTML');
+ const html=template.replace('<link rel="stylesheet" href="./styles.css">',()=>`<style>${css}</style>`).replace('<script type="module" src="./app.js"></script>',()=>`<script>${javascript}</script>`);
+ return {html,files,manifest};
 }
-const officialData = jsonExport(official, 'officialImported');
-// Keep archived PDFs in the repository, but do not embed duplicate old text in
-// previews after an official edition has replaced it for a given legislation.
-const archivedData = Object.fromEntries(Object.entries(jsonExport(content, 'imported')).filter(([id])=>!officialData[id]));
-const stfData=jsonExport(officialSumulas,'officialSumulas');
-const embedded = `const imported = ${JSON.stringify(archivedData)};\nconst officialImported = ${JSON.stringify(officialData)};\nconst updateHistory = ${JSON.stringify(jsonExport(updates,'updateHistory'))};\nconst sumulas = ${JSON.stringify(stfData.length?[]:jsonExport(sumulas,'sumulas'))};\nconst officialSumulas = ${JSON.stringify(stfData)};\nconst sumulaUpdates = ${JSON.stringify(jsonExport(sumulaUpdates,'sumulaUpdates'))};`;
-const javascript = [embedded, history, data, structure, copy, librarySearch, pwa, app].map(source => source.replace(/^export /gm, '').replace(/^import .*?;\n/gm, '')).join('\n');
-if (/<\/script/i.test(javascript) || /<\/style/i.test(css)) throw new Error('Conteúdo incompatível com incorporação HTML');
-const html = template.replace('<link rel="stylesheet" href="./styles.css">', () => `<style>${css}</style>`)
-  .replace('<script type="module" src="./app.js"></script>', () => `<script>${javascript}</script>`);
-return html;
-}
+export async function buildHtml(){return (await buildPackage()).html;}
