@@ -1,0 +1,274 @@
+{
+  "scope": "Only cold initial library; not a new full performance audit",
+  "base_revision": "b0d3784",
+  "before": {
+    "html_sha256": "86fe97a3410682e5dfa9deadb3153753f2d20a802d9294284248068db43d30ce",
+    "python": "3.12.14",
+    "playwright": "1.62.0",
+    "chromium": "154.0.8037.57",
+    "cpu": 4,
+    "runs": 5,
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "service_workers": "blocked",
+    "network": "loopback, no compression/throttling",
+    "samples": [
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 420.8,
+        "next_frame_ms": 441.9,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 159886,
+          "cdp_reported_bytes": 159886,
+          "shell_network_bytes": 53811,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 106075
+        },
+        "origin_body_bytes": 155794,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 419.1,
+        "next_frame_ms": 441.9,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 159886,
+          "cdp_reported_bytes": 159886,
+          "shell_network_bytes": 53811,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 106075
+        },
+        "origin_body_bytes": 155794,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 401.4,
+        "next_frame_ms": 429.9,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 159886,
+          "cdp_reported_bytes": 159886,
+          "shell_network_bytes": 53811,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 106075
+        },
+        "origin_body_bytes": 155794,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 419.9,
+        "next_frame_ms": 458.2,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 159886,
+          "cdp_reported_bytes": 159886,
+          "shell_network_bytes": 53811,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 106075
+        },
+        "origin_body_bytes": 155794,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 445.2,
+        "next_frame_ms": 469.4,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 159886,
+          "cdp_reported_bytes": 159886,
+          "shell_network_bytes": 53811,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 106075
+        },
+        "origin_body_bytes": 155794,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      }
+    ],
+    "median_ms": 419.9,
+    "network_bytes_median": 159886,
+    "request_count_median": 21,
+    "html_bytes": 53645,
+    "catalog_bytes": 19141,
+    "module_bytes": 101849
+  },
+  "after": {
+    "html_sha256": "e11bcc2fee5283e57b0471d2371440d5bce488fd8a290cac5e4d84bbb5934d77",
+    "python": "3.12.14",
+    "playwright": "1.62.0",
+    "chromium": "154.0.8037.57",
+    "cpu": 4,
+    "runs": 5,
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "service_workers": "blocked",
+    "network": "loopback, no compression/throttling",
+    "samples": [
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 484.8,
+        "next_frame_ms": 514.7,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 162805,
+          "cdp_reported_bytes": 162805,
+          "shell_network_bytes": 55401,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 107404
+        },
+        "origin_body_bytes": 158713,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 472.9,
+        "next_frame_ms": 496.8,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 162805,
+          "cdp_reported_bytes": 162805,
+          "shell_network_bytes": 55401,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 107404
+        },
+        "origin_body_bytes": 158713,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 438.9,
+        "next_frame_ms": 466.9,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 162805,
+          "cdp_reported_bytes": 162805,
+          "shell_network_bytes": 55401,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 107404
+        },
+        "origin_body_bytes": 158713,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 445.2,
+        "next_frame_ms": 471.6,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 162805,
+          "cdp_reported_bytes": 162805,
+          "shell_network_bytes": 55401,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 107404
+        },
+        "origin_body_bytes": 158713,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      },
+      {
+        "scenario": "library_initial",
+        "cache": "cold",
+        "model_state": "empty",
+        "duration_ms": 403.2,
+        "next_frame_ms": 430.5,
+        "transfer": {
+          "request_count": 21,
+          "cached_requests": 0,
+          "failed_requests": 0,
+          "unfinished_requests": 0,
+          "network_bytes": 162805,
+          "cdp_reported_bytes": 162805,
+          "shell_network_bytes": 55401,
+          "legal_json_network_bytes": 0,
+          "other_network_bytes": 107404
+        },
+        "origin_body_bytes": 158713,
+        "origin_requests": 21,
+        "js_heap_after_gc_bytes": null,
+        "js_heap_delta_bytes": null
+      }
+    ],
+    "median_ms": 445.2,
+    "network_bytes_median": 162805,
+    "request_count_median": 21,
+    "html_bytes": 55235,
+    "catalog_bytes": 19576,
+    "module_bytes": 103178
+  },
+  "limitations": [
+    "Shared container; CPU frequency and host load uncontrolled",
+    "Loopback is not a mobile network",
+    "Service worker blocked; automatic offline install measured separately in functional tests",
+    "Five samples per build; timing difference is observational, not a statistical conclusion"
+  ]
+}
