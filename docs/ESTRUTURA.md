@@ -9,7 +9,11 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 | `src/index.html` | Estrutura da página | Editar a interface aqui |
 | `src/styles.css` | Aparência e responsividade | Editar estilos aqui |
 | `src/app.js` | Navegação e controles de leitura | Editar comportamentos aqui |
-| `src/data.js` | Catálogo, busca e escolha das edições | Editar a lógica aqui |
+| `src/catalog.js` | Metadados das legislações | Editar o catálogo aqui |
+| `src/data.js` | Referências e busca por artigo | Editar a lógica aqui |
+| `src/collections.js` | Escolha das edições para ferramentas e testes Node | Usa bases geradas; não integra o shell do navegador |
+| `src/collection-model.js` | Preparação de uma norma e índice textual sob demanda | Preservar os textos e construir a busca apenas quando usada |
+| `src/loading.js` | Carregamento assíncrono, integridade e repetição de tentativas | Editar a lógica aqui |
 | `src/history.js` | Comparação e filtros do histórico | Editar a lógica aqui |
 | `public/` | Ícones e manifesto da PWA | Atualizar os recursos de instalação aqui |
 | `src/pwa.js` e `src/sw.js` | Instalação, leitura offline e atualização da PWA | Editar o worker de origem; sua versão é gerada no build |
@@ -27,17 +31,17 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 ## Executar e publicar
 
 - `npm start`: gera o pacote e serve `dist/` na porta 3000. Rode novamente após editar os arquivos; não há recarga automática.
-- `npm run build`: recria `dist/`, incluindo HTML autocontido, ícones e PDFs. Requer Node.js 22 ou superior, sem dependências npm.
+- `npm run build`: recria `dist/`, incluindo shell HTML, catálogo, JSONs por norma, ícones e PDFs. Requer Node.js 22 ou superior, sem dependências npm.
 - `npm test`: gera o pacote e executa os testes JavaScript.
 - `npm run test:python`: executa os testes Python sem consultar as fontes na rede. Use Python 3.12 ou superior.
 
-`dist/` é descartável e fica fora do Git. O arquivo `dist/index.html` incorpora estilos, JavaScript e textos para funcionar também na prévia isolada. Edite os arquivos de origem em `src/`, e gere o pacote novamente. A publicação inclui somente os arquivos permitidos pelo gerador, sem expor o checkout inteiro.
+`dist/` é descartável e fica fora do Git. O arquivo `dist/index.html` incorpora estilos, JavaScript e somente o catálogo de metadados. Os textos ficam em `dist/data/<id>.<sha256>.json`; o histórico é outro JSON com hash. `dist/catalog.json` descreve a edição e os arquivos. Sirva a pasta inteira por HTTP (`npm start`), inclusive para conferir uma prévia; o HTML isolado não contém os textos. Edite os arquivos de origem em `src/`, e gere o pacote novamente. A publicação inclui somente os arquivos permitidos pelo gerador, sem expor o checkout inteiro.
 
 Ao incorporar mudanças à `main`, o workflow `deploy-pages.yml` testa o projeto e publica `dist/` no GitHub Pages. Os caminhos públicos, os favoritos do navegador e os links para artigos permanecem os mesmos.
 
 ## Atualização dos textos
 
-O monitor do Planalto prepara os dados oficiais, o histórico e uma proposta em rascunho. A prévia gerada fica como artefato do Actions, sem versionar o HTML compilado. Após revisão e merge, o workflow de publicação atualiza o site.
+O monitor do Planalto prepara os dados oficiais, o histórico e uma proposta em rascunho. A prévia gerada, com a pasta `dist/` inteira, fica como artefato do Actions, sem versionar o HTML compilado. Após revisão e merge, o workflow de publicação atualiza o site.
 
 As súmulas continuam com atualização manual; a rotina de coleta do STF permanece disponível somente para diagnóstico manual. Esta organização não reativa a coleta.
 

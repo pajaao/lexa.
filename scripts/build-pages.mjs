@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {buildHtml} from './build.mjs';
+import {buildPackage,sha256} from './build.mjs';
 import {cp, mkdir, readFile, rm, writeFile} from 'node:fs/promises';
 import {resolve, dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -13,22 +13,24 @@ export async function stagePages(destination=resolve(root,'dist')) {
  for(const source of documents){
   if(!/^sources\/[A-Za-z0-9_.-]+\.pdf$/.test(source.pdf))throw new Error('Caminho de PDF inválido');
  }
- const html=await buildHtml();
+ const {html,files:dataFiles}=await buildPackage();
  await rm(destination,{recursive:true,force:true});
  await mkdir(destination,{recursive:true});
  await writeFile(resolve(destination,'index.html'),html);
  const files=['favicon.svg','favicon.ico','apple-touch-icon.png','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
  const worker=await readFile(resolve(root,'src/sw.js'),'utf8');
+ const integrity=[{file:'index.html',sha256:sha256(html)}];
  const hash=createHash('sha256').update(html).update(worker);
- for(const file of files){const bytes=await readFile(resolve(root,'public',file));hash.update(file).update(bytes);await writeFile(resolve(destination,file),bytes);}
- await writeFile(resolve(destination,'sw.js'),worker.replace('__LEXA_VERSION__',hash.digest('hex')).replace('__LEXA_HTML_SHA256__',createHash('sha256').update(html).digest('hex')));
+ for(const [file,bytes] of dataFiles){await mkdir(dirname(resolve(destination,file)),{recursive:true});await writeFile(resolve(destination,file),bytes);integrity.push({file,sha256:sha256(bytes)});hash.update(file).update(bytes);}
+ for(const file of files){const bytes=await readFile(resolve(root,'public',file));hash.update(file).update(bytes);integrity.push({file,sha256:sha256(bytes)});await writeFile(resolve(destination,file),bytes);}
+ await writeFile(resolve(destination,'sw.js'),worker.replace('__LEXA_VERSION__',hash.digest('hex')).replace('__LEXA_INTEGRITY_MANIFEST__',JSON.stringify(integrity)));
  await writeFile(resolve(destination,'.nojekyll'),'');
  for(const {pdf} of documents){
   const target=resolve(destination,pdf);
   await mkdir(dirname(target),{recursive:true});
   await cp(resolve(root,pdf),target);
  }
- console.log(`Pacote do GitHub Pages: HTML autocontido e ${documents.length} PDFs.`);
+ console.log(`Pacote do GitHub Pages: shell, ${dataFiles.size} arquivos de dados e ${documents.length} PDFs.`);
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){

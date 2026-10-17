@@ -1,3 +1,4 @@
+import {loadCollection,loadCollections,loadHistory} from './loading.js';
 import { searchLibraryText, libraryExcerpt } from './library-search.js';
 import { articleCopyText } from './copy.js';
 import { sectionPath, headingKind, unitKind, buildSectionTree } from './structure.js';
@@ -10,7 +11,7 @@ import { filterUpdates, compareVersions, historySummary } from './history.js';
 const recordedUpdates=[...updateHistory,...sumulaUpdates];
 const app = document.querySelector('#app');
 const escape = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const total = collections.filter(c=>c.kind!=='sumulas').reduce((n,c)=>n+c.articles.length,0);
+const total = collections.filter(c=>c.kind!=='sumulas').reduce((n,c)=>n+c.articleCount,0);
 const number = n => n.toLocaleString('pt-BR');
 let category = 'Todas as áreas';
 let libraryQuery='';
@@ -27,14 +28,15 @@ const readingPreferences={
 function lastReading(){
  const value=storageRead('lexa-last-reading',null);
  const code=collections.find(c=>c.id===value?.codeId);
- const article=code&&typeof value.articleId==='string'?articleById(code,value.articleId):null;
+ let article=code&&typeof value.articleId==='string'?articleById(code,value.articleId):null;
+ if(code&&!code.loaded&&/^(?:adct-)?\d+(?:-[A-Z]+)*$/.test(value.articleId))article={id:value.articleId,number:value.articleId.replace('adct-',''),scope:value.articleId.startsWith('adct-')?'adct':'main',kind:code.kind==='sumulas'?'vinculante':undefined};
  return article?{code,article}:null;
 }
 let cleanupReader=()=>{};
 function toast(message) { const el=document.querySelector('#toast'); el.textContent=message; el.classList.add('visible'); setTimeout(()=>el.classList.remove('visible'),2500); }
 document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();app.focus();app.scrollIntoView({block:'start'});});
 const codeHref = (code,article='') => `#/${encodeURIComponent(code.id)}${article?'/'+article:''}`;
-const historyArticleIds=new Set(recordedUpdates.flatMap(event=>event.changes.map(change=>event.codeId+'/'+change.articleId)));
+const historyArticleIds=new Set([...recordedUpdates.flatMap(event=>event.changes.map(change=>event.codeId+'/'+change.articleId)),...collections.flatMap(code=>(code.changedArticleIds||[]).map(id=>code.id+'/'+id))]);
 
 const collectionDate = source => new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'short'}).format(new Date(source.capturedAt));
 function sourcePanel(source) {
@@ -87,8 +89,9 @@ async function copyContent(text,button,message){
 }
 function home() {
  const resume=lastReading();
+ let homeActive=true,searchSequence=0;
  document.title='Lexa — Legislação, com clareza';
- app.innerHTML=`<section class="hero"><div class="eyebrow"><span></span> SEU PONTO DE PARTIDA NO DIREITO</div><h1>A lei, mais perto. <br><em>A consulta, mais simples.</em></h1><p>Busque por referência, palavra ou súmula. <br>Compare as versões registradas e leia offline após preparar o acesso neste navegador.</p><label class="search hero-search"><span>⌕</span><input id="library-search" placeholder="Ex.: Art. 60 CF, CPC ou dignidade…" aria-label="Buscar na biblioteca"><kbd>/</kbd></label><div class="search-examples" role="group" aria-label="Exemplos de busca"><span>Experimente</span>${['Art. 5 CF','SV 13','dignidade'].map(query=>`<button type="button" data-example="${escape(query)}">${escape(query)}</button>`).join('')}</div><div class="quick-reference" id="quick-reference" aria-label="Resultados por referência" hidden></div><div class="hero-note">§ <span>${collections.filter(c=>c.kind!=='sumulas').length} legislações · ${number(total)} entradas de artigos · ${collections.find(c=>c.id==='sv').articles.length} súmulas vinculantes</span></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="book book-back"></div><div class="book book-front"><span>LEXA / BIBLIOTECA JURÍDICA</span><b>O direito <br>ao seu <br>alcance.</b><i>§</i><small>LEGISLAÇÃO FEDERAL BRASILEIRA</small></div><div class="art-tag">↗ Clareza em cada artigo</div></div></section>${resume?`<section class="resume-reading" aria-label="Retomar leitura"><div><span class="eyebrow">SUA ÚLTIMA LEITURA</span><p><strong>${escape(resume.code.name)}</strong> · ${articleLabel(resume.article)}</p><small>Salva somente neste navegador.</small></div><a href="${codeHref(resume.code,resume.article.id)}">Continuar leitura →</a><button id="forget-reading" aria-label="Esquecer última leitura">×</button></section>`:''}<section class="library"><div class="section-heading"><div class="eyebrow">EXPLORE A BIBLIOTECA</div><h2>O que você quer consultar?</h2><p>Busque uma coleção, uma referência ou palavras nos textos de toda a biblioteca.</p></div><div class="filters" aria-label="Filtrar por área">${['Todas as áreas','Constitucional','Civil','Penal','Processual','Consumidor','Tributário','Trabalho','Infância e Juventude','Mulher','Administrativo','Súmulas'].map(x=>`<button class="${x===category?'active':''}" data-category="${x}" aria-pressed="${x===category}">${x}</button>`).join('')}</div><p id="library-results" class="library-results" role="status"></p><div class="cards" id="cards"></div><div id="text-results" class="text-results"></div><div class="notice"><span>ⓘ</span><div><strong>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'Textos extraídos das fontes oficiais':'Base de leitura e atualização'}</strong><p>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'As legislações foram extraídas das páginas oficiais do Planalto. A data de coleta aparece em cada legislação.':'Esta edição usa os PDFs fornecidos. A Constituição segue a 69ª edição da Câmara (2026), até a EC 138/2025.'} Novas coletas são propostas para revisão antes de incorporar os textos ao site. A data de coleta não certifica o início de vigência de cada alteração. ${collections.find(c=>c.id==='sv').source.kind==='official_stf'?'As súmulas vinculantes usam a edição das páginas oficiais do STF incorporada após revisão.':'As súmulas vinculantes usam o PDF fornecido, com consulta declarada em 16/10/2026.'} As situações constam em cada entrada.</p></div></div></section><section class="history-invite"><div><div class="eyebrow">DE OLHO NAS VERSÕES</div><h2>Entenda o que mudou.</h2><p>Acompanhe os registros e compare os textos das atualizações.</p></div><a href="#/atualizacoes">Ver atualizações →</a></section><section class="features"><div><span>01 / ENCONTRE</span><h3>Menos caminhos. <br>Mais respostas.</h3><p>Legislações e súmulas organizadas, com indicação da edição consultada.</p></div><div><span>02 / NAVEGUE</span><h3>Direto ao artigo <br>que você precisa.</h3><p>Busque por palavras, artigos com letras ou números como 1.022. Constituição e ADCT têm navegação separada.</p></div><div><span>03 / LEIA</span><h3>Espaço para <br>se concentrar.</h3><p>Fonte ajustável, tema escuro e marcações salvas no seu dispositivo.</p></div></section>`;
+ app.innerHTML=`<section class="hero"><div class="eyebrow"><span></span> SEU PONTO DE PARTIDA NO DIREITO</div><h1>A lei, mais perto. <br><em>A consulta, mais simples.</em></h1><p>Busque por referência, palavra ou súmula. <br>Compare as versões registradas e leia offline após preparar o acesso neste navegador.</p><label class="search hero-search"><span>⌕</span><input id="library-search" placeholder="Ex.: Art. 60 CF, CPC ou dignidade…" aria-label="Buscar na biblioteca"><kbd>/</kbd></label><div class="search-examples" role="group" aria-label="Exemplos de busca"><span>Experimente</span>${['Art. 5 CF','SV 13','dignidade'].map(query=>`<button type="button" data-example="${escape(query)}">${escape(query)}</button>`).join('')}</div><div class="quick-reference" id="quick-reference" aria-label="Resultados por referência" hidden></div><div class="hero-note">§ <span>${collections.filter(c=>c.kind!=='sumulas').length} legislações · ${number(total)} entradas de artigos · ${collections.find(c=>c.id==='sv').articleCount} súmulas vinculantes</span></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="book book-back"></div><div class="book book-front"><span>LEXA / BIBLIOTECA JURÍDICA</span><b>O direito <br>ao seu <br>alcance.</b><i>§</i><small>LEGISLAÇÃO FEDERAL BRASILEIRA</small></div><div class="art-tag">↗ Clareza em cada artigo</div></div></section>${resume?`<section class="resume-reading" aria-label="Retomar leitura"><div><span class="eyebrow">SUA ÚLTIMA LEITURA</span><p><strong>${escape(resume.code.name)}</strong> · ${articleLabel(resume.article)}</p><small>Salva somente neste navegador.</small></div><a href="${codeHref(resume.code,resume.article.id)}">Continuar leitura →</a><button id="forget-reading" aria-label="Esquecer última leitura">×</button></section>`:''}<section class="library"><div class="section-heading"><div class="eyebrow">EXPLORE A BIBLIOTECA</div><h2>O que você quer consultar?</h2><p>Busque uma coleção, uma referência ou palavras nos textos de toda a biblioteca.</p></div><div class="filters" aria-label="Filtrar por área">${['Todas as áreas','Constitucional','Civil','Penal','Processual','Consumidor','Tributário','Trabalho','Infância e Juventude','Mulher','Administrativo','Súmulas'].map(x=>`<button class="${x===category?'active':''}" data-category="${x}" aria-pressed="${x===category}">${x}</button>`).join('')}</div><p id="library-results" class="library-results" role="status"></p><div class="cards" id="cards"></div><div id="text-results" class="text-results"></div><div class="notice"><span>ⓘ</span><div><strong>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'Textos extraídos das fontes oficiais':'Base de leitura e atualização'}</strong><p>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'As legislações foram extraídas das páginas oficiais do Planalto. A data de coleta aparece em cada legislação.':'Esta edição usa os PDFs fornecidos. A Constituição segue a 69ª edição da Câmara (2026), até a EC 138/2025.'} Novas coletas são propostas para revisão antes de incorporar os textos ao site. A data de coleta não certifica o início de vigência de cada alteração. ${collections.find(c=>c.id==='sv').source.kind==='official_stf'?'As súmulas vinculantes usam a edição das páginas oficiais do STF incorporada após revisão.':'As súmulas vinculantes usam o PDF fornecido, com consulta declarada em 16/10/2026.'} As situações constam em cada entrada.</p></div></div></section><section class="history-invite"><div><div class="eyebrow">DE OLHO NAS VERSÕES</div><h2>Entenda o que mudou.</h2><p>Acompanhe os registros e compare os textos das atualizações.</p></div><a href="#/atualizacoes">Ver atualizações →</a></section><section class="features"><div><span>01 / ENCONTRE</span><h3>Menos caminhos. <br>Mais respostas.</h3><p>Legislações e súmulas organizadas, com indicação da edição consultada.</p></div><div><span>02 / NAVEGUE</span><h3>Direto ao artigo <br>que você precisa.</h3><p>Busque por palavras, artigos com letras ou números como 1.022. Constituição e ADCT têm navegação separada.</p></div><div><span>03 / LEIA</span><h3>Espaço para <br>se concentrar.</h3><p>Fonte ajustável, tema escuro e marcações salvas no seu dispositivo.</p></div></section>`;
  document.querySelector('#library-search').value=libraryQuery;
  document.querySelector('#forget-reading')?.addEventListener('click',()=>{try{localStorage.removeItem('lexa-last-reading');}catch{}document.querySelector('.resume-reading').remove();});
  const findReferences=query=>{
@@ -96,11 +99,24 @@ function home() {
   return results===null?null:results.filter(({code})=>parseReference(query).codeId||category==='Todas as áreas'||code.area.includes(category));
  };
  let textGroups=[],visibleCounts=new Map(),currentQuery='';
- const draw=()=>{
+ const draw=async()=>{
+  const sequence=++searchSequence;
   currentQuery=document.querySelector('#library-search').value.trim();libraryQuery=document.querySelector('#library-search').value;
   const q=normalize(currentQuery);
   document.querySelector('#text-results').innerHTML='';
   visibleCounts=new Map();
+  const ref=parseReference(currentQuery);
+  const selected=ref?.codeId?collections.filter(code=>code.id===ref.codeId):collections;
+  if((ref||q.length>=2)&&selected.some(code=>!code.loaded)){
+   document.querySelector('#quick-reference').hidden=true;
+   const status=document.querySelector('#library-results');
+   status.textContent=ref?'Carregando referências…':'Carregando índice…';
+   try{await loadCollections(selected);}catch{
+    if(homeActive&&sequence===searchSequence){status.textContent='Não foi possível carregar a busca. Verifique a conexão e tente novamente.';document.querySelector('#text-results').innerHTML='<button class="text-more" id="retry-search">Tentar novamente</button>';document.querySelector('#retry-search').onclick=draw;}
+    return;
+   }
+   if(!homeActive||sequence!==searchSequence)return;
+  }
   const references=findReferences(q);
   const quick=document.querySelector('#quick-reference');
   quick.hidden=references===null;
@@ -118,7 +134,7 @@ function home() {
   }
   document.querySelector('#library-results').textContent='';
   const filtered=collections.filter(c=>(category==='Todas as áreas'||c.area.includes(category))&&normalize(c.name+' '+c.short+' '+c.area+' '+c.description).includes(q));
-  document.querySelector('#cards').innerHTML=filtered.length?filtered.map(c=>`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-icon">${escape(c.icon)}</span><span class="code-short">${escape(c.short)}</span></div><span class="area">${escape(c.area)}</span><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p><span class="card-count">${number(c.articles.length)} ${c.kind==='sumulas'?'súmulas':'entradas'}${c.id==='cf'?' · inclui ADCT':''}</span><div class="card-bottom"><small>${escape(c.law)}</small><span>Consultar <b>↗</b></span></div></a>`).join(''):'';
+  document.querySelector('#cards').innerHTML=filtered.length?filtered.map(c=>`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-icon">${escape(c.icon)}</span><span class="code-short">${escape(c.short)}</span></div><span class="area">${escape(c.area)}</span><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p><span class="card-count">${number(c.articleCount)} ${c.kind==='sumulas'?'súmulas':'entradas'}${c.id==='cf'?' · inclui ADCT':''}</span><div class="card-bottom"><small>${escape(c.law)}</small><span>Consultar <b>↗</b></span></div></a>`).join(''):'';
   textGroups=q.length>=2?searchLibraryText(currentQuery,category):[];
   const count=textGroups.reduce((sum,group)=>sum+group.matches.length,0);
   if(q){
@@ -144,12 +160,15 @@ function home() {
   });
  }
  let searchTimer;
- cleanupReader=()=>clearTimeout(searchTimer);
+ cleanupReader=()=>{clearTimeout(searchTimer);homeActive=false;searchSequence++;};
  document.querySelector('#library-search').addEventListener('input',()=>{clearTimeout(searchTimer);libraryQuery=document.querySelector('#library-search').value;if(searchLibraryReferences(document.querySelector('#library-search').value)!==null)draw();else searchTimer=setTimeout(draw,150);});
- document.querySelector('#library-search').addEventListener('keydown',event=>{if(event.key==='Enter'){const results=findReferences(event.target.value);if(results?.length===1){location.hash=codeHref(results[0].code,results[0].article.id);}else if(results===null){clearTimeout(searchTimer);draw();const heading=document.querySelector('.text-search-heading h2');if(heading){heading.tabIndex=-1;heading.scrollIntoView({block:'start'});heading.focus({preventScroll:true});}}}});
+ document.querySelector('#library-search').addEventListener('keydown',async event=>{if(event.key==='Enter'){clearTimeout(searchTimer);const submitted=event.target.value;await draw();if(!homeActive||event.target.value!==submitted)return;const results=findReferences(submitted);if(results?.length===1){location.hash=codeHref(results[0].code,results[0].article.id);}else if(results===null){const heading=document.querySelector('.text-search-heading h2');if(heading){heading.tabIndex=-1;heading.scrollIntoView({block:'start'});heading.focus({preventScroll:true});}}}});
  document.querySelectorAll('[data-example]').forEach(button=>button.onclick=()=>{clearTimeout(searchTimer);const input=document.querySelector('#library-search');input.value=button.dataset.example;libraryQuery=input.value;draw();input.focus({preventScroll:true});});
  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});draw();});
  draw();
+ if(resume&&!resume.code.loaded)loadCollection(resume.code).then(()=>{
+  if(homeActive&&!articleById(resume.code,resume.article.id))document.querySelector('.resume-reading')?.remove();
+ }).catch(()=>{});
 }
 
 function highlight(text, query) {
@@ -366,7 +385,9 @@ function reader(code, requested, params) {
  if(target)requestAnimationFrame(()=>{if(active){document.getElementById('art-'+target.id)?.scrollIntoView({block:'start'});rememberPosition();}});
 }
 
-function route(){
+let routeGeneration=0;
+async function route(){
+ const generation=++routeGeneration;
  const copyDialog=document.querySelector('#copy-dialog');if(copyDialog.open)copyDialog.close();
  cleanupReader();cleanupReader=()=>{};
  const [path,query='']=location.hash.slice(1).split('?');
@@ -376,11 +397,28 @@ function route(){
   if(link.getAttribute('href')===activeNav)link.setAttribute('aria-current','page');
   else link.removeAttribute('aria-current');
  });
- if(id==='favoritos'){favoritesPage();window.scrollTo(0,0);return;}
- if(id==='atualizacoes'){updatesPage(new URLSearchParams(query));window.scrollTo(0,0);return;}
  const code=collections.find(c=>c.id===id);
- if(code)reader(code,article,new URLSearchParams(query));else home();
- if(!article)window.scrollTo(0,0);
+ const needsData=code&&!code.loaded||id==='favoritos'||id==='atualizacoes';
+ if(needsData)app.innerHTML=`<section class="loading-panel"><p role="status">${code?'Carregando '+escape(code.name)+'…':id==='favoritos'?'Carregando favoritos…':'Carregando histórico…'}</p></section>`;
+ try{
+  if(id==='favoritos'){
+   await loadCollections(collections.filter(code=>saved.some(key=>key.startsWith(code.id+'/'))));
+   if(generation!==routeGeneration)return;
+   favoritesPage();window.scrollTo(0,0);return;
+  }
+  if(id==='atualizacoes'){
+   const history=await loadHistory();if(generation!==routeGeneration)return;
+   recordedUpdates.splice(0,recordedUpdates.length,...history);
+   updatesPage(new URLSearchParams(query));window.scrollTo(0,0);return;
+  }
+  if(code){await loadCollection(code);if(generation!==routeGeneration)return;reader(code,article,new URLSearchParams(query));}
+  else home();
+  if(!article)window.scrollTo(0,0);
+ }catch{
+  if(generation!==routeGeneration)return;
+  app.innerHTML='<section class="loading-panel"><h1>Não foi possível abrir esta edição</h1><p role="status">Verifique a conexão e tente novamente. Para ler offline, aguarde a preparação completa do acesso neste navegador.</p><button id="retry-load">Tentar novamente</button><a href="#">Voltar à biblioteca</a></section>';
+  document.querySelector('#retry-load').onclick=route;
+ }
 }
 let dark=false;try{dark=localStorage.getItem('lexa-theme')==='dark';}catch{}
 document.documentElement.classList.toggle('dark',dark);

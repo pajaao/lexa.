@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: previa-legislacao-${{ github.run_id }}
-          path: dist/index.html
+          path: dist/
           retention-days: 30
       - name: Propor revisão da referência monitorada
         # Also run after an unchanged capture so a proposal whose changes were

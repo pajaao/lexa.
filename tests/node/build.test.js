@@ -4,8 +4,10 @@ import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import {collections} from '../../src/data.js';
 
-test('HTML autocontido inicializa a biblioteca completa, inclusive súmulas, sem importar arquivos',()=>{
+test('shell inicializa os cartões com catálogo, sem carregar os textos',()=>{
  const html=readFileSync(new URL('../../dist/index.html',import.meta.url),'utf8');
+ assert.ok(Buffer.byteLength(html)<300_000);
+ assert.doesNotMatch(html,/A Constituição poderá ser emendada/);
  assert.match(html,/<style>/);
  assert.doesNotMatch(html,/<script[^>]+src=/);
  const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
@@ -27,7 +29,7 @@ test('campos do catálogo são texto escapado nos templates',()=>{
  const html=readFileSync(new URL('../../dist/index.html',import.meta.url),'utf8');
  const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
  const payload='<img src=x onerror="globalThis.pwned=true">';
- const injected=script.replace("name:'Constituição Federal'",'name:'+JSON.stringify(payload));
+ const injected=script.replace('"name":"Constituição Federal"','"name":'+JSON.stringify(payload));
  assert.notEqual(script,injected);
  const nodes=new Map();
  const node=selector=>{
