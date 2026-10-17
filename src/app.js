@@ -370,6 +370,11 @@ function route(){
  cleanupReader();cleanupReader=()=>{};
  const [path,query='']=location.hash.slice(1).split('?');
  const [,id,article]=path.split('/');
+ const activeNav=id==='favoritos'?'#/favoritos':id==='atualizacoes'?'#/atualizacoes':'#';
+ document.querySelectorAll('header nav>a').forEach(link=>{
+  if(link.getAttribute('href')===activeNav)link.setAttribute('aria-current','page');
+  else link.removeAttribute('aria-current');
+ });
  if(id==='favoritos'){favoritesPage();window.scrollTo(0,0);return;}
  if(id==='atualizacoes'){updatesPage(new URLSearchParams(query));window.scrollTo(0,0);return;}
  const code=collections.find(c=>c.id===id);
