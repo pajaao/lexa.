@@ -18,13 +18,30 @@ export function searchLibraryText(query,area='Todas as áreas'){
   const matches=[];
   const index=searchIndex(code),normalized=normalizedIndex(index);
   for(let articleIndex=0;articleIndex<index.articles.length;articleIndex++){
-   const entry=index.articles[articleIndex],fieldIndex=normalized[articleIndex].findIndex(text=>text.includes(q));
-   if(fieldIndex<0)continue;
-   const field=entry.fields[fieldIndex];
-   matches.push({article:searchArticle(entry,index),match:{kind:field[0],runs:fieldRuns(field),text:field[1],index:normalized[articleIndex][fieldIndex].indexOf(q),query:q}});
+   const entry=index.articles[articleIndex],match=selectLibraryMatch(entry.fields,q,normalized[articleIndex]);
+   if(match)matches.push({article:searchArticle(entry,index),match});
   }
   return {code,matches};
  }).filter(group=>group.matches.length);
+}
+
+// Prefer a hit whose characters are not struck in the source. This does not
+// certify legal force; historical-only matches remain in their original order.
+export function selectLibraryMatch(fields,query,texts=fields.map(field=>normalize(field[1]))){
+ const q=normalize(query.trim());if(!q)return null;
+ const present=(field,index,deleted)=>({kind:field[0],runs:fieldRuns(field),text:field[1],index,query:q,deleted});
+ let historical=null;
+ for(let n=0;n<fields.length;n++){
+  const field=fields[n],text=texts[n];let hit=text.indexOf(q);
+  if(hit<0)continue;
+  // Source offsets are UTF-16; normalization can remove accents/combining marks.
+  const ranges=(field[2]||[]).map(([start,end])=>[normalize(field[1].slice(0,start)).length,normalize(field[1].slice(0,end)).length]);
+  if(!historical)historical={field,index:hit};
+  for(;hit>=0;hit=text.indexOf(q,hit+1)){
+   if(!ranges.some(([start,end])=>hit<end&&hit+q.length>start))return present(field,hit,false);
+  }
+ }
+ return historical?present(historical.field,historical.index,true):null;
 }
 
 export function libraryExcerpt(match,limit=220){
