@@ -5,7 +5,7 @@
   "trainingSha256": "b3e5bcdd7342abafd49b756071f44a18b8d9daec028272f6a76db1ce5df9a1c2",
   "evaluation": "holdout.json",
   "evaluationSha256": "ad50d640710719d316e702f758d056c97f1b021c2c28702bf0e02a0f3bfd4b86",
-  "selection": "seed lexa-fase05-holdout-v1; SHA256(code:article:paragraph), 3candidate paragraphs from distinct articles + 1own-heading negative per statute, length35..849; extra ADCT until7distinct candidate articles; 2purposeful grouped CTN references. Excludes every phase0 source article.",
+  "selection": "seed lexa-fase05-holdout-v1; SHA256(code:article:paragraph), 3candidate paragraphs from distinct articles + 1own-heading negative per statute, length35..849; extra ADCT until7distinct ADCT source articles, including the negative paragraph; 2purposeful grouped CTN references. Excludes every phase0 source article.",
   "annotation": "Declarative textual check authored by the development agent before Node extraction. Not an independent human legal review, not blind to the developer. No extractor output used to generate expected destinations. Standalone subdevices without explicit article number are C under the 0.5 contract.",
   "holdoutParagraphs": 58,
   "holdoutExpressions": 54,
