@@ -1,3 +1,4 @@
+import {readerModel} from './reader-model.js';
 import {loadCollection,loadCollections,loadHistory,loadSearchIndexes,loadSearchIndex} from './loading.js';
 import { searchLibraryText, libraryExcerpt } from './library-search.js';
 import { articleCopyText } from './copy.js';
@@ -293,12 +294,13 @@ function reader(code, requested, params) {
  document.addEventListener('keydown',onEscape);
  const previousCleanup=cleanupReader;cleanupReader=()=>{document.removeEventListener('keydown',onEscape);previousCleanup();};
  applyPreferences();
- const sectionMap=new Map(code.sections.map(s=>[s.id,s]));
- const trees=new Map(['main','adct'].map(part=>[part,buildSectionTree(code.sections,code.articles,part)]));
- let expanded=new Set(),indexInitialized=false;
+ const {sectionMap,trees,bySection}=readerModel(code);
+ let expanded=new Set(),indexInitialized=false,indexMarkupKey=null,selectionCache=null;
  function selectedArticles(){
+  if(selectionCache&&selectionCache.query===query&&selectionCache.scope===scope&&selectionCache.sectionId===sectionId&&selectionCache.onlySaved===onlySaved&&selectionCache.saved===saved)return selectionCache.articles;
   const ids=sectionId?.startsWith('branch:')?trees.get(scope).nodes.get(sectionId.slice(7))?.sectionIds:null;
-  return searchArticles(code,query,scope).filter(a=>(!sectionId||(ids?ids.includes(a.sectionId):a.sectionId===sectionId))&&(!onlySaved||saved.includes(code.id+'/'+a.id)));
+  const articles=searchArticles(code,query,scope).filter(a=>(!sectionId||(ids?ids.includes(a.sectionId):a.sectionId===sectionId))&&(!onlySaved||saved.includes(code.id+'/'+a.id)));
+  selectionCache={query,scope,sectionId,onlySaved,saved,articles};return articles;
  }
  function updateLocation(id){
   const section=sectionMap.get(id);if(!section)return;
@@ -309,12 +311,18 @@ function reader(code, requested, params) {
   });
  }
  function drawIndex(currentSection){
+  const key=JSON.stringify([scope,sectionId,query]);
+  if(indexInitialized&&!query&&!sectionId&&indexMarkupKey===key){
+   if(currentSection)updateLocation(currentSection);else document.querySelectorAll('#index-list [aria-current]').forEach(button=>button.removeAttribute('aria-current'));
+   return;
+  }
+  indexMarkupKey=key;
   const tree=trees.get(scope);
   if(!indexInitialized||query||sectionId){for(const node of tree.nodes.values())if(node.sectionIds.includes(currentSection))expanded.add(node.id);indexInitialized=true;}
   const range=entries=>{const first=entries[0],last=entries.at(-1);return first?`${articleLabel(first)}${entries.length>1?' – '+articleLabel(last):''}`:'';};
   const render=node=>{
    const title=escape(node.label);
-   const renderSection=id=>`<button class="index-entry ${sectionId===id?'selected':''}" data-section="${id}"><span>${node.children.length?'Ler os artigos desta divisão':title}</span><small>${escape(range(code.articles.filter(a=>a.sectionId===id)))}</small></button>`;
+   const renderSection=id=>`<button class="index-entry ${sectionId===id?'selected':''}" data-section="${id}"><span>${node.children.length?'Ler os artigos desta divisão':title}</span><small>${escape(range(bySection.get(id)||[]))}</small></button>`;
    const body=node.items.map(item=>item.kind==='section'?renderSection(item.id):render(item.node)).join('');
    if(!node.children.length)return body;
    return `<details class="index-branch" data-node="${node.id}" ${expanded.has(node.id)?'open':''}><summary>${title}<small>${escape(range(node.articles))}</small></summary><div class="index-children"><button class="index-all ${sectionId==='branch:'+node.id?'selected':''}" data-branch="${node.id}" aria-pressed="${sectionId==='branch:'+node.id}">Ler esta divisão · ${node.articles.length} entradas</button>${body}</div></details>`;

@@ -22,3 +22,25 @@ Os novos arquivos são imutáveis, têm hash verificado e entram no manifesto of
 | Busca posterior, mediana | 264,8 ms | 301,9 ms |
 
 O custo da primeira busca e o volume/heap caíram; a busca posterior ficou mais lenta nesta amostra intermediária. A etapa 4 investigará o acesso aos campos normalizados, sem alterar resultados para esconder esse custo.
+
+## Etapa 3 — leitor
+
+**Causa:** o índice lateral era reconstruído a cada paginação e cada seção fazia uma nova varredura dos artigos. A abertura também montava textos derivados de todos os artigos, mesmo sem busca.
+
+**Decisão:** mapas de artigos/seções/escopos e árvores são reutilizados por identidade dos dados; o cache é fraco e não prende edições descartadas. O texto derivado é calculado apenas quando lido. A seleção de artigos é reutilizada enquanto query, escopo, divisão e favoritos não mudam. Paginação simples atualiza a posição sem substituir o índice lateral; buscas e filtros mantêm a lógica de expansão existente.
+
+**Validação:** Node e 46 testes Python passaram; as dez verificações de navegador passaram. O teste de hierarquia compara parágrafos em todas as coleções e agora verifica que o nó do índice continua conectado após paginar. Há testes de reaproveitamento e invalidação do modelo e de marcadores sem alteração de texto.
+
+**Medição intermediária (3 rodadas, frio):**
+
+| Cenário | Mediana (ms) |
+| --- | ---: |
+| reader_open_civil:cold | 441.9 |
+| reader_next_civil:cold | 98.3 |
+| reader_previous_civil:cold | 115.9 |
+| reader_open_cpc:cold | 452.2 |
+| reader_next_cpc:cold | 114.7 |
+| reader_previous_cpc:cold | 116.4 |
+| reader_open_clt:cold | 445.2 |
+| reader_next_clt:cold | 163.4 |
+| reader_previous_clt:cold | 131.2 |

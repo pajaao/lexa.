@@ -1,17 +1,20 @@
 // Presentation only: paths and unit markers come from the recorded legal text.
-export const sectionPath=section=>section.title.split(' › ').filter(Boolean);
+const sectionPaths=new WeakMap(),unitMarkers=new WeakMap();
+export function sectionPath(section){if(!sectionPaths.has(section))sectionPaths.set(section,section.title.split(' › ').filter(Boolean));return sectionPaths.get(section);}
 export function headingKind(text){
  const token=text.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  return /^(parte|livro|titulo|subtitulo|capitulo|secao|subsecao)\b/.exec(token)?.[1]||'division';
 }
 export function unitKind(paragraph,index){
- const text=paragraph.runs.map(run=>run.text).join('').trimStart();
- if(/^(?:§\s*\d|Parágrafo\s+único\b)/i.test(text))return 'paragraph';
- if(/^[IVXLCDM]+\s*[-–—]/.test(text))return 'inciso';
- if(/^[a-z]\s*\)/.test(text))return 'alinea';
- if(/^\d+\s*[-–.)]/.test(text))return 'item';
- return index===0?'caput':'continuation';
+ if(!unitMarkers.has(paragraph)){
+  const text=paragraph.runs.map(run=>run.text).join('').trimStart();
+  const marker=/^(?:§\s*\d|Parágrafo\s+único\b)/i.test(text)?'paragraph':
+   /^[IVXLCDM]+\s*[-–—]/.test(text)?'inciso':/^[a-z]\s*\)/.test(text)?'alinea':/^\d+\s*[-–.)]/.test(text)?'item':null;
+  unitMarkers.set(paragraph,marker);
+ }
+ return unitMarkers.get(paragraph)||(index===0?'caput':'continuation');
 }
+
 export function buildSectionTree(sections,articles,scope){
  const roots=[],nodes=new Map();let previous=[],stack=[],serial=0;
  const bySection=new Map();

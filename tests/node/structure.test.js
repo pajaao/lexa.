@@ -33,3 +33,15 @@ test('recuos reconhecem marcadores sem alterar palavras, números ou riscados',(
   assert.equal(unitKind(p,kind==='caput'?0:1),kind);assert.equal(JSON.stringify(p),original);
  }
 });
+
+test('modelo do leitor reaproveita mapas/árvores sem misturar dados de outra edição',async()=>{
+ const {readerModel}=await import('../../src/reader-model.js');
+ const code=collections.find(code=>code.id==='civil');
+ const first=readerModel(code),again=readerModel(code);
+ assert.equal(first,again);
+ assert.deepEqual([...first.bySection.values()].flat().map(a=>a.id),code.articles.map(a=>a.id));
+ const replacement={...code,articles:[...code.articles],sections:[...code.sections]};
+ assert.notEqual(readerModel(replacement),first);
+ const paragraph={runs:[{text:'Texto sem marcador'}]};
+ assert.equal(unitKind(paragraph,0),'caput');assert.equal(unitKind(paragraph,1),'continuation');
+});

@@ -26,7 +26,10 @@ try:
    assert page.locator('#index-list [aria-current="location"]').count()==1
    if code['id'] in ['civil','cpc']:
     assert page.locator('.legal-parte').count() and page.locator('.legal-livro').count() and page.locator('.legal-capitulo').count()
+   index_entry=page.locator('#index-list .index-entry').first.element_handle()
    page.locator('#next-page').click()
+   assert index_entry.evaluate('(el)=>el.isConnected'),'Índice foi reconstruído durante paginação simples'
+   index_entry.dispose()
    assert page.locator('.legal-heading').count()>0
   page.goto(base+'#/civil')
   page.locator('[data-branch]').first.click()
