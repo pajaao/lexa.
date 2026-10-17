@@ -265,3 +265,18 @@ footer .consultation-note{max-width:850px;color:var(--muted)}
   .reading-settings{margin-top:8px}
   .reading-settings>summary{padding:6px 0}
 }
+
+/* Native option menus need an explicit theme, including on Windows. */
+:root{color-scheme:light;--select-arrow:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23213f3a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")}
+:root.dark{color-scheme:dark;--select-arrow:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e3ebdc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")}
+select,select option{color:var(--ink);background-color:var(--surface)}
+:is(.updates-toolbar,.reading-adjustments) select{
+  appearance:none;padding-inline:12px 38px;
+  background-image:var(--select-arrow);background-repeat:no-repeat;
+  background-size:16px;background-position:right 12px center;
+}
+.brand-icon{display:grid;place-items:center;line-height:1;letter-spacing:0;flex-shrink:0;padding-bottom:6px}
+@media(forced-colors:active){
+  :is(.updates-toolbar,.reading-adjustments) select{appearance:auto;background-image:none}
+  select,select option{color:CanvasText;background-color:Canvas}
+}
