@@ -11,7 +11,7 @@ test('pacote publicado inclui HTML, ícones e PDFs íntegros',async()=>{
  const output=await mkdtemp(join(tmpdir(),'lexa-pages-'));
  try{
   await stagePages(output);
-  assert.deepEqual((await readdir(output)).sort(),['.nojekyll','apple-touch-icon.png','catalog.json','data','favicon.ico','favicon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','index.html','manifest.webmanifest','sources','sw.js']);
+  assert.deepEqual((await readdir(output)).sort(),['.nojekyll','app','apple-touch-icon.png','catalog.json','data','favicon.ico','favicon.svg','icon-192.png','icon-512.png','icon-maskable-512.png','index.html','manifest.webmanifest','sources','sw.js']);
   const archive=JSON.parse(await readFile(new URL('../../sources/manifest.json',import.meta.url),'utf8'));
   const sumulas=JSON.parse(await readFile(new URL('../../sources/sumulas-manifest.json',import.meta.url),'utf8'));
   assert.equal((await readdir(join(output,'sources'))).length,Object.keys(archive).length+1);
@@ -54,6 +54,11 @@ test('pacote publicado inclui HTML, ícones e PDFs íntegros',async()=>{
   }
   const integrity=JSON.parse(worker.match(/const INTEGRITY = ([^;]+);/)[1]);
   for(const spec of integrity)assert.equal(createHash('sha256').update(await readFile(join(output,spec.file))).digest('hex'),spec.sha256);
+  const namespace=(await readdir(join(output,'app')))[0];
+  for(const file of await readdir(join(output,'app',namespace))){
+   if(['catalog.js','collections.js'].includes(file))continue;
+   assert.equal(await readFile(join(output,'app',namespace,file),'utf8'),await readFile(new URL('../../src/'+file,import.meta.url),'utf8'));
+  }
   assert.match(worker,/const VERSION = '[a-f0-9]{64}'/);
   assert.doesNotMatch(worker,/__LEXA_VERSION__|__LEXA_INTEGRITY_MANIFEST__/);
   assert.ok(worker.includes(createHash('sha256').update(html).digest('hex')));

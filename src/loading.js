@@ -1,5 +1,5 @@
 import {createCollectionCache} from './collection-cache.js';
-import {collections} from './data.js';
+import {collections,initialCatalog} from './collections.js';
 import {prepareCollection} from './collection-model.js';
 
 const pendingCollections=new Map(),pendingSearch=new Map(),readerCache=createCollectionCache(3);

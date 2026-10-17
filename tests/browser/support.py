@@ -15,3 +15,19 @@ def chromium_executable():
         return explicit
     # None asks Playwright to use its version-matched downloaded Chromium.
     return shutil.which('chromium') or shutil.which('chromium-browser')
+
+
+def app_evaluate(page, expression, argument=None):
+    """Inspect ES-module exports from tests, without a production debug global.
+    The fallback keeps old inline baselines measurable by the same harness.
+    """
+    import json
+    if not page.locator('script[type="module"][src]').count():
+        return page.evaluate(expression, argument)
+    return page.evaluate('''async argument=>{
+        const base=new URL(document.querySelector('script[type="module"][src]').src);
+        const {collections}=await import(new URL('data.js',base).href);
+        const {searchLibraryText}=await import(new URL('library-search.js',base).href);
+        const result=eval(''' + json.dumps(expression) + ''');
+        return typeof result==='function'?result(argument):result;
+    }''', argument)

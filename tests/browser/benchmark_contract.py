@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import threading
 from playwright.sync_api import sync_playwright
-from support import chromium_executable
+from support import chromium_executable, app_evaluate
 from performance import BenchmarkServer, Probe, library_ready, search_ready
 
 root=Path(__file__).resolve().parents[2]
@@ -23,7 +23,7 @@ try:
   assert cold['origin_body_bytes']>0
   assert cold['transfer']['unfinished_requests']==0
   page.reload();library_ready(page,count)
-  assert page.evaluate('collections.every(code=>!code.loaded)')
+  assert app_evaluate(page,'collections.every(code=>!code.loaded)')
   warm=probe.measure('first','warm_http',lambda:page.locator('#library-search').fill('dignidade'),lambda:search_ready(page,'dignidade',len(fixture)))
   assert warm['transfer']['legal_json_network_bytes']==0,warm
   assert warm['transfer']['cached_requests']>=count,warm

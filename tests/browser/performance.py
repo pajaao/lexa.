@@ -23,7 +23,7 @@ import unicodedata
 from urllib.parse import unquote, urlsplit
 
 from playwright.sync_api import sync_playwright
-from support import chromium_executable
+from support import chromium_executable, app_evaluate
 from benchmark_metrics import NetworkLedger, summarize, transfer_summary
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -66,7 +66,7 @@ class BenchmarkHandler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-Type', mimetypes.guess_type(path)[0] or 'application/octet-stream')
         self.send_header('Content-Length', str(len(body)))
-        immutable = bool(re.search(r'\.[a-f0-9]{64}\.json$', path.name))
+        immutable = bool(re.search(r'\.[a-f0-9]{64}\.json$', path.name) or re.search(r'/app/[a-f0-9]{64}/[^/]+\.js$', path.as_posix()))
         self.send_header('Cache-Control', 'public, max-age=31536000, immutable' if immutable else 'no-cache')
         self.end_headers()
         try:
@@ -216,7 +216,7 @@ def main():
                         navigate = (lambda: page.reload(wait_until='commit')) if cache == 'warm_http' else (lambda: page.goto(base, wait_until='commit'))
                         samples.append({'run': run, **probe.measure('library_initial', cache, navigate,
                             lambda: library_ready(page, count), navigation=True)})
-                        assert page.evaluate('collections.every(code=>!code.loaded)')
+                        assert app_evaluate(page,'collections.every(code=>!code.loaded)')
                         for scenario, query, state in [('global_search_first', 'dignidade', 'empty'),
                                                        ('global_search_subsequent', 'educacao', 'data_and_indexes_loaded'),
                                                        ('global_search_repeated', 'dignidade', 'data_and_indexes_loaded')]:
@@ -234,7 +234,7 @@ def main():
                                 page.reload()
                                 library_ready(page, count)
                             page.evaluate('''()=>Promise.all(document.getAnimations().filter(a=>a.playState==='running' && Number.isFinite(a.effect.getTiming().iterations)).map(a=>a.finished.catch(()=>{})))''')
-                            assert page.evaluate('(id)=>!collections.find(code=>code.id===id).loaded', code)
+                            assert app_evaluate(page,'(id)=>!collections.find(code=>code.id===id).loaded', code)
                             samples.append({'run': run, **probe.measure('reader_open_'+code, cache,
                                 lambda: page.locator(f'.code-card[href="#/{code}"]').click(), lambda: reader_ready(page))})
                             for direction, button in [('next', '#next-page'), ('previous', '#previous-page')]:
