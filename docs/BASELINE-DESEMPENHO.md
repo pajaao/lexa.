@@ -140,3 +140,7 @@ Essa é a transferência do preparo completo, incluindo a navegação inicial e 
 - Coleta completa: **135 amostras**, sem erros JavaScript, falhas de requisição ou requisições medidas pendentes. Heap disponível em todas as amostras; limitações de escopo descritas acima.
 - Os YAMLs da action local e dos workflows novos/alterados foram analisados localmente. A execução real do Actions deve ser confirmada no PR; não foi simulada como se já tivesse ocorrido no GitHub.
 - Comparação com a base confirma ausência de alterações em `src/`, `data/`, `sources/` e capturas oficiais. O script de build do aplicativo permanece igual.
+
+## Continuidade da otimização
+
+As medições e os números de suítes acima registram a etapa 1. Na versão das etapas 2–6, a suíte essencial tem nove verificações e a completa inclui sessão longa e atualização parcial com duas abas. O preparo completo passou a ser explícito; `offline_first_visit` mede separadamente a instalação parcial. Consulte [decisões e comparação final](OTIMIZACAO-ETAPAS-2-6.md) antes de comparar os cenários offline.
