@@ -21,7 +21,7 @@ test('índices compactos preservam cada campo, ordem, notas e riscos de todas as
   }
  }
 });
-test('busca no índice compacto tem os mesmos IDs e primeiro campo que a pesquisa completa',()=>{
+test('busca no índice compacto tem os mesmos IDs e ordem da pesquisa completa',()=>{
  for(const query of ['dignidade','educação','tributo','liberdade','art.','§ 1','responsabilidade','é vedado']){
   const actual=searchLibraryText(query);
   for(const code of collections){

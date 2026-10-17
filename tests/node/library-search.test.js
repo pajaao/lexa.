@@ -1,7 +1,8 @@
 import test from 'node:test';
+import {compactField} from '../../src/search-index.js';
 import assert from 'node:assert/strict';
 import {collections,normalize,searchLibraryReferences} from '../../src/data.js';
-import {searchLibraryText,libraryExcerpt} from '../../src/library-search.js';
+import {searchLibraryText,libraryExcerpt,selectLibraryMatch} from '../../src/library-search.js';
 
 test('busca textual cobre as coleções e os escopos, sem duplicar entradas',()=>{
  for(const query of ['dignidade','educação','tributo','liberdade']){
@@ -40,4 +41,51 @@ test('notas de aplicação das súmulas são identificadas separadamente do enun
  const phrase=candidate.notes.map(p=>p.runs.map(r=>r.text).join('')).find(text=>text.length>100).slice(0,90);
  const match=searchLibraryText(phrase).find(g=>g.code.id==='sv')?.matches.find(m=>m.article.id===candidate.id);
  assert.ok(match);assert.equal(match.match.kind,'notes');
+});
+
+test('art. 227 da CF usa a ocorrência não riscada sem mudar a ordem dos resultados',()=>{
+ const groups=searchLibraryText('dignidade');
+ const cf=groups.find(group=>group.code.id==='cf');
+ assert.deepEqual(cf.matches.map(hit=>hit.article.id),['1','226','227','230']);
+ const {match}=cf.matches.find(hit=>hit.article.id==='227');
+ assert.equal(match.deleted,false);
+ assert.ok(match.runs.some(run=>!run.deleted&&run.text.includes('ao jovem')));
+ assert.ok(libraryExcerpt(match).runs.every(run=>!run.deleted));
+});
+
+
+test('resumo prefere ocorrência não riscada no mesmo campo, com offsets e acentos preservados',()=>{
+ const field=compactField('text',[{text:'Educação antiga; ',deleted:true},{text:'a educação permanece.',deleted:false}]);
+ const original=JSON.stringify(field),match=selectLibraryMatch([field],'EDUCAÇÃO');
+ assert.equal(match.deleted,false);assert.equal(match.index,normalize(field[1]).lastIndexOf('educacao'));
+ assert.equal(JSON.stringify(field),original);
+ assert.equal(match.runs.map(run=>run.text).join(''),field[1]);
+});
+
+test('resumo conserva ocorrências exclusivamente riscadas e não junta partes separadas',()=>{
+ const historical=compactField('text',[{text:'Texto '},{text:'histórico exclusivo',deleted:true},{text:' preservado.'}]);
+ const match=selectLibraryMatch([historical,compactField('text',[{text:'Outra redação.'}])],'histórico exclusivo');
+ assert.ok(match);assert.equal(match.deleted,true);assert.equal(match.kind,'text');
+ assert.ok(libraryExcerpt(match).runs.some(run=>run.deleted&&run.text.includes('histórico exclusivo')));
+ const crossing=compactField('text',[{text:'direito '},{text:'anterior',deleted:true}]);
+ assert.equal(selectLibraryMatch([crossing],'direito anterior').deleted,true);
+ assert.equal(selectLibraryMatch([crossing],'direito').deleted,false);
+ assert.equal(selectLibraryMatch([crossing],'anterior').deleted,true);
+ assert.equal(selectLibraryMatch([crossing],'inexistente'),null);
+ assert.equal(selectLibraryMatch([crossing],''),null);
+});
+
+test('ocorrência não riscada pode estar em outro campo; fallback histórico mantém o primeiro',()=>{
+ const old=compactField('text',[{text:'termo antigo',deleted:true}]);
+ const live=compactField('text',[{text:'termo não riscado'}]);
+ assert.equal(selectLibraryMatch([old,live],'termo').text,'termo não riscado');
+ const other=compactField('notes',[{text:'termo também anterior',deleted:true}]);
+ assert.equal(selectLibraryMatch([old,other],'termo').text,'termo antigo');
+});
+
+
+test('art. 6 da CF continua encontrável por expressão exclusivamente riscada',()=>{
+ const {match}=searchLibraryText('a saúde, o trabalho, o lazer').find(group=>group.code.id==='cf').matches.find(hit=>hit.article.id==='6');
+ assert.equal(match.deleted,true);
+ assert.ok(libraryExcerpt(match).runs.some(run=>run.deleted&&run.text.includes('a saúde, o trabalho, o lazer')));
 });

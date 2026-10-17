@@ -94,13 +94,34 @@ export function reader(code, requested, params, context) {
   };
   document.querySelector('#index-list').innerHTML=tree.roots.map(render).join('');
   document.querySelectorAll('#index-list [data-node]').forEach(details=>details.addEventListener('toggle',()=>{if(details.open)expanded.add(details.dataset.node);else expanded.delete(details.dataset.node);}));
-  document.querySelectorAll('#index-list [data-section],#index-list [data-branch]').forEach(button=>button.onclick=()=>{
+  document.querySelectorAll('#index-list [data-section],#index-list [data-branch]').forEach(button=>button.onclick=event=>{
    sectionId=button.dataset.branch?'branch:'+button.dataset.branch:button.dataset.section;
-   query='';input.value='';page=0;draw();if(window.innerWidth<=700)document.querySelector('.reader-index').open=false;scrollReading();
+   query='';input.value='';page=0;draw();if(window.innerWidth<=700)document.querySelector('.reader-index').open=false;scrollReading(event.detail===0);
   });
   updateLocation(currentSection);
  }
- function scrollReading(){document.querySelector('.reading-toolbar').scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
+ function scrollReading(focusContent=false){
+  requestAnimationFrame(()=>{
+   if(!active)return;
+   updateReadingOffset();
+   const first=document.querySelector('#articles .article, #articles .empty');if(!first)return;
+   const link=first.querySelector('.article-heading>a, h3');
+   const offset=Math.ceil(controls.getBoundingClientRect().height)+24;
+   // Keep as much legislative context as fits, while showing the first article.
+   // A sticky toolbar is not a document-position target for a new content page.
+   const headings=[...(first.previousElementSibling?.querySelectorAll('.legal-heading')||[])];
+   const paragraph=first.querySelector('.legal-unit');
+   const end=paragraph?paragraph.getBoundingClientRect().top+parseFloat(getComputedStyle(paragraph).lineHeight):link.getBoundingClientRect().bottom;
+   const destination=headings.find(heading=>end-heading.getBoundingClientRect().top<=window.innerHeight-offset-24)||first;
+   const top=window.scrollY+destination.getBoundingClientRect().top-offset;
+   if(first.matches('.article')){
+    storageWrite('lexa-last-reading',{codeId:code.id,articleId:first.id.slice(4)});
+    updateLocation(first.dataset.sectionId);
+   }
+   if(focusContent){if(link.tagName!=='A')link.tabIndex=-1;link.focus({preventScroll:true});}
+   window.scrollTo({top:Math.max(0,top),behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  });
+ }
  function draw(){
   const list=selectedArticles();
   const otherReference=!list.length?searchLibraryReferences(query)?.find(result=>result.code.id!==code.id):null;
@@ -144,8 +165,8 @@ export function reader(code, requested, params, context) {
  document.querySelector('#saved-filter').onclick=()=>{onlySaved=!onlySaved;page=0;draw();};
  document.querySelector('#clear-section').onclick=()=>{sectionId=null;page=0;draw();};
  document.querySelectorAll('[data-scope]').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;indexInitialized=false;query='';input.value='';sectionId=null;page=0;draw();});
- document.querySelector('#previous-page').onclick=()=>{page--;draw();scrollReading();};
- document.querySelector('#next-page').onclick=()=>{page++;draw();scrollReading();};
+ document.querySelector('#previous-page').onclick=event=>{page--;draw();scrollReading(event.detail===0);};
+ document.querySelector('#next-page').onclick=event=>{page++;draw();scrollReading(event.detail===0);};
  draw();
  if(target)requestAnimationFrame(()=>{if(active){document.getElementById('art-'+target.id)?.scrollIntoView({block:'start'});rememberPosition();}});
 }

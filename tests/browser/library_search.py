@@ -16,6 +16,10 @@ try:
   page.goto(base);search=page.locator('#library-search');search.fill('dignidade')
   expect(page.locator('.text-result-group')).to_have_count(12)
   assert page.locator('.text-result mark').count()>0
+  cf227=page.locator('.text-result[href="#/cf/227?q=dignidade"]')
+  assert cf227.locator('del').count()==0
+  assert cf227.locator('.search-badge').count()==0
+  assert cf227.locator('mark').inner_text()=='dignidade'
   cpc=page.locator('#search-group-cpc').locator('..').locator('..')
   assert cpc.locator('.text-result').count()==4
   cpc.locator('[data-more-code]').click();expect(cpc.locator('.text-result')).to_have_count(10)
@@ -37,6 +41,10 @@ try:
   page.locator('.reader-top .back').click();search.fill('a');expect(page.locator('#library-results')).to_contain_text('2 caracteres')
   search.fill('termoquenuncavaiexistirnalexa');expect(page.locator('#text-results')).to_contain_text('Nenhuma ocorrência')
   search.fill('CPC');expect(page.locator('.code-card[href="#/cpc"]')).to_be_visible()
+  search.fill('a saúde, o trabalho, o lazer')
+  historical=page.locator('.text-result[href^="#/cf/6?q="]')
+  expect(historical.locator('.search-badge')).to_have_text('Ocorrência em trecho riscado na fonte')
+  assert historical.locator('del mark').count()>0
   search.fill('dignidade');expect(page.locator('.text-result-group')).to_have_count(12)
   search.press('Enter');expect(page.locator('.text-search-heading h2')).to_be_focused()
   for width in [320,390,1280]:
