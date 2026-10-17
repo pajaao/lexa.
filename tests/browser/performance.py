@@ -153,6 +153,14 @@ def reader_ready(page):
     page.wait_for_function('document.querySelectorAll("#articles .article").length>0')
 
 
+def offline_ready(page, complete=False):
+    page.wait_for_function('navigator.serviceWorker.controller!==null && document.querySelector("#pwa-status").textContent.includes("preparada")')
+    if complete and page.locator('#pwa-cache-all').count():
+        page.locator('.pwa-help').evaluate('(el)=>el.open=true')
+        page.locator('#pwa-cache-all').click()
+        page.wait_for_function('document.querySelector("#pwa-status").dataset.offlineMode==="full"')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('directory', nargs='?', type=Path, default=ROOT/'dist')
@@ -245,9 +253,12 @@ def main():
                                     model_state='collection_loaded')})
                 if not args.skip_offline:
                     with session(offline=True) as (page, probe):
+                        samples.append({'run': run, **probe.measure('offline_first_visit', 'fresh_install',
+                            lambda: page.goto(base, wait_until='commit'), lambda: offline_ready(page), navigation=True)})
+                    with session(offline=True) as (page, probe):
                         samples.append({'run': run, **probe.measure('offline_preparation', 'fresh_install',
                             lambda: page.goto(base, wait_until='commit'),
-                            lambda: page.wait_for_function('navigator.serviceWorker.controller!==null && document.querySelector("#pwa-status").textContent.includes("preparada")'),
+                            lambda: offline_ready(page, complete=True),
                             navigation=True)})
                 print(f'Execução {run}/{args.runs} concluída', file=sys.stderr, flush=True)
             browser.close()
@@ -272,7 +283,7 @@ def main():
             'python': platform.python_version(), 'node': subprocess.check_output(['node','--version'],text=True).strip(),
             'cpu_throttling': args.cpu, 'runs': args.runs, 'viewport': {'width':375,'height':812},
             'locale':'pt-BR','timezone':'America/Sao_Paulo', 'compression':'none', 'network':'HTTP loopback; no network throttle',
-            'service_workers':'blocked except offline_preparation (separate fresh contexts)',
+            'service_workers':'blocked except offline scenarios (separate fresh contexts); offline_preparation explicitly requests full library when supported',
             'warm_http':'primed outside timing; document reload resets JS; no saved reading prefetch',
             'timing':'navigation performance.now(); interactions from just before action to functional DOM readiness; includes typing/debounce and automation round trips',
             'next_frame':'two requestAnimationFrame callbacks after readiness; not completion of animations',

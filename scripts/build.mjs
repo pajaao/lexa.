@@ -14,7 +14,7 @@ export async function buildPackage({css:cssOverride}={}){
  const files=new Map();
  function asset(id,value){
   const bytes=JSON.stringify(value),sha=sha256(bytes),file=`data/${id}.${sha}.json`;
-  files.set(file,bytes);return {file,sha256:sha};
+  files.set(file,bytes);return {file,sha256:sha,bytes:Buffer.byteLength(bytes)};
  }
  const history=[...updateHistory,...sumulaUpdates];
  const norms=[...catalog.map(code=>({...code,...(officialImported[code.id]||imported[code.id])})),...(officialSumulas.length?officialSumulas:sumulas)];
@@ -23,6 +23,7 @@ export async function buildPackage({css:cssOverride}={}){
   return {...fields,articleCount:articles.length,...asset(norm.id,norm),search:asset('search-'+norm.id,createSearchIndex(norm)),changedArticleIds:[...new Set(history.filter(event=>event.codeId===norm.id).flatMap(event=>event.changes.map(change=>change.articleId)))]};
  });
  const manifest={collections:metadata,history:asset('history',history)};
+ manifest.offlineBytes=metadata.reduce((sum,code)=>sum+code.bytes+code.search.bytes,manifest.history.bytes);
  files.set('catalog.json',JSON.stringify(manifest));
  const [template,originalCss]=await Promise.all(['index.html','styles.css'].map(path=>readFile(new URL('src/'+path,root),'utf8')));
  const css=cssOverride??originalCss;

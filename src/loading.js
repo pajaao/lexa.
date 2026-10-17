@@ -5,13 +5,18 @@ import {prepareCollection} from './collection-model.js';
 const pendingCollections=new Map(),pendingSearch=new Map(),readerCache=createCollectionCache(3);
 export function activateCollection(id){readerCache.activate(id);}
 let pendingHistory;
+const visitedFiles=new Set();
+export function loadedResourceFiles(){return [...visitedFiles];}
 async function fetchVerifiedJson(spec){
  const response=await fetch(new URL(spec.file,document.baseURI),{cache:'default'});
  if(!response.ok)throw new Error('Não foi possível carregar esta edição.');
  const bytes=await response.arrayBuffer();
  const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),byte=>byte.toString(16).padStart(2,'0')).join('');
  if(hash!==spec.sha256)throw new Error('O arquivo não corresponde à edição publicada.');
- return JSON.parse(new TextDecoder().decode(bytes));
+ const content=JSON.parse(new TextDecoder().decode(bytes));
+ visitedFiles.add(spec.file);
+ window.dispatchEvent(new CustomEvent('lexa-resource-ready'));
+ return content;
 }
 export function loadCollection(code){
  if(code.loaded){readerCache.remember(code);return Promise.resolve(code);}

@@ -43,6 +43,10 @@ with tempfile.TemporaryDirectory() as temporary:
             base=f'http://127.0.0.1:{server.server_port}/lexa./'
             page.goto(base+'#/cf/60')
             page.wait_for_function('navigator.serviceWorker.controller !== null',timeout=20000)
+            expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','partial')
+            assert not [path for path in requests if '/data/search-' in path],'Instalação inicial baixou índices completos'
+            page.locator('.pwa-help>summary').click();page.locator('#pwa-cache-all').click()
+            expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','full',timeout=30000)
             scope=page.evaluate('(async()=> (await navigator.serviceWorker.ready).scope)()')
             assert scope==base
             manifest=page.evaluate("(async()=>await (await fetch('./manifest.webmanifest')).json())()")
@@ -127,10 +131,17 @@ with tempfile.TemporaryDirectory() as temporary:
             assert page.locator('body').get_attribute('data-test-version')=='v2'
             assert page.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==1
             fresh=browser.new_context();first=fresh.new_page();first.goto(base)
-            expect(first.locator('#pwa-status')).to_contain_text('Não foi possível preparar',timeout=20000)
-            assert first.evaluate('navigator.serviceWorker.controller===null')
-            assert first.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==0
+            expect(first.locator('#pwa-status')).to_have_attribute('data-offline-mode','partial',timeout=20000)
+            first.locator('.pwa-help>summary').click();first.locator('#pwa-cache-all').click()
+            expect(first.locator('#pwa-status')).to_contain_text('Não foi possível completar',timeout=30000)
+            assert first.locator('#pwa-status').get_attribute('data-offline-mode')!='full'
             fresh.close()
+            failure['enabled']=True
+            broken=browser.new_context();initial=broken.new_page();initial.goto(base)
+            expect(initial.locator('#pwa-status')).to_contain_text('Não foi possível preparar',timeout=20000)
+            assert initial.evaluate('navigator.serviceWorker.controller===null')
+            assert initial.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==0
+            broken.close()
             assert not errors,errors
             browser.close()
             print('PWA validada: subpasta, leitura offline, atualização consentida, preservação de favoritos/preferências, limpeza isolada e reutilização sem download de JSON e rejeição de shell incompleto e JSON adulterado.')
