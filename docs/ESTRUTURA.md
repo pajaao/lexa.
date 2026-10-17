@@ -25,6 +25,7 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 | `monitor/stf/` | Configuração e referências do STF | Coleta automática pausada |
 | `scripts/` | Build, servidor, importação e coleta | Ferramentas de manutenção |
 | `tests/node/` | Testes da aplicação e publicação | Executados com `npm test` |
+| `tests/browser/` | Fluxos reais e benchmark Chromium | Executar com `scripts/run_browser_tests.py`; ver [baseline](BASELINE-DESEMPENHO.md) |
 | `tests/python/` | Testes dos importadores e monitores | Executados com `npm run test:python` |
 | `.github/workflows/` | Publicação e verificações no Actions | Alterar com atenção aos gatilhos e permissões |
 

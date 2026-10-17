@@ -147,6 +147,8 @@ O build gera um shell leve em `dist/index.html`, um catálogo pequeno em `dist/c
 
 A hospedagem usa GitHub Pages. Cada mudança incorporada na `main` passa pelas verificações do workflow antes da publicação.
 
+Para testes de navegador, metodologia e medições reproduzíveis, consulte a **[baseline de desempenho](docs/BASELINE-DESEMPENHO.md)**.
+
 Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhes sobre fontes, importação de PDFs, testes, estrutura dos arquivos e configuração do Pages. Veja também o **[monitor das legislações](monitor/README.md)** e a documentação da **[coleta pausada do STF](monitor/stf/README.md)**.
 
 </details>
