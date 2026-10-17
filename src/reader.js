@@ -149,4 +149,3 @@ export function reader(code, requested, params, context) {
  draw();
  if(target)requestAnimationFrame(()=>{if(active){document.getElementById('art-'+target.id)?.scrollIntoView({block:'start'});rememberPosition();}});
 }
-
