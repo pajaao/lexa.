@@ -30,3 +30,13 @@ export function compareVersions(before, after, maxCells = 250000) {
  }
  return {before:left.map((t,i)=>({...t,changed:!sameA.has(i)})),after:right.map((t,i)=>({...t,changed:!sameB.has(i)}))};
 }
+
+export function historySummary(events){
+ const dates=events.map(event=>event.capturedAt).filter(date=>Number.isFinite(Date.parse(date))).sort((a,b)=>Date.parse(a)-Date.parse(b));
+ return {
+  since:dates[0]||null,
+  norms:new Set(events.map(event=>event.codeId)).size,
+  versions:events.filter(event=>event.kind!=='baseline').length,
+  changes:events.reduce((sum,event)=>sum+event.changes.length,0)
+ };
+}
