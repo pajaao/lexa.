@@ -1,0 +1,705 @@
+[
+  {
+    "code": "civil",
+    "article": "927",
+    "paragraph": 0,
+    "text": "Art. 927. Aquele que, por ato ilícito (arts. 186 e 187), causar dano a outrem, fica obrigado a repará-lo. (Vide ADI nº 7055) (Vide ADI nº 6792)",
+    "expected": [
+      {
+        "literal": "arts. 186 e 187",
+        "status": "A",
+        "targets": [
+          "civil:186",
+          "civil:187"
+        ]
+      }
+    ],
+    "criterion": "Lista interna; ADIs não são artigos da biblioteca."
+  },
+  {
+    "code": "civil",
+    "article": "927",
+    "paragraph": 1,
+    "text": "Parágrafo único. Haverá obrigação de reparar o dano, independentemente de culpa, nos casos especificados em lei, ou quando a atividade normalmente desenvolvida pelo autor do dano implicar, por sua natureza, risco para os direitos de outrem.",
+    "expected": [],
+    "criterion": "Lei genericamente mencionada não determina destino."
+  },
+  {
+    "code": "civil",
+    "article": "186",
+    "paragraph": 0,
+    "text": "Art. 186. Aquele que, por ação ou omissão voluntária, negligência ou imprudência, violar direito e causar dano a outrem, ainda que exclusivamente moral, comete ato ilícito. (Vide ADI nº 7055) (Vide ADI nº 6792)",
+    "expected": [],
+    "criterion": "Cabeçalho não é remissão; ADIs não são artigos."
+  },
+  {
+    "code": "civil",
+    "article": "187",
+    "paragraph": 0,
+    "text": "Art. 187. Também comete ato ilícito o titular de um direito que, ao exercê-lo, excede manifestamente os limites impostos pelo seu fim econômico ou social, pela boa-fé ou pelos bons costumes.",
+    "expected": [],
+    "criterion": "Cabeçalho não é remissão."
+  },
+  {
+    "code": "civil",
+    "article": "175",
+    "paragraph": 0,
+    "text": "Art. 175. A confirmação expressa, ou a execução voluntária de negócio anulável, nos termos dos arts. 172 a 174, importa a extinção de todas as ações, ou exceções, de que contra ele dispusesse o devedor.",
+    "expected": [
+      {
+        "literal": "arts. 172 a 174",
+        "status": "A",
+        "targets": [
+          "civil:172",
+          "civil:173",
+          "civil:174"
+        ]
+      }
+    ],
+    "criterion": "Intervalo interno completo, três destinos existentes."
+  },
+  {
+    "code": "civil",
+    "article": "28",
+    "paragraph": 2,
+    "text": "§ 2 o Não comparecendo herdeiro ou interessado para requerer o inventário até trinta dias depois de passar em julgado a sentença que mandar abrir a sucessão provisória, proceder-se-á à arrecadação dos bens do ausente pela forma estabelecida nos arts. 1.819 a 1.823.",
+    "expected": [
+      {
+        "literal": "arts. 1.819 a 1.823",
+        "status": "A",
+        "targets": [
+          "civil:1819",
+          "civil:1820",
+          "civil:1821",
+          "civil:1822",
+          "civil:1823"
+        ]
+      }
+    ],
+    "criterion": "Milhar e intervalo."
+  },
+  {
+    "code": "civil",
+    "article": "968",
+    "paragraph": 7,
+    "text": "§ 3º Caso venha a admitir sócios, o empresário individual poderá solicitar ao Registro Público de Empresas Mercantis a transformação de seu registro de empresário para registro de sociedade empresária, observado, no que couber, o disposto nos arts. 1.113 a 1.115 deste Código. (Incluído pela Lei Complementar nº 128, de 2008)",
+    "expected": [
+      {
+        "literal": "arts. 1.113 a 1.115",
+        "status": "A",
+        "targets": [
+          "civil:1113",
+          "civil:1114",
+          "civil:1115"
+        ]
+      }
+    ],
+    "criterion": "Deste Código; lei modificadora no parêntese não troca o destino."
+  },
+  {
+    "code": "civil",
+    "article": "2040",
+    "paragraph": 0,
+    "text": "Art. 2.040. A hipoteca legal dos bens do tutor ou curador, inscrita em conformidade com o inciso IV do art. 827 do Código Civil anterior, Lei n o 3.071, de 1 o de janeiro de 1916, poderá ser cancelada, obedecido o disposto no parágrafo único do art. 1.745 deste Código.",
+    "expected": [
+      {
+        "literal": "art. 827",
+        "status": "B",
+        "targets": []
+      },
+      {
+        "literal": "art. 1.745",
+        "status": "A",
+        "targets": [
+          "civil:1745"
+        ]
+      }
+    ],
+    "criterion": "Primeiro destino é Código de 1916, não o atual; segundo é deste Código."
+  },
+  {
+    "code": "civil",
+    "article": "1354-A",
+    "paragraph": 0,
+    "text": "Art. 1.354-A. A convocação, a realização e a deliberação de quaisquer modalidades de assembleia poderão dar-se de forma eletrônica, desde que: (Incluído pela Lei nº 14.309, de 2022)",
+    "expected": [],
+    "criterion": "Letra no cabeçalho não é remissão."
+  },
+  {
+    "code": "cf",
+    "article": "adct-54-A",
+    "paragraph": 0,
+    "text": "Art. 54-A. Os seringueiros de que trata o art. 54 deste Ato das Disposições Constitucionais Transitórias receberão indenização, em parcela única, no valor de R$ 25.000,00 (vinte e cinco mil reais). (Incluído pela Emenda Constitucional nº 78, de 2014) (Vide Emenda Constitucional nº 78, de 2014)",
+    "expected": [
+      {
+        "literal": "art. 54",
+        "status": "A",
+        "targets": [
+          "cf:adct-54"
+        ]
+      }
+    ],
+    "criterion": "Escopo expresso deste Ato."
+  },
+  {
+    "code": "cf",
+    "article": "18",
+    "paragraph": 5,
+    "text": "§ 4º A criação, a incorporação, a fusão e o desmembramento de Municípios, far-se-ão por lei estadual, dentro do período determinado por Lei Complementar Federal, e dependerão de consulta prévia, mediante plebiscito, às populações dos Municípios envolvidos, após divulgação dos Estudos de Viabilidade Municipal, apresentados e publicados na forma da lei. (Redação dada pela Emenda Constitucional nº 15, de 1996) Vide art. 96 - ADCT (Vide Lei Complementar nº 230, de 2026)",
+    "expected": [
+      {
+        "literal": "art. 96",
+        "status": "A",
+        "targets": [
+          "cf:adct-96"
+        ]
+      }
+    ],
+    "criterion": "Sufixo ADCT delimita escopo; nota Vide editorial explicitamente identificável."
+  },
+  {
+    "code": "cf",
+    "article": "28",
+    "paragraph": 0,
+    "text": "Art. 28. A eleição do Governador e do Vice-Governador de Estado, para mandato de quatro anos, realizar-se-á noventa dias antes do término do mandato de seus antecessores, e a posse ocorrerá no dia 1º de janeiro do ano subseqüente, observado, quanto ao mais, o disposto no art. 77.",
+    "expected": [
+      {
+        "literal": "art. 77",
+        "status": "D",
+        "targets": [
+          "cf:77"
+        ]
+      }
+    ],
+    "criterion": "Ocorrência riscada, independente de outras redações do mesmo artigo."
+  },
+  {
+    "code": "cf",
+    "article": "28",
+    "paragraph": 1,
+    "text": "Art. 28. A eleição do Governador e do Vice-Governador de Estado, para mandato de quatro anos, realizar-se-á no primeiro domingo de outubro, em primeiro turno, e no último domingo de outubro, em segundo turno, se houver, do ano anterior ao do término do mandato de seus antecessores, e a posse ocorrerá em primeiro de janeiro do ano subseqüente, observado, quanto ao mais, o disposto no art. 77. (Redação dada pela Emenda Constitucional nº 16, de1997)",
+    "expected": [
+      {
+        "literal": "art. 77",
+        "status": "D",
+        "targets": [
+          "cf:77"
+        ]
+      }
+    ],
+    "criterion": "Outra redação riscada."
+  },
+  {
+    "code": "cf",
+    "article": "28",
+    "paragraph": 2,
+    "text": "Art. 28. A eleição do Governador e do Vice-Governador de Estado, para mandato de 4 (quatro) anos, realizar-se-á no primeiro domingo de outubro, em primeiro turno, e no último domingo de outubro, em segundo turno, se houver, do ano anterior ao do término do mandato de seus antecessores, e a posse ocorrerá em 6 de janeiro do ano subsequente, observado, quanto ao mais, o disposto no art. 77 desta Constituição. (Redação dada pela Emenda Constitucional nº 111, de 2021)",
+    "expected": [
+      {
+        "literal": "art. 77",
+        "status": "A",
+        "targets": [
+          "cf:77"
+        ]
+      }
+    ],
+    "criterion": "Ocorrência não riscada; não certifica vigência."
+  },
+  {
+    "code": "cf",
+    "article": "28",
+    "paragraph": 4,
+    "text": "§ 1º Perderá o mandato o Governador que assumir outro cargo ou função na administração pública direta ou indireta, ressalvada a posse em virtude de concurso público e observado o disposto no art. 38, I, IV e V. (Renumerado do parágrafo único, pela Emenda Constitucional nº 19, de 1998)",
+    "expected": [
+      {
+        "literal": "art. 38",
+        "status": "A",
+        "targets": [
+          "cf:38"
+        ]
+      }
+    ],
+    "criterion": "I, IV e V são incisos; destino navegável somente artigo38."
+  },
+  {
+    "code": "cf",
+    "article": "28",
+    "paragraph": 5,
+    "text": "§ 2º Os subsídios do Governador, do Vice-Governador e dos Secretários de Estado serão fixados por lei de iniciativa da Assembléia Legislativa, observado o que dispõem os arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I. (Incluído pela Emenda Constitucional nº 19, de 1998)",
+    "expected": [
+      {
+        "literal": "arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I",
+        "status": "A",
+        "targets": [
+          "cf:37",
+          "cf:39",
+          "cf:150",
+          "cf:153"
+        ]
+      }
+    ],
+    "criterion": "Lista intercalada; destinos distintos, não quatro relações independentes ao153."
+  },
+  {
+    "code": "cf",
+    "article": "40",
+    "paragraph": 41,
+    "text": "§ 4º-B. Poderão ser estabelecidos por lei complementar do respectivo ente federativo idade e tempo de contribuição diferenciados para aposentadoria de ocupantes do cargo de agente penitenciário, de agente socioeducativo ou de policial dos órgãos de que tratam o inciso IV do caput do art. 51, o inciso XIII do caput do art. 52 e os incisos I a IV do caput do art. 144. (Incluído pela Emenda Constitucional nº 103, de 2019)",
+    "expected": [
+      {
+        "literal": "art. 51",
+        "status": "A",
+        "targets": [
+          "cf:51"
+        ]
+      },
+      {
+        "literal": "art. 52",
+        "status": "A",
+        "targets": [
+          "cf:52"
+        ]
+      },
+      {
+        "literal": "art. 144",
+        "status": "A",
+        "targets": [
+          "cf:144"
+        ]
+      }
+    ],
+    "criterion": "Qualificadores antes do artigo; não validar incisos nesta fase."
+  },
+  {
+    "code": "cf",
+    "article": "adct-72",
+    "paragraph": 7,
+    "text": "III - a parcela do produto da arrecadação resultante da elevação da alíquota da contribuição social sobre o lucro dos contribuintes a que se refere o § 1º do Art. 22 da Lei nº 8.212, de 24 de julho de 1991 , a qual, nos exercícios financeiros de 1994 e 1995, bem assim no período de 1º de janeiro de 1996 a 30 de junho de 1997, passa a ser de trinta por cento, sujeita a alteração por lei ordinária, mantidas as demais normas da Lei nº 7.689, de 15 de dezembro de 1988 ; (Redação dada pela Emenda Constitucional nº 10, de 1996)",
+    "expected": [
+      {
+        "literal": "Art. 22",
+        "status": "B",
+        "targets": []
+      }
+    ],
+    "criterion": "Lei8212/1991 ausente; lei7689 posterior não deve contaminar escopo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-72",
+    "paragraph": 20,
+    "text": "§ 3º A parcela de que trata o inciso IV será previamente deduzida da base de cálculo das vinculações ou participações constitucionais previstas nos artigos 153, § 5º, 157, II, 212 e 239 da Constituição. (Redação dada pela Emenda Constitucional nº 10, de 1996)",
+    "expected": [
+      {
+        "literal": "artigos 153, § 5º, 157, II, 212 e 239",
+        "status": "A",
+        "targets": [
+          "cf:153",
+          "cf:157",
+          "cf:212",
+          "cf:239"
+        ]
+      }
+    ],
+    "criterion": "Constituição expressa após lista intercalada."
+  },
+  {
+    "code": "cf",
+    "article": "adct-121",
+    "paragraph": 1,
+    "text": "Parágrafo único. Os valores referidos no caput deste artigo serão tidos por abandonados, nos termos do inciso III do caput do art. 1.275 da Lei nº 10.406, de 10 de janeiro de 2002 (Código Civil), e serão apropriados pelo Tesouro Nacional como receita primária para realização de despesas de investimento de que trata o § 6º-B do art. 107, que não serão computadas nos limites previstos no art. 107, ambos deste Ato das Disposições Constitucionais Transitórias, podendo o interessado reclamar ressarcimento à União no prazo de até 5 (cinco) anos do encerramento das contas. (Incluído pela Emenda Constitucional nº 126, de 2022)",
+    "expected": [
+      {
+        "literal": "art. 1.275",
+        "status": "A",
+        "targets": [
+          "civil:1275"
+        ]
+      },
+      {
+        "literal": "art. 107",
+        "status": "A",
+        "targets": [
+          "cf:adct-107"
+        ]
+      },
+      {
+        "literal": "art. 107, ambos",
+        "status": "A",
+        "targets": [
+          "cf:adct-107"
+        ]
+      }
+    ],
+    "criterion": "Ambos deste Ato qualifica as duas últimas remissões, não a primeira."
+  },
+  {
+    "code": "cpc",
+    "article": "240",
+    "paragraph": 0,
+    "text": "Art. 240. A citação válida, ainda quando ordenada por juízo incompetente, induz litispendência, torna litigiosa a coisa e constitui em mora o devedor, ressalvado o disposto nos arts. 397 e 398 da Lei nº 10.406, de 10 de janeiro de 2002 (Código Civil).",
+    "expected": [
+      {
+        "literal": "arts. 397 e 398",
+        "status": "A",
+        "targets": [
+          "civil:397",
+          "civil:398"
+        ]
+      }
+    ],
+    "criterion": "Lei10406/2002 expressa, não CPC397398."
+  },
+  {
+    "code": "cpc",
+    "article": "240",
+    "paragraph": 2,
+    "text": "§ 2º Incumbe ao autor adotar, no prazo de 10 (dez) dias, as providências necessárias para viabilizar a citação, sob pena de não se aplicar o disposto no § 1º.",
+    "expected": [
+      {
+        "literal": "§ 1º",
+        "status": "A",
+        "targets": [
+          "cpc:240"
+        ]
+      }
+    ],
+    "criterion": "Remissão local ao parágrafo; destinoartigo conhecido, parágrafo não identificadoestavelmente."
+  },
+  {
+    "code": "cpc",
+    "article": "609",
+    "paragraph": 0,
+    "text": "Art. 609. Uma vez apurados, os haveres do sócio retirante serão pagos conforme disciplinar o contrato social e, no silêncio deste, nos termos do § 2º do art. 1.031 da Lei nº 10.406, de 10 de janeiro de 2002 (Código Civil).",
+    "expected": [
+      {
+        "literal": "art. 1.031",
+        "status": "A",
+        "targets": [
+          "civil:1031"
+        ]
+      }
+    ],
+    "criterion": "§2 qualifica CC1031; resolução somente artigo."
+  },
+  {
+    "code": "cpc",
+    "article": "910",
+    "paragraph": 1,
+    "text": "§ 1º Não opostos embargos ou transitada em julgado a decisão que os rejeitar, expedir-se-á precatório ou requisição de pequeno valor em favor do exequente, observando-se o disposto no art. 100 da Constituição Federal .",
+    "expected": [
+      {
+        "literal": "art. 100",
+        "status": "A",
+        "targets": [
+          "cf:100"
+        ]
+      }
+    ],
+    "criterion": "ConstituiçãoFederal expressa."
+  },
+  {
+    "code": "cpc",
+    "article": "910",
+    "paragraph": 3,
+    "text": "§ 3º Aplica-se a este Capítulo, no que couber, o disposto nos artigos 534 e 535 .",
+    "expected": [
+      {
+        "literal": "artigos 534 e 535",
+        "status": "A",
+        "targets": [
+          "cpc:534",
+          "cpc:535"
+        ]
+      }
+    ],
+    "criterion": "Variação artigos."
+  },
+  {
+    "code": "cpc",
+    "article": "521",
+    "paragraph": 0,
+    "text": "Art. 521. A caução prevista no inciso IV do art. 520 poderá ser dispensada nos casos em que:",
+    "expected": [
+      {
+        "literal": "art. 520",
+        "status": "A",
+        "targets": [
+          "cpc:520"
+        ]
+      }
+    ],
+    "criterion": "Cabeçalho próprio521 excluído,520remissão."
+  },
+  {
+    "code": "cpc",
+    "article": "521",
+    "paragraph": 3,
+    "text": "III - pender o agravo fundado nos incisos II e III do art. 1.042 ;",
+    "expected": [
+      {
+        "literal": "art. 1.042",
+        "status": "D",
+        "targets": [
+          "cpc:1042"
+        ]
+      }
+    ],
+    "criterion": "Histórica; numeralcomsep.milhar."
+  },
+  {
+    "code": "cpc",
+    "article": "521",
+    "paragraph": 4,
+    "text": "III – pender o agravo do art. 1.042; (Redação dada pela Lei nº 13.256, de 2016) (Vigência)",
+    "expected": [
+      {
+        "literal": "art. 1.042",
+        "status": "A",
+        "targets": [
+          "cpc:1042"
+        ]
+      }
+    ],
+    "criterion": "Correspondência não riscada tambémexiste."
+  },
+  {
+    "code": "cpc",
+    "article": "1022",
+    "paragraph": 6,
+    "text": "II - incorra em qualquer das condutas descritas no art. 489, § 1º .",
+    "expected": [
+      {
+        "literal": "art. 489",
+        "status": "A",
+        "targets": [
+          "cpc:489"
+        ]
+      }
+    ],
+    "criterion": "§1apósartigo, navegaçãoarticlelevel."
+  },
+  {
+    "code": "licitacoes",
+    "article": "4",
+    "paragraph": 0,
+    "text": "Art. 4º Aplicam-se às licitações e contratos disciplinados por esta Lei as disposições constantes dos arts. 42 a 49 da Lei Complementar nº 123, de 14 de dezembro de 2006.",
+    "expected": [
+      {
+        "literal": "arts. 42 a 49",
+        "status": "B",
+        "targets": []
+      }
+    ],
+    "criterion": "LC123/2006ausente, não interpretar comolicitações42a49."
+  },
+  {
+    "code": "licitacoes",
+    "article": "4",
+    "paragraph": 5,
+    "text": "§ 3º Nas contratações com prazo de vigência superior a 1 (um) ano, será considerado o valor anual do contrato na aplicação dos limites previstos nos §§ 1º e 2º deste artigo.",
+    "expected": [
+      {
+        "literal": "§§ 1º e 2º deste artigo",
+        "status": "A",
+        "targets": [
+          "licitacoes:4"
+        ]
+      }
+    ],
+    "criterion": "Remissão subartigo explícita; faltamidentificadoresestáveisdosparágrafos."
+  },
+  {
+    "code": "licitacoes",
+    "article": "6",
+    "paragraph": 14,
+    "text": "XIV - bens e serviços especiais: aqueles que, por sua alta heterogeneidade ou complexidade, não podem ser descritos na forma do inciso XIII do caput deste artigo, exigida justificativa prévia do contratante;",
+    "expected": [
+      {
+        "literal": "inciso XIII do caput deste artigo",
+        "status": "A",
+        "targets": [
+          "licitacoes:6"
+        ]
+      }
+    ],
+    "criterion": "Remissão subartigo semprefixoart."
+  },
+  {
+    "code": "licitacoes",
+    "article": "6",
+    "paragraph": 34,
+    "text": "b) serviço especial de engenharia: aquele que, por sua alta heterogeneidade ou complexidade, não pode se enquadrar na definição constante da alínea “a” deste inciso;",
+    "expected": [
+      {
+        "literal": "alínea “a” deste inciso",
+        "status": "C",
+        "targets": []
+      }
+    ],
+    "criterion": "Sem resolver inciso porcontexto não certificar destino."
+  },
+  {
+    "code": "licitacoes",
+    "article": "6",
+    "paragraph": 64,
+    "text": "f) orçamento detalhado do custo global da obra, fundamentado em quantitativos de serviços e fornecimentos propriamente avaliados, obrigatório exclusivamente para os regimes de execução previstos nos incisos I, II, III, IV e VII do caput do art. 46 desta Lei;",
+    "expected": [
+      {
+        "literal": "art. 46",
+        "status": "A",
+        "targets": [
+          "licitacoes:46"
+        ]
+      }
+    ],
+    "criterion": "Incisos e caput preservados comoqualificador."
+  },
+  {
+    "code": "licitacoes",
+    "article": "37",
+    "paragraph": 3,
+    "text": "III - atribuição de notas por desempenho do licitante em contratações anteriores aferida nos documentos comprobatórios de que trata o § 3º do art. 88 desta Lei e em registro cadastral unificado disponível no Portal Nacional de Contratações Públicas (PNCP).",
+    "expected": [
+      {
+        "literal": "art. 88",
+        "status": "A",
+        "targets": [
+          "licitacoes:88"
+        ]
+      }
+    ],
+    "criterion": "§3precedeart88."
+  },
+  {
+    "code": "licitacoes",
+    "article": "37",
+    "paragraph": 8,
+    "text": "§ 2º Ressalvados os casos de inexigibilidade de licitação, na licitação para contratação dos serviços técnicos especializados de natureza predominantemente intelectual previstos nas alíneas “a”, “d” e “h” do inciso XVIII do caput do art. 6º desta Lei cujo valor estimado da contratação seja superior a R$ 300.000,00 (trezentos mil reais), o julgamento será por: (Promulgação partes vetadas)  (Vide Decreto nº 10.922, de 2021) (Vigência)   (Vide Decreto nº 11.317, de 2022) Vigência  (Vide Decreto nº 11.871, de 2023) Vigência  (Vide Decreto nº 12.343, de 2024) Vigência (Vide Decreto nº 12.807, de 2025) Vigência",
+    "expected": [
+      {
+        "literal": "art. 6º",
+        "status": "A",
+        "targets": [
+          "licitacoes:6"
+        ]
+      }
+    ],
+    "criterion": "Revisão manual dos runs: só as notas de decretos estão riscadas, não a remissão aoart6. Correção da anotação, não do algoritmo."
+  },
+  {
+    "code": "licitacoes",
+    "article": "75",
+    "paragraph": 18,
+    "text": "l) serviços especializados ou aquisição ou locação de equipamentos destinados ao rastreamento e à obtenção de provas previstas nos incisos II e V do caput do art. 3º da Lei nº 12.850, de 2 de agosto de 2013, quando houver necessidade justificada de manutenção de sigilo sobre a investigação;",
+    "expected": [
+      {
+        "literal": "art. 3º",
+        "status": "B",
+        "targets": []
+      }
+    ],
+    "criterion": "Lei12850/2013ausente."
+  },
+  {
+    "code": "licitacoes",
+    "article": "75",
+    "paragraph": 20,
+    "text": "V - para contratação com vistas ao cumprimento do disposto nos arts. 3º, 3º-A, 4º, 5º e 20 da Lei nº 10.973, de 2 de dezembro de 2004, observados os princípios gerais de contratação constantes da referida Lei;",
+    "expected": [
+      {
+        "literal": "arts. 3º, 3º-A, 4º, 5º e 20",
+        "status": "B",
+        "targets": []
+      }
+    ],
+    "criterion": "Lei10973/2004ausente; sufixocomordinal3º-A."
+  },
+  {
+    "code": "licitacoes",
+    "article": "193",
+    "paragraph": 1,
+    "text": "I - os arts. 89 a 108 da Lei nº 8.666, de 21 de junho de 1993, na data de publicação desta Lei;",
+    "expected": [
+      {
+        "literal": "arts. 89 a 108",
+        "status": "B",
+        "targets": []
+      }
+    ],
+    "criterion": "Lei8666/1993ausente."
+  },
+  {
+    "code": "licitacoes",
+    "article": "193",
+    "paragraph": 6,
+    "text": "c) os   art. 1º a art. 47-A da Lei nº 12.462, de 2011. (Incluído pela Medida Provisória nº 1.167, de 2023)  Vigência encerrada",
+    "expected": [
+      {
+        "literal": "art. 1º a art. 47-A",
+        "status": "D",
+        "targets": []
+      }
+    ],
+    "criterion": "Histórica; intervalo com art.repetido e extremoletrado, lei12462fora."
+  },
+  {
+    "code": "licitacoes",
+    "article": "193",
+    "paragraph": 10,
+    "text": "c) os arts. 1º a 47-A da Lei nº 12.462, de 4 de agosto de 2011. (Redação dada pela Lei Complementar nº 198, de 2023)",
+    "expected": [
+      {
+        "literal": "arts. 1º a 47-A",
+        "status": "B",
+        "targets": []
+      }
+    ],
+    "criterion": "Intervalo externo com letra não deve expandir poraritmética."
+  },
+  {
+    "code": "licitacoes",
+    "article": "5",
+    "paragraph": 0,
+    "text": "Art. 5º Na aplicação desta Lei, serão observados os princípios da legalidade, da impessoalidade, da moralidade, da publicidade, da eficiência, do interesse público, da probidade administrativa, da igualdade, do planejamento, da transparência, da eficácia, da segregação de funções, da motivação, da vinculação ao edital, do julgamento objetivo, da segurança jurídica, da razoabilidade, da competitividade, da proporcionalidade, da celeridade, da economicidade e do desenvolvimento nacional sustentável, assim como as disposições do Decreto-Lei nº 4.657, de 4 de setembro de 1942 (Lei de Introdução às Normas do Direito Brasileiro).",
+    "expected": [],
+    "criterion": "Menciona LINDB, sem artigo: normaexpressa, fora do escopoartigo-artigo."
+  },
+  {
+    "code": "cf",
+    "article": "49",
+    "paragraph": 20,
+    "text": "XVIII - decretar o estado de calamidade pública de âmbito nacional previsto nos arts. 167-B, 167-C, 167-D, 167-E, 167-F e 167-G desta Constituição. (Incluído pela Emenda Constitucional nº 109, de 2021)",
+    "expected": [
+      {
+        "literal": "arts. 167-B, 167-C, 167-D, 167-E, 167-F e 167-G",
+        "status": "A",
+        "targets": [
+          "cf:167-B",
+          "cf:167-C",
+          "cf:167-D",
+          "cf:167-E",
+          "cf:167-F",
+          "cf:167-G"
+        ]
+      }
+    ],
+    "criterion": "Lista de artigos com letras; numeração validada no acervo."
+  },
+  {
+    "code": "cdc",
+    "article": "104-A",
+    "paragraph": 0,
+    "text": "Art. 104-A. A requerimento do consumidor superendividado pessoa natural, o juiz poderá instaurar processo de repactuação de dívidas, com vistas à realização de audiência conciliatória, presidida por ele ou por conciliador credenciado no juízo, com a presença de todos os credores de dívidas previstas no art. 54-A deste Código, na qual o consumidor apresentará proposta de plano de pagamento com prazo máximo de 5 (cinco) anos, preservados o mínimo existencial, nos termos da regulamentação, e as garantias e as formas de pagamento originalmente pactuadas. (Incluído pela Lei nº 14.181, de 2021)",
+    "expected": [
+      {
+        "literal": "art. 54-A",
+        "status": "A",
+        "targets": [
+          "cdc:54-A"
+        ]
+      }
+    ],
+    "criterion": "Suplemento real para54-A, não exemplo artificial."
+  }
+]

@@ -1,0 +1,550 @@
+{
+  "commit": "84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf",
+  "corpus_sha256": "4a0597f879d57a150464ee5ef75d95196d13346517fa5e9d03c2c41297a7473a",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "articles": {
+    "cf": 424,
+    "civil": 2083,
+    "penal": 434,
+    "cpc": 1074,
+    "cdc": 130,
+    "ctn": 234,
+    "cpp": 852,
+    "eca": 329,
+    "lep": 219,
+    "maria-penha": 57,
+    "improbidade": 35,
+    "licitacoes": 196,
+    "clt": 1043,
+    "sv": 63
+  },
+  "primary_articles": 3777,
+  "all_articles": 7173,
+  "scanned_statutory_articles": 7110,
+  "primary_counts": {
+    "E": 3876,
+    "A": 899,
+    "C": 175,
+    "D": 244,
+    "B": 54
+  },
+  "all_counts": {
+    "E": 7087,
+    "A": 1677,
+    "C": 1201,
+    "D": 1010,
+    "B": 95
+  },
+  "manual_evaluation": {
+    "paragraphs": 44,
+    "articles": 27,
+    "gold_expressions": 44,
+    "gold_labels": {
+      "A": 32,
+      "B": 7,
+      "D": 4,
+      "C": 1
+    },
+    "detected_expressions": 41,
+    "detected_labels": {
+      "A": 25,
+      "B": 7,
+      "C": 4,
+      "D": 5
+    },
+    "matched": 40,
+    "correct_classifications": 36,
+    "missed_expressions": 4,
+    "spurious_expressions": 1,
+    "detection_precision": 0.975609756097561,
+    "detection_recall": 0.9090909090909091,
+    "classification_accuracy_on_matched": 0.9,
+    "link_predictions": 41,
+    "correct_link_predictions": 41,
+    "gold_article_links": 54,
+    "article_link_precision": 1.0,
+    "article_link_recall": 0.7592592592592593,
+    "errors": [
+      {
+        "source": [
+          "cf",
+          "18",
+          5
+        ],
+        "expected": {
+          "literal": "art. 96",
+          "status": "A",
+          "targets": [
+            "cf:adct-96"
+          ]
+        },
+        "actual": {
+          "source": [
+            "cf",
+            "18"
+          ],
+          "field": "paragraphs",
+          "paragraph": 5,
+          "span": [
+            416,
+            427
+          ],
+          "pythonSpan": [
+            416,
+            427
+          ],
+          "quote": "art. 96 - A",
+          "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+          "numbers": [
+            "96-A"
+          ],
+          "targets": [],
+          "historical": false,
+          "granularity": "article",
+          "status": "C",
+          "reason": "missing-or-grouped-target"
+        }
+      },
+      {
+        "source": [
+          "cf",
+          "28",
+          5
+        ],
+        "expected": {
+          "literal": "arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I",
+          "status": "A",
+          "targets": [
+            "cf:37",
+            "cf:39",
+            "cf:150",
+            "cf:153"
+          ]
+        },
+        "actual": {
+          "source": [
+            "cf",
+            "28"
+          ],
+          "field": "paragraphs",
+          "paragraph": 5,
+          "span": [
+            170,
+            178
+          ],
+          "pythonSpan": [
+            170,
+            178
+          ],
+          "quote": "arts. 37",
+          "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+          "numbers": [
+            "37"
+          ],
+          "targets": [],
+          "historical": false,
+          "granularity": "article",
+          "status": "C",
+          "reason": "interleaved-list-not-supported"
+        }
+      },
+      {
+        "source": [
+          "cf",
+          "adct-72",
+          20
+        ],
+        "expected": {
+          "literal": "artigos 153, § 5º, 157, II, 212 e 239",
+          "status": "A",
+          "targets": [
+            "cf:153",
+            "cf:157",
+            "cf:212",
+            "cf:239"
+          ]
+        },
+        "actual": {
+          "source": [
+            "cf",
+            "adct-72"
+          ],
+          "field": "paragraphs",
+          "paragraph": 20,
+          "span": [
+            148,
+            159
+          ],
+          "pythonSpan": [
+            148,
+            159
+          ],
+          "quote": "artigos 153",
+          "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+          "numbers": [
+            "153"
+          ],
+          "targets": [],
+          "historical": false,
+          "granularity": "article",
+          "status": "C",
+          "reason": "interleaved-list-not-supported"
+        }
+      },
+      {
+        "source": [
+          "cf",
+          "adct-121",
+          1
+        ],
+        "expected": {
+          "literal": "art. 107",
+          "status": "A",
+          "targets": [
+            "cf:adct-107"
+          ]
+        },
+        "actual": {
+          "source": [
+            "cf",
+            "adct-121"
+          ],
+          "field": "paragraphs",
+          "paragraph": 1,
+          "span": [
+            329,
+            337
+          ],
+          "pythonSpan": [
+            329,
+            337
+          ],
+          "quote": "art. 107",
+          "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+          "numbers": [
+            "107"
+          ],
+          "targets": [],
+          "historical": false,
+          "granularity": "article",
+          "status": "C",
+          "reason": "adct-scope-not-explicit"
+        }
+      },
+      {
+        "source": [
+          "cpc",
+          "240",
+          2
+        ],
+        "expected": {
+          "literal": "§ 1º",
+          "status": "A",
+          "targets": [
+            "cpc:240"
+          ]
+        },
+        "actual": null
+      },
+      {
+        "source": [
+          "licitacoes",
+          "4",
+          5
+        ],
+        "expected": {
+          "literal": "§§ 1º e 2º deste artigo",
+          "status": "A",
+          "targets": [
+            "licitacoes:4"
+          ]
+        },
+        "actual": null
+      },
+      {
+        "source": [
+          "licitacoes",
+          "6",
+          14
+        ],
+        "expected": {
+          "literal": "inciso XIII do caput deste artigo",
+          "status": "A",
+          "targets": [
+            "licitacoes:6"
+          ]
+        },
+        "actual": null
+      },
+      {
+        "source": [
+          "licitacoes",
+          "6",
+          34
+        ],
+        "expected": {
+          "literal": "alínea “a” deste inciso",
+          "status": "C",
+          "targets": []
+        },
+        "actual": null
+      },
+      {
+        "source": [
+          "licitacoes",
+          "193",
+          6
+        ],
+        "expected": null,
+        "actual": {
+          "source": [
+            "licitacoes",
+            "193"
+          ],
+          "field": "paragraphs",
+          "paragraph": 6,
+          "span": [
+            18,
+            27
+          ],
+          "pythonSpan": [
+            18,
+            27
+          ],
+          "quote": "art. 47-A",
+          "edition": "65b4df1512bfbb6c046460319623c98bfd02f99a4543b4ad0526bc26e8ed33cc",
+          "numbers": [
+            "47-A"
+          ],
+          "targets": [],
+          "historical": true,
+          "granularity": "article",
+          "status": "D",
+          "reason": "explicit-law:lei:12462:2011"
+        }
+      }
+    ]
+  },
+  "timing_seconds": [
+    0.08592358999885619,
+    0.07829636299720732,
+    0.09337403800600441,
+    0.0786456990026636,
+    0.0776451010024175
+  ],
+  "median_seconds": 0.0786456990026636,
+  "timing_conditions": "In-memory corpus, sequential Python stdlib, five runs, no CPU throttling; excludes corpus loading/serialization and browser/network.",
+  "sizes": {
+    "primary_candidates_verbose": {
+      "json_bytes": 1620272,
+      "gzip_bytes": 65703
+    },
+    "primary_graph": {
+      "json_bytes": 48907,
+      "gzip_bytes": 10944
+    },
+    "all_graph": {
+      "json_bytes": 95469,
+      "gzip_bytes": 21677
+    },
+    "primary_complete_bundle": {
+      "json_bytes": 146184,
+      "gzip_bytes": 22905
+    },
+    "all_complete_bundle": {
+      "json_bytes": 374412,
+      "gzip_bytes": 48499
+    },
+    "graph_cf": {
+      "json_bytes": 14875,
+      "gzip_bytes": 3528
+    },
+    "graph_civil": {
+      "json_bytes": 14010,
+      "gzip_bytes": 2853
+    },
+    "graph_cpc": {
+      "json_bytes": 14545,
+      "gzip_bytes": 3488
+    },
+    "graph_licitacoes": {
+      "json_bytes": 4843,
+      "gzip_bytes": 928
+    }
+  },
+  "primary_edges": 1030,
+  "all_edges": 2009,
+  "inverse_186": [
+    [
+      "civil",
+      "927",
+      "civil",
+      "186",
+      [
+        2248
+      ]
+    ]
+  ],
+  "simulations": [
+    {
+      "scenario": "add",
+      "before": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ]
+      ],
+      "after": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "188"
+        ]
+      ],
+      "pass_assertion": true,
+      "source_edition_changed": true
+    },
+    {
+      "scenario": "remove",
+      "before": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ]
+      ],
+      "after": [],
+      "pass_assertion": true,
+      "source_edition_changed": true
+    },
+    {
+      "scenario": "change",
+      "before": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ]
+      ],
+      "after": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "188"
+        ]
+      ],
+      "pass_assertion": true,
+      "source_edition_changed": true
+    },
+    {
+      "scenario": "delete-target",
+      "before": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ]
+      ],
+      "after": [],
+      "pass_assertion": true,
+      "source_edition_changed": true
+    },
+    {
+      "scenario": "strike",
+      "before": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ]
+      ],
+      "after": [],
+      "pass_assertion": true,
+      "source_edition_changed": true
+    },
+    {
+      "scenario": "rename-target",
+      "before": [
+        [
+          "civil",
+          "927",
+          "civil",
+          "186"
+        ],
+        [
+          "civil",
+          "927",
+          "civil",
+          "187"
+        ]
+      ],
+      "after": [],
+      "pass_assertion": true,
+      "source_edition_changed": true
+    },
+    {
+      "scenario": "target-only-change-other-norm",
+      "source_sha_unchanged": true,
+      "article_240_no_active_relation_after": true,
+      "pass_assertion": true
+    }
+  ]
+}

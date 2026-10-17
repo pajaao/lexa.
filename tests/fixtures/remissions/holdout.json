@@ -1,0 +1,1443 @@
+[
+  {
+    "code": "cf",
+    "article": "149-A",
+    "paragraph": 1,
+    "text": "Art. 149-A. Os Municípios e o Distrito Federal poderão instituir contribuição, na forma das respectivas leis, para o custeio, a expansão e a melhoria do serviço de iluminação pública e de sistemas de monitoramento para segurança e preservação de logradouros públicos, observado o disposto no art. 150, I e III. (Redação dada pela Emenda Constitucional nº 132, de 2023)",
+    "runs": [
+      {
+        "text": "Art. 149-A. Os Municípios e o Distrito Federal poderão instituir contribuição, na forma das respectivas leis, para o custeio, a expansão e a melhoria do serviço de iluminação pública e de sistemas de monitoramento para segurança e preservação de logradouros públicos, observado o disposto no art. 150, I e III. (Redação dada pela Emenda Constitucional nº 132, de 2023)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 150",
+        "status": "A",
+        "targets": [
+          "cf:150"
+        ],
+        "span": [
+          292,
+          300
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-92",
+    "paragraph": 0,
+    "text": "Art. 92. São acrescidos dez anos ao prazo fixado no art. 40 deste Ato das Disposições Constitucionais Transitórias. (Incluído pela Emenda Constitucional nº 42, de 19.12.2003) (Vide Decreto nº 7.212, de 2010)",
+    "runs": [
+      {
+        "text": "Art. 92. São acrescidos dez anos ao prazo fixado no art. 40 deste Ato das Disposições Constitucionais Transitórias. (Incluído pela Emenda Constitucional nº 42, de 19.12.2003) (Vide Decreto nº 7.212, de 2010)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 40",
+        "status": "A",
+        "targets": [
+          "cf:adct-40"
+        ],
+        "span": [
+          52,
+          59
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-131",
+    "paragraph": 14,
+    "text": "b) a parcela creditada na forma do art. 158, IV, \"a\", da Constituição Federal. (Incluído pela Emenda Constitucional nº 132, de 2023)",
+    "runs": [
+      {
+        "text": "b) a parcela creditada na forma do art. 158, IV, \"a\", da Constituição Federal. (Incluído pela Emenda Constitucional nº 132, de 2023)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 158",
+        "status": "A",
+        "targets": [
+          "cf:158"
+        ],
+        "span": [
+          35,
+          43
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-47",
+    "paragraph": 0,
+    "text": "Art. 47. Na liquidação dos débitos, inclusive suas renegociações e composições posteriores, ainda que ajuizados, decorrentes de quaisquer empréstimos concedidos por bancos e por instituições financeiras, não existirá correção monetária desde que o empréstimo tenha sido concedido:",
+    "runs": [
+      {
+        "text": "Art. 47. Na liquidação dos débitos, inclusive suas renegociações e composições posteriores, ainda que ajuizados, decorrentes de quaisquer empréstimos concedidos por bancos e por instituições financeiras, não existirá correção monetária desde que o empréstimo tenha sido concedido:",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-109",
+    "paragraph": 24,
+    "text": "§ 3º No caso de descumprimento de qualquer dos limites individualizados de que trata o caput do art. 107 deste Ato das Disposições Constitucionais Transitórias , fica vedada a concessão da revisão geral prevista no inciso X do caput do art. 37 da Constituição Federal. (Incluído pela Emenda Constitucional nº 95, de 2016)",
+    "runs": [
+      {
+        "text": "§ 3º No caso de descumprimento de qualquer dos limites individualizados de que trata o caput do art. 107 deste Ato das Disposições Constitucionais Transitórias , fica vedada a concessão da revisão geral prevista no inciso X do caput do art. 37 da Constituição Federal. (Incluído pela Emenda Constitucional nº 95, de 2016)",
+        "deleted": true
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 107",
+        "status": "D",
+        "targets": [
+          "cf:adct-107"
+        ],
+        "span": [
+          96,
+          104
+        ]
+      },
+      {
+        "literal": "art. 37",
+        "status": "D",
+        "targets": [
+          "cf:37"
+        ],
+        "span": [
+          236,
+          243
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-126",
+    "paragraph": 3,
+    "text": "b) o imposto previsto no art. 153, VIII, da Constituição Federal; (Incluído pela Emenda Constitucional nº 132, de 2023)",
+    "runs": [
+      {
+        "text": "b) o imposto previsto no art. 153, VIII, da Constituição Federal; (Incluído pela Emenda Constitucional nº 132, de 2023)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 153",
+        "status": "A",
+        "targets": [
+          "cf:153"
+        ],
+        "span": [
+          25,
+          33
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-97",
+    "paragraph": 50,
+    "text": "§ 17. O valor que exceder o limite previsto no § 2º do art. 100 da Constituição Federal será pago, durante a vigência do regime especial, na forma prevista nos §§ 6º e 7º ou nos incisos I, II e III do § 8° deste artigo, devendo os valores dispendidos para o atendimento do disposto no § 2º do art. 100 da Constituição Federal serem computados para efeito do § 6º deste artigo. (Incluído pela Emenda Constitucional nº 62, de 2009)",
+    "runs": [
+      {
+        "text": "§ 17. O valor que exceder o limite previsto no § 2º do art. 100 da Constituição Federal será pago, durante a vigência do regime especial, na forma prevista nos §§ 6º e 7º ou nos incisos I, II e III do § 8° deste artigo, devendo os valores dispendidos para o atendimento do disposto no § 2º do art. 100 da Constituição Federal serem computados para efeito do § 6º deste artigo. (Incluído pela Emenda Constitucional nº 62, de 2009)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 100",
+        "status": "A",
+        "targets": [
+          "cf:100"
+        ],
+        "span": [
+          55,
+          63
+        ]
+      },
+      {
+        "literal": "§§ 6º e 7º",
+        "status": "C",
+        "targets": [],
+        "span": [
+          160,
+          170
+        ]
+      },
+      {
+        "literal": "§ 8° deste artigo",
+        "status": "C",
+        "targets": [],
+        "span": [
+          201,
+          218
+        ]
+      },
+      {
+        "literal": "art. 100",
+        "status": "A",
+        "targets": [
+          "cf:100"
+        ],
+        "span": [
+          293,
+          301
+        ]
+      },
+      {
+        "literal": "§ 6º deste artigo",
+        "status": "C",
+        "targets": [],
+        "span": [
+          358,
+          375
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cf",
+    "article": "adct-71",
+    "paragraph": 4,
+    "text": "§ 1º Ao Fundo criado por este artigo não se aplica o disposto na parte final do inciso II do § 9º do art. 165 da Constituição. (Renumerado do parágrafo único, pela Emenda Constitucional nº 10, de 1996) ]",
+    "runs": [
+      {
+        "text": "§ 1º Ao Fundo criado por este artigo não se aplica o disposto na parte final do inciso II do § 9º do art. 165 da Constituição. (Renumerado do parágrafo único, pela Emenda Constitucional nº 10, de 1996) ]",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 165",
+        "status": "A",
+        "targets": [
+          "cf:165"
+        ],
+        "span": [
+          101,
+          109
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "civil",
+    "article": "1635",
+    "paragraph": 5,
+    "text": "V - por decisão judicial, na forma do artigo 1.638.",
+    "runs": [
+      {
+        "text": "V - por decisão judicial, na forma do artigo 1.638.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "artigo 1.638",
+        "status": "A",
+        "targets": [
+          "civil:1638"
+        ],
+        "span": [
+          38,
+          50
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "civil",
+    "article": "1030",
+    "paragraph": 1,
+    "text": "Parágrafo único. Será de pleno direito excluído da sociedade o sócio declarado falido, ou aquele cuja quota tenha sido liquidada nos termos do parágrafo único do art. 1.026.",
+    "runs": [
+      {
+        "text": "Parágrafo único. Será de pleno direito excluído da sociedade o sócio declarado falido, ou aquele cuja quota tenha sido liquidada nos termos do parágrafo único do art. 1.026.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 1.026",
+        "status": "A",
+        "targets": [
+          "civil:1026"
+        ],
+        "span": [
+          162,
+          172
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "civil",
+    "article": "1076",
+    "paragraph": 0,
+    "text": "Art. 1.076. Ressalvado o disposto no art. 1.061, as deliberações dos sócios serão tomadas (Redação dada pela Lei nº 13.792, de 2019)",
+    "runs": [
+      {
+        "text": "Art. 1.076. Ressalvado o disposto no art. 1.061, as deliberações dos sócios serão tomadas (Redação dada pela Lei nº 13.792, de 2019)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 1.061",
+        "status": "A",
+        "targets": [
+          "civil:1061"
+        ],
+        "span": [
+          37,
+          47
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "civil",
+    "article": "846",
+    "paragraph": 0,
+    "text": "Art. 846. A transação concernente a obrigações resultantes de delito não extingue a ação penal pública.",
+    "runs": [
+      {
+        "text": "Art. 846. A transação concernente a obrigações resultantes de delito não extingue a ação penal pública.",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "penal",
+    "article": "167",
+    "paragraph": 0,
+    "text": "Art. 167 - Nos casos do art. 163, do inciso IV do seu parágrafo e do art. 164, somente se procede mediante queixa.",
+    "runs": [
+      {
+        "text": "Art. 167 - Nos casos do art. 163, do inciso IV do seu parágrafo e do art. 164, somente se procede mediante queixa.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 163",
+        "status": "A",
+        "targets": [
+          "penal:163"
+        ],
+        "span": [
+          24,
+          32
+        ]
+      },
+      {
+        "literal": "art. 164",
+        "status": "A",
+        "targets": [
+          "penal:164"
+        ],
+        "span": [
+          69,
+          77
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "penal",
+    "article": "147-C",
+    "paragraph": 0,
+    "text": "Art. 147-C. Ameaçar alguém, por palavra, escrito ou gesto, ou qualquer outro meio simbólico, de causar-lhe mal injusto e grave, no contexto da atuação ou para a consecução das condutas previstas no art. 2º da lei que institui o marco legal do combate ao crime organizado no Brasil: (Incluído pela Lei nº 15.358, de 2026)",
+    "runs": [
+      {
+        "text": "Art. 147-C. Ameaçar alguém, por palavra, escrito ou gesto, ou qualquer outro meio simbólico, de causar-lhe mal injusto e grave, no contexto da atuação ou para a consecução das condutas previstas no art. 2º da lei que institui o marco legal do combate ao crime organizado no Brasil: (Incluído pela Lei nº 15.358, de 2026)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 2º",
+        "status": "C",
+        "targets": [],
+        "span": [
+          198,
+          205
+        ]
+      }
+    ],
+    "criterion": "A lei é descrita sem identidade/catalogação inequívoca; não supor CódigoPenal2."
+  },
+  {
+    "code": "penal",
+    "article": "170",
+    "paragraph": 0,
+    "text": "Art. 170 - Nos crimes previstos neste Capítulo, aplica-se o disposto no art. 155, § 2º.",
+    "runs": [
+      {
+        "text": "Art. 170 - Nos crimes previstos neste Capítulo, aplica-se o disposto no art. 155, § 2º.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 155",
+        "status": "A",
+        "targets": [
+          "penal:155"
+        ],
+        "span": [
+          72,
+          80
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "penal",
+    "article": "272",
+    "paragraph": 0,
+    "text": "Art. 272 - Corromper, adulterar, falsificar ou alterar substância ou produto alimentício destinado a consumo, tornando-o nociva à saúde ou reduzindo-lhe o valor nutritivo: (Redação dada pela Lei nº 9.677, de 2.7.1998)",
+    "runs": [
+      {
+        "text": "Art. 272 - Corromper, adulterar, falsificar ou alterar substância ou produto alimentício destinado a consumo, tornando-o nociva à saúde ou reduzindo-lhe o valor nutritivo: (Redação dada pela Lei nº 9.677, de 2.7.1998)",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cpc",
+    "article": "664",
+    "paragraph": 4,
+    "text": "§ 4º Aplicam-se a essa espécie de arrolamento, no que couber, as disposições do art. 672 , relativamente ao lançamento, ao pagamento e à quitação da taxa judiciária e do imposto sobre a transmissão da propriedade dos bens do espólio.",
+    "runs": [
+      {
+        "text": "§ 4º Aplicam-se a essa espécie de arrolamento, no que couber, as disposições do art. 672 , relativamente ao lançamento, ao pagamento e à quitação da taxa judiciária e do imposto sobre a transmissão da propriedade dos bens do espólio.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 672",
+        "status": "A",
+        "targets": [
+          "cpc:672"
+        ],
+        "span": [
+          80,
+          88
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cpc",
+    "article": "917",
+    "paragraph": 20,
+    "text": "§ 7º A arguição de impedimento e suspeição observará o disposto nos arts. 146 e 148 .",
+    "runs": [
+      {
+        "text": "§ 7º A arguição de impedimento e suspeição observará o disposto nos arts. 146 e 148 .",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "arts. 146 e 148",
+        "status": "A",
+        "targets": [
+          "cpc:146",
+          "cpc:148"
+        ],
+        "span": [
+          68,
+          83
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cpc",
+    "article": "357",
+    "paragraph": 3,
+    "text": "III - definir a distribuição do ônus da prova, observado o art. 373;",
+    "runs": [
+      {
+        "text": "III - definir a distribuição do ônus da prova, observado o art. 373;",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 373",
+        "status": "A",
+        "targets": [
+          "cpc:373"
+        ],
+        "span": [
+          59,
+          67
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cpc",
+    "article": "420",
+    "paragraph": 0,
+    "text": "Art. 420. O juiz pode ordenar, a requerimento da parte, a exibição integral dos livros empresariais e dos documentos do arquivo:",
+    "runs": [
+      {
+        "text": "Art. 420. O juiz pode ordenar, a requerimento da parte, a exibição integral dos livros empresariais e dos documentos do arquivo:",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cdc",
+    "article": "113",
+    "paragraph": 0,
+    "text": "Art. 113. Acrescente-se os seguintes §§ 4°, 5° e 6° ao art. 5º. da Lei n.° 7.347, de 24 de julho de 1985:",
+    "runs": [
+      {
+        "text": "Art. 113. Acrescente-se os seguintes §§ 4°, 5° e 6° ao art. 5º. da Lei n.° 7.347, de 24 de julho de 1985:",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 5º",
+        "status": "B",
+        "targets": [],
+        "span": [
+          55,
+          62
+        ]
+      }
+    ],
+    "criterion": "Lei7347/1985 ausente do acervo; não CDC5."
+  },
+  {
+    "code": "cdc",
+    "article": "104",
+    "paragraph": 0,
+    "text": "Art. 104. As ações coletivas, previstas nos incisos I e II e do parágrafo único do art. 81, não induzem litispendência para as ações individuais, mas os efeitos da coisa julgada erga omnes ou ultra partes a que aludem os incisos II e III do artigo anterior não beneficiarão os autores das ações individuais, se não for requerida sua suspensão no prazo de trinta dias, a contar da ciência nos autos do ajuizamento da ação coletiva.",
+    "runs": [
+      {
+        "text": "Art. 104. As ações coletivas, previstas nos incisos I e II e do parágrafo único do art. 81, não induzem litispendência para as ações individuais, mas os efeitos da coisa julgada erga omnes ou ultra partes a que aludem os incisos II e III do artigo anterior não beneficiarão os autores das ações individuais, se não for requerida sua suspensão no prazo de trinta dias, a contar da ciência nos autos do ajuizamento da ação coletiva.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 81",
+        "status": "A",
+        "targets": [
+          "cdc:81"
+        ],
+        "span": [
+          83,
+          90
+        ]
+      },
+      {
+        "literal": "artigo anterior",
+        "status": "C",
+        "targets": [],
+        "span": [
+          241,
+          256
+        ]
+      }
+    ],
+    "criterion": "Anterior exige resolução contextual não apoiada em númeroexpresso; preservar comoC."
+  },
+  {
+    "code": "cdc",
+    "article": "1",
+    "paragraph": 0,
+    "text": "Art. 1° O presente código estabelece normas de proteção e defesa do consumidor, de ordem pública e interesse social, nos termos dos arts. 5°, inciso XXXII, 170, inciso V, da Constituição Federal e art. 48 de suas Disposições Transitórias.",
+    "runs": [
+      {
+        "text": "Art. 1° O presente código estabelece normas de proteção e defesa do consumidor, de ordem pública e interesse social, nos termos dos arts. 5°, inciso XXXII, 170, inciso V, da Constituição Federal e art. 48 de suas Disposições Transitórias.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "arts. 5°, inciso XXXII, 170, inciso V",
+        "status": "A",
+        "targets": [
+          "cf:5",
+          "cf:170"
+        ],
+        "span": [
+          132,
+          169
+        ]
+      },
+      {
+        "literal": "art. 48",
+        "status": "A",
+        "targets": [
+          "cf:adct-48"
+        ],
+        "span": [
+          197,
+          204
+        ]
+      }
+    ],
+    "criterion": "A Constituição e suas DisposiçõesTransitórias são explicitamente distinguidas."
+  },
+  {
+    "code": "cdc",
+    "article": "105",
+    "paragraph": 0,
+    "text": "Art. 105. Integram o Sistema Nacional de Defesa do Consumidor (SNDC), os órgãos federais, estaduais, do Distrito Federal e municipais e as entidades privadas de defesa do consumidor.",
+    "runs": [
+      {
+        "text": "Art. 105. Integram o Sistema Nacional de Defesa do Consumidor (SNDC), os órgãos federais, estaduais, do Distrito Federal e municipais e as entidades privadas de defesa do consumidor.",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "ctn",
+    "article": "142",
+    "paragraph": 21,
+    "text": "f) pendência de julgamento sobre a matéria tratada no lançamento, em uma das hipóteses previstas pelo art. 927 da Lei nº 13.105, de 16 de março de 2015 (Código de Processo Civil); (Incluído pela Lei Complementar nº 236, de 2026)",
+    "runs": [
+      {
+        "text": "f) pendência de julgamento sobre a matéria tratada no lançamento, em uma das hipóteses previstas pelo art. 927 da Lei nº 13.105, de 16 de março de 2015 (Código de Processo Civil); (Incluído pela Lei Complementar nº 236, de 2026)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 927",
+        "status": "A",
+        "targets": [
+          "cpc:927"
+        ],
+        "span": [
+          102,
+          110
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "ctn",
+    "article": "46",
+    "paragraph": 2,
+    "text": "II - a sua saída dos estabelecimentos a que se refere o parágrafo único do art. 51;",
+    "runs": [
+      {
+        "text": "II - a sua saída dos estabelecimentos a que se refere o parágrafo único do art. 51;",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 51",
+        "status": "A",
+        "targets": [
+          "ctn:51"
+        ],
+        "span": [
+          75,
+          82
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "ctn",
+    "article": "162",
+    "paragraph": 5,
+    "text": "§ 3º O crédito pagável em estampilha considera-se extinto com a inutilização regular daquela, ressalvado o disposto no art. 150.",
+    "runs": [
+      {
+        "text": "§ 3º O crédito pagável em estampilha considera-se extinto com a inutilização regular daquela, ressalvado o disposto no art. 150.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 150",
+        "status": "A",
+        "targets": [
+          "ctn:150"
+        ],
+        "span": [
+          119,
+          127
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "ctn",
+    "article": "190",
+    "paragraph": 0,
+    "text": "Art. 190. São pagos preferencialmente a quaisquer outros os créditos tributários vencidos ou vincendos, a cargo de pessoas jurídicas de direito privado em liquidação judicial ou voluntária, exigíveis no decurso da liquidação.",
+    "runs": [
+      {
+        "text": "Art. 190. São pagos preferencialmente a quaisquer outros os créditos tributários vencidos ou vincendos, a cargo de pessoas jurídicas de direito privado em liquidação judicial ou voluntária, exigíveis no decurso da liquidação.",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cpp",
+    "article": "325",
+    "paragraph": 20,
+    "text": "I - dispensada, na forma do art. 350 deste Código; (Redação dada pela Lei nº 12.403, de 2011).",
+    "runs": [
+      {
+        "text": "I - dispensada, na forma do art. 350 deste Código; (Redação dada pela Lei nº 12.403, de 2011).",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 350",
+        "status": "A",
+        "targets": [
+          "cpp:350"
+        ],
+        "span": [
+          28,
+          36
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "cpp",
+    "article": "336",
+    "paragraph": 1,
+    "text": "Parágrafo único. Este dispositivo terá aplicação ainda no caso da prescrição depois da sentença condenatória (Código Penal, art. 110 e seu parágrafo).",
+    "runs": [
+      {
+        "text": "Parágrafo único. Este dispositivo terá aplicação ainda no caso da prescrição depois da sentença condenatória (Código Penal, art. 110 e seu parágrafo).",
+        "deleted": true
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 110",
+        "status": "D",
+        "targets": [
+          "penal:110"
+        ],
+        "span": [
+          124,
+          132
+        ]
+      }
+    ],
+    "criterion": "CódigoPenal precede o artigo dentro do mesmo parêntese; referência riscada."
+  },
+  {
+    "code": "cpp",
+    "article": "717",
+    "paragraph": 0,
+    "text": "Art. 717. Na ausência de qualquer das condições previstas nos arts. 710, n. I, e 711, o requerimento será liminarmente indeferido.",
+    "runs": [
+      {
+        "text": "Art. 717. Na ausência de qualquer das condições previstas nos arts. 710, n. I, e 711, o requerimento será liminarmente indeferido.",
+        "deleted": true
+      }
+    ],
+    "expected": [
+      {
+        "literal": "arts. 710, n. I, e 711",
+        "status": "D",
+        "targets": [
+          "cpp:710",
+          "cpp:711"
+        ],
+        "span": [
+          62,
+          84
+        ]
+      }
+    ],
+    "criterion": "n.I qualifica710 e não é artigo; parágrafo riscado."
+  },
+  {
+    "code": "cpp",
+    "article": "341",
+    "paragraph": 0,
+    "text": "Art. 341. Julgar-se-á quebrada a fiança quando o réu, legalmente intimado para ato do processo, deixar de comparecer, sem provar, incontinenti, motivo justo, ou quando, na vigência da fiança, praticar outra infração penal.",
+    "runs": [
+      {
+        "text": "Art. 341. Julgar-se-á quebrada a fiança quando o réu, legalmente intimado para ato do processo, deixar de comparecer, sem provar, incontinenti, motivo justo, ou quando, na vigência da fiança, praticar outra infração penal.",
+        "deleted": true
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "eca",
+    "article": "197-E",
+    "paragraph": 1,
+    "text": "§ 1 o A ordem cronológica das habilitações somente poderá deixar de ser observada pela autoridade judiciária nas hipóteses previstas no § 13 do art. 50 desta Lei, quando comprovado ser essa a melhor solução no interesse do adotando. (Incluído pela Lei nº 12.010, de 2009) Vigência",
+    "runs": [
+      {
+        "text": "§ 1 o A ordem cronológica das habilitações somente poderá deixar de ser observada pela autoridade judiciária nas hipóteses previstas no § 13 do art. 50 desta Lei, quando comprovado ser essa a melhor solução no interesse do adotando. (Incluído pela Lei nº 12.010, de 2009) Vigência",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 50",
+        "status": "A",
+        "targets": [
+          "eca:50"
+        ],
+        "span": [
+          144,
+          151
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "eca",
+    "article": "263",
+    "paragraph": 1,
+    "text": "1) Art. 121 ............................................................",
+    "runs": [
+      {
+        "text": "1) Art. 121 ............................................................",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "Art. 121",
+        "status": "E",
+        "targets": [],
+        "span": [
+          3,
+          11
+        ]
+      }
+    ],
+    "criterion": "Cabeçalho reproduzido em texto que altera outra lei, não remissão aECA121."
+  },
+  {
+    "code": "eca",
+    "article": "260-A",
+    "paragraph": 15,
+    "text": "§ 5 o A pessoa física poderá deduzir do imposto apurado na Declaração de Ajuste Anual as doações feitas, no respectivo ano-calendário, aos fundos controlados pelos Conselhos dos Direitos da Criança e do Adolescente municipais, distrital, estaduais e nacional concomitantemente com a opção de que trata o caput , respeitado o limite previsto no inciso II do art. 260. (Incluído pela Lei nº 12.594, de 2012) (Vide)",
+    "runs": [
+      {
+        "text": "§ 5 o A pessoa física poderá deduzir do imposto apurado na Declaração de Ajuste Anual as doações feitas, no respectivo ano-calendário, aos fundos controlados pelos Conselhos dos Direitos da Criança e do Adolescente municipais, distrital, estaduais e nacional concomitantemente com a opção de que trata o caput , respeitado o limite previsto no inciso II do art. 260. (Incluído pela Lei nº 12.594, de 2012) (Vide)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 260",
+        "status": "A",
+        "targets": [
+          "eca:260"
+        ],
+        "span": [
+          357,
+          365
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "eca",
+    "article": "130",
+    "paragraph": 0,
+    "text": "Art. 130. Verificada a hipótese de maus-tratos, opressão ou abuso sexual impostos pelos pais ou responsável, a autoridade judiciária poderá determinar, como medida cautelar, o afastamento do agressor da moradia comum.",
+    "runs": [
+      {
+        "text": "Art. 130. Verificada a hipótese de maus-tratos, opressão ou abuso sexual impostos pelos pais ou responsável, a autoridade judiciária poderá determinar, como medida cautelar, o afastamento do agressor da moradia comum.",
+        "deleted": true
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "lep",
+    "article": "156",
+    "paragraph": 0,
+    "text": "Art. 156. O Juiz poderá suspender, pelo período de 2 (dois) a 4 (quatro) anos, a execução da pena privativa de liberdade, não superior a 2 (dois) anos, na forma prevista nos artigos 77 a 82 do Código Penal.",
+    "runs": [
+      {
+        "text": "Art. 156. O Juiz poderá suspender, pelo período de 2 (dois) a 4 (quatro) anos, a execução da pena privativa de liberdade, não superior a 2 (dois) anos, na forma prevista nos artigos 77 a 82 do Código Penal.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "artigos 77 a 82",
+        "status": "A",
+        "targets": [
+          "penal:77",
+          "penal:78",
+          "penal:79",
+          "penal:80",
+          "penal:81",
+          "penal:82"
+        ],
+        "span": [
+          174,
+          189
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "lep",
+    "article": "154",
+    "paragraph": 2,
+    "text": "§ 2º Nas hipóteses do artigo 47, incisos II e III, do Código Penal, o Juízo da execução determinará a apreensão dos documentos, que autorizam o exercício do direito interditado.",
+    "runs": [
+      {
+        "text": "§ 2º Nas hipóteses do artigo 47, incisos II e III, do Código Penal, o Juízo da execução determinará a apreensão dos documentos, que autorizam o exercício do direito interditado.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "artigo 47",
+        "status": "A",
+        "targets": [
+          "penal:47"
+        ],
+        "span": [
+          22,
+          31
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "lep",
+    "article": "92",
+    "paragraph": 0,
+    "text": "Art. 92. O condenado poderá ser alojado em compartimento coletivo, observados os requisitos da letra a, do parágrafo único, do artigo 88, desta Lei.",
+    "runs": [
+      {
+        "text": "Art. 92. O condenado poderá ser alojado em compartimento coletivo, observados os requisitos da letra a, do parágrafo único, do artigo 88, desta Lei.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "artigo 88",
+        "status": "A",
+        "targets": [
+          "lep:88"
+        ],
+        "span": [
+          127,
+          136
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "lep",
+    "article": "113",
+    "paragraph": 0,
+    "text": "Art. 113. O ingresso do condenado em regime aberto supõe a aceitação de seu programa e das condições impostas pelo Juiz.",
+    "runs": [
+      {
+        "text": "Art. 113. O ingresso do condenado em regime aberto supõe a aceitação de seu programa e das condições impostas pelo Juiz.",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "maria-penha",
+    "article": "16-A",
+    "paragraph": 0,
+    "text": "Art. 16-A. Nos crimes praticados no âmbito de violência doméstica e familiar contra a mulher, a ofendida decai do direito de queixa ou de representação se não o exerce no prazo de 12 (doze) meses, contado do dia em que veio a saber quem é o autor do crime, ou, no caso do § 3º do art. 100 do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), do dia em que se esgota o prazo para oferecimento da denúncia. (Incluído pela Lei nº 15.438, de 2026)",
+    "runs": [
+      {
+        "text": "Art. 16-A. Nos crimes praticados no âmbito de violência doméstica e familiar contra a mulher, a ofendida decai do direito de queixa ou de representação se não o exerce no prazo de 12 (doze) meses, contado do dia em que veio a saber quem é o autor do crime, ou, no caso do § 3º do art. 100 do Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), do dia em que se esgota o prazo para oferecimento da denúncia. (Incluído pela Lei nº 15.438, de 2026)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 100",
+        "status": "A",
+        "targets": [
+          "penal:100"
+        ],
+        "span": [
+          280,
+          288
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "maria-penha",
+    "article": "27",
+    "paragraph": 0,
+    "text": "Art. 27. Em todos os atos processuais, cíveis e criminais, a mulher em situação de violência doméstica e familiar deverá estar acompanhada de advogado, ressalvado o previsto no art. 19 desta Lei.",
+    "runs": [
+      {
+        "text": "Art. 27. Em todos os atos processuais, cíveis e criminais, a mulher em situação de violência doméstica e familiar deverá estar acompanhada de advogado, ressalvado o previsto no art. 19 desta Lei.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 19",
+        "status": "A",
+        "targets": [
+          "maria-penha:19"
+        ],
+        "span": [
+          177,
+          184
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "maria-penha",
+    "article": "43",
+    "paragraph": 1,
+    "text": "“Art. 61. ..................................................",
+    "runs": [
+      {
+        "text": "“Art. 61. ..................................................",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "Art. 61",
+        "status": "E",
+        "targets": [],
+        "span": [
+          1,
+          8
+        ]
+      }
+    ],
+    "criterion": "Cabeçalho citado de alteração do CP; não remissão aLMP61."
+  },
+  {
+    "code": "maria-penha",
+    "article": "29",
+    "paragraph": 0,
+    "text": "Art. 29. Os Juizados de Violência Doméstica e Familiar contra a Mulher que vierem a ser criados poderão contar com uma equipe de atendimento multidisciplinar, a ser integrada por profissionais especializados nas áreas psicossocial, jurídica e de saúde.",
+    "runs": [
+      {
+        "text": "Art. 29. Os Juizados de Violência Doméstica e Familiar contra a Mulher que vierem a ser criados poderão contar com uma equipe de atendimento multidisciplinar, a ser integrada por profissionais especializados nas áreas psicossocial, jurídica e de saúde.",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "improbidade",
+    "article": "10",
+    "paragraph": 5,
+    "text": "III - doar à pessoa física ou jurídica bem como ao ente despersonalizado, ainda que de fins educativos ou assistências, bens, rendas, verbas ou valores do patrimônio de qualquer das entidades mencionadas no art. 1º desta lei, sem observância das formalidades legais e regulamentares aplicáveis à espécie;",
+    "runs": [
+      {
+        "text": "III - doar à pessoa física ou jurídica bem como ao ente despersonalizado, ainda que de fins educativos ou assistências, bens, rendas, verbas ou valores do patrimônio de qualquer das entidades mencionadas no art. 1º desta lei, sem observância das formalidades legais e regulamentares aplicáveis à espécie;",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 1º",
+        "status": "A",
+        "targets": [
+          "improbidade:1"
+        ],
+        "span": [
+          207,
+          214
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "improbidade",
+    "article": "12",
+    "paragraph": 2,
+    "text": "I - na hipótese do art. 9°, perda dos bens ou valores acrescidos ilicitamente ao patrimônio, ressarcimento integral do dano, quando houver, perda da função pública, suspensão dos direitos políticos de oito a dez anos, pagamento de multa civil de até três vezes o valor do acréscimo patrimonial e proibição de contratar com o Poder Público ou receber benefícios ou incentivos fiscais ou creditícios, direta ou indiretamente, ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário, pelo prazo de dez anos;",
+    "runs": [
+      {
+        "text": "I - na hipótese do art. 9°, perda dos bens ou valores acrescidos ilicitamente ao patrimônio, ressarcimento integral do dano, quando houver, perda da função pública, suspensão dos direitos políticos de oito a dez anos, pagamento de multa civil de até três vezes o valor do acréscimo patrimonial e proibição de contratar com o Poder Público ou receber benefícios ou incentivos fiscais ou creditícios, direta ou indiretamente, ainda que por intermédio de pessoa jurídica da qual seja sócio majoritário, pelo prazo de dez anos;",
+        "deleted": true
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 9°",
+        "status": "D",
+        "targets": [
+          "improbidade:9"
+        ],
+        "span": [
+          19,
+          26
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "improbidade",
+    "article": "9",
+    "paragraph": 1,
+    "text": "Art. 9º Constitui ato de improbidade administrativa importando em enriquecimento ilícito auferir, mediante a prática de ato doloso, qualquer tipo de vantagem patrimonial indevida em razão do exercício de cargo, de mandato, de função, de emprego ou de atividade nas entidades referidas no art. 1º desta Lei, e notadamente: (Redação dada pela Lei nº 14.230, de 2021)",
+    "runs": [
+      {
+        "text": "Art. 9º Constitui ato de improbidade administrativa importando em enriquecimento ilícito auferir, mediante a prática de ato doloso, qualquer tipo de vantagem patrimonial indevida em razão do exercício de cargo, de mandato, de função, de emprego ou de atividade nas entidades referidas no art. 1º desta Lei, e notadamente: (Redação dada pela Lei nº 14.230, de 2021)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 1º",
+        "status": "A",
+        "targets": [
+          "improbidade:1"
+        ],
+        "span": [
+          288,
+          295
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "improbidade",
+    "article": "23-C",
+    "paragraph": 0,
+    "text": "Art. 23-C. Atos que ensejem enriquecimento ilícito, perda patrimonial, desvio, apropriação, malbaratamento ou dilapidação de recursos públicos dos partidos políticos, ou de suas fundações, serão responsabilizados nos termos da Lei nº 9.096, de 19 de setembro de 1995. (Incluído pela Lei nº 14.230, de 2021) (Vide ADI 7236) (Vide ADI 7156)",
+    "runs": [
+      {
+        "text": "Art. 23-C. Atos que ensejem enriquecimento ilícito, perda patrimonial, desvio, apropriação, malbaratamento ou dilapidação de recursos públicos dos partidos políticos, ou de suas fundações, serão responsabilizados nos termos da Lei nº 9.096, de 19 de setembro de 1995. (Incluído pela Lei nº 14.230, de 2021) (Vide ADI 7236) (Vide ADI 7156)",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "licitacoes",
+    "article": "165",
+    "paragraph": 9,
+    "text": "I - a intenção de recorrer deverá ser manifestada imediatamente, sob pena de preclusão, e o prazo para apresentação das razões recursais previsto no inciso I do caput deste artigo será iniciado na data de intimação ou de lavratura da ata de habilitação ou inabilitação ou, na hipótese de adoção da inversão de fases prevista no § 1º do art. 17 desta Lei, da ata de julgamento;",
+    "runs": [
+      {
+        "text": "I - a intenção de recorrer deverá ser manifestada imediatamente, sob pena de preclusão, e o prazo para apresentação das razões recursais previsto no inciso I do caput deste artigo será iniciado na data de intimação ou de lavratura da ata de habilitação ou inabilitação ou, na hipótese de adoção da inversão de fases prevista no § 1º do art. 17 desta Lei, da ata de julgamento;",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "caput deste artigo",
+        "status": "C",
+        "targets": [],
+        "span": [
+          161,
+          179
+        ]
+      },
+      {
+        "literal": "art. 17",
+        "status": "A",
+        "targets": [
+          "licitacoes:17"
+        ],
+        "span": [
+          336,
+          343
+        ]
+      }
+    ],
+    "criterion": "caput desteartigo não identifica número explícito; sem âncora certificada."
+  },
+  {
+    "code": "licitacoes",
+    "article": "155",
+    "paragraph": 12,
+    "text": "XII - praticar ato lesivo previsto no art. 5º da Lei nº 12.846, de 1º de agosto de 2013.",
+    "runs": [
+      {
+        "text": "XII - praticar ato lesivo previsto no art. 5º da Lei nº 12.846, de 1º de agosto de 2013.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 5º",
+        "status": "B",
+        "targets": [],
+        "span": [
+          38,
+          45
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "licitacoes",
+    "article": "29",
+    "paragraph": 1,
+    "text": "Parágrafo único. O pregão não se aplica às contratações de serviços técnicos especializados de natureza predominantemente intelectual e de obras e serviços de engenharia, exceto os serviços de engenharia de que trata a alínea “a” do inciso XXI do caput do art. 6º desta Lei.",
+    "runs": [
+      {
+        "text": "Parágrafo único. O pregão não se aplica às contratações de serviços técnicos especializados de natureza predominantemente intelectual e de obras e serviços de engenharia, exceto os serviços de engenharia de que trata a alínea “a” do inciso XXI do caput do art. 6º desta Lei.",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 6º",
+        "status": "A",
+        "targets": [
+          "licitacoes:6"
+        ],
+        "span": [
+          256,
+          263
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "licitacoes",
+    "article": "50",
+    "paragraph": 0,
+    "text": "Art. 50. Nas contratações de serviços com regime de dedicação exclusiva de mão de obra, o contratado deverá apresentar, quando solicitado pela Administração, sob pena de multa, comprovação do cumprimento das obrigações trabalhistas e com o Fundo de Garantia do Tempo de Serviço (FGTS) em relação aos empregados diretamente envolvidos na execução do contrato, em especial quanto ao:",
+    "runs": [
+      {
+        "text": "Art. 50. Nas contratações de serviços com regime de dedicação exclusiva de mão de obra, o contratado deverá apresentar, quando solicitado pela Administração, sob pena de multa, comprovação do cumprimento das obrigações trabalhistas e com o Fundo de Garantia do Tempo de Serviço (FGTS) em relação aos empregados diretamente envolvidos na execução do contrato, em especial quanto ao:",
+        "deleted": false
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "clt",
+    "article": "579",
+    "paragraph": 6,
+    "text": "Art. 579. O desconto da contribuição sindical está condicionado à autorização prévia e expressa dos que participarem de uma determinada categoria econômica ou profissional, ou de uma profissão liberal, em favor do sindicato representativo da mesma categoria ou profissão ou, inexistindo este, na conformidade do disposto no art. 591 desta Consolidação. (Redação dada pela Lei nº 13.467, de 2017)",
+    "runs": [
+      {
+        "text": "Art. 579. O desconto da contribuição sindical está condicionado à autorização prévia e expressa dos que participarem de uma determinada categoria econômica ou profissional, ou de uma profissão liberal, em favor do sindicato representativo da mesma categoria ou profissão ou, inexistindo este, na conformidade do disposto no art. 591 desta Consolidação. (Redação dada pela Lei nº 13.467, de 2017)",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 591",
+        "status": "A",
+        "targets": [
+          "clt:591"
+        ],
+        "span": [
+          324,
+          332
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "clt",
+    "article": "208",
+    "paragraph": 0,
+    "text": "Art. 208. Nos estabelecimentos em que haja motores a gás ou ar comprimido deverão ser estes examinados periodicamente, analogamente ao que, em relação às caldeiras, se dispõe no art. 203.",
+    "runs": [
+      {
+        "text": "Art. 208. Nos estabelecimentos em que haja motores a gás ou ar comprimido deverão ser estes examinados periodicamente, analogamente ao que, em relação às caldeiras, se dispõe no art. 203.",
+        "deleted": true
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 203",
+        "status": "D",
+        "targets": [
+          "clt:203"
+        ],
+        "span": [
+          178,
+          186
+        ]
+      }
+    ],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "clt",
+    "article": "417",
+    "paragraph": 10,
+    "text": "§ 2º Salvo a hipótese do  art. 422, serão todos arquivados na repartição emissora da carteira e constituirão o prontuário do menor.",
+    "runs": [
+      {
+        "text": "§ 2º Salvo a hipótese do ",
+        "deleted": true
+      },
+      {
+        "text": " art. 422",
+        "deleted": false
+      },
+      {
+        "text": ", serão todos arquivados na repartição emissora da carteira e constituirão o prontuário do menor.",
+        "deleted": true
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 422",
+        "status": "C",
+        "targets": [],
+        "span": [
+          26,
+          34
+        ]
+      }
+    ],
+    "criterion": "A ligação art422 não está riscada, mas toda a oração que a governa está; abstenção conservadoraC, não vigência presumida."
+  },
+  {
+    "code": "clt",
+    "article": "150",
+    "paragraph": 0,
+    "text": "Art. 150. Em caso de necessidade, determinada pelo interesse público, e comprovada pela autoridade competente, poderá o armador ordenar a suspensão das férias já iniciadas ou a iniciar-se ressalvado ao tripulante o direito ao respectivo gozo posteriormente.",
+    "runs": [
+      {
+        "text": "Art. 150. Em caso de necessidade, determinada pelo interesse público, e comprovada pela autoridade competente, poderá o armador ordenar a suspensão das férias já iniciadas ou a iniciar-se ressalvado ao tripulante o direito ao respectivo gozo posteriormente.",
+        "deleted": true
+      }
+    ],
+    "expected": [],
+    "criterion": "Verificação literal da norma/escopo, do número e dos runs; destino verificado no inventário. Qualificadores não certificam navegação a subdispositivo."
+  },
+  {
+    "code": "ctn",
+    "article": "74",
+    "paragraph": 3,
+    "text": "III - a circulação, como definida no art. 52;",
+    "runs": [
+      {
+        "text": "III - a circulação, como definida no art. 52;",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 52",
+        "status": "C",
+        "targets": [],
+        "span": [
+          37,
+          44
+        ]
+      }
+    ],
+    "criterion": "Registro52representa52a58agrupados; não há identidade individual verificada."
+  },
+  {
+    "code": "ctn",
+    "article": "97",
+    "paragraph": 3,
+    "text": "III - a definição do fato gerador da obrigação tributária principal, ressalvado o disposto no inciso I do § 3º do art. 52, e do seu sujeito passivo;",
+    "runs": [
+      {
+        "text": "III - a definição do fato gerador da obrigação tributária principal, ressalvado o disposto no inciso I do § 3º do art. 52, e do seu sujeito passivo;",
+        "deleted": false
+      }
+    ],
+    "expected": [
+      {
+        "literal": "art. 52",
+        "status": "C",
+        "targets": [],
+        "span": [
+          114,
+          121
+        ]
+      }
+    ],
+    "criterion": "Registro52representa52a58agrupados; não há identidade individual verificada."
+  }
+]
