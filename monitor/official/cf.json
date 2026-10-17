@@ -3,9 +3,9 @@
   "id": "cf",
   "name": "Constituição Federal e ADCT",
   "source_url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
-  "captured_at": "2026-10-16T00:33:21+00:00",
-  "raw_sha256": "f6bc7a6b5e62fcf38d9f280e16f670e53e659e251725c2aefcacc064ce02370e",
-  "semantic_sha256": "c1ed359e0f6357e481a30bc1bd290a39ff9f1b16ba487bd270e180840aa475e9",
+  "captured_at": "2026-10-17T15:59:11+00:00",
+  "raw_sha256": "a4d21b9a217208593f9e0054b42caad2cc3aadf9df1eab1b2957c50baad0b7d7",
+  "semantic_sha256": "fb0bab559b54ad8fdc1bb37a32fb6201d1865033cd1006add5d3d971527714cc",
   "article_counts": {
     "main": 250,
     "adct": 138
@@ -1071,6 +1071,12 @@
       [
         {
           "text": "XIII - duração do trabalho normal não superior a oito horas diárias e quarenta e quatro semanais, facultada a compensação de horários e a redução da jornada, mediante acordo ou convenção coletiva de trabalho; (Vide Decreto-Lei nº 5.452, de 1943)",
+          "deleted": true
+        }
+      ],
+      [
+        {
+          "text": "XIII - duração do trabalho normal não superior a 8 (oito) horas diárias e 40 (quarenta) horas semanais, facultada a compensação de horários e a redução da jornada, mediante acordo ou convenção coletiva de trabalho; (Redação dada pela Emenda Constitucional nº 141, de 2026)",
           "deleted": false
         }
       ],
@@ -1082,7 +1088,7 @@
       ],
       [
         {
-          "text": "XV - repouso semanal remunerado, preferencialmente aos domingos;",
+          "text": "XV - repouso semanal remunerado, preferencialmente aos domingos; (Vide Emenda Constitucional nº 141, de 2026) (Vigência)",
           "deleted": false
         }
       ],
@@ -1271,6 +1277,24 @@
       [
         {
           "text": "Parágrafo único. São assegurados à categoria dos trabalhadores domésticos os direitos previstos nos incisos IV, VI, VII, VIII, X, XIII, XV, XVI, XVII, XVIII, XIX, XXI, XXII, XXIV, XXVI, XXX, XXXI e XXXIII e, atendidas as condições estabelecidas em lei e observada a simplificação do cumprimento das obrigações tributárias, principais e acessórias, decorrentes da relação de trabalho e suas peculiaridades, os previstos nos incisos I, II, III, IX, XII, XXV e XXVIII, bem como a sua integração à previdência social. (Redação dada pela Emenda Constitucional nº 72, de 2013)",
+          "deleted": true
+        }
+      ],
+      [
+        {
+          "text": "§ 1º São assegurados à categoria dos trabalhadores domésticos os direitos previstos nos incisos IV, VI, VII, VIII, X, XIII, XV, XVI, XVII, XVIII, XIX, XXI, XXII, XXIV, XXVI, XXX, XXXI e XXXIII e, atendidas as condições estabelecidas em lei e observada a simplificação do cumprimento das obrigações tributárias, principais e acessórias, decorrentes da relação de trabalho e suas peculiaridades, os previstos nos incisos I, II, III, IX, XII, XXV e XXVIII, bem como a sua integração à previdência social. (Redação dada pela Emenda Constitucional nº 141, de 2026)",
+          "deleted": false
+        }
+      ],
+      [
+        {
+          "text": "§ 2º Excepcionalmente, convenção ou acordo coletivo de trabalho poderão, inclusive para os trabalhadores sujeitos a regimes diferenciados de trabalho estabelecidos em lei ou norma regulamentadora, estabelecer regime compensatório que assegure, na média, 2 (dois) dias de repouso semanal remunerado dentro do mês-calendário, garantido o gozo de pelo menos 1 (um) dos dias dentro do período máximo de 1 (uma) semana de trabalho. (Incluído pela Emenda Constitucional nº 141, de 2026)",
+          "deleted": false
+        }
+      ],
+      [
+        {
+          "text": "§ 3º Lei poderá dispor sobre hipóteses e condições em que a duração do trabalho e os dias de repouso semanal remunerado poderão observar regimes diferenciados, respeitados os limites previstos nos incisos XIII, XIV e XV do caput deste artigo. (Incluído pela Emenda Constitucional nº 141, de 2026)",
           "deleted": false
         }
       ],
@@ -4757,6 +4781,12 @@
       [
         {
           "text": "§ 4º É vedada a adoção de requisitos ou critérios diferenciados para concessão de benefícios em regime próprio de previdência social, ressalvado o disposto nos §§ 4º-A, 4º-B, 4º-C e 5º. (Redação dada pela Emenda Constitucional nº 103, de 2019)",
+          "deleted": true
+        }
+      ],
+      [
+        {
+          "text": "§ 4º É vedada a adoção de requisitos ou critérios diferenciados para concessão de benefícios em regime próprio de previdência social, ressalvado o disposto nos §§ 4º-A, 4º-B, 4º-C, 5º e 5º-A deste artigo. (Redação dada pela Emenda Constitucional nº 140, de 2026)",
           "deleted": false
         }
       ],
@@ -4787,6 +4817,12 @@
       [
         {
           "text": "§ 5º Os ocupantes do cargo de professor terão idade mínima reduzida em 5 (cinco) anos em relação às idades decorrentes da aplicação do disposto no inciso III do § 1º, desde que comprovem tempo de efetivo exercício das funções de magistério na educação infantil e no ensino fundamental e médio fixado em lei complementar do respectivo ente federativo. (Redação dada pela Emenda Constitucional nº 103, de 2019)",
+          "deleted": false
+        }
+      ],
+      [
+        {
+          "text": "§ 5º-A. O requisito de idade a que se refere o inciso III do § 1º deste artigo será de 57 (cinquenta e sete) anos de idade, se mulher, e 60 (sessenta) anos de idade, se homem, para o agente comunitário de saúde e o agente de combate às endemias que comprovem o mínimo de 25 (vinte e cinco) anos de tempo de contribuição e de efetivo exercício na respectiva atividade profissional. (Incluído pela Emenda Constitucional nº 140, de 2026)",
           "deleted": false
         }
       ],
@@ -17788,6 +17824,12 @@
       ],
       [
         {
+          "text": "IV - atuação obrigatória e permanente de agentes comunitários de saúde e de agentes de combate às endemias, cuja atividade é essencial ao sistema único de saúde e exclusiva de Estado. (Incluído pela Emenda Constitucional nº 140, de 2026)",
+          "deleted": false
+        }
+      ],
+      [
+        {
           "text": "§ 1º. O sistema único de saúde será financiado, nos termos do art. 195, com recursos do orçamento da seguridade social, da União, dos Estados, do Distrito Federal e dos Municípios, além de outras fontes. (Parágrafo único renumerado para § 1º pela Emenda Constitucional nº 29, de 2000)",
           "deleted": false
         }
@@ -17884,6 +17926,18 @@
       ],
       [
         {
+          "text": "§ 4º-A. É vedada a contratação temporária ou terceirizada de agentes comunitários de saúde e de agentes de combate às endemias, salvo a hipótese de emergência em saúde pública, na forma da lei. (Incluído pela Emenda Constitucional nº 140, de 2026)",
+          "deleted": false
+        }
+      ],
+      [
+        {
+          "text": "§ 4º-B. Os agentes de que trata o § 4º deste artigo submetem-se ao regime jurídico dos servidores nomeados para cargo de provimento efetivo. (Incluído pela Emenda Constitucional nº 140, de 2026)",
+          "deleted": false
+        }
+      ],
+      [
+        {
           "text": "§ 5º Lei federal disporá sobre o regime jurídico e a regulamentação das atividades de agente comunitário de saúde e agente de combate às endemias. (Incluído pela Emenda Constitucional nº 51, de 2006) (Vide Medida provisória nº 297. de 2006)",
           "deleted": true
         }
@@ -17921,6 +17975,12 @@
       [
         {
           "text": "§ 10. Os agentes comunitários de saúde e os agentes de combate às endemias terão também, em razão dos riscos inerentes às funções desempenhadas, aposentadoria especial e, somado aos seus vencimentos, adicional de insalubridade. (Incluído pela Emenda Constitucional nº 120, de 2022)",
+          "deleted": true
+        }
+      ],
+      [
+        {
+          "text": "§ 10. Os agentes comunitários de saúde e os agentes de combate às endemias terão, em razão dos riscos inerentes às funções desempenhadas, direito à aposentadoria mediante requisitos diferenciados, na forma do § 5º-A do art. 40 e do § 8º-A do art. 201 desta Constituição, e ao adicional de insalubridade. (Redação dada pela Emenda Constitucional nº 140, de 2026)",
           "deleted": false
         }
       ],
@@ -18291,6 +18351,12 @@
       [
         {
           "text": "§ 8º O requisito de idade a que se refere o inciso I do § 7º será reduzido em 5 (cinco) anos, para o professor que comprove tempo de efetivo exercício das funções de magistério na educação infantil e no ensino fundamental e médio fixado em lei complementar. (Redação dada pela Emenda Constitucional nº 103, de 2019)",
+          "deleted": false
+        }
+      ],
+      [
+        {
+          "text": "§ 8º-A. O requisito de idade a que se refere o inciso I do § 7º deste artigo será de 57 (cinquenta e sete) anos de idade, se mulher, e 60 (sessenta) anos de idade, se homem, para o agente comunitário de saúde e o agente de combate às endemias que comprovem o mínimo de 25 (vinte e cinco) anos de tempo de contribuição e de efetivo exercício na respectiva atividade profissional. (Incluído pela Emenda Constitucional nº 140, de 2026)",
           "deleted": false
         }
       ],
