@@ -157,3 +157,7 @@ Uma referência com sigla carrega apenas sua coleção; referências sem sigla e
 `python3 tests/browser/data_loading.py` confere carga seletiva, retry, navegação concorrente e a lista exata dos 52 resultados de “dignidade” em 12 coleções registrada antes da refatoração. `tests/browser/interface_review.py` confere frases no celular, chips por teclado, histórico inicial, SVG e recuo. `python3 tests/browser/performance.py` mede cinco visitas locais com cache novo, service worker bloqueado e CPU 4× mais lenta; requer Playwright e Chromium e não consulta a internet. Um diretório alternativo pode ser passado como argumento para medir outra compilação.
 
 O teste de build impõe HTML abaixo de 300 KB e verifica que mudar somente CSS preserva todos os nomes e bytes dos JSONs. O servidor local fornece JSON com MIME apropriado e cache imutável para nomes com hash. O artefato de prévia do monitor contém `dist/` inteiro.
+
+## Baseline e testes automatizados de navegador
+
+Consulte [metodologia, comandos e resultados](BASELINE-DESEMPENHO.md). PRs e publicação executam a suíte essencial de Chromium além dos testes Node e Python. `python scripts/run_browser_tests.py --suite all` inclui todas as verificações de navegador. O benchmark ampliado em `tests/browser/performance.py` separa cache HTTP, memória e instalação offline; suas durações não são limites de aprovação do CI.

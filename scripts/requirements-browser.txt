@@ -1,0 +1,2 @@
+# Test-only dependency; the application still has no npm dependencies.
+playwright==1.62.0

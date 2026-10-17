@@ -3,6 +3,7 @@ Requires Playwright for Python and /usr/bin/chromium; run npm run build first.
 """
 from pathlib import Path
 import functools, hashlib, http.server, re, shutil, tempfile, threading, json
+from support import chromium_executable
 from playwright.sync_api import sync_playwright, expect
 
 root=Path(__file__).resolve().parents[2]
@@ -36,12 +37,16 @@ with tempfile.TemporaryDirectory() as temporary:
         (site/'sw.js').write_text(worker)
     try:
         with sync_playwright() as p:
-            browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
+            browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
             context=browser.new_context();page=context.new_page();errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
             base=f'http://127.0.0.1:{server.server_port}/lexa./'
             page.goto(base+'#/cf/60')
             page.wait_for_function('navigator.serviceWorker.controller !== null',timeout=20000)
+            expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','partial')
+            assert not [path for path in requests if '/data/search-' in path],'Instalação inicial baixou índices completos'
+            page.locator('.pwa-help>summary').click();page.locator('#pwa-cache-all').click()
+            expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','full',timeout=30000)
             scope=page.evaluate('(async()=> (await navigator.serviceWorker.ready).scope)()')
             assert scope==base
             manifest=page.evaluate("(async()=>await (await fetch('./manifest.webmanifest')).json())()")
@@ -77,24 +82,27 @@ with tempfile.TemporaryDirectory() as temporary:
             assert page.evaluate("caches.has('unrelated-project')")
             assert page.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==1
             context.set_offline(True);page.reload();expect(page.locator('body')).to_have_attribute('data-test-version','v2')
+            # Arm the server fault before re-enabling automatic online updates.
+            failure['enabled']=True;deploy('v3')
             context.set_offline(False)
             # A failed precache must leave the usable prior edition intact.
-            deploy('v3');failure['enabled']=True
             page.evaluate('''async()=>{
-                const registration=await navigator.serviceWorker.getRegistration();
+                const r=await navigator.serviceWorker.getRegistration();
                 await new Promise((resolve,reject)=>{
-                    const timer=setTimeout(()=>reject(new Error('Atualização não terminou')),20000);
-                    registration.addEventListener('updatefound',()=>{
-                        const worker=registration.installing;
-                        worker.addEventListener('statechange',()=>{if(worker.state==='redundant'){clearTimeout(timer);resolve();}});
-                    },{once:true});
-                    registration.update().catch(reject);
+                    const timer=setTimeout(()=>reject(new Error('Instalação rejeitada não terminou')),30000);
+                    const finish=()=>{clearTimeout(timer);r.removeEventListener('updatefound',watch);resolve();};
+                    const watch=()=>{const w=r.installing;if(!w)return;
+                        const state=()=>{if(w.state==='redundant')finish();};
+                        w.addEventListener('statechange',state);state();
+                    };
+                    r.addEventListener('updatefound',watch);watch();
+                    r.update().then(watch).catch(finish);
                 });
             }''')
             assert page.locator('#pwa-update').is_hidden()
             context.set_offline(True);page.reload();expect(page.locator('body')).to_have_attribute('data-test-version','v2')
             # A new immutable legal file with the wrong bytes must also be rejected.
-            context.set_offline(False);failure['enabled']=False;deploy('v4')
+            failure['enabled']=False;deploy('v4')
             worker=(site/'sw.js').read_text()
             specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
             spec=next(item for item in specs if item['file'].startswith('data/clt.'))
@@ -104,12 +112,18 @@ with tempfile.TemporaryDirectory() as temporary:
             (site/spec['file']).write_bytes(original) # deliberately wrong bytes
             worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker)
             (site/'sw.js').write_text(worker)
+            context.set_offline(False)
             page.evaluate('''async()=>{
                 const r=await navigator.serviceWorker.getRegistration();
                 await new Promise((resolve,reject)=>{
-                    const timer=setTimeout(()=>reject(new Error('Instalação adulterada não terminou')),20000);
-                    r.addEventListener('updatefound',()=>{const w=r.installing;w.addEventListener('statechange',()=>{if(w.state==='redundant'){clearTimeout(timer);resolve();}});},{once:true});
-                    r.update().catch(reject);
+                    const timer=setTimeout(()=>reject(new Error('Instalação rejeitada não terminou')),30000);
+                    const finish=()=>{clearTimeout(timer);r.removeEventListener('updatefound',watch);resolve();};
+                    const watch=()=>{const w=r.installing;if(!w)return;
+                        const state=()=>{if(w.state==='redundant')finish();};
+                        w.addEventListener('statechange',state);state();
+                    };
+                    r.addEventListener('updatefound',watch);watch();
+                    r.update().then(watch).catch(finish);
                 });
             }''')
             assert page.locator('#pwa-update').is_hidden()
@@ -117,10 +131,17 @@ with tempfile.TemporaryDirectory() as temporary:
             assert page.locator('body').get_attribute('data-test-version')=='v2'
             assert page.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==1
             fresh=browser.new_context();first=fresh.new_page();first.goto(base)
-            expect(first.locator('#pwa-status')).to_contain_text('Não foi possível preparar',timeout=20000)
-            assert first.evaluate('navigator.serviceWorker.controller===null')
-            assert first.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==0
+            expect(first.locator('#pwa-status')).to_have_attribute('data-offline-mode','partial',timeout=20000)
+            first.locator('.pwa-help>summary').click();first.locator('#pwa-cache-all').click()
+            expect(first.locator('#pwa-status')).to_contain_text('Não foi possível completar',timeout=30000)
+            assert first.locator('#pwa-status').get_attribute('data-offline-mode')!='full'
             fresh.close()
+            failure['enabled']=True
+            broken=browser.new_context();initial=broken.new_page();initial.goto(base)
+            expect(initial.locator('#pwa-status')).to_contain_text('Não foi possível preparar',timeout=20000)
+            assert initial.evaluate('navigator.serviceWorker.controller===null')
+            assert initial.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==0
+            broken.close()
             assert not errors,errors
             browser.close()
             print('PWA validada: subpasta, leitura offline, atualização consentida, preservação de favoritos/preferências, limpeza isolada e reutilização sem download de JSON e rejeição de shell incompleto e JSON adulterado.')

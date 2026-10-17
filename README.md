@@ -82,7 +82,7 @@ O Lexa pode ser instalado como aplicativo web, sem loja de aplicativos:
 - **Android e computador:** abra o site e procure a opção de instalar no menu ou na barra de endereços do navegador. Quando disponível, o botão “Instalar Lexa” aparece em “Instalar e usar offline”, no rodapé.
 - **iPhone e iPad:** abra no Safari, toque em **Compartilhar → Adicionar à Tela de Início**.
 
-Na primeira visita com internet, aguarde a indicação **“Leitura offline preparada neste navegador”** no rodapé. Os códigos, a Constituição, as súmulas e o histórico dessa edição poderão ser consultados sem conexão. PDFs e páginas oficiais externas precisam de internet. O navegador pode remover os dados offline para liberar espaço.
+Na primeira visita, o Lexa guarda a interface e passa a guardar os conteúdos consultados. Em **“Instalar e usar offline”**, no rodapé, veja quais normas estão disponíveis e use **“Preparar biblioteca completa offline”** para baixar todo o acervo, a busca e o histórico dessa edição. Aguarde a confirmação de biblioteca completa antes de depender de todo o acervo sem conexão. PDFs e páginas oficiais externas precisam de internet. O navegador pode remover os dados offline para liberar espaço.
 
 Quando uma nova versão estiver pronta, o site oferecerá **“Atualizar agora”**. A atualização recarrega a página e preserva favoritos e preferências. Durante uma consulta offline, confira a edição indicada: ela corresponde ao conteúdo salvo no dispositivo. A instalação não é necessária para usar o site.
 
@@ -143,9 +143,11 @@ npm test
 npm run test:python
 ```
 
-O build gera um shell leve em `dist/index.html`, um catálogo pequeno em `dist/catalog.json` e um JSON com nome baseado em SHA-256 por norma. A home abre sem carregar o acervo; o leitor carrega a norma escolhida e a primeira busca textual prepara as demais coleções. A PWA prepara todos esses arquivos para a leitura offline e reutiliza JSONs inalterados nas atualizações. Para testar ou compartilhar uma prévia, sirva a pasta `dist/` inteira por HTTP; abrir somente o HTML como arquivo não é suficiente.
+O build gera um shell leve em `dist/index.html`, um catálogo pequeno em `dist/catalog.json` e um JSON com nome baseado em SHA-256 por norma. A home abre sem carregar o acervo; a busca usa índices compactos e o leitor carrega a norma escolhida. Módulos ESM nativos são publicados em um namespace imutável. A PWA guarda conteúdos consultados, oferece preparo completo explícito e reutiliza arquivos inalterados nas atualizações. Para testar ou compartilhar uma prévia, sirva a pasta `dist/` inteira por HTTP; abrir somente o HTML como arquivo não é suficiente.
 
 A hospedagem usa GitHub Pages. Cada mudança incorporada na `main` passa pelas verificações do workflow antes da publicação.
+
+Para testes de navegador, metodologia e medições reproduzíveis, consulte a **[baseline de desempenho](docs/BASELINE-DESEMPENHO.md)**.
 
 Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhes sobre fontes, importação de PDFs, testes, estrutura dos arquivos e configuração do Pages. Veja também o **[monitor das legislações](monitor/README.md)** e a documentação da **[coleta pausada do STF](monitor/stf/README.md)**.
 

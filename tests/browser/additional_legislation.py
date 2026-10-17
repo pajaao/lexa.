@@ -1,6 +1,7 @@
 """Exercise new federal laws in search, reader, hierarchy, favorites and copy."""
 from pathlib import Path
 import functools,http.server,threading
+from support import chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -9,7 +10,7 @@ server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,direc
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
  with sync_playwright() as p:
-  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
+  b=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
   page=b.new_page(viewport={'width':390,'height':900},service_workers='block');errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   base=f'http://127.0.0.1:{server.server_port}/'
   cases=[('clt','1','Art. 1 CLT','Esta Consolidação estatui'),('cpp','3-A','Art. 3-A CPP','estrutura acusatória'),('eca','18-B','Art. 18-B ECA','castigo físico'),('lep','1','Art. 1 LEP','execução penal'),('maria-penha','24-A','Art. 24-A LMP','medidas protetivas'),('improbidade','11','Art. 11 LIA','princípios'),('licitacoes','178','Art. 178 LLCA','337-P')]

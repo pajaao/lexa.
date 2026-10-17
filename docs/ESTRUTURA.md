@@ -8,7 +8,11 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 | --- | --- | --- |
 | `src/index.html` | Estrutura da página | Editar a interface aqui |
 | `src/styles.css` | Aparência e responsividade | Editar estilos aqui |
-| `src/app.js` | Navegação e controles de leitura | Editar comportamentos aqui |
+| `src/app.js` | Rotas e coordenação dos fluxos | Editar comportamentos aqui |
+| `src/reader.js` e `src/reader-model.js` | Leitor, seleção e modelos reutilizados | Preservar paginação, IDs e hierarquia |
+| `src/search-index.js` e `src/library-search.js` | Índice compacto e busca global | Índices são derivados fielmente no build |
+| `src/collection-cache.js` | Conjunto limitado de leitores completos | Protege o leitor ativo |
+| `src/presentation.js` e `src/clipboard.js` | Apresentação e cópia | Funções separadas do roteamento |
 | `src/catalog.js` | Metadados das legislações | Editar o catálogo aqui |
 | `src/data.js` | Referências e busca por artigo | Editar a lógica aqui |
 | `src/collections.js` | Escolha das edições para ferramentas e testes Node | Usa bases geradas; não integra o shell do navegador |
@@ -25,6 +29,7 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 | `monitor/stf/` | Configuração e referências do STF | Coleta automática pausada |
 | `scripts/` | Build, servidor, importação e coleta | Ferramentas de manutenção |
 | `tests/node/` | Testes da aplicação e publicação | Executados com `npm test` |
+| `tests/browser/` | Fluxos reais e benchmark Chromium | Executar com `scripts/run_browser_tests.py`; ver [baseline](BASELINE-DESEMPENHO.md) |
 | `tests/python/` | Testes dos importadores e monitores | Executados com `npm run test:python` |
 | `.github/workflows/` | Publicação e verificações no Actions | Alterar com atenção aos gatilhos e permissões |
 
@@ -35,7 +40,7 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 - `npm test`: gera o pacote e executa os testes JavaScript.
 - `npm run test:python`: executa os testes Python sem consultar as fontes na rede. Use Python 3.12 ou superior.
 
-`dist/` é descartável e fica fora do Git. O arquivo `dist/index.html` incorpora estilos, JavaScript e somente o catálogo de metadados. Os textos ficam em `dist/data/<id>.<sha256>.json`; o histórico é outro JSON com hash. `dist/catalog.json` descreve a edição e os arquivos. Sirva a pasta inteira por HTTP (`npm start`), inclusive para conferir uma prévia; o HTML isolado não contém os textos. Edite os arquivos de origem em `src/`, e gere o pacote novamente. A publicação inclui somente os arquivos permitidos pelo gerador, sem expor o checkout inteiro.
+`dist/` é descartável e fica fora do Git. O arquivo `dist/index.html` incorpora estilos e referencia módulos ESM nativos em `dist/app/<sha256>/`. O catálogo leve integra um adaptador; imports/exports não são removidos por expressões regulares. Os textos ficam em `dist/data/<id>.<sha256>.json`; os índices compactos de busca e o histórico também são JSONs com hash. `dist/catalog.json` descreve a edição e os arquivos. Sirva a pasta inteira por HTTP (`npm start`), inclusive para conferir uma prévia; o HTML isolado não contém os textos. Edite os arquivos de origem em `src/`, e gere o pacote novamente. A publicação inclui somente os arquivos permitidos pelo gerador, sem expor o checkout inteiro.
 
 Ao incorporar mudanças à `main`, o workflow `deploy-pages.yml` testa o projeto e publica `dist/` no GitHub Pages. Os caminhos públicos, os favoritos do navegador e os links para artigos permanecem os mesmos.
 

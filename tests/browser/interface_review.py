@@ -1,6 +1,7 @@
 """Mobile sentence spacing, accessible examples, theme icon and focused text inset."""
 from pathlib import Path
 import functools,http.server,threading,re
+from support import chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -9,7 +10,7 @@ server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,direc
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
  with sync_playwright() as p:
-  b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage'])
+  b=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage'])
   page=b.new_page(viewport={'width':375,'height':812},service_workers='block');base=f'http://127.0.0.1:{server.server_port}/'
   for route,selector in [('', '.hero>p,.features h3'),('#/favoritos','.favorites-intro'),('#/atualizacoes','.updates-hero>p')]:
    page.goto(base+route)

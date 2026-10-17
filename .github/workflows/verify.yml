@@ -1,0 +1,50 @@
+name: Verificar Lexa
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      benchmark:
+        description: Executar também a baseline (5 rodadas, CPU 4x; sem limite de tempo como critério de desempenho)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lexa-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/requirements-browser.txt
+      - name: Testar aplicação e gerar pacote
+        run: npm test
+      - name: Testar monitores, importadores e medições sem rede
+        run: python -m unittest discover -s tests -p 'test_*.py'
+      - uses: ./.github/actions/setup-browser
+      - name: Testar fluxos essenciais no Chromium
+        run: python scripts/run_browser_tests.py --suite essential
+      - name: Medir baseline (opcional, sem limite absoluto de desempenho)
+        if: github.event_name == 'workflow_dispatch' && inputs.benchmark
+        run: python tests/browser/performance.py --runs 5 --cpu 4 --output test-results/performance.json > test-results/performance.stdout.json
+      - name: Guardar resultados e diagnóstico
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verificacao-lexa-${{ github.run_id }}
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 14

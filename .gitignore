@@ -8,3 +8,6 @@ _site/
 # Generated site and legacy build outputs
 /dist/
 /index.html
+
+# Browser diagnostics and ad hoc performance reports
+/test-results/

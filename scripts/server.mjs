@@ -10,6 +10,6 @@ createServer(async (req, res) => {
     const path = resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
     if (!path.startsWith(root + sep) || !Object.hasOwn(types, extname(path)) || (extname(path)==='.pdf' && !path.startsWith(resolve(root, 'sources')+sep))) { res.writeHead(404).end(); return; }
     const body = await readFile(path);
-    res.writeHead(200, { 'Content-Type': types[extname(path)], 'X-Content-Type-Options': 'nosniff', 'Cache-Control': /\.[a-f0-9]{64}\.json$/.test(path)?'public, max-age=31536000, immutable':'no-cache' }).end(body);
+    res.writeHead(200, { 'Content-Type': types[extname(path)], 'X-Content-Type-Options': 'nosniff', 'Cache-Control': (/\.[a-f0-9]{64}\.json$/.test(path)||/[/]app[/][a-f0-9]{64}[/][^/]+\.js$/.test(path))?'public, max-age=31536000, immutable':'no-cache' }).end(body);
   } catch { res.writeHead(404).end('Não encontrado'); }
 }).listen(Number(process.env.PORT || 3000), '0.0.0.0', () => console.log('Lexa disponível na porta ' + (process.env.PORT || 3000)));

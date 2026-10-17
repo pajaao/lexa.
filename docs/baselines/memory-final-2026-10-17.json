@@ -1,0 +1,23 @@
+{
+  "cpu": 4,
+  "rounds": 2,
+  "collections": 14,
+  "memory": "page V8 heap after GC; not total browser RAM",
+  "snapshots": [
+    {
+      "point": "search",
+      "heap_bytes": 24282144,
+      "loaded": 0
+    },
+    {
+      "point": "after_round_1",
+      "heap_bytes": 29155836,
+      "loaded": 3
+    },
+    {
+      "point": "after_round_2",
+      "heap_bytes": 29179904,
+      "loaded": 3
+    }
+  ]
+}

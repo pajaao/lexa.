@@ -6,3 +6,6 @@ import {catalog} from './catalog.js';
 import {prepareCollection} from './collection-model.js';
 export const codes=catalog.map(code=>prepareCollection({...code,...(officialImported[code.id]||imported[code.id])}));
 export const collections=[...codes,...(officialSumulas.length?officialSumulas:sumulas).map(prepareCollection)];
+
+// Browser builds replace this Node-only adapter with the versioned catalog.
+export const initialCatalog=null;

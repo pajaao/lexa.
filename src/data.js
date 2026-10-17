@@ -1,3 +1,5 @@
+import {articleLookup} from './article-lookup.js';
+import {searchArticle} from './search-index.js';
 import {catalog} from './catalog.js';
 import {collections,codes} from './collections.js';
 import {normalize} from './collection-model.js';
@@ -9,11 +11,14 @@ export function articleLabel(article) {
  return `${article.scope==='adct'?'ADCT · ':''}${article.rangeEnd?'Arts.':'Art.'} ${format(article.number)}${article.rangeEnd?' a '+format(article.rangeEnd):''}`;
 }
 export function articleById(code, id) {
- const exact = code.articles.find(article=>article.id===id);
- if(exact) return exact;
+ const pool=code.loaded?code.articles:(code.searchIndex?.articles||code.articles);
+ const present=entry=>code.searchIndex&&!code.loaded?entry&&searchArticle(entry,code.searchIndex):entry;
+ const lookup=articleLookup(pool);
+ const exact = lookup.ids.get(id);
+ if(exact) return present(exact);
  const scope = id.startsWith('adct-') ? 'adct' : 'main';
  const n = Number(id.replace('adct-',''));
- return code.articles.find(article=>article.scope===scope && article.rangeEnd && n>=Number(article.number) && n<=article.rangeEnd);
+ return present(lookup.ranges.find(article=>article.scope===scope && article.rangeEnd && n>=Number(article.number) && n<=article.rangeEnd));
 }
 const referenceAliases = [
  ...catalog.flatMap(code=>[code.short,code.name].map(alias=>({alias:normalize(alias),codeId:code.id}))),
@@ -58,11 +63,12 @@ export function searchLibraryReferences(query) {
 export function searchArticles(code, query, scope = 'main') {
  const q=normalize(query.trim());
  const ref=parseReference(q);
- let pool=code.articles.filter(article=>scope==='all'||article.scope===scope);
+ const lookup=articleLookup(code.articles);
+ let pool=scope==='all'?code.articles:(lookup.scopes.get(scope)||[]);
  if(!q)return pool;
  if(ref){
   if(ref.codeId&&ref.codeId!==code.id||ref.kind==='article'&&code.kind==='sumulas')return [];
-  if(ref.scope)pool=code.articles.filter(article=>article.scope===ref.scope);
+  if(ref.scope)pool=lookup.scopes.get(ref.scope)||[];
   return pool.filter(article=>article.number===ref.number||(!ref.number.includes('-')&&article.rangeEnd&&Number(ref.number)>=Number(article.number)&&Number(ref.number)<=article.rangeEnd));
  }
  return pool.filter(article=>article.searchText.includes(q));

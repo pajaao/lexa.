@@ -1,6 +1,7 @@
 """Validate grouped whole-library text search, reader links and responsive UI."""
 from pathlib import Path
 import functools,http.server,threading
+from support import chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -9,7 +10,7 @@ server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,direc
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
  with sync_playwright() as p:
-  browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
+  browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
   context=browser.new_context(service_workers='block');page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   base=f'http://127.0.0.1:{server.server_port}/'
   page.goto(base);search=page.locator('#library-search');search.fill('dignidade')
@@ -37,7 +38,7 @@ try:
   search.fill('termoquenuncavaiexistirnalexa');expect(page.locator('#text-results')).to_contain_text('Nenhuma ocorrência')
   search.fill('CPC');expect(page.locator('.code-card[href="#/cpc"]')).to_be_visible()
   search.fill('dignidade');expect(page.locator('.text-result-group')).to_have_count(12)
-  search.press('Enter');assert page.locator('.text-search-heading h2').evaluate('e=>e===document.activeElement')
+  search.press('Enter');expect(page.locator('.text-search-heading h2')).to_be_focused()
   for width in [320,390,1280]:
    page.set_viewport_size({'width':width,'height':900})
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
