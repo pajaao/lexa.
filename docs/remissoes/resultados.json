@@ -1,0 +1,1479 @@
+{
+  "baseCommit": "84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf",
+  "phase0BaseCommit": "84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf",
+  "differencesSincePhase0": "none on main at start",
+  "implementationCommit": "fd781f51f0df87c8077b33eb7d5e53423ef39f82",
+  "rulesVersion": "0.5.1",
+  "rulesSha256": "6cf232f85d242a28dd81ff654811106327f13948948b884afe8b7d289d3ae434",
+  "editionSetSha256": "43053c392cbaf7ab9c49b6c841060adf42b8f6d2c4da998f9502c0288ffeeec8",
+  "corpus": {
+    "sha256": "542c2251f7251980e120c40c450cb3780f608b692f908d8516b5c8f192793540",
+    "collections": 13,
+    "entries": 7110,
+    "primaryEntries": 3777,
+    "adctEntries": 148
+  },
+  "scan": {
+    "classifications": {
+      "A": 1763,
+      "B": 84,
+      "C": 1857,
+      "D": 1185,
+      "E": 7
+    },
+    "occurrences": 4896,
+    "uniqueConnections": 2326,
+    "ownHeadingsRejected": 7724,
+    "primaryClassifications": {
+      "A": 950,
+      "B": 52,
+      "C": 845,
+      "D": 347,
+      "E": 1
+    },
+    "phase0": {
+      "classifications": {
+        "A": 1677,
+        "B": 95,
+        "C": 1201,
+        "D": 1010
+      },
+      "uniqueConnections": 2009
+    }
+  },
+  "evaluations": {
+    "phase0": {
+      "phase05": {
+        "annotatedNormativeExpressions": 44,
+        "matchedNormativeExpressions": 44,
+        "retainedNegativeCandidates": 0,
+        "unmatchedNonRejectedCandidates": 1,
+        "falsePositiveCandidatesBeforeAdjudication": 1,
+        "paragraphs": 44,
+        "articles": 27,
+        "expectedExpressions": 44,
+        "detectedExpressions": 45,
+        "matchedExpressions": 44,
+        "missedExpressions": 0,
+        "spuriousExpressions": 1,
+        "correctClassifications": 41,
+        "classifications": {
+          "A": 29,
+          "B": 7,
+          "C": 5,
+          "D": 4,
+          "E": 0
+        },
+        "expectedClassifications": {
+          "A": 32,
+          "B": 7,
+          "C": 1,
+          "D": 4,
+          "E": 0
+        },
+        "expectedDestinations": 54,
+        "emittedDestinations": 51,
+        "correctDestinations": 51,
+        "incorrectDestinations": 0,
+        "safetyOmissions": 3,
+        "expectedUniqueConnections": 53,
+        "emittedUniqueConnections": 50,
+        "correctUniqueConnections": 50,
+        "detectionPrecision": 0.9777777777777777,
+        "detectionRecall": 1,
+        "connectionPrecision": 1,
+        "destinationRecall": 0.9444444444444444,
+        "errors": [
+          {
+            "source": [
+              "cf",
+              "adct-121",
+              1
+            ],
+            "expected": null,
+            "actual": {
+              "text": "caput deste artigo",
+              "classification": "C",
+              "reason": "implicit-or-relative-article-not-supported"
+            }
+          },
+          {
+            "source": [
+              "cpc",
+              "240",
+              2
+            ],
+            "expected": {
+              "literal": "§ 1º",
+              "status": "A",
+              "targets": [
+                "cpc:240"
+              ]
+            },
+            "actual": {
+              "text": "§ 1º",
+              "span": [
+                153,
+                157
+              ],
+              "classification": "C",
+              "reason": "implicit-or-relative-article-not-supported",
+              "targets": []
+            }
+          },
+          {
+            "source": [
+              "licitacoes",
+              "4",
+              5
+            ],
+            "expected": {
+              "literal": "§§ 1º e 2º deste artigo",
+              "status": "A",
+              "targets": [
+                "licitacoes:4"
+              ]
+            },
+            "actual": {
+              "text": "§§ 1º e 2º deste artigo",
+              "span": [
+                149,
+                172
+              ],
+              "classification": "C",
+              "reason": "implicit-or-relative-article-not-supported",
+              "targets": []
+            }
+          },
+          {
+            "source": [
+              "licitacoes",
+              "6",
+              14
+            ],
+            "expected": {
+              "literal": "inciso XIII do caput deste artigo",
+              "status": "A",
+              "targets": [
+                "licitacoes:6"
+              ]
+            },
+            "actual": {
+              "text": "inciso XIII do caput deste artigo",
+              "span": [
+                128,
+                161
+              ],
+              "classification": "C",
+              "reason": "implicit-or-relative-article-not-supported",
+              "targets": []
+            }
+          }
+        ]
+      },
+      "phase0": {
+        "annotatedNormativeExpressions": 44,
+        "matchedNormativeExpressions": 40,
+        "retainedNegativeCandidates": 0,
+        "unmatchedNonRejectedCandidates": 1,
+        "falsePositiveCandidatesBeforeAdjudication": 1,
+        "paragraphs": 44,
+        "articles": 27,
+        "expectedExpressions": 44,
+        "detectedExpressions": 41,
+        "matchedExpressions": 40,
+        "missedExpressions": 4,
+        "spuriousExpressions": 1,
+        "correctClassifications": 36,
+        "classifications": {
+          "A": 25,
+          "B": 7,
+          "C": 4,
+          "D": 5,
+          "E": 0
+        },
+        "expectedClassifications": {
+          "A": 32,
+          "B": 7,
+          "C": 1,
+          "D": 4,
+          "E": 0
+        },
+        "expectedDestinations": 54,
+        "emittedDestinations": 41,
+        "correctDestinations": 41,
+        "incorrectDestinations": 0,
+        "safetyOmissions": 10,
+        "expectedUniqueConnections": 53,
+        "emittedUniqueConnections": 41,
+        "correctUniqueConnections": 41,
+        "detectionPrecision": 0.975609756097561,
+        "detectionRecall": 0.9090909090909091,
+        "connectionPrecision": 1,
+        "destinationRecall": 0.7592592592592593,
+        "errors": [
+          {
+            "source": [
+              "cf",
+              "18",
+              5
+            ],
+            "expected": {
+              "literal": "art. 96",
+              "status": "A",
+              "targets": [
+                "cf:adct-96"
+              ]
+            },
+            "actual": {
+              "source": [
+                "cf",
+                "18"
+              ],
+              "field": "paragraphs",
+              "paragraph": 5,
+              "span": [
+                416,
+                427
+              ],
+              "pythonSpan": [
+                416,
+                427
+              ],
+              "quote": "art. 96 - A",
+              "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+              "numbers": [
+                "96-A"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "missing-or-grouped-target"
+            }
+          },
+          {
+            "source": [
+              "cf",
+              "28",
+              5
+            ],
+            "expected": {
+              "literal": "arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I",
+              "status": "A",
+              "targets": [
+                "cf:37",
+                "cf:39",
+                "cf:150",
+                "cf:153"
+              ]
+            },
+            "actual": {
+              "source": [
+                "cf",
+                "28"
+              ],
+              "field": "paragraphs",
+              "paragraph": 5,
+              "span": [
+                170,
+                178
+              ],
+              "pythonSpan": [
+                170,
+                178
+              ],
+              "quote": "arts. 37",
+              "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+              "numbers": [
+                "37"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "interleaved-list-not-supported"
+            }
+          },
+          {
+            "source": [
+              "cf",
+              "adct-72",
+              20
+            ],
+            "expected": {
+              "literal": "artigos 153, § 5º, 157, II, 212 e 239",
+              "status": "A",
+              "targets": [
+                "cf:153",
+                "cf:157",
+                "cf:212",
+                "cf:239"
+              ]
+            },
+            "actual": {
+              "source": [
+                "cf",
+                "adct-72"
+              ],
+              "field": "paragraphs",
+              "paragraph": 20,
+              "span": [
+                148,
+                159
+              ],
+              "pythonSpan": [
+                148,
+                159
+              ],
+              "quote": "artigos 153",
+              "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+              "numbers": [
+                "153"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "interleaved-list-not-supported"
+            }
+          },
+          {
+            "source": [
+              "cf",
+              "adct-121",
+              1
+            ],
+            "expected": {
+              "literal": "art. 107",
+              "status": "A",
+              "targets": [
+                "cf:adct-107"
+              ]
+            },
+            "actual": {
+              "source": [
+                "cf",
+                "adct-121"
+              ],
+              "field": "paragraphs",
+              "paragraph": 1,
+              "span": [
+                329,
+                337
+              ],
+              "pythonSpan": [
+                329,
+                337
+              ],
+              "quote": "art. 107",
+              "edition": "380680ca6b6234f78e11c97aeef4bf0f00ed41856660dd8ec3bd106f9f854aa9",
+              "numbers": [
+                "107"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "adct-scope-not-explicit"
+            }
+          },
+          {
+            "source": [
+              "cpc",
+              "240",
+              2
+            ],
+            "expected": {
+              "literal": "§ 1º",
+              "status": "A",
+              "targets": [
+                "cpc:240"
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "licitacoes",
+              "4",
+              5
+            ],
+            "expected": {
+              "literal": "§§ 1º e 2º deste artigo",
+              "status": "A",
+              "targets": [
+                "licitacoes:4"
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "licitacoes",
+              "6",
+              14
+            ],
+            "expected": {
+              "literal": "inciso XIII do caput deste artigo",
+              "status": "A",
+              "targets": [
+                "licitacoes:6"
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "licitacoes",
+              "6",
+              34
+            ],
+            "expected": {
+              "literal": "alínea “a” deste inciso",
+              "status": "C",
+              "targets": []
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "licitacoes",
+              "193",
+              6
+            ],
+            "expected": null,
+            "actual": {
+              "source": [
+                "licitacoes",
+                "193"
+              ],
+              "field": "paragraphs",
+              "paragraph": 6,
+              "span": [
+                18,
+                27
+              ],
+              "pythonSpan": [
+                18,
+                27
+              ],
+              "quote": "art. 47-A",
+              "edition": "65b4df1512bfbb6c046460319623c98bfd02f99a4543b4ad0526bc26e8ed33cc",
+              "numbers": [
+                "47-A"
+              ],
+              "targets": [],
+              "historical": true,
+              "granularity": "article",
+              "status": "D",
+              "reason": "explicit-law:lei:12462:2011"
+            }
+          }
+        ]
+      }
+    },
+    "holdout": {
+      "phase05": {
+        "annotatedNormativeExpressions": 52,
+        "matchedNormativeExpressions": 52,
+        "retainedNegativeCandidates": 1,
+        "unmatchedNonRejectedCandidates": 1,
+        "falsePositiveCandidatesBeforeAdjudication": 2,
+        "paragraphs": 58,
+        "articles": 58,
+        "expectedExpressions": 54,
+        "detectedExpressions": 55,
+        "matchedExpressions": 54,
+        "missedExpressions": 0,
+        "spuriousExpressions": 1,
+        "correctClassifications": 52,
+        "classifications": {
+          "A": 34,
+          "B": 2,
+          "C": 12,
+          "D": 6,
+          "E": 1
+        },
+        "expectedClassifications": {
+          "A": 35,
+          "B": 2,
+          "C": 9,
+          "D": 6,
+          "E": 2
+        },
+        "expectedDestinations": 42,
+        "emittedDestinations": 41,
+        "correctDestinations": 41,
+        "incorrectDestinations": 0,
+        "safetyOmissions": 1,
+        "expectedUniqueConnections": 41,
+        "emittedUniqueConnections": 40,
+        "correctUniqueConnections": 40,
+        "detectionPrecision": 0.9818181818181818,
+        "detectionRecall": 1,
+        "connectionPrecision": 1,
+        "destinationRecall": 0.9761904761904762,
+        "errors": [
+          {
+            "source": [
+              "cdc",
+              "113",
+              0
+            ],
+            "expected": null,
+            "actual": {
+              "text": "§§ 4°, 5° e 6°",
+              "classification": "C",
+              "reason": "implicit-or-relative-article-not-supported"
+            }
+          },
+          {
+            "source": [
+              "cdc",
+              "1",
+              0
+            ],
+            "expected": {
+              "literal": "art. 48",
+              "status": "A",
+              "targets": [
+                "cf:adct-48"
+              ],
+              "span": [
+                197,
+                204
+              ]
+            },
+            "actual": {
+              "text": "art. 48",
+              "span": [
+                197,
+                204
+              ],
+              "classification": "C",
+              "reason": "unattached-prior-norm-context",
+              "targets": []
+            }
+          },
+          {
+            "source": [
+              "maria-penha",
+              "43",
+              1
+            ],
+            "expected": {
+              "literal": "Art. 61",
+              "status": "E",
+              "targets": [],
+              "span": [
+                1,
+                8
+              ]
+            },
+            "actual": {
+              "text": "Art. 61",
+              "span": [
+                1,
+                8
+              ],
+              "classification": "C",
+              "reason": "embedded-amendment-scope-not-supported",
+              "targets": []
+            }
+          }
+        ]
+      },
+      "phase0": {
+        "annotatedNormativeExpressions": 52,
+        "matchedNormativeExpressions": 47,
+        "retainedNegativeCandidates": 2,
+        "unmatchedNonRejectedCandidates": 3,
+        "falsePositiveCandidatesBeforeAdjudication": 5,
+        "paragraphs": 58,
+        "articles": 58,
+        "expectedExpressions": 54,
+        "detectedExpressions": 52,
+        "matchedExpressions": 49,
+        "missedExpressions": 5,
+        "spuriousExpressions": 3,
+        "correctClassifications": 40,
+        "classifications": {
+          "A": 34,
+          "B": 1,
+          "C": 11,
+          "D": 6,
+          "E": 0
+        },
+        "expectedClassifications": {
+          "A": 35,
+          "B": 2,
+          "C": 9,
+          "D": 6,
+          "E": 2
+        },
+        "expectedDestinations": 42,
+        "emittedDestinations": 35,
+        "correctDestinations": 32,
+        "incorrectDestinations": 3,
+        "safetyOmissions": 8,
+        "expectedUniqueConnections": 41,
+        "emittedUniqueConnections": 34,
+        "correctUniqueConnections": 31,
+        "detectionPrecision": 0.9423076923076923,
+        "detectionRecall": 0.9074074074074074,
+        "connectionPrecision": 0.9142857142857143,
+        "destinationRecall": 0.7619047619047619,
+        "errors": [
+          {
+            "source": [
+              "cf",
+              "adct-97",
+              50
+            ],
+            "expected": {
+              "literal": "§§ 6º e 7º",
+              "status": "C",
+              "targets": [],
+              "span": [
+                160,
+                170
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "cf",
+              "adct-97",
+              50
+            ],
+            "expected": {
+              "literal": "§ 8° deste artigo",
+              "status": "C",
+              "targets": [],
+              "span": [
+                201,
+                218
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "cf",
+              "adct-97",
+              50
+            ],
+            "expected": {
+              "literal": "§ 6º deste artigo",
+              "status": "C",
+              "targets": [],
+              "span": [
+                358,
+                375
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "penal",
+              "167",
+              0
+            ],
+            "expected": null,
+            "actual": {
+              "source": [
+                "penal",
+                "167"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                0,
+                12
+              ],
+              "pythonSpan": [
+                0,
+                12
+              ],
+              "quote": "Art. 167 - N",
+              "edition": "153bbe1d730a08539aa63873200faf49f6493e1d5013583f8841bbb8c22fa8b2",
+              "numbers": [
+                "167-N"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "missing-or-grouped-target"
+            }
+          },
+          {
+            "source": [
+              "penal",
+              "170",
+              0
+            ],
+            "expected": null,
+            "actual": {
+              "source": [
+                "penal",
+                "170"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                0,
+                12
+              ],
+              "pythonSpan": [
+                0,
+                12
+              ],
+              "quote": "Art. 170 - N",
+              "edition": "153bbe1d730a08539aa63873200faf49f6493e1d5013583f8841bbb8c22fa8b2",
+              "numbers": [
+                "170-N"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "missing-or-grouped-target"
+            }
+          },
+          {
+            "source": [
+              "penal",
+              "272",
+              0
+            ],
+            "expected": null,
+            "actual": {
+              "source": [
+                "penal",
+                "272"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                0,
+                12
+              ],
+              "pythonSpan": [
+                0,
+                12
+              ],
+              "quote": "Art. 272 - C",
+              "edition": "153bbe1d730a08539aa63873200faf49f6493e1d5013583f8841bbb8c22fa8b2",
+              "numbers": [
+                "272-C"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "missing-or-grouped-target"
+            }
+          },
+          {
+            "source": [
+              "cdc",
+              "104",
+              0
+            ],
+            "expected": {
+              "literal": "art. 81",
+              "status": "A",
+              "targets": [
+                "cdc:81"
+              ],
+              "span": [
+                83,
+                90
+              ]
+            },
+            "actual": {
+              "source": [
+                "cdc",
+                "104"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                83,
+                90
+              ],
+              "pythonSpan": [
+                83,
+                90
+              ],
+              "quote": "art. 81",
+              "edition": "0ac0f394f8fd396de47a12dcdf4aa44684dae0e646bc9362c43075d4d78a17b5",
+              "numbers": [
+                "81"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "unqualified-local"
+            }
+          },
+          {
+            "source": [
+              "cdc",
+              "104",
+              0
+            ],
+            "expected": {
+              "literal": "artigo anterior",
+              "status": "C",
+              "targets": [],
+              "span": [
+                241,
+                256
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "cdc",
+              "1",
+              0
+            ],
+            "expected": {
+              "literal": "arts. 5°, inciso XXXII, 170, inciso V",
+              "status": "A",
+              "targets": [
+                "cf:5",
+                "cf:170"
+              ],
+              "span": [
+                132,
+                169
+              ]
+            },
+            "actual": {
+              "source": [
+                "cdc",
+                "1"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                132,
+                140
+              ],
+              "pythonSpan": [
+                132,
+                140
+              ],
+              "quote": "arts. 5°",
+              "edition": "0ac0f394f8fd396de47a12dcdf4aa44684dae0e646bc9362c43075d4d78a17b5",
+              "numbers": [
+                "5"
+              ],
+              "targets": [
+                [
+                  "cf",
+                  "5"
+                ]
+              ],
+              "historical": false,
+              "granularity": "article",
+              "status": "A",
+              "reason": "explicit-constitution"
+            }
+          },
+          {
+            "source": [
+              "cdc",
+              "1",
+              0
+            ],
+            "expected": {
+              "literal": "art. 48",
+              "status": "A",
+              "targets": [
+                "cf:adct-48"
+              ],
+              "span": [
+                197,
+                204
+              ]
+            },
+            "actual": {
+              "source": [
+                "cdc",
+                "1"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                197,
+                204
+              ],
+              "pythonSpan": [
+                197,
+                204
+              ],
+              "quote": "art. 48",
+              "edition": "0ac0f394f8fd396de47a12dcdf4aa44684dae0e646bc9362c43075d4d78a17b5",
+              "numbers": [
+                "48"
+              ],
+              "targets": [
+                [
+                  "cdc",
+                  "48"
+                ]
+              ],
+              "historical": false,
+              "granularity": "article",
+              "status": "A",
+              "reason": "unqualified-local"
+            }
+          },
+          {
+            "source": [
+              "eca",
+              "263",
+              1
+            ],
+            "expected": {
+              "literal": "Art. 121",
+              "status": "E",
+              "targets": [],
+              "span": [
+                3,
+                11
+              ]
+            },
+            "actual": {
+              "source": [
+                "eca",
+                "263"
+              ],
+              "field": "paragraphs",
+              "paragraph": 1,
+              "span": [
+                3,
+                11
+              ],
+              "pythonSpan": [
+                3,
+                11
+              ],
+              "quote": "Art. 121",
+              "edition": "37162005f02bd3ba99b7a2a849d9b210f9f2a9bd202272f239db2e3df978f828",
+              "numbers": [
+                "121"
+              ],
+              "targets": [
+                [
+                  "eca",
+                  "121"
+                ]
+              ],
+              "historical": false,
+              "granularity": "article",
+              "status": "A",
+              "reason": "unqualified-local"
+            }
+          },
+          {
+            "source": [
+              "lep",
+              "156",
+              0
+            ],
+            "expected": {
+              "literal": "artigos 77 a 82",
+              "status": "A",
+              "targets": [
+                "penal:77",
+                "penal:78",
+                "penal:79",
+                "penal:80",
+                "penal:81",
+                "penal:82"
+              ],
+              "span": [
+                174,
+                189
+              ]
+            },
+            "actual": {
+              "source": [
+                "lep",
+                "156"
+              ],
+              "field": "paragraphs",
+              "paragraph": 0,
+              "span": [
+                174,
+                189
+              ],
+              "pythonSpan": [
+                174,
+                189
+              ],
+              "quote": "artigos 77 a 82",
+              "edition": "e4edf0b4bc04d344ab904bd913bc5f19470215019982900e9426943e80a253e8",
+              "numbers": [
+                "77",
+                "78",
+                "79",
+                "80",
+                "81",
+                "82"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "unresolved-norm-context"
+            }
+          },
+          {
+            "source": [
+              "lep",
+              "154",
+              2
+            ],
+            "expected": {
+              "literal": "artigo 47",
+              "status": "A",
+              "targets": [
+                "penal:47"
+              ],
+              "span": [
+                22,
+                31
+              ]
+            },
+            "actual": {
+              "source": [
+                "lep",
+                "154"
+              ],
+              "field": "paragraphs",
+              "paragraph": 2,
+              "span": [
+                22,
+                31
+              ],
+              "pythonSpan": [
+                22,
+                31
+              ],
+              "quote": "artigo 47",
+              "edition": "e4edf0b4bc04d344ab904bd913bc5f19470215019982900e9426943e80a253e8",
+              "numbers": [
+                "47"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "unresolved-norm-context"
+            }
+          },
+          {
+            "source": [
+              "maria-penha",
+              "43",
+              1
+            ],
+            "expected": {
+              "literal": "Art. 61",
+              "status": "E",
+              "targets": [],
+              "span": [
+                1,
+                8
+              ]
+            },
+            "actual": {
+              "source": [
+                "maria-penha",
+                "43"
+              ],
+              "field": "paragraphs",
+              "paragraph": 1,
+              "span": [
+                1,
+                8
+              ],
+              "pythonSpan": [
+                1,
+                8
+              ],
+              "quote": "Art. 61",
+              "edition": "f71a8b2a5f9e8c66539b014cf9abaefdbdc672e5bfb47933767c509c9125b18b",
+              "numbers": [
+                "61"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "missing-or-grouped-target"
+            }
+          },
+          {
+            "source": [
+              "licitacoes",
+              "165",
+              9
+            ],
+            "expected": {
+              "literal": "caput deste artigo",
+              "status": "C",
+              "targets": [],
+              "span": [
+                161,
+                179
+              ]
+            },
+            "actual": null
+          },
+          {
+            "source": [
+              "licitacoes",
+              "155",
+              12
+            ],
+            "expected": {
+              "literal": "art. 5º",
+              "status": "B",
+              "targets": [],
+              "span": [
+                38,
+                45
+              ]
+            },
+            "actual": {
+              "source": [
+                "licitacoes",
+                "155"
+              ],
+              "field": "paragraphs",
+              "paragraph": 12,
+              "span": [
+                38,
+                45
+              ],
+              "pythonSpan": [
+                38,
+                45
+              ],
+              "quote": "art. 5º",
+              "edition": "65b4df1512bfbb6c046460319623c98bfd02f99a4543b4ad0526bc26e8ed33cc",
+              "numbers": [
+                "5"
+              ],
+              "targets": [],
+              "historical": false,
+              "granularity": "article",
+              "status": "C",
+              "reason": "unresolved-norm-context"
+            }
+          },
+          {
+            "source": [
+              "clt",
+              "417",
+              10
+            ],
+            "expected": {
+              "literal": "art. 422",
+              "status": "C",
+              "targets": [],
+              "span": [
+                26,
+                34
+              ]
+            },
+            "actual": {
+              "source": [
+                "clt",
+                "417"
+              ],
+              "field": "paragraphs",
+              "paragraph": 10,
+              "span": [
+                26,
+                34
+              ],
+              "pythonSpan": [
+                26,
+                34
+              ],
+              "quote": "art. 422",
+              "edition": "e67db0df8bb6af59b30dc4417152dd1dd1160f8cb31669283250afe0dfcd34a1",
+              "numbers": [
+                "422"
+              ],
+              "targets": [
+                [
+                  "clt",
+                  "422"
+                ]
+              ],
+              "historical": false,
+              "granularity": "article",
+              "status": "A",
+              "reason": "unqualified-local"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "simulations": [
+    {
+      "scenario": "add-reference",
+      "source": [
+        "civil",
+        "927"
+      ],
+      "before": [
+        "civil/186",
+        "civil/187"
+      ],
+      "after": [
+        "civil/186",
+        "civil/187",
+        "civil/188"
+      ],
+      "removed": [],
+      "added": [
+        "civil/188"
+      ],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "remove-reference",
+      "source": [
+        "civil",
+        "927"
+      ],
+      "before": [
+        "civil/186",
+        "civil/187"
+      ],
+      "after": [],
+      "removed": [
+        "civil/186",
+        "civil/187"
+      ],
+      "added": [],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "replace-article",
+      "source": [
+        "civil",
+        "927"
+      ],
+      "before": [
+        "civil/186",
+        "civil/187"
+      ],
+      "after": [
+        "civil/186",
+        "civil/188"
+      ],
+      "removed": [
+        "civil/187"
+      ],
+      "added": [
+        "civil/188"
+      ],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "remove-target",
+      "source": [
+        "civil",
+        "927"
+      ],
+      "before": [
+        "civil/186",
+        "civil/187"
+      ],
+      "after": [],
+      "removed": [
+        "civil/186",
+        "civil/187"
+      ],
+      "added": [],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "rename-target",
+      "source": [
+        "civil",
+        "927"
+      ],
+      "before": [
+        "civil/186",
+        "civil/187"
+      ],
+      "after": [],
+      "removed": [
+        "civil/186",
+        "civil/187"
+      ],
+      "added": [],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "change-adct-scope",
+      "source": [
+        "cf",
+        "adct-54-A"
+      ],
+      "before": [
+        "cf/adct-54"
+      ],
+      "after": [
+        "cf/54"
+      ],
+      "removed": [
+        "cf/adct-54"
+      ],
+      "added": [
+        "cf/54"
+      ],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "strike-reference",
+      "source": [
+        "civil",
+        "927"
+      ],
+      "before": [
+        "civil/186",
+        "civil/187"
+      ],
+      "after": [],
+      "removed": [
+        "civil/186",
+        "civil/187"
+      ],
+      "added": [],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "change-norm-qualifier",
+      "source": [
+        "cpc",
+        "240"
+      ],
+      "before": [
+        "civil/397",
+        "civil/398"
+      ],
+      "after": [
+        "cpc/397",
+        "cpc/398"
+      ],
+      "removed": [
+        "civil/397",
+        "civil/398"
+      ],
+      "added": [
+        "cpc/397",
+        "cpc/398"
+      ],
+      "sourceEditionChanged": true,
+      "editionSetChanged": true,
+      "passed": true
+    },
+    {
+      "scenario": "target-only-other-norm",
+      "source": [
+        "cpc",
+        "240"
+      ],
+      "before": [
+        "civil/397",
+        "civil/398"
+      ],
+      "after": [],
+      "removed": [
+        "civil/397",
+        "civil/398"
+      ],
+      "added": [],
+      "sourceEditionChanged": false,
+      "editionSetChanged": true,
+      "passed": true
+    }
+  ],
+  "determinism": {
+    "identicalRebuild": true,
+    "corpusUnchanged": true,
+    "bundleSha256": "adb604f69e2c09bd24c10a2df5be19bd802d5664b4a44bd5e1d7718b5a9516e4"
+  },
+  "processing": {
+    "node": "v22.23.3",
+    "platform": "linux x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "runs": 5,
+    "primaryMs": [
+      285.66470200000003,
+      225.3989200000001,
+      226.41154800000004,
+      214.2535499999999,
+      210.81741499999998
+    ],
+    "allMs": [
+      446.5955979999999,
+      435.832316,
+      428.02131800000006,
+      424.964375,
+      426.51796000000013
+    ],
+    "primaryMedianMs": 225.3989200000001,
+    "allMedianMs": 428.02131800000006,
+    "conditions": "In-memory corpus; sequential runs; no CPU throttling; extraction includes SHA256 validation, lexer, resolution, provenance and occurrence IDs. Excludes corpus build, graph, serialization and compression. Not a browser or phone benchmark.",
+    "memory": "Not measured: process/heap figures would include the test harness and source corpus; no reliable mobile estimate."
+  },
+  "storage": {
+    "candidateAProjection": {
+      "jsonBytes": 312263,
+      "gzipBytes": 48674
+    },
+    "compactAll": {
+      "jsonBytes": 724936,
+      "gzipBytes": 78871
+    },
+    "compactPrimary": {
+      "jsonBytes": 339569,
+      "gzipBytes": 40277
+    },
+    "conditions": "Compact self-contained provenance/graph bundle; gzip is local Node zlib default, not observed HTTP transfer. Raw legal texts are not duplicated."
+  }
+}

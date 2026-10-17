@@ -1,0 +1,55 @@
+{
+  "purpose": "Adjudicação textual de candidatos excedentes após a avaliação. Não altera gold, regras ou métricas brutas congeladas.",
+  "reviewer": "Mesmo agente de desenvolvimento; sem revisão jurídica humana independente.",
+  "cases": [
+    {
+      "sample": "phase0",
+      "source": [
+        "cf",
+        "adct-121",
+        1
+      ],
+      "candidate": "caput deste artigo",
+      "finding": "annotation-gap",
+      "explanation": "É uma remissão literal implicitamente local, omitida da anotação original. Novo extrator registra C e não gera destino. O candidato bruto excedente não é um falso positivo normativo.",
+      "activeIncorrectConnections": 0
+    },
+    {
+      "sample": "holdout",
+      "source": [
+        "cdc",
+        "113",
+        0
+      ],
+      "candidate": "§§ 4°, 5° e 6°",
+      "finding": "false-positive-candidate",
+      "explanation": "São os parágrafos a acrescentar ao artigo 5 da lei citada; foram fragmentados indevidamente como remissão implícita autônoma C. Padrão com ponte ao não é suportado na gramática de qualificadores; nenhuma aresta ativa.",
+      "activeIncorrectConnections": 0
+    },
+    {
+      "sample": "holdout",
+      "source": [
+        "maria-penha",
+        "43",
+        1
+      ],
+      "candidate": "Art. 61",
+      "finding": "reproduced-heading-retained-as-C",
+      "explanation": "Cabeçalho reproduzido de alteração do Código Penal; esperado E, obtido C por contexto de alteração. Rejeição semântica incompleta, mas não vira LMP 61 ou outro destino presumido.",
+      "activeIncorrectConnections": 0
+    },
+    {
+      "sample": "holdout",
+      "source": [
+        "cdc",
+        "1",
+        0
+      ],
+      "candidate": "art. 48 de suas Disposições Transitórias",
+      "finding": "safe-omission",
+      "explanation": "O texto remete ao ADCT 48, mas a ponte de suas não foi reconhecida; resultado C. Não se implementou ajuste após observar o holdout.",
+      "omittedExpectedDestinations": 1,
+      "activeIncorrectConnections": 0
+    }
+  ]
+}
