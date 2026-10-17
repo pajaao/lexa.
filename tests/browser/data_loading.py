@@ -38,7 +38,8 @@ try:
   expected=json.loads((root/'tests/fixtures/dignidade-results.json').read_text())
   assert actual==expected
   assert sum(len(group['ids']) for group in actual)==52
-  assert page.evaluate('collections.every(code=>code.loaded)')
+  assert page.evaluate('collections.every(code=>code.searchIndex)')
+  assert page.evaluate("!collections.find(code=>code.id==='clt').loaded")
   assert not errors,errors
   browser.close();print('Dados: home sem JSON jurídicos, carga por norma, navegação concorrente, integridade/retry e mesmos 52 resultados em 12 coleções.')
 finally:server.shutdown();server.server_close()

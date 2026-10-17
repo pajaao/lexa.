@@ -1,3 +1,4 @@
+import {searchArticle} from './search-index.js';
 import {catalog} from './catalog.js';
 import {collections,codes} from './collections.js';
 import {normalize} from './collection-model.js';
@@ -9,11 +10,13 @@ export function articleLabel(article) {
  return `${article.scope==='adct'?'ADCT · ':''}${article.rangeEnd?'Arts.':'Art.'} ${format(article.number)}${article.rangeEnd?' a '+format(article.rangeEnd):''}`;
 }
 export function articleById(code, id) {
- const exact = code.articles.find(article=>article.id===id);
- if(exact) return exact;
+ const pool=code.loaded?code.articles:(code.searchIndex?.articles||code.articles);
+ const present=entry=>code.searchIndex&&!code.loaded?entry&&searchArticle(entry,code.searchIndex):entry;
+ const exact = pool.find(article=>article.id===id);
+ if(exact) return present(exact);
  const scope = id.startsWith('adct-') ? 'adct' : 'main';
  const n = Number(id.replace('adct-',''));
- return code.articles.find(article=>article.scope===scope && article.rangeEnd && n>=Number(article.number) && n<=article.rangeEnd);
+ return present(pool.find(article=>article.scope===scope && article.rangeEnd && n>=Number(article.number) && n<=article.rangeEnd));
 }
 const referenceAliases = [
  ...catalog.flatMap(code=>[code.short,code.name].map(alias=>({alias:normalize(alias),codeId:code.id}))),

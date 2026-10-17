@@ -1,6 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {catalog} from '../src/catalog.js';
+import {createSearchIndex} from '../src/search-index.js';
 import {imported} from '../data/archive/legislation.js';
 import {officialImported} from '../data/official/legislation.js';
 import {sumulas} from '../data/archive/sumulas.js';
@@ -19,11 +20,11 @@ export async function buildPackage({css:cssOverride}={}){
  const norms=[...catalog.map(code=>({...code,...(officialImported[code.id]||imported[code.id])})),...(officialSumulas.length?officialSumulas:sumulas)];
  const metadata=norms.map(norm=>{
   const {articles,sections,introductions,...fields}=norm;
-  return {...fields,articleCount:articles.length,...asset(norm.id,norm),changedArticleIds:[...new Set(history.filter(event=>event.codeId===norm.id).flatMap(event=>event.changes.map(change=>change.articleId)))]};
+  return {...fields,articleCount:articles.length,...asset(norm.id,norm),search:asset('search-'+norm.id,createSearchIndex(norm)),changedArticleIds:[...new Set(history.filter(event=>event.codeId===norm.id).flatMap(event=>event.changes.map(change=>change.articleId)))]};
  });
  const manifest={collections:metadata,history:asset('history',history)};
  files.set('catalog.json',JSON.stringify(manifest));
- const paths=['index.html','styles.css','history.js','collection-model.js','data.js','structure.js','copy.js','library-search.js','loading.js','pwa.js','app.js'];
+ const paths=['index.html','styles.css','history.js','collection-model.js','search-index.js','data.js','structure.js','copy.js','library-search.js','loading.js','pwa.js','app.js'];
  const [template,originalCss,...modules]=await Promise.all(paths.map(path=>readFile(new URL('src/'+path,root),'utf8')));
  const css=cssOverride??originalCss;
  const bootstrap=`const initialCatalog=${JSON.stringify(manifest)};\nconst collections=initialCatalog.collections.map(code=>({...code,articles:[],sections:[],loaded:false}));\nconst codes=collections.filter(code=>code.kind!=='sumulas');\nconst catalog=codes;\nconst updateHistory=[];const sumulaUpdates=[];`;

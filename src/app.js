@@ -1,4 +1,4 @@
-import {loadCollection,loadCollections,loadHistory} from './loading.js';
+import {loadCollection,loadCollections,loadHistory,loadSearchIndexes,loadSearchIndex} from './loading.js';
 import { searchLibraryText, libraryExcerpt } from './library-search.js';
 import { articleCopyText } from './copy.js';
 import { sectionPath, headingKind, unitKind, buildSectionTree } from './structure.js';
@@ -106,12 +106,12 @@ function home() {
   document.querySelector('#text-results').innerHTML='';
   visibleCounts=new Map();
   const ref=parseReference(currentQuery);
-  const selected=ref?.codeId?collections.filter(code=>code.id===ref.codeId):collections;
-  if((ref||q.length>=2)&&selected.some(code=>!code.loaded)){
+  const selected=collections.filter(code=>(!ref?.codeId||code.id===ref.codeId)&&(ref?.codeId||category==='Todas as áreas'||code.area.includes(category)));
+  if((ref||q.length>=2)&&selected.some(code=>!code.searchIndex)){
    document.querySelector('#quick-reference').hidden=true;
    const status=document.querySelector('#library-results');
    status.textContent=ref?'Carregando referências…':'Carregando índice…';
-   try{await loadCollections(selected);}catch{
+   try{await loadSearchIndexes(selected);}catch{
     if(homeActive&&sequence===searchSequence){status.textContent='Não foi possível carregar a busca. Verifique a conexão e tente novamente.';document.querySelector('#text-results').innerHTML='<button class="text-more" id="retry-search">Tentar novamente</button>';document.querySelector('#retry-search').onclick=draw;}
     return;
    }
@@ -166,7 +166,7 @@ function home() {
  document.querySelectorAll('[data-example]').forEach(button=>button.onclick=()=>{clearTimeout(searchTimer);const input=document.querySelector('#library-search');input.value=button.dataset.example;libraryQuery=input.value;draw();input.focus({preventScroll:true});});
  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;document.querySelectorAll('[data-category]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});draw();});
  draw();
- if(resume&&!resume.code.loaded)loadCollection(resume.code).then(()=>{
+ if(resume&&!resume.code.loaded)loadSearchIndex(resume.code).then(()=>{
   if(homeActive&&!articleById(resume.code,resume.article.id))document.querySelector('.resume-reading')?.remove();
  }).catch(()=>{});
 }

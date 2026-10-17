@@ -1,7 +1,7 @@
 import {collections} from './data.js';
 import {prepareCollection} from './collection-model.js';
 
-const pendingCollections=new Map();
+const pendingCollections=new Map(),pendingSearch=new Map();
 let pendingHistory;
 async function fetchVerifiedJson(spec){
  const response=await fetch(new URL(spec.file,document.baseURI),{cache:'default'});
@@ -32,4 +32,19 @@ export async function loadCollections(selected=collections){
 export function loadHistory(){
  if(!pendingHistory)pendingHistory=fetchVerifiedJson(initialCatalog.history).catch(error=>{pendingHistory=undefined;throw error;});
  return pendingHistory;
+}
+
+export function loadSearchIndex(code){
+ if(code.searchIndex)return Promise.resolve(code.searchIndex);
+ if(!pendingSearch.has(code.id))pendingSearch.set(code.id,fetchVerifiedJson(code.search).then(index=>{
+  if(index.id!==code.id||index.articles.length!==code.articleCount)throw new Error('Índice incompleto.');
+  code.searchIndex=index;return index;
+ }).catch(error=>{pendingSearch.delete(code.id);throw error;}));
+ return pendingSearch.get(code.id);
+}
+export async function loadSearchIndexes(selected=collections){
+ let next=0;
+ await Promise.all(Array.from({length:Math.min(3,selected.length)},async()=>{
+  while(next<selected.length)await loadSearchIndex(selected[next++]);
+ }));
 }

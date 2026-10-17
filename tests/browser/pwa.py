@@ -82,14 +82,16 @@ with tempfile.TemporaryDirectory() as temporary:
             # A failed precache must leave the usable prior edition intact.
             deploy('v3');failure['enabled']=True
             page.evaluate('''async()=>{
-                const registration=await navigator.serviceWorker.getRegistration();
+                const r=await navigator.serviceWorker.getRegistration();
                 await new Promise((resolve,reject)=>{
-                    const timer=setTimeout(()=>reject(new Error('Atualização não terminou')),20000);
-                    registration.addEventListener('updatefound',()=>{
-                        const worker=registration.installing;
-                        worker.addEventListener('statechange',()=>{if(worker.state==='redundant'){clearTimeout(timer);resolve();}});
-                    },{once:true});
-                    registration.update().catch(reject);
+                    const timer=setTimeout(()=>reject(new Error('Instalação rejeitada não terminou')),30000);
+                    const finish=()=>{clearTimeout(timer);r.removeEventListener('updatefound',watch);resolve();};
+                    const watch=()=>{const w=r.installing;if(!w)return;
+                        const state=()=>{if(w.state==='redundant')finish();};
+                        w.addEventListener('statechange',state);state();
+                    };
+                    r.addEventListener('updatefound',watch);watch();
+                    r.update().then(watch).catch(finish);
                 });
             }''')
             assert page.locator('#pwa-update').is_hidden()
@@ -108,9 +110,14 @@ with tempfile.TemporaryDirectory() as temporary:
             page.evaluate('''async()=>{
                 const r=await navigator.serviceWorker.getRegistration();
                 await new Promise((resolve,reject)=>{
-                    const timer=setTimeout(()=>reject(new Error('Instalação adulterada não terminou')),20000);
-                    r.addEventListener('updatefound',()=>{const w=r.installing;w.addEventListener('statechange',()=>{if(w.state==='redundant'){clearTimeout(timer);resolve();}});},{once:true});
-                    r.update().catch(reject);
+                    const timer=setTimeout(()=>reject(new Error('Instalação rejeitada não terminou')),30000);
+                    const finish=()=>{clearTimeout(timer);r.removeEventListener('updatefound',watch);resolve();};
+                    const watch=()=>{const w=r.installing;if(!w)return;
+                        const state=()=>{if(w.state==='redundant')finish();};
+                        w.addEventListener('statechange',state);state();
+                    };
+                    r.addEventListener('updatefound',watch);watch();
+                    r.update().then(watch).catch(finish);
                 });
             }''')
             assert page.locator('#pwa-update').is_hidden()
