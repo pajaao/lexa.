@@ -13,13 +13,15 @@ export async function stagePages(destination=resolve(root,'dist'),options={}) {
  for(const source of documents){
   if(!/^sources\/[A-Za-z0-9_.-]+\.pdf$/.test(source.pdf))throw new Error('Caminho de PDF inválido');
  }
- const {html,files:dataFiles,manifest}=await buildPackage(options);
+ const {html,files:dataFiles,manifest,remissionsAudit}=await buildPackage(options);
  await rm(destination,{recursive:true,force:true});
  await mkdir(destination,{recursive:true});
  await writeFile(resolve(destination,'index.html'),html);
  const files=['favicon.svg','favicon.ico','apple-touch-icon.png','manifest.webmanifest','icon-192.png','icon-512.png','icon-maskable-512.png'];
  const worker=await readFile(resolve(root,'src/sw.js'),'utf8');
  const roles=new Map([[manifest.history.file,{role:'history'}],...manifest.collections.flatMap(code=>[[code.file,{role:'collection',codeId:code.id}],[code.search.file,{role:'search',codeId:code.id}]])]);
+ if(manifest.remissions)roles.set(manifest.remissions.file,{role:'remissions'});
+ for(const file of dataFiles.keys())if(file.includes('/optional/remissions'))roles.set(file,{role:'remissions-module',lazy:true});
  const integrity=[{file:'index.html',sha256:sha256(html)}];
  const hash=createHash('sha256').update(html).update(worker);
  for(const [file,bytes] of dataFiles){await mkdir(dirname(resolve(destination,file)),{recursive:true});await writeFile(resolve(destination,file),bytes);integrity.push({file,sha256:sha256(bytes),...roles.get(file)});hash.update(file).update(bytes);}
@@ -31,6 +33,7 @@ export async function stagePages(destination=resolve(root,'dist'),options={}) {
   await mkdir(dirname(target),{recursive:true});
   await cp(resolve(root,pdf),target);
  }
+ if(remissionsAudit)return {manifest,remissionsAudit};
  console.log(`Pacote do GitHub Pages: shell, ${dataFiles.size} arquivos de dados e ${documents.length} PDFs.`);
 }
 

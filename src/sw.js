@@ -75,7 +75,7 @@ self.addEventListener('install',event=>{
    for(const spec of old?.integrity||[])if(spec.role&&keys.has(asset(spec.file)))retained.add(spec.role+':'+(spec.codeId||''));
   }
   await writeState(full,previous);
-  const wanted=INTEGRITY.filter(spec=>full||!spec.file.startsWith('data/')||retained.has(spec.role+':'+(spec.codeId||'')));
+  const wanted=INTEGRITY.filter(spec=>full||(!spec.file.startsWith('data/')&&!spec.lazy)||retained.has(spec.role+':'+(spec.codeId||'')));
   try{await fill(wanted,previous);await writeState(full,previous);}
   catch(error){await caches.delete(CACHE);throw error;}
  })());

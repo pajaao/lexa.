@@ -11,26 +11,36 @@ import {updateHistory} from '../data/history/legislation.js';
 import {sumulaUpdates} from '../data/history/sumulas.js';
 const root=new URL('../',import.meta.url);
 export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
-export async function buildPackage({css:cssOverride,history:historyOverride}={}){
+export async function buildPackage({css:cssOverride,history:historyOverride,remissions=false,norms:fixtureNorms}={}){
+ if(typeof remissions!=='boolean'||fixtureNorms&&!remissions)throw new Error('Experimental editions require remissions:true.');
  const files=new Map();
  function asset(id,value){
   const bytes=JSON.stringify(value),sha=sha256(bytes),file=`data/${id}.${sha}.json`;
   files.set(file,bytes);return {file,sha256:sha,bytes:Buffer.byteLength(bytes)};
  }
  const history=historyOverride??[...updateHistory,...sumulaUpdates];
- const norms=[...catalog.map(code=>({...code,...(officialImported[code.id]||imported[code.id])})),...(officialSumulas.length?officialSumulas:sumulas)];
+ const norms=fixtureNorms??[...catalog.map(code=>({...code,...(officialImported[code.id]||imported[code.id])})),...(officialSumulas.length?officialSumulas:sumulas)];
  const metadata=norms.map(norm=>{
   const {articles,sections,introductions,...fields}=norm;
   return {...fields,articleCount:articles.length,...asset(norm.id,norm),search:asset('search-'+norm.id,createSearchIndex(norm)),changedArticleIds:[...new Set(history.filter(event=>event.codeId===norm.id).flatMap(event=>event.changes.map(change=>change.articleId)))]};
  });
  const recentUpdates=recentTextUpdates(history.filter(event=>metadata.some(code=>code.id===event.codeId)));
  const manifest={collections:metadata,history:asset('history',history),recentUpdates};
- manifest.offlineBytes=metadata.reduce((sum,code)=>sum+code.bytes+code.search.bytes,manifest.history.bytes);
+ let remissionsAudit;
+ if(remissions){
+  const {buildRemissions}=await import('./remissions/build-resource.mjs');
+  const corpus={collections:norms.map((code,i)=>({code,sha256:metadata[i].sha256}))};
+  const result=buildRemissions(corpus);
+  manifest.remissions={...asset('remissions',result.index),...result.descriptor};
+  remissionsAudit=result.audit;
+ }
+ manifest.offlineBytes=metadata.reduce((sum,code)=>sum+code.bytes+code.search.bytes,manifest.history.bytes)+(manifest.remissions?.bytes||0);
  files.set('catalog.json',JSON.stringify(manifest));
  const [template,originalCss]=await Promise.all(['index.html','styles.css'].map(path=>readFile(new URL('src/'+path,root),'utf8')));
  const css=cssOverride??originalCss;
  const names=(await readdir(new URL('src/',root))).filter(name=>name.endsWith('.js')&&name!=='sw.js').sort();
  const modules=new Map(await Promise.all(names.map(async name=>[name,await readFile(new URL('src/'+name,root),'utf8')])));
+ if(remissions){for(const name of ['remissions-contract.js','remissions.js','remissions-runtime.js'])modules.set('optional/'+name,await readFile(new URL('src/optional/'+name,root),'utf8'));}
  // Native ESM keeps imports, exports, comments and string literals intact. Only
  // the Node data adapter is generated for the browser; no JS source rewriting.
  modules.set('collections.js',`export const initialCatalog=${JSON.stringify(manifest)};
@@ -47,8 +57,8 @@ export const codes=collections.filter(code=>code.kind!=='sumulas');`);
  }
  if(css.toLowerCase().includes('</style'))throw new Error('Estilo incompatível com incorporação HTML');
  let html=slot(template,'<link rel="stylesheet" href="./styles.css">',`<style>${css}</style>`);
- const preloads=[...modules.keys()].map(name=>`<link rel="modulepreload" href="./${namespace+name}">`).join('');
+ const preloads=[...modules.keys()].filter(name=>!name.startsWith('optional/')).map(name=>`<link rel="modulepreload" href="./${namespace+name}">`).join('');
  html=slot(html,'<script type="module" src="./app.js"></script>',preloads+`<script type="module" src="./${namespace}app.js"></script>`);
- return {html,files,manifest};
+ return {html,files,manifest,...(remissions?{remissionsAudit}:{})};
 }
 export async function buildHtml(){return (await buildPackage()).html;}
