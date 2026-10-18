@@ -126,3 +126,39 @@ Nenhuma destas decisões é tomada por este parecer; não modificar `docs/coorde
 **Parecer: favorável à continuidade da infraestrutura isolada; desfavorável à ativação dos vínculos no leitor neste momento.** A separação técnica entre extração e elegibilidade é coerente com fidelidade textual, mas IJ-C01 confirma que um artigo numericamente reconhecido pode apontar para a norma errada; IJ-R01 e IJ-R02 ainda exigem testes de segurança. Preferir omitir uma remissão certa a criar uma correspondência documental falsa.
 
 **Condições de avanço:** manter a política restritiva; reproduzir e decidir os casos adversariais; revisar classes e amostra inédita por pessoas independentes; obter aprovação central explícita para qualquer fase visual ou publicação. Este documento não autoriza alteração de código, merge, deploy ou mudança de redação legislativa.
+
+---
+
+## 10. Adendo — revisão independente da Fase 1A.1 (18/10/2026)
+
+**Objeto e comparação:** `correcao/remissoes-fase-1a-1` (`5b218d9dc38c94194e0a13c51984d2b6d14c2f14`) contra `funcionalidade/remissoes-fase-1a` (`3bb3c412e06f23a7be27458669ddd1448f35a130`). Revisão **restrita ao diff, relatório e testes adversariais**, sem repetir auditoria geral. Não se trata de revisão jurídica humana independente.
+
+### 10.1 Correções confirmadas nos artefatos e no código
+
+| Identificador | Situação anterior | Fase 1A.1 | Conclusão |
+|---|---|---|---|
+| A01 — identidade numérica conflitante | `art. 147 desta Lei nº 8.666/1993` associava-se indevidamente à Lei 14.133/2021, inclusive após gate | Classe C; identidade de 1993 preservada e associação rejeitada | Corrigido no caso |
+| A02 — reprodução de diploma não identificado | `(art. 186)` gerava CC 186 e passava no gate | Classe C; não presume norma hospedeira | Corrigido no caso |
+| B01 — ADCT de 1967 | `art. 84` atribuía-se ao ADCT de 1988 e passava no gate | Classe B; edição 1967 externa e sem aresta | Corrigido no caso |
+| B02 — histórico parcialmente riscado | Contexto misto indevidamente `clear`; variante com “ver” já barrada pelo gate | Contexto `mixed`, classe C; variantes “consultar”, “aplicar”, “considerar” também barradas | Corrigido nos casos |
+| C01 — reprodução legislativa tardia | Terceiro parágrafo com reprodução atribuía `art. 147` à norma hospedeira | Guarda de reprodução em todos os parágrafos; classe C e sem aresta | Corrigido no caso |
+| CPP 13-A — escopo coordenado | `art. 158` da enumeração do Código Penal produzia `cpp/158` no extrator bruto | Classe C por escopo coordenado não suportado, sem `cpp/158`; não se inventa `penal/158` | Corrigido por abstenção |
+
+O código observado em [`norms.mjs`](../../scripts/remissions/norms.mjs), [`extract.mjs`](../../scripts/remissions/extract.mjs), [`context.mjs`](../../scripts/remissions/context.mjs) e [`eligibility.mjs`](../../scripts/remissions/eligibility.mjs) implementa as respectivas barreiras, com versões `0.5.2` e `1a.1`. As **quatro classes de elegibilidade** permanecem inalteradas e a política continua `experimental-only` com `independentReview: pending`.
+
+### 10.2 Regressões e limites de evidência
+
+Foi realizada nesta revisão **verificação comparativa dos JSONs já gravados**, sem executar novamente suítes ou extrator: os 14 casos adversariais têm saídas consistentes com suas expectativas; seis casos antes emitiam destinos A indevidos no extrator bruto (A01/A02/B01/B02/C01/CPP13A) e nenhum o faz depois. Quatro dos seis também atravessavam a elegibilidade antiga (A01/A02/B01/C01). Os controles positivos C03/C04 mantêm destinos autorizados; B03 continua a distinguir `cf/84` de `cf/adct-84` e permanece inelegível.
+
+No [`eligibility-delta.json`](../remissoes/fase-1a-1/eligibility-delta.json), o build padrão é assinalado como idêntico byte a byte, o conjunto de arestas elegíveis é idêntico (**329 → 329; zero inclusão/remoção**), e as três variantes históricas B02 deixam de atravessar o gate. Esta revisão conferiu a **consistência dos registros**, não reproduziu a execução que os gerou. A contagem de 18 testes adversariais, 127 testes Node, 46 Python e 12 verificações Chromium aprovadas é **resultado relatado pela implementação**, não executado por esta frente. Não houve nova falha ou regressão demonstrada nos casos examinados.
+
+### 10.3 Riscos ainda não comprovados e bloqueios
+
+- A identificação de reproduções permanece **lexical** e conservadora; formulações fora dos padrões conhecidos ainda podem exigir novos casos de teste. A exclusão do artigo inteiro pode omitir vínculos legítimos, mas previne atribuição indevida.
+- Escopos compartilhados, anáforas, intervalos, qualificadores complexos, referências a normas anteriores e evidência histórica insuficiente devem permanecer bloqueados. O caso CPP 13-A não autoriza inferir a relação com o CP apenas pela enumeração.
+- A igualdade das 329 arestas elegíveis não prova sua correção jurídica integral; a amostra não constitui auditoria humana independente e não elimina falsos positivos desconhecidos.
+- A Coordenação deve exigir revisão jurídica humana independente das quatro classes e amostra inédita, além de aceite explícito para qualquer etapa de exposição pública.
+
+**Veredito da Integridade Jurídica para a Fase 1A.1: APROVAR COM RESSALVAS a correção técnica isolada.** Os erros direcionados estão neutralizados nos casos adversariais comparados, sem expansão artificial das relações. **Não aprovar ativação no leitor, retirada de `experimental-only`, merge automático ou início incondicional da Fase 1B.** Na dúvida sobre norma, edição, escopo ou histórico, omitir o vínculo.
+
+**Fontes principais:** [relatório 1A.1](../remissoes/fase-1a-1.md), [antes](../remissoes/fase-1a-1/adversarial-before.json), [depois](../remissoes/fase-1a-1/adversarial-after.json), [delta de elegibilidade](../remissoes/fase-1a-1/eligibility-delta.json), [testes adversariais](../../tests/node/remissions-adversarial.test.js).
