@@ -1,0 +1,224 @@
+{
+  "conditions": {
+    "runs": 5,
+    "cpuThrottle": 4,
+    "viewport": [
+      1366,
+      768
+    ],
+    "device": "desktop emulation, not physical",
+    "network": "localhost HTTP, no bandwidth emulation",
+    "homeIncludes": "through library_ready for render, then SW install for total transfer",
+    "heap": "CDP JSHeapUsedSize after forced GC; page only, excludes service worker/system RAM",
+    "chromium": "154.0.8037.57"
+  },
+  "before": {
+    "runs": [
+      {
+        "libraryMs": 880.4558760020882,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285831,
+        "pageHeapAfterGC": 1409112,
+        "pageScriptSeconds": 0.10349,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 663.0536549928365,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285831,
+        "pageHeapAfterGC": 1409112,
+        "pageScriptSeconds": 0.103304,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 784.727528996882,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285831,
+        "pageHeapAfterGC": 1409112,
+        "pageScriptSeconds": 0.070856,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 1138.963513993076,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285831,
+        "pageHeapAfterGC": 1409112,
+        "pageScriptSeconds": 0.105888,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 1180.0273239932721,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285831,
+        "pageHeapAfterGC": 1409112,
+        "pageScriptSeconds": 0.193813,
+        "remissionsRequestsInitially": 0
+      }
+    ],
+    "medians": {
+      "libraryMs": 880.4558760020882,
+      "requestsThroughInstall": 30,
+      "bodyBytesThroughInstall": 285831,
+      "pageHeapAfterGC": 1409112,
+      "pageScriptSeconds": 0.10349,
+      "remissionsRequestsInitially": 0
+    }
+  },
+  "after": {
+    "runs": [
+      {
+        "libraryMs": 1331.9978400104446,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285852,
+        "pageHeapAfterGC": 1409152,
+        "pageScriptSeconds": 0.212531,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 787.163988003158,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285852,
+        "pageHeapAfterGC": 1409152,
+        "pageScriptSeconds": 0.091473,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 822.9130010004155,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285852,
+        "pageHeapAfterGC": 1409200,
+        "pageScriptSeconds": 0.09966,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 766.587977996096,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285852,
+        "pageHeapAfterGC": 1409152,
+        "pageScriptSeconds": 0.144708,
+        "remissionsRequestsInitially": 0
+      },
+      {
+        "libraryMs": 886.6027290059719,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 285852,
+        "pageHeapAfterGC": 1409152,
+        "pageScriptSeconds": 0.152194,
+        "remissionsRequestsInitially": 0
+      }
+    ],
+    "medians": {
+      "libraryMs": 822.9130010004155,
+      "requestsThroughInstall": 30,
+      "bodyBytesThroughInstall": 285852,
+      "pageHeapAfterGC": 1409152,
+      "pageScriptSeconds": 0.144708,
+      "remissionsRequestsInitially": 0
+    }
+  },
+  "experimental": {
+    "runs": [
+      {
+        "libraryMs": 699.7914370003855,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 288434,
+        "pageHeapAfterGC": 1411428,
+        "pageScriptSeconds": 0.114597,
+        "remissionsRequestsInitially": 0,
+        "explicitApiMs": 64.3999999910593,
+        "retainedIndexAndOptionalModulesBytes": 198004,
+        "parseOnlyRunsMs": [
+          1,
+          1.699999988079071,
+          0.20000000298023224,
+          1.2999999970197678,
+          1.300000011920929
+        ],
+        "parseOnlyMedianMs": 1.2999999970197678
+      },
+      {
+        "libraryMs": 652.6872130052652,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 288434,
+        "pageHeapAfterGC": 1411428,
+        "pageScriptSeconds": 0.116135,
+        "remissionsRequestsInitially": 0,
+        "explicitApiMs": 69.29999999701977,
+        "retainedIndexAndOptionalModulesBytes": 197892,
+        "parseOnlyRunsMs": [
+          2.2999999970197678,
+          0.7000000029802322,
+          0.9000000059604645,
+          1.0999999940395355,
+          1.0999999940395355
+        ],
+        "parseOnlyMedianMs": 1.0999999940395355
+      },
+      {
+        "libraryMs": 661.7531100055203,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 288434,
+        "pageHeapAfterGC": 1411428,
+        "pageScriptSeconds": 0.115897,
+        "remissionsRequestsInitially": 0,
+        "explicitApiMs": 66.19999998807907,
+        "retainedIndexAndOptionalModulesBytes": 199204,
+        "parseOnlyRunsMs": [
+          1.300000011920929,
+          0.7999999970197678,
+          1.0999999940395355,
+          0.6000000089406967,
+          1.2999999970197678
+        ],
+        "parseOnlyMedianMs": 1.0999999940395355
+      },
+      {
+        "libraryMs": 527.8048189939,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 288434,
+        "pageHeapAfterGC": 1411428,
+        "pageScriptSeconds": 0.081896,
+        "remissionsRequestsInitially": 0,
+        "explicitApiMs": 77.79999999701977,
+        "retainedIndexAndOptionalModulesBytes": 198004,
+        "parseOnlyRunsMs": [
+          0.699999988079071,
+          1.1000000089406967,
+          0.8999999910593033,
+          1.1000000089406967,
+          1
+        ],
+        "parseOnlyMedianMs": 1
+      },
+      {
+        "libraryMs": 536.3638959970558,
+        "requestsThroughInstall": 30,
+        "bodyBytesThroughInstall": 288434,
+        "pageHeapAfterGC": 1411428,
+        "pageScriptSeconds": 0.085761,
+        "remissionsRequestsInitially": 0,
+        "explicitApiMs": 52.6000000089407,
+        "retainedIndexAndOptionalModulesBytes": 198004,
+        "parseOnlyRunsMs": [
+          1.0999999940395355,
+          1,
+          2,
+          0.6000000089406967,
+          1
+        ],
+        "parseOnlyMedianMs": 1
+      }
+    ],
+    "medians": {
+      "libraryMs": 652.6872130052652,
+      "requestsThroughInstall": 30,
+      "bodyBytesThroughInstall": 288434,
+      "pageHeapAfterGC": 1411428,
+      "pageScriptSeconds": 0.114597,
+      "remissionsRequestsInitially": 0,
+      "explicitApiMs": 66.19999998807907,
+      "retainedIndexAndOptionalModulesBytes": 198004,
+      "parseOnlyMedianMs": 1.0999999940395355
+    }
+  }
+}
