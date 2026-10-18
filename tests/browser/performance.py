@@ -154,7 +154,7 @@ def reader_ready(page):
 
 
 def offline_ready(page, complete=False):
-    page.wait_for_function('navigator.serviceWorker.controller!==null && document.querySelector("#pwa-status").textContent.includes("preparada")')
+    page.wait_for_function('navigator.serviceWorker.controller!==null && ["partial","full"].includes(document.querySelector("#pwa-status").dataset.offlineMode)')
     if complete and page.locator('#pwa-cache-all').count():
         page.locator('.pwa-help').evaluate('(el)=>el.open=true')
         page.locator('#pwa-cache-all').click()
