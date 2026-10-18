@@ -34,4 +34,19 @@
 
 **Estado pós-T3 (18/10/2026):** PRs #7–#12, #14, #15, #17 e #20 encerrados sem merge; #13 e #16 em análise técnica, #18 e #19 ainda abertos para integração documental em bases separadas. [Parecer de Qualidade O2 no Drive](https://docs.google.com/document/d/1Q-biANYskXdOR9fQ4NyqhvFDb9ZrsPtDEyO1u4bCDks/edit); [destinação T3](https://docs.google.com/document/d/1DyWRaqs75iSIglF2oOb6k9NRx2tA8lohhV0zki_Phsg/edit). **Nenhuma das 329 arestas está automaticamente homologada para exibição; as 30 parentéticas permanecem excluídas da primeira liberação pública e exigem revisão jurídica humana independente.** Este índice e o experimento não estão incorporados à `main`.
 
+## Pareceres e decisões preservados no Drive (T1–T3)
+
+Os pareceres dos PRs históricos foram encerrados **sem merge** e preservados no espaço administrativo. Links aos commits/PRs originais mantêm a proveniência; documentos técnicos de reprodução e deliberação continuam aguardando destinação própria.
+
+- [Qualidade 1A.1 — PR #11](https://docs.google.com/document/d/1xRqbONg4qPB2njF24OvmgV2fSWTH4bXJGTO5GkFwbGo/edit) · [origem](https://github.com/pajaao/lexa./pull/11), fechado sem merge.
+- [Qualidade 1A.2 — PR #12](https://docs.google.com/document/d/1wO3mS_TOWD56669w1JiSiEew69FJhNbaUBMmFGUH_4E/edit) · [origem](https://github.com/pajaao/lexa./pull/12), fechado sem merge.
+- [Execução independente — PR #13](https://docs.google.com/document/d/1TcxPEQnY7zzw0le8Q7Az2zCfGOiUB9XPP03bRmYGDf8/edit) · [original técnico ainda aberto](https://github.com/pajaao/lexa./pull/13).
+- [Qualidade do fechamento — PR #14](https://docs.google.com/document/d/1nTetm_UC6nCQ33BvDYAdJixGHszzW9RfFFaeUoPjKoA/edit) · [origem](https://github.com/pajaao/lexa./pull/14), fechado sem merge.
+- [Integridade 1A.3 — PR #15](https://docs.google.com/document/d/1FP8SDD6GzoazDxxLICbRWgoIWLQbpJPNu2GvRCEOkFc/edit) · [origem](https://github.com/pajaao/lexa./pull/15), fechado sem merge.
+- [Decisão 1A.3 — PR #16](https://docs.google.com/document/d/1bD46LGjvkJ0UryvuPjiE551yKL6JAQhcikii8OGUSio/edit) · [original técnico ainda aberto](https://github.com/pajaao/lexa./pull/16).
+- [Auditoria estrutural O1 — PR #17](https://docs.google.com/document/d/1uFfKWgjsr_PI0IGksg2JlgM46ZHfOBJX-cu-x8Jx7dE/edit) · [origem](https://github.com/pajaao/lexa./pull/17), fechado sem merge.
+- [Parecer de Qualidade O2 — PR #20](https://docs.google.com/document/d/1Q-biANYskXdOR9fQ4NyqhvFDb9ZrsPtDEyO1u4bCDks/edit) · [origem](https://github.com/pajaao/lexa./pull/20), fechado sem merge.
+
+**Compromisso jurídico-documental:** as 329 arestas permanecem exclusivamente experimentais; as 30 parentéticas não podem integrar a primeira liberação; nenhuma aresta está homologada para exibição. A revisão jurídica humana independente e a autorização central continuam indispensáveis. O fechamento técnico não modifica a política `experimental-only`.
+
 **ORG-A01:** apenas o caminho de link no relatório 0.5 foi corrigido de `phase 0.json` para `phase0.json`. Nenhum fixture foi renomeado ou modificado.
