@@ -239,7 +239,7 @@ Não houve merge, deploy ou mudança visual. Este PR entrega módulos experiment
 Comandos completos em [scripts/remissions/README.md](../../scripts/remissions/README.md). Nenhuma dependência nova. A análise usa `test-results/remissions/`, ignorado pelo Git; o build comum não importa esses módulos.
 
 - [Resultados medidos](resultados.json): métricas brutas por amostra, erros, varredura, hashes, tempos, tamanhos e simulações.
-- [Amostra de desenvolvimento](../../tests/fixtures/remissions/phase 0.json) e [avaliação](../../tests/fixtures/remissions/holdout.json).
+- [Amostra de desenvolvimento](../../tests/fixtures/remissions/phase0.json) e [avaliação](../../tests/fixtures/remissions/holdout.json).
 - [Seleção/hashes](../../tests/fixtures/remissions/sampling.json) e [adjudicação](revisao-diagnosticos.json).
 - [Teste do extrator](../../tests/node/remissions.test.js) e [do avaliador](../../tests/node/remissions-evaluation.test.js).
 
