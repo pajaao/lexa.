@@ -3,9 +3,10 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {lexArticles,implicitExpressions} from './grammar.mjs';
 import {normCatalog,attachedNorm,precedingNorm} from './norms.mjs';
-export const RULES_VERSION='0.5.1';
+import {reproductionContext} from './context.mjs';
+export const RULES_VERSION='0.5.2';
 export const sha256=value=>createHash('sha256').update(value).digest('hex');
-export const RULES_SHA256=sha256(['grammar.mjs','norms.mjs','extract.mjs','graph.mjs'].map(name=>name+'\0'+readFileSync(new URL(name,import.meta.url),'utf8')).join('\0'));
+export const RULES_SHA256=sha256(['grammar.mjs','norms.mjs','extract.mjs','graph.mjs','context.mjs'].map(name=>name+'\0'+readFileSync(new URL(name,import.meta.url),'utf8')).join('\0'));
 const raw=p=>p.runs.map(r=>r.text).join('');
 function inventoryFor(corpus){
  const inventory=new Map();
@@ -40,10 +41,6 @@ function expandMembers(expression){
   for(let n=start+1;n<end;n++)numbers.push(String(n));
  }
  return {numbers:[...new Set(numbers)].sort((a,b)=>{const na=Number(a),nb=Number(b);return Number.isFinite(na)&&Number.isFinite(nb)?na-nb:a<b?-1:a>b?1:0;})};
-}
-function amendmentContext(article){
- // Detect explicit reproduction/alteration instructions. No thematic relation.
- return article.paragraphs.slice(0,2).some(p=>/(?:passa(?:m)?\s+a\s+vigorar|seguinte\s+reda[çc][aã]o|acrescent(?:e|a)-se|ficam?\s+acrescid[oa]s?)/iu.test(raw(p)));
 }
 function normFor(text,expression,source,catalog,previous){
  const candidate=attachedNorm(text,expression.end,source,catalog,{allowSuas:previous?.norm?.codeId==='cf'&&previous.norm.scope==='main'});
@@ -80,7 +77,7 @@ export function extractRemissions(corpus,{selected,rulesVersion=RULES_VERSION}={
   if(selected&&!selected.includes(codeId))continue;
   for(const article of entry.code.articles){
    diagnostics.scannedArticles++;
-   const source={codeId,articleId:article.id,scope:article.scope||'main',editionSha256:entry.sha256},amendment=amendmentContext(article);
+   const source={codeId,articleId:article.id,scope:article.scope||'main',editionSha256:entry.sha256},amendment=reproductionContext(article);
    for(const [paragraph,p] of article.paragraphs.entries()){
     diagnostics.scannedParagraphs++;
     const text=raw(p),mask=maskFor(p),expressions=lexArticles(text),prepared=[];
@@ -88,9 +85,20 @@ export function extractRemissions(corpus,{selected,rulesVersion=RULES_VERSION}={
      if(!text.slice(0,e.start).trim()&&e.members[0].number===article.number.toUpperCase()){diagnostics.ownHeadings++;continue;}
      const prev=prepared.at(-1),norm=normFor(text,e,source,catalog,prev);
      const reproduced=/^[\s“"‘'\d)\-]*$/u.test(text.slice(0,e.start))&&/^\s*[.\u2026]{3,}/u.test(text.slice(e.end));
-     const blocked=amendment&&norm.inferredDefault&&!reproduced;
+     const blocked=amendment&&!reproduced;
      if(blocked){norm.status='unresolved';norm.reason='embedded-amendment-scope-not-supported';}
      prepared.push({e,norm,reproduced});
+    }
+    // Do not guess a shared normative identity across coordinated citations.
+    // The following explicit qualifier is evidence against a local default,
+    // not permission to propagate a destination through unsupported grammar.
+    for(let i=prepared.length-2;i>=0;i--){
+     const current=prepared[i],next=prepared[i+1];if(!current.norm.inferredDefault)continue;
+     let bridge=text.slice(current.e.end,next.e.start);
+     for(const q of next.e.qualifiers)if(q.start>=current.e.end&&q.end===next.e.start)bridge=text.slice(current.e.end,q.start);
+     const coordinated=/^\s*,?\s*(?:(?:e|ou)\s+)?(?:(?:no|na|nos|nas|do|da)\s*)?$/iu.test(bridge);
+     const uncertain=next.norm.reason==='coordinated-norm-scope-not-supported'||next.norm.start!==undefined&&(next.norm.status!=='resolved'||next.norm.codeId!==source.codeId||next.norm.scope!==source.scope);
+     if(coordinated&&uncertain)current.norm={...current.norm,status:'unresolved',reason:'coordinated-norm-scope-not-supported'};
     }
     // "ambos deste Ato" qualifies exactly the current and immediately prior
     // citation in this paragraph; never propagate over an explicitly other norm.
@@ -113,7 +121,7 @@ export function extractRemissions(corpus,{selected,rulesVersion=RULES_VERSION}={
      const qualifiers=e.qualifiers.map(q=>({...plainSpan(text,q),kind:q.kind,...(q.articleNumber?{articleNumber:q.articleNumber}:{})}));
      const core=condition(text,mask,[e]),qualifier=condition(text,mask,[...e.qualifiers,...(normEvidence?[normEvidence]:[])]);
      const beforeStart=sentenceStart(text,e.start),contextText=text.slice(beforeStart,e.start);
-     const context=!e.implicit&&contextText.trim()&&condition(text,mask,[{start:beforeStart,end:e.start}])==='deleted'?'deleted':'clear';
+     const context=!e.implicit&&contextText.trim()?condition(text,mask,[{start:beforeStart,end:e.start}]):'clear';
      const historical={core,qualifiers:qualifier,context,state:core==='deleted'?'deleted':core==='mixed'||qualifier!=='clear'||context!=='clear'?'mixed':'clear'};
      let classification=resolution.status==='rejected'?'E':core==='deleted'?'D':historical.state!=='clear'?'C':resolution.status==='resolved'?'A':resolution.status==='external'?'B':'C';
      const reason=classification==='C'&&historical.state!=='clear'?'historical-required-evidence':resolution.reason;

@@ -33,7 +33,12 @@ export function attachedNorm(text,start,source,catalog,{allowSuas=false}={}){
   const explicit=tail.slice(match[0].length).match(/^\s*,\s*/u),old=explicit&&tail.slice(match[0].length+explicit[0].length).match(lawAt);
   return make(match[0].length+(old?explicit[0].length+old[0].length:0),{status:old?'external':'unresolved',law:old?lawIdentity(old[0]):null,reason:old?'previous-code-explicit-law':'previous-code-identity-incomplete'});
  }
- if((match=tail.match(/^(?:deste\s+Ato(?:\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias)?|Ato\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias|ADCT)\b/iu)))return make(match[0].length,{status:/^deste\s+Ato$/iu.test(match[0])&&(source.codeId!=='cf'||source.scope!=='adct')?'unresolved':'resolved',codeId:'cf',scope:'adct',reason:/^deste\s+Ato$/iu.test(match[0])&&(source.codeId!=='cf'||source.scope!=='adct')?'bare-ato-without-adct-origin':'explicit-adct'});
+ if((match=tail.match(/^(?:deste\s+Ato(?:\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias)?|Ato\s+das\s+Disposi[çc][oõ]es\s+Constitucionais\s+Transit[oó]rias|ADCT)\b/iu))){
+  const year=tail.slice(match[0].length).match(/^\s+de\s+(\d{4})\b/u);
+  if(year&&year[1]!=='1988')return make(match[0].length+year[0].length,{status:'external',scope:'adct',law:{kind:'adct',year:year[1],raw:match[0]+year[0]},reason:'external-adct-edition'});
+  const bare=/^deste\s+Ato$/iu.test(match[0])&&(source.codeId!=='cf'||source.scope!=='adct');
+  return make(match[0].length+(year?year[0].length:0),{status:bare?'unresolved':'resolved',codeId:'cf',scope:'adct',reason:bare?'bare-ato-without-adct-origin':'explicit-adct'});
+ }
  if((match=tail.match(/^suas\s+Disposi[çc][oõ]es\s+Transit[oó]rias\b/iu)))return make(match[0].length,{status:allowSuas?'resolved':'unresolved',codeId:allowSuas?'cf':undefined,scope:'adct',reason:allowSuas?'coordinated-constitution-adct':'scope-pronoun-without-antecedent'});
  if((match=tail.match(/^(?:desta\s+)?(?:Constitui[çc][aã]o(?:\s+Federal|\s+da\s+Rep[úu]blica)?|CF(?:\/88)?)\b/iu))){
   const after=tail.slice(match[0].length),year=after.match(/^\s+de\s+(\d{4})\b/u);
@@ -41,7 +46,15 @@ export function attachedNorm(text,start,source,catalog,{allowSuas=false}={}){
   if(year&&year[1]!=='1988')return make(match[0].length+year[0].length,{status:'external',law:{kind:'constitution',number:null,year:year[1],raw:match[0]+year[0]},reason:'external-constitution-edition'});
   return make(match[0].length+(year?year[0].length:0),{status:'resolved',codeId:'cf',scope:'main',reason:'explicit-constitution'});
  }
- if((match=tail.match(/^dest[ea]\s+(?:Lei|C[oó]digo|Consolida[çc][aã]o)\b/iu)))return make(match[0].length,{status:'resolved',codeId:source.codeId,scope:source.scope,reason:'explicit-self'});
+ if((match=tail.match(/^dest[ea]\s+(?:Lei|C[oó]digo|Consolida[çc][aã]o)\b/iu))){
+  const after=tail.slice(match[0].length);
+  if(/^\s+n\s*[.º°o]*\s*\d/iu.test(after)){
+   const explicit=tail.replace(/^dest[ea]\s+/iu,'').match(lawAt),identity=explicit&&lawIdentity(explicit[0]);
+   const same=identity&&lawKey(identity)===lawKey(catalog.byCodeLaw.get(source.codeId));
+   return make(explicit?tail.match(/^dest[ea]\s+/iu)[0].length+explicit[0].length:match[0].length,{status:same?'resolved':'unresolved',codeId:same?source.codeId:undefined,scope:source.scope,law:identity,reason:same?'explicit-self-numbered':'conflicting-or-incomplete-self-identity'});
+  }
+  return make(match[0].length,{status:'resolved',codeId:source.codeId,scope:source.scope,reason:'explicit-self'});
+ }
  // Named codes are explicit identities, not topic aliases. A contradictory law
  // or former edition immediately after the name must not be discarded.
  for(const [name,codeId] of catalog.byName){

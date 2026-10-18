@@ -97,9 +97,9 @@ test('reconstrução após oito alterações remove arestas obsoletas e respeita
  const destOnly=buildRemissions(mutate('civil',c=>{c.articles.find(a=>a.id==='397').paragraphs[0].runs[0].text+=' (fixture edit)';}));
  assert.notEqual(destOnly.index.generationSha256,built.index.generationSha256);assert.deepEqual(outgoing(destOnly.index,'cpc','240'),['civil/397','civil/398']);
 });
-test('caso novo CPP13-A revela A contextual incorreto no extrator, mas a política não publica CPP158',()=>{
+test('CPP13-A abstém-se de escopo compartilhado não suportado e não publica CPP158',()=>{
  const audit=built.audit,raw=audit.occurrences.find(o=>o.source.codeId==='cpp'&&o.source.articleId==='13-A'&&o.location.text==='art. 158');
- assert.ok(raw&&raw.classification==='A');assert.ok(raw.resolution.targets.some(t=>t.codeId==='cpp'&&t.articleId==='158'));
+ assert.ok(raw&&raw.classification==='C');assert.equal(raw.resolution.reason,'coordinated-norm-scope-not-supported');assert.deepEqual(raw.resolution.targets,[]);
  assert.ok(audit.decisions.some(d=>d.occurrenceId===raw.id&&!d.eligible));
  assert.ok(!outgoing(built.index,'cpp','13-A').includes('cpp/158'));assert.ok(outgoing(built.index,'cpp','13-A').includes('penal/159'));
 });

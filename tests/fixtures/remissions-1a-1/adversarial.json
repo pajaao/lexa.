@@ -1,0 +1,16 @@
+[
+ {"id":"A01","code":"licitacoes","article":"100","paragraphs":["Consultar o art. 147 desta Lei nº 8.666/1993."],"expected":[],"justification":"Identidade numerada contradiz a lei de origem; não presumir Lei 14.133."},
+ {"id":"A02","code":"civil","article":"900","paragraphs":["No trecho reproduzido de um diploma não identificado: (art. 186)."],"expected":[],"justification":"Diploma reproduzido não identificado; não presumir CC."},
+ {"id":"A03","code":"civil","article":"900","paragraphs":["Consultar o art. 186 da Lei nº 3.071/1916."],"expected":[],"justification":"Código Civil anterior ausente do acervo; não substituir pela edição atual."},
+ {"id":"A04","code":"cpc","article":"300","paragraphs":["Consultar o art. 186 da mesma lei."],"expected":[],"justification":"Anáfora sem identidade determinada."},
+ {"id":"A05","code":"cf","article":"adct-95","paragraphs":["Consultar o art. 84 da Constituição Estadual do Rio Grande do Norte."],"expected":[],"justification":"Constituição estadual não equivale à CF nem ao ADCT."},
+ {"id":"B01","code":"cf","article":"adct-95","paragraphs":["Consultar o art. 84 deste Ato das Disposições Constitucionais Transitórias de 1967."],"expected":[],"justification":"Ato de outra edição não equivale ao ADCT de 1988."},
+ {"id":"B02","code":"licitacoes","article":"100","paragraphs":[[{"text":"Segundo a Lei nº 8.666/1993, ","deleted":true},{"text":"ver art. 147 desta Lei.","deleted":false}]],"expected":[],"justification":"Identidade contextual riscada necessária; abstenção."},
+ {"id":"B03","code":"cf","article":"adct-95","paragraphs":["Consultar o art. 84 da Constituição Federal de 1988."],"expected":[],"justification":"CF84 é distinto de ADCT84; classe CF explícita continua não autorizada.","expectedRaw":["cf/84"]},
+ {"id":"B04","code":"licitacoes","article":"100","paragraphs":[[{"text":"Consultar o art. 147 desta Lei.","deleted":true}]],"expected":[],"justification":"Referência integralmente riscada: D, sem grafo ativo."},
+ {"id":"C01","code":"licitacoes","article":"100","paragraphs":["Primeiro parágrafo sem remissões.","Segundo parágrafo sem remissões.","Passa a vigorar a seguinte redação: “art. 147 desta Lei”."],"expected":[],"justification":"Reprodução legislativa tardia não pertence à norma hospedeira."},
+ {"id":"C02","code":"licitacoes","article":"100","paragraphs":["Confira os arts. 147 a 150 desta Lei."],"expected":[],"justification":"Intervalo não autorizado pela política."},
+ {"id":"C03","code":"civil","article":"900","paragraphs":["Confira (arts. 186 e 187)."],"expected":["civil/186","civil/187"],"justification":"Lista parentética local simples, sem contexto externo."},
+ {"id":"C04","code":"cpc","article":"300","paragraphs":["Aplicam-se os arts. 186 e 187 da Lei nº 10.406/2002."],"expected":["civil/186","civil/187"],"justification":"Lei 10.406/2002 expressa e diretamente qualifica a lista."},
+ {"id":"CPP13A","code":"cpp","article":"13-A","real":true,"literal":"art. 158","expected":[],"justification":"Enumeração expressa do Código Penal; nunca CPP158. Abster enquanto a gramática compartilhada não for suportada."}
+]
