@@ -1,0 +1,205 @@
+{
+  "baseCommit": "316a979e32ef35ebc3d385b9e9a73e368806e1cf",
+  "integrityOpinionCommit": "0f84f8ebd6111b5140ed2b7e58d2a68778f0a9c7",
+  "qualityOpinionCommit": "93557c005b38cc646fd2ec1e8863c88ca5e6abaf",
+  "pr12ContentCommit": "93557c005b38cc646fd2ec1e8863c88ca5e6abaf",
+  "artifactOnly": {
+    "ok": true,
+    "checks": {
+      "manifest-file-set": 1,
+      "file-sha256": 4,
+      "file-size": 4,
+      "edge-count": 1,
+      "edge-id-unique": 1,
+      "declared-counts-correspondence": 1,
+      "status-counts": 1,
+      "experimental-policy-contract": 1,
+      "metadata-correspondence": 6,
+      "sample-count": 1,
+      "sample-id-unique": 1,
+      "article-sha256": 1012,
+      "article-metadata": 1012,
+      "norm-sha-consistency": 999,
+      "human-review-empty": 683,
+      "edge-id-derived": 329,
+      "edge-occurrence-correspondence": 329,
+      "edge-participation-unique": 329,
+      "runs-correspondence": 353,
+      "location-metadata": 353,
+      "utf16-span": 1395,
+      "occurrence-id-derived": 353,
+      "repeated-occurrence-consistent": 81,
+      "edge-tuple-unique": 1,
+      "occurrence-count": 1,
+      "participation-count": 1,
+      "sample-source-correspondence": 354,
+      "sample-runs": 354,
+      "accepted-rejected-disjoint": 354,
+      "sample-id-derived": 354,
+      "sample-stratum": 354,
+      "sample-seed": 354,
+      "sample-rank": 354,
+      "declared-sampling-seed": 1,
+      "strata-count": 1,
+      "sample-design": 1,
+      "strata-population-sum": 1,
+      "stratum-quota": 203,
+      "csv-count": 2,
+      "csv-columns": 2,
+      "csv-ids-unique": 2,
+      "csv-json-correspondence": 1012,
+      "csv-review-empty": 1012
+    },
+    "counts": {
+      "edges": 329,
+      "occurrences": 272,
+      "participations": 353,
+      "rejectedSample": 354,
+      "reviewCSV": 683,
+      "strata": 203
+    },
+    "divergences": [],
+    "metadataDependencies": [
+      "Sem população completa: quota/rank conferidos, mas não é possível provar que nenhum rejeitado não selecionado teria rank menor.",
+      "Classificações, universo de candidatos e motivos da população são fornecidos pelo pipeline, não homologados pelo verificador.",
+      "SHA de edição depende do corpus incorporado, não certifica autenticidade externa, vigência ou revisão jurídica humana."
+    ],
+    "snapshotProvided": false
+  },
+  "withPipelineSnapshot": {
+    "ok": true,
+    "checks": {
+      "manifest-file-set": 1,
+      "file-sha256": 4,
+      "file-size": 4,
+      "edge-count": 1,
+      "edge-id-unique": 1,
+      "declared-counts-correspondence": 1,
+      "status-counts": 1,
+      "experimental-policy-contract": 1,
+      "metadata-correspondence": 6,
+      "sample-count": 1,
+      "sample-id-unique": 1,
+      "article-sha256": 1012,
+      "article-metadata": 1012,
+      "norm-sha-consistency": 999,
+      "human-review-empty": 683,
+      "edge-id-derived": 329,
+      "edge-occurrence-correspondence": 329,
+      "edge-participation-unique": 329,
+      "runs-correspondence": 353,
+      "location-metadata": 353,
+      "utf16-span": 1395,
+      "occurrence-id-derived": 353,
+      "repeated-occurrence-consistent": 81,
+      "edge-tuple-unique": 1,
+      "occurrence-count": 1,
+      "participation-count": 1,
+      "sample-source-correspondence": 354,
+      "sample-runs": 354,
+      "accepted-rejected-disjoint": 354,
+      "sample-id-derived": 354,
+      "sample-stratum": 354,
+      "sample-seed": 354,
+      "sample-rank": 354,
+      "declared-sampling-seed": 1,
+      "strata-count": 1,
+      "sample-design": 1,
+      "strata-population-sum": 1,
+      "stratum-quota": 203,
+      "csv-count": 2,
+      "csv-columns": 2,
+      "csv-ids-unique": 2,
+      "csv-json-correspondence": 1012,
+      "csv-review-empty": 1012,
+      "full-corpus-hash": 1,
+      "full-norm-sha256": 13,
+      "artifact-corpus-article": 1012,
+      "full-rejection-population": 1,
+      "deterministic-selection-full-population": 1,
+      "accepted-population-correspondence": 1
+    },
+    "counts": {
+      "edges": 329,
+      "occurrences": 272,
+      "participations": 353,
+      "rejectedSample": 354,
+      "reviewCSV": 683,
+      "strata": 203
+    },
+    "divergences": [],
+    "metadataDependencies": [
+      "Classificações, universo de candidatos e motivos da população são fornecidos pelo pipeline, não homologados pelo verificador.",
+      "SHA de edição depende do corpus incorporado, não certifica autenticidade externa, vigência ou revisão jurídica humana."
+    ],
+    "snapshotProvided": true
+  },
+  "reproduction": {
+    "runs": 2,
+    "files": [
+      {
+        "file": "arestas.json",
+        "sha256": "fe6af4154c6044083bd9f2b8febc33bf76d48c21fd10f6e2c3332f7286f9d029",
+        "runA": "fe6af4154c6044083bd9f2b8febc33bf76d48c21fd10f6e2c3332f7286f9d029",
+        "runB": "fe6af4154c6044083bd9f2b8febc33bf76d48c21fd10f6e2c3332f7286f9d029",
+        "identical": true
+      },
+      {
+        "file": "arestas.csv",
+        "sha256": "2c41d3ded37d0fa818a0435fe477ee372e607e44c6aa24b770798783b24cb004",
+        "runA": "2c41d3ded37d0fa818a0435fe477ee372e607e44c6aa24b770798783b24cb004",
+        "runB": "2c41d3ded37d0fa818a0435fe477ee372e607e44c6aa24b770798783b24cb004",
+        "identical": true
+      },
+      {
+        "file": "rejeicoes-amostra.json",
+        "sha256": "429a522853ba666f7df87967914a3a8840662a90bc53d433744b2a4cd87a20a5",
+        "runA": "429a522853ba666f7df87967914a3a8840662a90bc53d433744b2a4cd87a20a5",
+        "runB": "429a522853ba666f7df87967914a3a8840662a90bc53d433744b2a4cd87a20a5",
+        "identical": true
+      },
+      {
+        "file": "revisao-humana.csv",
+        "sha256": "605f2bd13e1ff3508a228e0c8fd853be1c8ed00d473c2c88565be8d6a36e2c11",
+        "runA": "605f2bd13e1ff3508a228e0c8fd853be1c8ed00d473c2c88565be8d6a36e2c11",
+        "runB": "605f2bd13e1ff3508a228e0c8fd853be1c8ed00d473c2c88565be8d6a36e2c11",
+        "identical": true
+      },
+      {
+        "file": "manifesto.json",
+        "sha256": "9c844e36e596ba126ac38c11e9db01a1361ed8231ba97e6014c0a8751a9d9c01",
+        "runA": "9c844e36e596ba126ac38c11e9db01a1361ed8231ba97e6014c0a8751a9d9c01",
+        "runB": "9c844e36e596ba126ac38c11e9db01a1361ed8231ba97e6014c0a8751a9d9c01",
+        "identical": true
+      }
+    ],
+    "ok": true,
+    "snapshotDependency": "Universe and metadata supplied by the unchanged pipeline."
+  },
+  "parentheticalProposal": {
+    "total": 30,
+    "candidata": 0,
+    "bloqueada": 0,
+    "pendente de decisão": 30,
+    "humanAdjudication": false
+  },
+  "tests": {
+    "command": "python -m unittest discover -s tests -p 'test_remissions_closure.py'",
+    "passed": 10,
+    "failed": 0,
+    "logSHA256": "bd5edb374f074ccd298fb5b01e4d0efe6a5dd25fa46c64ea0f6cc77aea59fa18"
+  },
+  "protectedFingerprintsMatch": true,
+  "newVerificationFilesSHA256": {
+    "scripts/verify_remissions_closure.py": "e8332154c19ca702a0733ac6e9ff452b924a984bbab34c246cf0298922b8c7d1",
+    "scripts/reproduce_remissions_closure.mjs": "1248bc75d48e1828c73316692da76a6e014f289c176f64ee8432ee7548613ecb",
+    "scripts/document_parenthetical_closure.py": "97d3aad9818d07961d28a0be3965cc62e44bb021fc73631468f5884b9f967636",
+    "tests/test_remissions_closure.py": "9765614d51a6ea84e3fba915402026425b33e1780106451a7255b9ac606dcc0f"
+  },
+  "parenteticasSHA256": "e54ad1849ba051ba3a3b36398eb427865395635821f7d13558373ba4209c9cfc",
+  "limitations": [
+    "Verification of entire sample selection uses the full rejected population supplied by the unchanged pipeline.",
+    "No independent human legal adjudication or comprehensive official-source comparison.",
+    "No changes to the 329 edges or approved artifacts."
+  ]
+}
