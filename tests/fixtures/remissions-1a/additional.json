@@ -1,0 +1,586 @@
+[
+  {
+    "category": "self",
+    "code": "licitacoes",
+    "article": "148",
+    "paragraph": 0,
+    "text": "Art. 148. A declaração de nulidade do contrato administrativo requererá análise prévia do interesse público envolvido, na forma do art. 147 desta Lei, e operará retroativamente, impedindo os efeitos jurídicos que o contrato deveria produzir ordinariamente e desconstituindo os já produzidos.",
+    "runs": [
+      {
+        "text": "Art. 148. A declaração de nulidade do contrato administrativo requererá análise prévia do interesse público envolvido, na forma do art. 147 desta Lei, e operará retroativamente, impedindo os efeitos jurídicos que o contrato deveria produzir ordinariamente e desconstituindo os já produzidos.",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 0,
+    "expected": [
+      {
+        "literal": "art. 147",
+        "status": "A",
+        "targets": [
+          "licitacoes:147"
+        ],
+        "span": [
+          131,
+          139
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "self",
+    "code": "clt",
+    "article": "565",
+    "paragraph": 3,
+    "text": "Art. 565. As entidades sindicais reconhecidas nos têrmos desta lei não poderão filiar-se ou manter relações com organizações internacionais, salvo licença prévia do Congresso Nacional.  (Redação dada pelo Decreto-lei nº 9.502, de 23.7.1946)",
+    "runs": [
+      {
+        "text": "Art. 565. As entidades sindicais reconhecidas nos têrmos desta lei não poderão filiar-se ou manter relações com organizações internacionais, salvo licença prévia do Congresso Nacional. ",
+        "deleted": true
+      },
+      {
+        "text": " ",
+        "deleted": false
+      },
+      {
+        "text": "(Redação dada pelo Decreto-lei nº 9.502, de 23.7.1946)",
+        "deleted": true
+      }
+    ],
+    "selectionIndex": 1,
+    "expected": [],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "self",
+    "code": "licitacoes",
+    "article": "173",
+    "paragraph": 0,
+    "text": "Art. 173. Os tribunais de contas deverão, por meio de suas escolas de contas, promover eventos de capacitação para os servidores efetivos e empregados públicos designados para o desempenho das funções essenciais à execução desta Lei, incluídos cursos presenciais e a distância, redes de aprendizagem, seminários e congressos sobre contratações públicas.",
+    "runs": [
+      {
+        "text": "Art. 173. Os tribunais de contas deverão, por meio de suas escolas de contas, promover eventos de capacitação para os servidores efetivos e empregados públicos designados para o desempenho das funções essenciais à execução desta Lei, incluídos cursos presenciais e a distância, redes de aprendizagem, seminários e congressos sobre contratações públicas.",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 2,
+    "expected": [],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "self",
+    "code": "eca",
+    "article": "258-A",
+    "paragraph": 0,
+    "text": "Art. 258-A. Deixar a autoridade competente de providenciar a instalação e operacionalização dos cadastros previstos no art. 50 e no § 11 do art. 101 desta Lei: (Incluído pela Lei nº 12.010, de 2009) Vigência",
+    "runs": [
+      {
+        "text": "Art. 258-A. Deixar a autoridade competente de providenciar a instalação e operacionalização dos cadastros previstos no art. 50 e no § 11 do art. 101 desta Lei: (Incluído pela Lei nº 12.010, de 2009) Vigência",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 3,
+    "expected": [
+      {
+        "literal": "art. 50",
+        "status": "A",
+        "targets": [
+          "eca:50"
+        ],
+        "span": [
+          119,
+          126
+        ]
+      },
+      {
+        "literal": "art. 101",
+        "status": "A",
+        "targets": [
+          "eca:101"
+        ],
+        "span": [
+          140,
+          148
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "self",
+    "code": "clt",
+    "article": "59-A",
+    "paragraph": 0,
+    "text": "Art. 59-A. Em exceção ao disposto no art. 59 desta Consolidação, é facultado às partes, mediante acordo individual escrito, convenção coletiva ou acordo coletivo de trabalho, estabelecer horário de trabalho de doze horas seguidas por trinta e seis horas ininterruptas de descanso, observados ou indenizados os intervalos para repouso e alimentação. (Incluído pela Lei nº 13.467, de 2017) (Vigência)",
+    "runs": [
+      {
+        "text": "Art. 59-A. Em exceção ao disposto no art. 59 desta Consolidação, é facultado às partes, mediante acordo individual escrito, convenção coletiva ou acordo coletivo de trabalho, estabelecer horário de trabalho de doze horas seguidas por trinta e seis horas ininterruptas de descanso, observados ou indenizados os intervalos para repouso e alimentação. (Incluído pela Lei nº 13.467, de 2017) (Vigência)",
+        "deleted": true
+      }
+    ],
+    "selectionIndex": 4,
+    "expected": [
+      {
+        "literal": "art. 59",
+        "status": "D",
+        "targets": [],
+        "span": [
+          37,
+          44
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "self",
+    "code": "cpp",
+    "article": "419",
+    "paragraph": 1,
+    "text": "Art. 419. Quando o juiz se convencer, em discordância com a acusação, da existência de crime diverso dos referidos no § 1o do art. 74 deste Código e não for competente para o julgamento, remeterá os autos ao juiz que o seja. (Redação dada pela Lei nº 11.689, de 2008)",
+    "runs": [
+      {
+        "text": "Art. 419. Quando o juiz se convencer, em discordância com a acusação, da existência de crime diverso dos referidos no § 1o do art. 74 deste Código e não for competente para o julgamento, remeterá os autos ao juiz que o seja. (Redação dada pela Lei nº 11.689, de 2008)",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 5,
+    "expected": [
+      {
+        "literal": "art. 74",
+        "status": "A",
+        "targets": [
+          "cpp:74"
+        ],
+        "span": [
+          126,
+          133
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "law",
+    "code": "cpp",
+    "article": "13-A",
+    "paragraph": 0,
+    "text": "Art. 13-A. Nos crimes previstos nos arts. 148, 149 e 149-A, no § 3º do art. 158 e no art. 159 do Decreto-Lei no 2.848, de 7 de dezembro de 1940 (Código Penal), e no art. 239 da Lei no 8.069, de 13 de julho de 1990 (Estatuto da Criança e do Adolescente), o membro do Ministério Público ou o delegado de polícia poderá requisitar, de quaisquer órgãos do poder público ou de empresas da iniciativa privada, dados e informações cadastrais da vítima ou de suspeitos. (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+    "runs": [
+      {
+        "text": "Art. 13-A. Nos crimes previstos nos arts. 148, 149 e 149-A, no § 3º do art. 158 e no art. 159 do Decreto-Lei no 2.848, de 7 de dezembro de 1940 (Código Penal), e no art. 239 da Lei no 8.069, de 13 de julho de 1990 (Estatuto da Criança e do Adolescente), o membro do Ministério Público ou o delegado de polícia poderá requisitar, de quaisquer órgãos do poder público ou de empresas da iniciativa privada, dados e informações cadastrais da vítima ou de suspeitos. (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 6,
+    "expected": [
+      {
+        "literal": "arts. 148, 149 e 149-A",
+        "status": "A",
+        "targets": [
+          "penal:148",
+          "penal:149",
+          "penal:149-A"
+        ],
+        "span": [
+          36,
+          58
+        ]
+      },
+      {
+        "literal": "art. 158",
+        "status": "A",
+        "targets": [
+          "penal:158"
+        ],
+        "span": [
+          71,
+          79
+        ]
+      },
+      {
+        "literal": "art. 159",
+        "status": "A",
+        "targets": [
+          "penal:159"
+        ],
+        "span": [
+          85,
+          93
+        ]
+      },
+      {
+        "literal": "art. 239",
+        "status": "A",
+        "targets": [
+          "eca:239"
+        ],
+        "span": [
+          165,
+          173
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "law",
+    "code": "civil",
+    "article": "1619",
+    "paragraph": 0,
+    "text": "Art. 1.619. A adoção de maiores de 18 (dezoito) anos dependerá da assistência efetiva do poder público e de sentença constitutiva, aplicando-se, no que couber, as regras gerais da Lei n o 8.069, de 13 de julho de 1990 - Estatuto da Criança e do Adolescente. (Redação dada pela Lei nº 12.010, de 2009) Vigência",
+    "runs": [
+      {
+        "text": "Art. 1.619. A adoção de maiores de 18 (dezoito) anos dependerá da assistência efetiva do poder público e de sentença constitutiva, aplicando-se, no que couber, as regras gerais da Lei n o 8.069, de 13 de julho de 1990 - Estatuto da Criança e do Adolescente. (Redação dada pela Lei nº 12.010, de 2009) Vigência",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 7,
+    "expected": [],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "law",
+    "code": "eca",
+    "article": "264",
+    "paragraph": 0,
+    "text": "Art. 264. O art. 102 da Lei n.º 6.015, de 31 de dezembro de 1973 , fica acrescido do seguinte item:",
+    "runs": [
+      {
+        "text": "Art. 264. O art. 102 da Lei n.º 6.015, de 31 de dezembro de 1973 , fica acrescido do seguinte item:",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 8,
+    "expected": [
+      {
+        "literal": "art. 102",
+        "status": "B",
+        "targets": [],
+        "span": [
+          12,
+          20
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "law",
+    "code": "cpc",
+    "article": "1048",
+    "paragraph": 1,
+    "text": "I - em que figure como parte ou interessado pessoa com idade igual ou superior a 60 (sessenta) anos ou portadora de doença grave, assim compreendida qualquer das enumeradas no art. 6º, inciso XIV, da Lei nº 7.713, de 22 de dezembro de 1988 ;",
+    "runs": [
+      {
+        "text": "I - em que figure como parte ou interessado pessoa com idade igual ou superior a 60 (sessenta) anos ou portadora de doença grave, assim compreendida qualquer das enumeradas no art. 6º, inciso XIV, da Lei nº 7.713, de 22 de dezembro de 1988 ;",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 9,
+    "expected": [
+      {
+        "literal": "art. 6º",
+        "status": "B",
+        "targets": [],
+        "span": [
+          176,
+          183
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "law",
+    "code": "licitacoes",
+    "article": "76",
+    "paragraph": 23,
+    "text": "II - pessoa natural que, nos termos de lei, regulamento ou ato normativo do órgão competente, haja implementado os requisitos mínimos de cultura, de ocupação mansa e pacífica e de exploração direta sobre área rural, observado o limite de que trata o § 1º do art. 6º da Lei nº 11.952, de 25 de junho de 2009.",
+    "runs": [
+      {
+        "text": "II - pessoa natural que, nos termos de lei, regulamento ou ato normativo do órgão competente, haja implementado os requisitos mínimos de cultura, de ocupação mansa e pacífica e de exploração direta sobre área rural, observado o limite de que trata o § 1º do art. 6º da Lei nº 11.952, de 25 de junho de 2009.",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 10,
+    "expected": [
+      {
+        "literal": "art. 6º",
+        "status": "B",
+        "targets": [],
+        "span": [
+          258,
+          265
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "law",
+    "code": "improbidade",
+    "article": "17",
+    "paragraph": 6,
+    "text": "§ 3o No caso de a ação principal ter sido proposta pelo Ministério Público, aplica-se, no que couber, o disposto no § 3o do art. 6o da Lei no 4.717, de 29 de junho de 1965. (Redação dada pela Medida Provisória nº 1.337, de 1996) (Redação dada pela Medida Provisória nº 1.472-31, de 1996)",
+    "runs": [
+      {
+        "text": "§ 3o No caso de a ação principal ter sido proposta pelo Ministério Público, aplica-se, no que couber, o disposto no § 3o do art. 6o da Lei no 4.717, de 29 de junho de 1965. (Redação dada pela Medida Provisória nº 1.337, de 1996) (Redação dada pela Medida Provisória nº 1.472-31, de 1996)",
+        "deleted": true
+      }
+    ],
+    "selectionIndex": 11,
+    "expected": [
+      {
+        "literal": "art. 6o",
+        "status": "D",
+        "targets": [],
+        "span": [
+          124,
+          131
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "adct",
+    "code": "cf",
+    "article": "adct-90",
+    "paragraph": 2,
+    "text": "§ 2º Até a data referida no caput deste artigo, a alíquota da contribuição de que trata o art. 84 deste Ato das Disposições Constitucionais Transitórias será de trinta e oito centésimos por cento. (Incluído pela Emenda Constitucional nº 42, de 19.12.2003)",
+    "runs": [
+      {
+        "text": "§ 2º Até a data referida no caput deste artigo, a alíquota da contribuição de que trata o art. 84 deste Ato das Disposições Constitucionais Transitórias será de trinta e oito centésimos por cento. (Incluído pela Emenda Constitucional nº 42, de 19.12.2003)",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 12,
+    "expected": [
+      {
+        "literal": "caput deste artigo",
+        "status": "C",
+        "targets": [],
+        "span": [
+          28,
+          46
+        ]
+      },
+      {
+        "literal": "art. 84",
+        "status": "A",
+        "targets": [
+          "cf:adct-84"
+        ],
+        "span": [
+          90,
+          97
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "adct",
+    "code": "cf",
+    "article": "adct-124",
+    "paragraph": 0,
+    "text": "Art. 124. A transição para os tributos previstos no art. 156-A e no art. 195, V, todos da Constituição Federal, atenderá aos critérios estabelecidos nos arts. 125 a 133 deste Ato das Disposições Constitucionais Transitórias. (Incluído pela Emenda Constitucional nº 132, de 2023)",
+    "runs": [
+      {
+        "text": "Art. 124. A transição para os tributos previstos no art. 156-A e no art. 195, V, todos da Constituição Federal, atenderá aos critérios estabelecidos nos arts. 125 a 133 deste Ato das Disposições Constitucionais Transitórias. (Incluído pela Emenda Constitucional nº 132, de 2023)",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 13,
+    "expected": [
+      {
+        "literal": "art. 156-A",
+        "status": "A",
+        "targets": [
+          "cf:156-A"
+        ],
+        "span": [
+          52,
+          62
+        ]
+      },
+      {
+        "literal": "art. 195",
+        "status": "A",
+        "targets": [
+          "cf:195"
+        ],
+        "span": [
+          68,
+          76
+        ]
+      },
+      {
+        "literal": "arts. 125 a 133",
+        "status": "A",
+        "targets": [
+          "cf:adct-125",
+          "cf:adct-126",
+          "cf:adct-127",
+          "cf:adct-128",
+          "cf:adct-129",
+          "cf:adct-130",
+          "cf:adct-131",
+          "cf:adct-132",
+          "cf:adct-133"
+        ],
+        "span": [
+          153,
+          168
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "adct",
+    "code": "cf",
+    "article": "adct-117",
+    "paragraph": 0,
+    "text": "Art. 117. A formalização dos parcelamentos de que tratam os arts. 115 e 116 deste Ato das Disposições Constitucionais Transitórias deverá ocorrer até 30 de junho de 2022 e ficará condicionada à autorização de vinculação do Fundo de Participação dos Municípios para fins de pagamento das prestações acordadas nos termos de parcelamento, observada a seguinte ordem de preferência: (Incluído pela Emenda Constitucional nº 113, de 2021)",
+    "runs": [
+      {
+        "text": "Art. 117. A formalização dos parcelamentos de que tratam os arts. 115 e 116 deste Ato das Disposições Constitucionais Transitórias deverá ocorrer até 30 de junho de 2022 e ficará condicionada à autorização de vinculação do Fundo de Participação dos Municípios para fins de pagamento das prestações acordadas nos termos de parcelamento, observada a seguinte ordem de preferência: (Incluído pela Emenda Constitucional nº 113, de 2021)",
+        "deleted": true
+      }
+    ],
+    "selectionIndex": 15,
+    "expected": [
+      {
+        "literal": "arts. 115 e 116",
+        "status": "D",
+        "targets": [],
+        "span": [
+          60,
+          75
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "parenthetical",
+    "code": "cpp",
+    "article": "561",
+    "paragraph": 2,
+    "text": "II - aberta a sessão, apregoadas as partes e as testemunhas, lançado o querelante, que deixar de comparecer (art. 29), e, salvo o caso do art. 60, III, proceder-se-á às demais diligências preliminares;",
+    "runs": [
+      {
+        "text": "II - aberta a sessão, apregoadas as partes e as testemunhas, lançado o querelante, que deixar de comparecer (art. 29), e, salvo o caso do art. 60, III, proceder-se-á às demais diligências preliminares;",
+        "deleted": true
+      }
+    ],
+    "selectionIndex": 16,
+    "expected": [
+      {
+        "literal": "art. 29",
+        "status": "D",
+        "targets": [],
+        "span": [
+          109,
+          116
+        ]
+      },
+      {
+        "literal": "art. 60",
+        "status": "D",
+        "targets": [],
+        "span": [
+          138,
+          145
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "parenthetical",
+    "code": "civil",
+    "article": "1489",
+    "paragraph": 1,
+    "text": "I - às pessoas de direito público interno (art. 41) sobre os imóveis pertencentes aos encarregados da cobrança, guarda ou administração dos respectivos fundos e rendas;",
+    "runs": [
+      {
+        "text": "I - às pessoas de direito público interno (art. 41) sobre os imóveis pertencentes aos encarregados da cobrança, guarda ou administração dos respectivos fundos e rendas;",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 17,
+    "expected": [
+      {
+        "literal": "art. 41",
+        "status": "A",
+        "targets": [
+          "civil:41"
+        ],
+        "span": [
+          43,
+          50
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "parenthetical",
+    "code": "cpp",
+    "article": "685",
+    "paragraph": 1,
+    "text": "Parágrafo único. Se tiver sido imposta medida de segurança detentiva, o condenado será removido para estabelecimento adequado (art. 762).",
+    "runs": [
+      {
+        "text": "Parágrafo único. Se tiver sido imposta medida de segurança detentiva, o condenado será removido para estabelecimento adequado (art. 762).",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 18,
+    "expected": [
+      {
+        "literal": "art. 762",
+        "status": "A",
+        "targets": [
+          "cpp:762"
+        ],
+        "span": [
+          127,
+          135
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  },
+  {
+    "category": "parenthetical",
+    "code": "civil",
+    "article": "1328",
+    "paragraph": 0,
+    "text": "Art. 1.328. O proprietário que tiver direito a estremar um imóvel com paredes, cercas, muros, valas ou valados, tê-lo-á igualmente a adquirir meação na parede, muro, valado ou cerca do vizinho, embolsando-lhe metade do que atualmente valer a obra e o terreno por ela ocupado (art. 1.297).",
+    "runs": [
+      {
+        "text": "Art. 1.328. O proprietário que tiver direito a estremar um imóvel com paredes, cercas, muros, valas ou valados, tê-lo-á igualmente a adquirir meação na parede, muro, valado ou cerca do vizinho, embolsando-lhe metade do que atualmente valer a obra e o terreno por ela ocupado (art. 1.297).",
+        "deleted": false
+      }
+    ],
+    "selectionIndex": 19,
+    "expected": [
+      {
+        "literal": "art. 1.297",
+        "status": "A",
+        "targets": [
+          "civil:1297"
+        ],
+        "span": [
+          276,
+          286
+        ]
+      }
+    ],
+    "annotation": "Expectativa declarativa conferida no texto da edição e no inventário; não revisão jurídica humana independente. A indica destino textual, não aprovação pela política nem vigência."
+  }
+]

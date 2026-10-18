@@ -1,0 +1,9 @@
+{
+  "base": "b414204aadf24d0a0d213365060bc347b3f3847d",
+  "sampleSha256": "046d81d56955e5e7cd1858b7f165c76f88dc81e57c8bcc69752ef590e74a0f8d",
+  "selection": "SHA256(lexa-1a-v1:code:article:paragraph), maximum650UTF16units; coarse lexical self(6), numbered law(6), ADCT(4), parenthetical(4); excluded prior phase0/holdout source articles, and removed ADCT107-A previously seen in an informal Fase0 spot-check. Selects sources only, not successful extraction output. Coarse matches include own headings and negative controls.",
+  "paragraphs": 19,
+  "expectedExpressions": 24,
+  "independentHumanReview": false,
+  "publicationApproval": "pending; experimental integration only"
+}
