@@ -1,0 +1,55 @@
+{
+  "auditVersion": "1a2.0",
+  "auditScripts": {
+    "checks.mjs": "55bf5e09957139b59df220c65074e0feb4be80a1ef33e1c3eca2bf69a16e476e",
+    "run.mjs": "0265cb5b039295baa846ea340d1b3c51311897195c64bd6aa03a36bfd3a0828e"
+  },
+  "baseCommit": "5b218d9dc38c94194e0a13c51984d2b6d14c2f14",
+  "counts": {
+    "candidates": 4896,
+    "occurrences": 272,
+    "edges": 329,
+    "statuses": {
+      "Consistente na verificação automatizada": 292,
+      "Suspeita": 8,
+      "Inconclusiva": 29,
+      "Erro confirmado": 0
+    },
+    "rejected": 4624,
+    "sampledRejections": 354,
+    "samplingStrata": 203
+  },
+  "protectedFiles": {
+    "scripts/remissions/grammar.mjs": "cc301b7a888cfd779d1e30a171a30dcd46d231a07cf5d2bf6ec26227604aa3ac",
+    "scripts/remissions/norms.mjs": "d01592b32e44107c1d08b4b1219806c7a459362b3defa65d0ce8437428784456",
+    "scripts/remissions/extract.mjs": "c1753d1c5cba8e05ee7df120aa7cb0f3fe7a5817a17462938b63da49ae9ec79b",
+    "scripts/remissions/context.mjs": "41b38c58acc40c6373b461711327862f79f0fa70b7afc428c84d3751fa8b0ef3",
+    "scripts/remissions/graph.mjs": "ea63a1feb38cff4349cbaa58f3f9adcc617520b54a715fa6a879c0a899826fea",
+    "scripts/remissions/eligibility.mjs": "8bf7c97e7febc2b79c79806aee20e4805e273c0997a24faeb0526037f2203412",
+    "scripts/build.mjs": "c9f44ed85ad63cbf0cbfd65d8f2a2092e29e77f20fc15c1c6af767bb07ecf998",
+    "scripts/build-pages.mjs": "7dc24c72c1eef55778df4b3ec2b1c4024541ed3c64c9fd373b0fb5d75d2dd893",
+    "src/sw.js": "dc41c7fabd9465f1fcd36001b5760f8ba4bb749afa452f7e1a4c299493ac0419",
+    "src/pwa.js": "626b6c1090f7bb012b779571fb488d86764a909546cc754edb10914767d548f4",
+    "src/reader.js": "43ededc757a252b52a9204d43120b077844b05b3a7c0a24ade2f3bcde80393cc"
+  },
+  "defaultBuildHash": "4f29d56a55f754b6e4ce651b2e31250a149922c3113d8f0fa3ca40e280b4146a",
+  "legalCorpusHash": "c4fabf3e68d0aebbf202a694b5623fe21d393a12c88ec03aca04ed0883c09e8b",
+  "files": {
+    "arestas.json": {
+      "sha256": "fe6af4154c6044083bd9f2b8febc33bf76d48c21fd10f6e2c3332f7286f9d029",
+      "bytes": 4454575
+    },
+    "arestas.csv": {
+      "sha256": "2c41d3ded37d0fa818a0435fe477ee372e607e44c6aa24b770798783b24cb004",
+      "bytes": 1179060
+    },
+    "rejeicoes-amostra.json": {
+      "sha256": "429a522853ba666f7df87967914a3a8840662a90bc53d433744b2a4cd87a20a5",
+      "bytes": 3796955
+    },
+    "revisao-humana.csv": {
+      "sha256": "605f2bd13e1ff3508a228e0c8fd853be1c8ed00d473c2c88565be8d6a36e2c11",
+      "bytes": 1848156
+    }
+  }
+}

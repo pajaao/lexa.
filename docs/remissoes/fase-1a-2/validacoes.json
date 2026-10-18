@@ -1,0 +1,45 @@
+{
+  "baseCommit": "5b218d9dc38c94194e0a13c51984d2b6d14c2f14",
+  "node": "22.23.3",
+  "tests": [
+    {
+      "command": "node --test tests/node/remissions-audit.test.js tests/node/remissions-integration.test.js tests/node/remissions-adversarial.test.js",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node --test tests/node/remissions-audit.test.js (CSV final)",
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run build",
+      "passed": true
+    },
+    {
+      "command": "python tests/browser/remissions_integration.py",
+      "passedGroups": 5,
+      "failedGroups": 0
+    }
+  ],
+  "defaultBuild": {
+    "before": "4f29d56a55f754b6e4ce651b2e31250a149922c3113d8f0fa3ca40e280b4146a",
+    "after": "4f29d56a55f754b6e4ce651b2e31250a149922c3113d8f0fa3ca40e280b4146a",
+    "same": true,
+    "defaultHasRemissions": false
+  },
+  "identicalReproduction": true,
+  "protectedFilesMatchGitBase": true,
+  "humanReviewPerformed": false,
+  "commitsCreated": false,
+  "pullRequestOpened": false,
+  "deployPerformed": false,
+  "logSHA256": {
+    "directed-tests.log": "3562adddaddb2c1dec42d5727baf5e0386c119797a2fd6539837e06b3952457a",
+    "tests-final.log": "bf94a8f700e117fb4198f8961c1e5c0e7fd475f2f35ea376cf4ef031293fa934",
+    "pwa.log": "914403b8412d8ec71f173a94220552bc5e9164108189a536cb1aecce6bbda907",
+    "build.log": "7247b4ecae1b5bb5ae1d9b954aa1733f3c39627a71510ce26619c68d3f4430d0"
+  }
+}
