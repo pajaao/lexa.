@@ -1,37 +1,34 @@
 # Índice da Coordenação Central — Lexa
 
-**Base técnica conferida:** `main` `84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf` (18/10/2026). Os pareceres históricos dos PRs encerrados **não foram incorporados à `main`**: suas cópias administrativas estão no Google Drive e os PRs/commits preservam a origem. A matriz seguinte apresenta o **estado posterior ao saneamento T1–T3**, não o retrato anterior à T3. [Conferência T3](https://docs.google.com/document/d/1qWamkDUgSPCnJs4X245ZyvNrZ06M0JjsIsfg8Vh-OhE/edit).
+**Referência técnica:** `main` @ `84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf` (18/10/2026). **Atualização administrativa pós-T1–T3**, verificada diretamente nos PRs. O Google Drive é o destino dos pareceres; GitHub retém a origem histórica e os artefatos técnicos. PR encerrado sem merge **não** põe seu documento em `main`.
 
-## Matriz de pareceres e decisões
+## Matriz de pareceres, decisões e proveniência
 
-| PR | Frente | Fase / finalidade | Documento (no PR) | Branch-base | Estado verificado |
-|---|---|---|---|---|---|
-| [#7](https://github.com/pajaao/lexa./pull/7) | Qualidade | 1A — parecer inicial | `04-qualidade-testes.md` | `main` | Encerrado sem merge; parecer no Drive |
-| [#8](https://github.com/pajaao/lexa./pull/8) | Integridade Jurídica | 1A, adendos 1A.1/1A.2 | `02-integridade-juridica.md` | `main` | Encerrado sem merge; parecer no Drive |
-| [#9](https://github.com/pajaao/lexa./pull/9) | Engenharia | 1A — arquitetura, SHA, PWA | `01-engenharia.md` | `main` | Encerrado sem merge; parecer no Drive |
-| [#10](https://github.com/pajaao/lexa./pull/10) | UX e Produto | 1A — parecer de experiência | `03-ux-produto.md` | `main` | Encerrado sem merge |
-| [#11](https://github.com/pajaao/lexa./pull/11) | Qualidade | 1A.1 — correções adversariais | `04-qualidade-testes-fase-1a-1.md` | `correcao/remissoes-fase-1a-1` | Encerrado sem merge; parecer no Drive |
-| [#12](https://github.com/pajaao/lexa./pull/12) | Qualidade | 1A.2 — auditoria | `04-qualidade-testes-fase-1a-2.md` | `validacao/remissoes-fase-1a-2` | Encerrado sem merge; parecer no Drive |
-| [#13](https://github.com/pajaao/lexa./pull/13) | Coordenação / execução | Fechamento 1A.2 — reprodução relatada | `05-execucao-independente-fechamento-1a-2.md` | `validacao/remissoes-fase-1a-2-fechamento` | Aberto |
-| [#14](https://github.com/pajaao/lexa./pull/14) | Qualidade | Fechamento 1A.2 — parecer final | `04-qualidade-testes-fechamento-1a-2.md` | `validacao/remissoes-fase-1a-2-fechamento` | Encerrado sem merge; parecer no Drive |
-| [#15](https://github.com/pajaao/lexa./pull/15) | Integridade Jurídica | 1A.3 — P1–P5 e parentéticas | `02-integridade-juridica-fase-1a-3.md` | `validacao/remissoes-fase-1a-2-fechamento` | Encerrado sem merge; parecer no Drive |
-| [#16](https://github.com/pajaao/lexa./pull/16) | Coordenação Central | 1A.3 — deliberação metodológica | `00-decisoes-fase-1a-3.md` | `validacao/remissoes-fase-1a-2-fechamento` | Aberto |
-| [#17](https://github.com/pajaao/lexa./pull/17) | Engenharia | O1 — auditoria estrutural | `01-engenharia-organizacao-o1.md` | `main` | Encerrado sem merge; parecer no Drive |
+| PR de origem | Frente | Fase | Documento original na branch | Branch-base | Estado GitHub | Cópia/parecer no Drive |
+|---|---|---|---|---|---|---|
+| [#7](https://github.com/pajaao/lexa./pull/7) | Qualidade | 1A | `04-qualidade-testes.md` | `main` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/10AUrf-6r9R8OkMujNmKm_2Q3UGbWyo9EMzfc4NRt_i0/edit) |
+| [#8](https://github.com/pajaao/lexa./pull/8) | Integridade Jurídica | 1A–1A.2 | `02-integridade-juridica.md` | `main` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1i4JoZIjch1dYi3gTDjZMkSH-CM5URfMqwz5JbsjT7zU/edit) |
+| [#9](https://github.com/pajaao/lexa./pull/9) | Engenharia | 1A | `01-engenharia.md` | `main` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1v8cl6FzvCKeYch9gJ1Fzy7G7boftoRymFD-c4Ws6KiU/edit) |
+| [#10](https://github.com/pajaao/lexa./pull/10) | UX e Produto | 1A | `03-ux-produto.md` | `main` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1EpnLUAsNJccEmf_kPrhyrBt8gdZQRBARn5-F2_jrozA/edit) |
+| [#11](https://github.com/pajaao/lexa./pull/11) | Qualidade | 1A.1 | `04-qualidade-testes-fase-1a-1.md` | `correcao/remissoes-fase-1a-1` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1xRqbONg4qPB2njF24OvmgV2fSWTH4bXJGTO5GkFwbGo/edit) |
+| [#12](https://github.com/pajaao/lexa./pull/12) | Qualidade | 1A.2 | `04-qualidade-testes-fase-1a-2.md` | `validacao/remissoes-fase-1a-2` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1wO3mS_TOWD56669w1JiSiEew69FJhNbaUBMmFGUH_4E/edit) |
+| [#13](https://github.com/pajaao/lexa./pull/13) | Coordenação | Fechamento 1A.2 | `05-execucao-independente-fechamento-1a-2.md` | `validacao/remissoes-fase-1a-2-fechamento` | **Aberto; destinação técnica pendente** | [Consultar no Drive](https://docs.google.com/document/d/1TcxPEQnY7zzw0le8Q7Az2zCfGOiUB9XPP03bRmYGDf8/edit) |
+| [#14](https://github.com/pajaao/lexa./pull/14) | Qualidade | Fechamento 1A.2 | `04-qualidade-testes-fechamento-1a-2.md` | `validacao/remissoes-fase-1a-2-fechamento` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1nTetm_UC6nCQ33BvDYAdJixGHszzW9RfFFaeUoPjKoA/edit) |
+| [#15](https://github.com/pajaao/lexa./pull/15) | Integridade Jurídica | 1A.3 | `02-integridade-juridica-fase-1a-3.md` | `validacao/remissoes-fase-1a-2-fechamento` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1FP8SDD6GzoazDxxLICbRWgoIWLQbpJPNu2GvRCEOkFc/edit) |
+| [#16](https://github.com/pajaao/lexa./pull/16) | Coordenação | Deliberação 1A.3 | `00-decisoes-fase-1a-3.md` | `validacao/remissoes-fase-1a-2-fechamento` | **Aberto; destinação técnica pendente** | [Consultar no Drive](https://docs.google.com/document/d/1bD46LGjvkJ0UryvuPjiE551yKL6JAQhcikii8OGUSio/edit) |
+| [#17](https://github.com/pajaao/lexa./pull/17) | Engenharia | O1 | `01-engenharia-organizacao-o1.md` | `main` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1uFfKWgjsr_PI0IGksg2JlgM46ZHfOBJX-cu-x8Jx7dE/edit) |
+| [#20](https://github.com/pajaao/lexa./pull/20) | Qualidade | O2 | `04-qualidade-testes-organizacao-o2.md` | `organizacao/o2-documentacao` | **Fechado sem merge** | [Consultar no Drive](https://docs.google.com/document/d/1Q-biANYskXdOR9fQ4NyqhvFDb9ZrsPtDEyO1u4bCDks/edit) |
 
-Os nomes de arquivo acima descrevem **arquivos de origem nas respectivas branches**, não caminhos presentes na `main`. Os pareceres históricos encerrados sem merge foram preservados no [Drive oficial do projeto](https://drive.google.com/drive/folders/1-UUemCijzHqp0vp1BzpMHATu7hvYzM3x); PRs e commits continuam como evidências técnicas. Os PRs #13 e #16 permanecem sob destinação técnica, e os PRs #18 e #19 seguem propostas de integração documental. O #19 tem base experimental, nunca `main`. Abrir um PR não equivale a incorporá-lo; retargetar #11–#16 para `main` poderia trazer código experimental por ancestralidade.
+**PRs de organização em execução:** [#18](https://github.com/pajaao/lexa./pull/18) — Engenharia O2, `organizacao/o2-documentacao` → `main`, **aberto, não mesclado**; [#19](https://github.com/pajaao/lexa./pull/19) — índice experimental e ORG-A01, `docs/engenharia-o2-remissoes` → `validacao/remissoes-fase-1a-2-fechamento`, **aberto, não mesclado**. O PR #20 é histórico, fechado sem merge, com parecer no Drive. [Relatório original O2 da Engenharia](01-engenharia-organizacao-o2.md) preserva o corte anterior à T3; seu status deve ser lido como histórico, não como matriz atualizada.
 
-## Leitura recomendada por assunto
-- **Organização:** [parecer O1 no Drive](https://docs.google.com/document/d/1uFfKWgjsr_PI0IGksg2JlgM46ZHfOBJX-cu-x8Jx7dE/edit) ([commit original](https://github.com/pajaao/lexa./blob/8c93c9dd9fabfa4296e1faff417f04a3ab2650da/docs/coordenacao/01-engenharia-organizacao-o1.md)) e [índice geral](../INDEX.md).
-- **Engenharia / arquitetura:** [#9](https://github.com/pajaao/lexa./pull/9); **UX e Produto:** [#10](https://github.com/pajaao/lexa./pull/10).
-- **Integridade Jurídica:** [#8](https://github.com/pajaao/lexa./pull/8) e [#15](https://github.com/pajaao/lexa./pull/15).
-- **Qualidade e reprodução:** [#7](https://github.com/pajaao/lexa./pull/7), [#11](https://github.com/pajaao/lexa./pull/11), [#12](https://github.com/pajaao/lexa./pull/12), [#13](https://github.com/pajaao/lexa./pull/13), [#14](https://github.com/pajaao/lexa./pull/14).
-- **Deliberação metodológica:** [#16](https://github.com/pajaao/lexa./pull/16), que conserva `experimental-only` e retém as 30 parentéticas para eventual revisão.
+## Navegação e decisões
 
-## Destinação documental após T3
-- **Pareceres:** consultar o [Drive da Coordenação e das frentes](https://drive.google.com/drive/folders/1-UUemCijzHqp0vp1BzpMHATu7hvYzM3x), inclusive o [parecer O2 de Qualidade](https://docs.google.com/document/d/1Q-biANYskXdOR9fQ4NyqhvFDb9ZrsPtDEyO1u4bCDks/edit), referente ao PR #20 encerrado sem merge.
-- **Evidência técnica ainda pendente:** [#13](https://github.com/pajaao/lexa./pull/13); **deliberação metodológica pendente de destinação técnica:** [#16](https://github.com/pajaao/lexa./pull/16).
-- **Documentação proposta, ainda não incorporada às bases:** [#18, base `main`](https://github.com/pajaao/lexa./pull/18) e [#19, base experimental](https://github.com/pajaao/lexa./pull/19).
-- **Rastreabilidade do saneamento:** [decisão T3](https://docs.google.com/document/d/1GE7kP_sJYZZE-XhC9qEyxpivmMmHcBXuc7_n0NBWCTw/edit), [execução do Lote A](https://docs.google.com/document/d/1HZROTbsgNkSJuEX2_bz5tP2uSaiTnIQOebGhnKVpM8o/edit) e [destinação dos remanescentes](https://docs.google.com/document/d/1DyWRaqs75iSIglF2oOb6k9NRx2tA8lohhV0zki_Phsg/edit).
+- [Índice geral](../INDEX.md): arquitetura, operação, fontes, UX, desempenho e remissões experimentais.
+- **Engenharia:** [parecer de arquitetura 1A](https://docs.google.com/document/d/1v8cl6FzvCKeYch9gJ1Fzy7G7boftoRymFD-c4Ws6KiU/edit) e [auditoria estrutural O1](https://docs.google.com/document/d/1uFfKWgjsr_PI0IGksg2JlgM46ZHfOBJX-cu-x8Jx7dE/edit).
+- **Integridade:** [parecer 1A–1A.2](https://docs.google.com/document/d/1i4JoZIjch1dYi3gTDjZMkSH-CM5URfMqwz5JbsjT7zU/edit) e [1A.3](https://docs.google.com/document/d/1FP8SDD6GzoazDxxLICbRWgoIWLQbpJPNu2GvRCEOkFc/edit).
+- **UX e Produto:** [parecer 1A](https://docs.google.com/document/d/1EpnLUAsNJccEmf_kPrhyrBt8gdZQRBARn5-F2_jrozA/edit).
+- **Qualidade:** [parecer O2](https://docs.google.com/document/d/1Q-biANYskXdOR9fQ4NyqhvFDb9ZrsPtDEyO1u4bCDks/edit), [fechamento 1A.2](https://docs.google.com/document/d/1nTetm_UC6nCQ33BvDYAdJixGHszzW9RfFFaeUoPjKoA/edit) e [evidência independente](https://docs.google.com/document/d/1TcxPEQnY7zzw0le8Q7Az2zCfGOiUB9XPP03bRmYGDf8/edit).
+- **Coordenação:** [decisão T3](https://docs.google.com/document/d/1GE7kP_sJYZZE-XhC9qEyxpivmMmHcBXuc7_n0NBWCTw/edit), [conferência](https://docs.google.com/document/d/1qWamkDUgSPCnJs4X245ZyvNrZ06M0JjsIsfg8Vh-OhE/edit), [Lote A](https://docs.google.com/document/d/1HZROTbsgNkSJuEX2_bz5tP2uSaiTnIQOebGhnKVpM8o/edit) e [destinação dos remanescentes](https://docs.google.com/document/d/1DyWRaqs75iSIglF2oOb6k9NRx2tA8lohhV0zki_Phsg/edit).
+- **Registros técnicos vinculados à branch experimental:** [#13](https://github.com/pajaao/lexa./pull/13) (reprodução) e [#16](https://github.com/pajaao/lexa./pull/16) (deliberação metodológica). Sua eventual incorporação depende de decisão específica; não foram absorvidos pela `main`.
 
-## Governança
-Decisões vinculantes pertencem exclusivamente à Coordenação Central. Pareceres assistidos por IA não são homologação humana; aprovação técnico-documental não ativa remissões. Preservar `docs/coordenacao/decisoes.md` sob responsabilidade exclusiva da Coordenação, caso seja criado. Atualizar esta matriz somente após conferir os estados reais dos PRs e suas bases.
+**Rastreabilidade:** as colunas de caminho identificam o arquivo original no PR e sua base, não um arquivo existente em `main`. Os links de PR preservam comentários, SHA e histórico. Não retargetar PRs experimentais para `main`; isso pode incorporar ancestralidade técnica. Decisões vinculantes pertencem à Coordenação; revisões assistidas por IA não equivalem à revisão jurídica humana independente.
