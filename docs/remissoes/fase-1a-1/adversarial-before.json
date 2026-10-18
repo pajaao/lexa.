@@ -1,0 +1,1268 @@
+[
+  {
+    "id": "A01",
+    "source": {
+      "code": "licitacoes",
+      "article": "100",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 147 desta Lei nº 8.666/1993.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Identidade numerada contradiz a lei de origem; não presumir Lei 14.133.",
+    "rawTargets": [
+      "licitacoes/147"
+    ],
+    "eligibleTargets": [
+      "licitacoes/147"
+    ],
+    "occurrences": [
+      {
+        "id": "d83d6455536eaa73bf493095dfcb8acfc13c0cd8b06599da438cb88337ca2d0c",
+        "source": {
+          "codeId": "licitacoes",
+          "articleId": "100",
+          "scope": "main",
+          "editionSha256": "078f01098b154d664f1bf5f1cf0d3914cb8896728e353111c04cd3993c47a4c6"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 20,
+          "text": "art. 147"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 20,
+          "end": 30,
+          "text": " desta Lei"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "licitacoes",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-self",
+          "targets": [
+            {
+              "codeId": "licitacoes",
+              "articleId": "147",
+              "scope": "main",
+              "editionSha256": "078f01098b154d664f1bf5f1cf0d3914cb8896728e353111c04cd3993c47a4c6",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-self"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "d83d6455536eaa73bf493095dfcb8acfc13c0cd8b06599da438cb88337ca2d0c",
+        "eligible": true,
+        "syntaxClass": "self-qualified-article-list"
+      }
+    ]
+  },
+  {
+    "id": "A02",
+    "source": {
+      "code": "civil",
+      "article": "900",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "No trecho reproduzido de um diploma não identificado: (art. 186).",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Diploma reproduzido não identificado; não presumir CC.",
+    "rawTargets": [
+      "civil/186"
+    ],
+    "eligibleTargets": [
+      "civil/186"
+    ],
+    "occurrences": [
+      {
+        "id": "3ad40809dd29a4839a69ee835069f8926957af085e459758798e466362ad3d7c",
+        "source": {
+          "codeId": "civil",
+          "articleId": "900",
+          "scope": "main",
+          "editionSha256": "2250c8f78353cdb80208b264f3940eb895bed0efd5549b529ebe0ca3da947535"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 55,
+          "end": 63,
+          "text": "art. 186"
+        },
+        "qualifiers": [],
+        "normEvidence": null,
+        "norm": {
+          "status": "resolved",
+          "codeId": "civil",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "unqualified-local",
+          "targets": [
+            {
+              "codeId": "civil",
+              "articleId": "186",
+              "scope": "main",
+              "editionSha256": "2250c8f78353cdb80208b264f3940eb895bed0efd5549b529ebe0ca3da947535",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "unqualified-local"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "3ad40809dd29a4839a69ee835069f8926957af085e459758798e466362ad3d7c",
+        "eligible": true,
+        "syntaxClass": "parenthetical-article-list"
+      }
+    ]
+  },
+  {
+    "id": "A03",
+    "source": {
+      "code": "civil",
+      "article": "900",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 186 da Lei nº 3.071/1916.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Código Civil anterior ausente do acervo; não substituir pela edição atual.",
+    "rawTargets": [],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "f1f654ac794ac43ff65b46b77b9c262f24f6f38d9af10e0d942116d81d4f83e4",
+        "source": {
+          "codeId": "civil",
+          "articleId": "900",
+          "scope": "main",
+          "editionSha256": "63a0da0a5cb6d32fdea876785acbadbcc915a6d2e5cf0bff2907a242e1eee57a"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 20,
+          "text": "art. 186"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 20,
+          "end": 41,
+          "text": " da Lei nº 3.071/1916"
+        },
+        "norm": {
+          "status": "external",
+          "codeId": null,
+          "scope": "main",
+          "identity": {
+            "kind": "lei",
+            "number": "3071",
+            "year": "1916",
+            "raw": "Lei nº 3.071/1916"
+          }
+        },
+        "kind": "internal-explicit",
+        "classification": "B",
+        "resolution": {
+          "status": "external",
+          "reason": "explicit-law",
+          "targets": []
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-law"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "f1f654ac794ac43ff65b46b77b9c262f24f6f38d9af10e0d942116d81d4f83e4",
+        "eligible": false,
+        "reason": "classification-B"
+      }
+    ]
+  },
+  {
+    "id": "A04",
+    "source": {
+      "code": "cpc",
+      "article": "300",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 186 da mesma lei.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Anáfora sem identidade determinada.",
+    "rawTargets": [],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "9d8dd75287f032a77947c65dfb1659ad2d51d16fa3d25330697e1c214869d086",
+        "source": {
+          "codeId": "cpc",
+          "articleId": "300",
+          "scope": "main",
+          "editionSha256": "a305008ef974d3c0e750f7a110f192abdd4161027f6b7a46d318b5310905d644"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 20,
+          "text": "art. 186"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 20,
+          "end": 33,
+          "text": " da mesma lei"
+        },
+        "norm": {
+          "status": "unresolved",
+          "codeId": null,
+          "scope": null,
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "C",
+        "resolution": {
+          "status": "unresolved",
+          "reason": "norm-identity-not-supported",
+          "targets": []
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "norm-identity-not-supported"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "9d8dd75287f032a77947c65dfb1659ad2d51d16fa3d25330697e1c214869d086",
+        "eligible": false,
+        "reason": "classification-C"
+      }
+    ]
+  },
+  {
+    "id": "A05",
+    "source": {
+      "code": "cf",
+      "article": "adct-95",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 84 da Constituição Estadual do Rio Grande do Norte.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Constituição estadual não equivale à CF nem ao ADCT.",
+    "rawTargets": [],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "0af09275b5e1915d765e04da4b1f953528d90c1d3e00e0ac73b2aaf6cd0b5cb6",
+        "source": {
+          "codeId": "cf",
+          "articleId": "adct-95",
+          "scope": "adct",
+          "editionSha256": "191fdefba7daf82736acbe50d016e1d2cbce9e9a4caf53c132d99a053ed60864"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 19,
+          "text": "art. 84"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 19,
+          "end": 35,
+          "text": " da Constituição"
+        },
+        "norm": {
+          "status": "unresolved",
+          "codeId": null,
+          "scope": null,
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "C",
+        "resolution": {
+          "status": "unresolved",
+          "reason": "state-constitution-identity-not-supported",
+          "targets": []
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "state-constitution-identity-not-supported"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "0af09275b5e1915d765e04da4b1f953528d90c1d3e00e0ac73b2aaf6cd0b5cb6",
+        "eligible": false,
+        "reason": "classification-C"
+      }
+    ]
+  },
+  {
+    "id": "B01",
+    "source": {
+      "code": "cf",
+      "article": "adct-95",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 84 deste Ato das Disposições Constitucionais Transitórias de 1967.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Ato de outra edição não equivale ao ADCT de 1988.",
+    "rawTargets": [
+      "cf/adct-84"
+    ],
+    "eligibleTargets": [
+      "cf/adct-84"
+    ],
+    "occurrences": [
+      {
+        "id": "21117438442773933441d45eae0d0bfd427aa67a21946b9fd4d9482205559629",
+        "source": {
+          "codeId": "cf",
+          "articleId": "adct-95",
+          "scope": "adct",
+          "editionSha256": "1ff4d4f5954b22419dfb3be47ed9d879a266ca22777c7af759f6e14868a7b36c"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 19,
+          "text": "art. 84"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 19,
+          "end": 74,
+          "text": " deste Ato das Disposições Constitucionais Transitórias"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "cf",
+          "scope": "adct",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-adct",
+          "targets": [
+            {
+              "codeId": "cf",
+              "articleId": "adct-84",
+              "scope": "adct",
+              "editionSha256": "1ff4d4f5954b22419dfb3be47ed9d879a266ca22777c7af759f6e14868a7b36c",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-adct"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "21117438442773933441d45eae0d0bfd427aa67a21946b9fd4d9482205559629",
+        "eligible": true,
+        "syntaxClass": "adct-self-article"
+      }
+    ]
+  },
+  {
+    "id": "B02",
+    "source": {
+      "code": "licitacoes",
+      "article": "100",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Segundo a Lei nº 8.666/1993, ",
+            "deleted": true
+          },
+          {
+            "text": "ver art. 147 desta Lei.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Identidade contextual riscada necessária; abstenção.",
+    "rawTargets": [
+      "licitacoes/147"
+    ],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "a8e5ff028839819b1375cbd3d02cd17b2a348aa4e85ce5a4e70edbd86e5b9fc1",
+        "source": {
+          "codeId": "licitacoes",
+          "articleId": "100",
+          "scope": "main",
+          "editionSha256": "84e216558e7b068fed7e479b698ffd92a3d1d6ac930b18816ba87f5916414dc7"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 33,
+          "end": 41,
+          "text": "art. 147"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 41,
+          "end": 51,
+          "text": " desta Lei"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "licitacoes",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-self",
+          "targets": [
+            {
+              "codeId": "licitacoes",
+              "articleId": "147",
+              "scope": "main",
+              "editionSha256": "84e216558e7b068fed7e479b698ffd92a3d1d6ac930b18816ba87f5916414dc7",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-self"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "a8e5ff028839819b1375cbd3d02cd17b2a348aa4e85ce5a4e70edbd86e5b9fc1",
+        "eligible": false,
+        "reason": "editorial-or-implicit-not-authorized"
+      }
+    ]
+  },
+  {
+    "id": "B03",
+    "source": {
+      "code": "cf",
+      "article": "adct-95",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 84 da Constituição Federal de 1988.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "CF84 é distinto de ADCT84; classe CF explícita continua não autorizada.",
+    "rawTargets": [
+      "cf/84"
+    ],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "15d54397482615f511cb7e1583eb90a347af0b7048bff2baf066bffc28fd1b37",
+        "source": {
+          "codeId": "cf",
+          "articleId": "adct-95",
+          "scope": "adct",
+          "editionSha256": "01dcd8ef28714091a71fe1a429f241859f96bff89b1665f266e78f7ed11bfa67"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 19,
+          "text": "art. 84"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 19,
+          "end": 51,
+          "text": " da Constituição Federal de 1988"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "cf",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-constitution",
+          "targets": [
+            {
+              "codeId": "cf",
+              "articleId": "84",
+              "scope": "main",
+              "editionSha256": "01dcd8ef28714091a71fe1a429f241859f96bff89b1665f266e78f7ed11bfa67",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-constitution"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "15d54397482615f511cb7e1583eb90a347af0b7048bff2baf066bffc28fd1b37",
+        "eligible": false,
+        "reason": "syntax-class-not-authorized"
+      }
+    ]
+  },
+  {
+    "id": "B04",
+    "source": {
+      "code": "licitacoes",
+      "article": "100",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Consultar o art. 147 desta Lei.",
+            "deleted": true
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Referência integralmente riscada: D, sem grafo ativo.",
+    "rawTargets": [],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "1f715f91330afb47b3d7c97dd8b44fb848a54199f00376da050d28da55fa7d06",
+        "source": {
+          "codeId": "licitacoes",
+          "articleId": "100",
+          "scope": "main",
+          "editionSha256": "fd39eb6b7640eee11e2e2d88a3879854a91c331f4f4f8ea866a6d36dbe74f719"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 12,
+          "end": 20,
+          "text": "art. 147"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 20,
+          "end": 30,
+          "text": " desta Lei"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "licitacoes",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "D",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-self",
+          "targets": [
+            {
+              "codeId": "licitacoes",
+              "articleId": "147",
+              "scope": "main",
+              "editionSha256": "fd39eb6b7640eee11e2e2d88a3879854a91c331f4f4f8ea866a6d36dbe74f719",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "deleted",
+          "qualifiers": "deleted",
+          "context": "deleted",
+          "state": "deleted"
+        },
+        "reason": "explicit-self"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "1f715f91330afb47b3d7c97dd8b44fb848a54199f00376da050d28da55fa7d06",
+        "eligible": false,
+        "reason": "classification-D"
+      }
+    ]
+  },
+  {
+    "id": "C01",
+    "source": {
+      "code": "licitacoes",
+      "article": "100",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Primeiro parágrafo sem remissões.",
+            "deleted": false
+          }
+        ]
+      },
+      {
+        "runs": [
+          {
+            "text": "Segundo parágrafo sem remissões.",
+            "deleted": false
+          }
+        ]
+      },
+      {
+        "runs": [
+          {
+            "text": "Passa a vigorar a seguinte redação: “art. 147 desta Lei”.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Reprodução legislativa tardia não pertence à norma hospedeira.",
+    "rawTargets": [
+      "licitacoes/147"
+    ],
+    "eligibleTargets": [
+      "licitacoes/147"
+    ],
+    "occurrences": [
+      {
+        "id": "3508d262a23f89c11a66c97fc7dbd97ac2b5f334d673bcb6ba1988b17ab809d7",
+        "source": {
+          "codeId": "licitacoes",
+          "articleId": "100",
+          "scope": "main",
+          "editionSha256": "ce456158c5b7aad7dbfbbd9ab941c5445582c5fb86eca1d9c7a05c930f3370ea"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 2,
+          "offsetUnit": "utf16",
+          "start": 37,
+          "end": 45,
+          "text": "art. 147"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 45,
+          "end": 55,
+          "text": " desta Lei"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "licitacoes",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-self",
+          "targets": [
+            {
+              "codeId": "licitacoes",
+              "articleId": "147",
+              "scope": "main",
+              "editionSha256": "ce456158c5b7aad7dbfbbd9ab941c5445582c5fb86eca1d9c7a05c930f3370ea",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-self"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "3508d262a23f89c11a66c97fc7dbd97ac2b5f334d673bcb6ba1988b17ab809d7",
+        "eligible": true,
+        "syntaxClass": "self-qualified-article-list"
+      }
+    ]
+  },
+  {
+    "id": "C02",
+    "source": {
+      "code": "licitacoes",
+      "article": "100",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Confira os arts. 147 a 150 desta Lei.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [],
+    "justification": "Intervalo não autorizado pela política.",
+    "rawTargets": [
+      "licitacoes/147",
+      "licitacoes/148",
+      "licitacoes/149",
+      "licitacoes/150"
+    ],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "04fb90ee96ba3c5a35fbe176b8b2578144e68ed0b2b4a95f0618d7aca348ccb7",
+        "source": {
+          "codeId": "licitacoes",
+          "articleId": "100",
+          "scope": "main",
+          "editionSha256": "33db4df12c1107acf5299ffbd3d4cc5aa16a985da23f9180d5cb1bbb1463a11b"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 11,
+          "end": 26,
+          "text": "arts. 147 a 150"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 26,
+          "end": 36,
+          "text": " desta Lei"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "licitacoes",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-self",
+          "targets": [
+            {
+              "codeId": "licitacoes",
+              "articleId": "147",
+              "scope": "main",
+              "editionSha256": "33db4df12c1107acf5299ffbd3d4cc5aa16a985da23f9180d5cb1bbb1463a11b",
+              "resolutionLevel": "article"
+            },
+            {
+              "codeId": "licitacoes",
+              "articleId": "148",
+              "scope": "main",
+              "editionSha256": "33db4df12c1107acf5299ffbd3d4cc5aa16a985da23f9180d5cb1bbb1463a11b",
+              "resolutionLevel": "article"
+            },
+            {
+              "codeId": "licitacoes",
+              "articleId": "149",
+              "scope": "main",
+              "editionSha256": "33db4df12c1107acf5299ffbd3d4cc5aa16a985da23f9180d5cb1bbb1463a11b",
+              "resolutionLevel": "article"
+            },
+            {
+              "codeId": "licitacoes",
+              "articleId": "150",
+              "scope": "main",
+              "editionSha256": "33db4df12c1107acf5299ffbd3d4cc5aa16a985da23f9180d5cb1bbb1463a11b",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-self"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "04fb90ee96ba3c5a35fbe176b8b2578144e68ed0b2b4a95f0618d7aca348ccb7",
+        "eligible": false,
+        "reason": "list-range-or-complex-syntax-not-authorized"
+      }
+    ]
+  },
+  {
+    "id": "C03",
+    "source": {
+      "code": "civil",
+      "article": "900",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Confira (arts. 186 e 187).",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [
+      "civil/186",
+      "civil/187"
+    ],
+    "justification": "Lista parentética local simples, sem contexto externo.",
+    "rawTargets": [
+      "civil/186",
+      "civil/187"
+    ],
+    "eligibleTargets": [
+      "civil/186",
+      "civil/187"
+    ],
+    "occurrences": [
+      {
+        "id": "67dc5ba5b367d348245438fda6f8cd5a7408714c0c6066151051640f376a2dd8",
+        "source": {
+          "codeId": "civil",
+          "articleId": "900",
+          "scope": "main",
+          "editionSha256": "c0dc8e80e639b6c27e36a141b84c526fc29d502dfaa269165a0a2df1815b7500"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 9,
+          "end": 24,
+          "text": "arts. 186 e 187"
+        },
+        "qualifiers": [],
+        "normEvidence": null,
+        "norm": {
+          "status": "resolved",
+          "codeId": "civil",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "unqualified-local",
+          "targets": [
+            {
+              "codeId": "civil",
+              "articleId": "186",
+              "scope": "main",
+              "editionSha256": "c0dc8e80e639b6c27e36a141b84c526fc29d502dfaa269165a0a2df1815b7500",
+              "resolutionLevel": "article"
+            },
+            {
+              "codeId": "civil",
+              "articleId": "187",
+              "scope": "main",
+              "editionSha256": "c0dc8e80e639b6c27e36a141b84c526fc29d502dfaa269165a0a2df1815b7500",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "unqualified-local"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "67dc5ba5b367d348245438fda6f8cd5a7408714c0c6066151051640f376a2dd8",
+        "eligible": true,
+        "syntaxClass": "parenthetical-article-list"
+      }
+    ]
+  },
+  {
+    "id": "C04",
+    "source": {
+      "code": "cpc",
+      "article": "300",
+      "synthetic": true
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Aplicam-se os arts. 186 e 187 da Lei nº 10.406/2002.",
+            "deleted": false
+          }
+        ]
+      }
+    ],
+    "expected": [
+      "civil/186",
+      "civil/187"
+    ],
+    "justification": "Lei 10.406/2002 expressa e diretamente qualifica a lista.",
+    "rawTargets": [
+      "civil/186",
+      "civil/187"
+    ],
+    "eligibleTargets": [
+      "civil/186",
+      "civil/187"
+    ],
+    "occurrences": [
+      {
+        "id": "2568a93d979c9dc83394bf39752175b6458e0a6e859fc709a12e031861027b55",
+        "source": {
+          "codeId": "cpc",
+          "articleId": "300",
+          "scope": "main",
+          "editionSha256": "03c3cbab45e9a0eebb106fcfa98193aad1227c00bdbc531b56128c729cf7119c"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 14,
+          "end": 29,
+          "text": "arts. 186 e 187"
+        },
+        "qualifiers": [],
+        "normEvidence": {
+          "start": 29,
+          "end": 51,
+          "text": " da Lei nº 10.406/2002"
+        },
+        "norm": {
+          "status": "resolved",
+          "codeId": "civil",
+          "scope": "main",
+          "identity": {
+            "kind": "lei",
+            "number": "10406",
+            "year": "2002",
+            "raw": "Lei nº 10.406/2002"
+          }
+        },
+        "kind": "cross-norm-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "explicit-law",
+          "targets": [
+            {
+              "codeId": "civil",
+              "articleId": "186",
+              "scope": "main",
+              "editionSha256": "1f7fb67beb4bd342ffb152f2c43faee2b4a2a0144a15274047eb3f6d6df587a4",
+              "resolutionLevel": "article"
+            },
+            {
+              "codeId": "civil",
+              "articleId": "187",
+              "scope": "main",
+              "editionSha256": "1f7fb67beb4bd342ffb152f2c43faee2b4a2a0144a15274047eb3f6d6df587a4",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "explicit-law"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "2568a93d979c9dc83394bf39752175b6458e0a6e859fc709a12e031861027b55",
+        "eligible": true,
+        "syntaxClass": "numbered-law-article-list"
+      }
+    ]
+  },
+  {
+    "id": "CPP13A",
+    "source": {
+      "code": "cpp",
+      "article": "13-A",
+      "synthetic": false
+    },
+    "paragraphs": [
+      {
+        "runs": [
+          {
+            "text": "Art. 13-A. Nos crimes previstos nos arts. 148, 149 e 149-A, no § 3º do art. 158 e no art. 159 do Decreto-Lei no 2.848, de 7 de dezembro de 1940 (Código Penal), e no art. 239 da Lei no 8.069, de 13 de julho de 1990 (Estatuto da Criança e do Adolescente), o membro do Ministério Público ou o delegado de polícia poderá requisitar, de quaisquer órgãos do poder público ou de empresas da iniciativa privada, dados e informações cadastrais da vítima ou de suspeitos. (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+            "deleted": false
+          }
+        ],
+        "sourceBlock": 106
+      },
+      {
+        "runs": [
+          {
+            "text": "Parágrafo único. A requisição, que será atendida no prazo de 24 (vinte e quatro) horas, conterá: (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+            "deleted": false
+          }
+        ],
+        "sourceBlock": 107
+      },
+      {
+        "runs": [
+          {
+            "text": "I - o nome da autoridade requisitante; (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+            "deleted": false
+          }
+        ],
+        "sourceBlock": 108
+      },
+      {
+        "runs": [
+          {
+            "text": "II - o número do inquérito policial; e (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+            "deleted": false
+          }
+        ],
+        "sourceBlock": 109
+      },
+      {
+        "runs": [
+          {
+            "text": "III - a identificação da unidade de polícia judiciária responsável pela investigação. (Incluído pela Lei nº 13.344, de 2016) (Vigência)",
+            "deleted": false
+          }
+        ],
+        "sourceBlock": 110
+      }
+    ],
+    "expected": [],
+    "justification": "Enumeração expressa do Código Penal; nunca CPP158. Abster enquanto a gramática compartilhada não for suportada.",
+    "rawTargets": [
+      "cpp/158"
+    ],
+    "eligibleTargets": [],
+    "occurrences": [
+      {
+        "id": "1127f67c4bcf3e6ea55f6d207f1d399a3f91aa53f2de3f70948b2a6faa77ef6f",
+        "source": {
+          "codeId": "cpp",
+          "articleId": "13-A",
+          "scope": "main",
+          "editionSha256": "72caa0eb0abe74fd6dac9bedc472238677fc75cc58c168d8e0114b7a1d3a4635"
+        },
+        "location": {
+          "field": "paragraphs",
+          "paragraph": 0,
+          "offsetUnit": "utf16",
+          "start": 71,
+          "end": 79,
+          "text": "art. 158"
+        },
+        "qualifiers": [
+          {
+            "start": 63,
+            "end": 71,
+            "text": "§ 3º do ",
+            "kind": "paragraph"
+          }
+        ],
+        "normEvidence": null,
+        "norm": {
+          "status": "resolved",
+          "codeId": "cpp",
+          "scope": "main",
+          "identity": null
+        },
+        "kind": "internal-explicit",
+        "classification": "A",
+        "resolution": {
+          "status": "resolved",
+          "reason": "unqualified-local",
+          "targets": [
+            {
+              "codeId": "cpp",
+              "articleId": "158",
+              "scope": "main",
+              "editionSha256": "72caa0eb0abe74fd6dac9bedc472238677fc75cc58c168d8e0114b7a1d3a4635",
+              "resolutionLevel": "article"
+            }
+          ]
+        },
+        "historical": {
+          "core": "clear",
+          "qualifiers": "clear",
+          "context": "clear",
+          "state": "clear"
+        },
+        "reason": "unqualified-local"
+      }
+    ],
+    "decisions": [
+      {
+        "occurrenceId": "1127f67c4bcf3e6ea55f6d207f1d399a3f91aa53f2de3f70948b2a6faa77ef6f",
+        "eligible": false,
+        "reason": "syntax-class-not-authorized"
+      }
+    ]
+  }
+]

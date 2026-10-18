@@ -1,0 +1,635 @@
+{
+  "node": "v22.23.3",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "conditions": "Five sequential warm in-memory runs, no CPU throttle in Node. Timings include SHA verification. Browser measured separately.",
+  "baseMain": "84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf",
+  "baseInvestigation": "b414204aadf24d0a0d213365060bc347b3f3847d",
+  "policy": {
+    "version": "1a.1",
+    "sha256": "8bf7c97e7febc2b79c79806aee20e4805e273c0997a24faeb0526037f2203412",
+    "mode": "experimental-only",
+    "classes": [
+      "parenthetical-article-list",
+      "self-qualified-article-list",
+      "adct-self-article",
+      "numbered-law-article-list"
+    ]
+  },
+  "extractor": {
+    "version": "0.5.2",
+    "sha256": "39c36f1af97a3c940e251e36808080cf09be240ff086646d0d4f3664d7204f63",
+    "editionSetSha256": "d6cf5178a7be433a3286db9b13176e047222d402b83902bdc992949b1df82e48"
+  },
+  "legalEditionSetSha256": "370a4933ee43302da34a443db8ecefef22c694a05b728cc21379792fab0fa528",
+  "generationSha256": "02225b8f6dc8c28726f323d5c3f3ca2acca2d747e94061282d9fba1906bade48",
+  "counts": {
+    "candidates": 4896,
+    "eligibleOccurrences": 272,
+    "eligibleEdges": 329,
+    "rejections": {
+      "list-range-or-complex-syntax-not-authorized": 395,
+      "editorial-or-implicit-not-authorized": 4,
+      "classification-C": 1886,
+      "classification-D": 1185,
+      "syntax-class-not-authorized": 1070,
+      "classification-B": 68,
+      "norm-identity-not-verified": 9,
+      "classification-E": 7
+    },
+    "classes": {
+      "parenthetical-article-list": 26,
+      "self-qualified-article-list": 192,
+      "adct-self-article": 23,
+      "numbered-law-article-list": 31
+    }
+  },
+  "timingsMs": [
+    {
+      "extraction": 526.7840959999999,
+      "eligibility": 51.60711400000014,
+      "graphAndSerialization": 3.3050429999998414
+    },
+    {
+      "extraction": 504.64077900000007,
+      "eligibility": 34.77076699999998,
+      "graphAndSerialization": 1.580342999999857
+    },
+    {
+      "extraction": 516.2600469999998,
+      "eligibility": 35.580079000000296,
+      "graphAndSerialization": 1.4483940000000075
+    },
+    {
+      "extraction": 446.9524919999999,
+      "eligibility": 34.17241700000022,
+      "graphAndSerialization": 1.3744729999998526
+    },
+    {
+      "extraction": 441.678457,
+      "eligibility": 32.34789499999988,
+      "graphAndSerialization": 1.3384189999997034
+    }
+  ],
+  "normalBuildMs": [
+    86.25342500000005,
+    87.56284899999991,
+    87.91815500000007,
+    90.24047699999983,
+    79.83791199999996
+  ],
+  "bytes": {
+    "index": 54795,
+    "indexGzip": 18716,
+    "offlineDataBefore": 16313192,
+    "offlineDataWithIndex": 16367987,
+    "optionalModules": 4891
+  },
+  "additional": {
+    "sourceParagraphs": 19,
+    "independentHumanReview": false,
+    "publicationApproval": "pending",
+    "raw": {
+      "annotatedNormativeExpressions": 24,
+      "matchedNormativeExpressions": 24,
+      "retainedNegativeCandidates": 0,
+      "unmatchedNonRejectedCandidates": 0,
+      "falsePositiveCandidatesBeforeAdjudication": 0,
+      "paragraphs": 19,
+      "articles": 19,
+      "expectedExpressions": 24,
+      "detectedExpressions": 24,
+      "matchedExpressions": 24,
+      "missedExpressions": 0,
+      "spuriousExpressions": 0,
+      "correctClassifications": 19,
+      "classifications": {
+        "A": 11,
+        "B": 2,
+        "C": 6,
+        "D": 5,
+        "E": 0
+      },
+      "expectedClassifications": {
+        "A": 15,
+        "B": 3,
+        "C": 1,
+        "D": 5,
+        "E": 0
+      },
+      "expectedDestinations": 25,
+      "emittedDestinations": 19,
+      "correctDestinations": 19,
+      "incorrectDestinations": 0,
+      "safetyOmissions": 6,
+      "expectedUniqueConnections": 25,
+      "emittedUniqueConnections": 19,
+      "correctUniqueConnections": 19,
+      "detectionPrecision": 1,
+      "detectionRecall": 1,
+      "connectionPrecision": 1,
+      "destinationRecall": 0.76,
+      "errors": [
+        {
+          "source": [
+            "cpp",
+            "13-A",
+            0
+          ],
+          "expected": {
+            "literal": "arts. 148, 149 e 149-A",
+            "status": "A",
+            "targets": [
+              "penal:148",
+              "penal:149",
+              "penal:149-A"
+            ],
+            "span": [
+              36,
+              58
+            ]
+          },
+          "actual": {
+            "text": "arts. 148, 149 e 149-A",
+            "span": [
+              36,
+              58
+            ],
+            "classification": "C",
+            "reason": "coordinated-norm-scope-not-supported",
+            "targets": []
+          }
+        },
+        {
+          "source": [
+            "cpp",
+            "13-A",
+            0
+          ],
+          "expected": {
+            "literal": "art. 158",
+            "status": "A",
+            "targets": [
+              "penal:158"
+            ],
+            "span": [
+              71,
+              79
+            ]
+          },
+          "actual": {
+            "text": "art. 158",
+            "span": [
+              71,
+              79
+            ],
+            "classification": "C",
+            "reason": "coordinated-norm-scope-not-supported",
+            "targets": []
+          }
+        },
+        {
+          "source": [
+            "eca",
+            "264",
+            0
+          ],
+          "expected": {
+            "literal": "art. 102",
+            "status": "B",
+            "targets": [],
+            "span": [
+              12,
+              20
+            ]
+          },
+          "actual": {
+            "text": "art. 102",
+            "span": [
+              12,
+              20
+            ],
+            "classification": "C",
+            "reason": "embedded-amendment-scope-not-supported",
+            "targets": []
+          }
+        },
+        {
+          "source": [
+            "cf",
+            "adct-124",
+            0
+          ],
+          "expected": {
+            "literal": "art. 156-A",
+            "status": "A",
+            "targets": [
+              "cf:156-A"
+            ],
+            "span": [
+              52,
+              62
+            ]
+          },
+          "actual": {
+            "text": "art. 156-A",
+            "span": [
+              52,
+              62
+            ],
+            "classification": "C",
+            "reason": "adct-scope-not-explicit",
+            "targets": []
+          }
+        },
+        {
+          "source": [
+            "cf",
+            "adct-124",
+            0
+          ],
+          "expected": {
+            "literal": "art. 195",
+            "status": "A",
+            "targets": [
+              "cf:195"
+            ],
+            "span": [
+              68,
+              76
+            ]
+          },
+          "actual": {
+            "text": "art. 195, V",
+            "span": [
+              68,
+              79
+            ],
+            "classification": "C",
+            "reason": "adct-scope-not-explicit",
+            "targets": []
+          }
+        }
+      ]
+    },
+    "eligible": {
+      "annotatedNormativeExpressions": 24,
+      "matchedNormativeExpressions": 7,
+      "retainedNegativeCandidates": 0,
+      "unmatchedNonRejectedCandidates": 0,
+      "falsePositiveCandidatesBeforeAdjudication": 0,
+      "paragraphs": 19,
+      "articles": 19,
+      "expectedExpressions": 24,
+      "detectedExpressions": 7,
+      "matchedExpressions": 7,
+      "missedExpressions": 17,
+      "spuriousExpressions": 0,
+      "correctClassifications": 7,
+      "classifications": {
+        "A": 7,
+        "B": 0,
+        "C": 0,
+        "D": 0,
+        "E": 0
+      },
+      "expectedClassifications": {
+        "A": 15,
+        "B": 3,
+        "C": 1,
+        "D": 5,
+        "E": 0
+      },
+      "expectedDestinations": 25,
+      "emittedDestinations": 7,
+      "correctDestinations": 7,
+      "incorrectDestinations": 0,
+      "safetyOmissions": 0,
+      "expectedUniqueConnections": 25,
+      "emittedUniqueConnections": 7,
+      "correctUniqueConnections": 7,
+      "detectionPrecision": 1,
+      "detectionRecall": 0.2916666666666667,
+      "connectionPrecision": 1,
+      "destinationRecall": 0.28,
+      "errors": [
+        {
+          "source": [
+            "eca",
+            "258-A",
+            0
+          ],
+          "expected": {
+            "literal": "art. 50",
+            "status": "A",
+            "targets": [
+              "eca:50"
+            ],
+            "span": [
+              119,
+              126
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "eca",
+            "258-A",
+            0
+          ],
+          "expected": {
+            "literal": "art. 101",
+            "status": "A",
+            "targets": [
+              "eca:101"
+            ],
+            "span": [
+              140,
+              148
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "clt",
+            "59-A",
+            0
+          ],
+          "expected": {
+            "literal": "art. 59",
+            "status": "D",
+            "targets": [],
+            "span": [
+              37,
+              44
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cpp",
+            "419",
+            1
+          ],
+          "expected": {
+            "literal": "art. 74",
+            "status": "A",
+            "targets": [
+              "cpp:74"
+            ],
+            "span": [
+              126,
+              133
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cpp",
+            "13-A",
+            0
+          ],
+          "expected": {
+            "literal": "arts. 148, 149 e 149-A",
+            "status": "A",
+            "targets": [
+              "penal:148",
+              "penal:149",
+              "penal:149-A"
+            ],
+            "span": [
+              36,
+              58
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cpp",
+            "13-A",
+            0
+          ],
+          "expected": {
+            "literal": "art. 158",
+            "status": "A",
+            "targets": [
+              "penal:158"
+            ],
+            "span": [
+              71,
+              79
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "eca",
+            "264",
+            0
+          ],
+          "expected": {
+            "literal": "art. 102",
+            "status": "B",
+            "targets": [],
+            "span": [
+              12,
+              20
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cpc",
+            "1048",
+            1
+          ],
+          "expected": {
+            "literal": "art. 6º",
+            "status": "B",
+            "targets": [],
+            "span": [
+              176,
+              183
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "licitacoes",
+            "76",
+            23
+          ],
+          "expected": {
+            "literal": "art. 6º",
+            "status": "B",
+            "targets": [],
+            "span": [
+              258,
+              265
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "improbidade",
+            "17",
+            6
+          ],
+          "expected": {
+            "literal": "art. 6o",
+            "status": "D",
+            "targets": [],
+            "span": [
+              124,
+              131
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cf",
+            "adct-90",
+            2
+          ],
+          "expected": {
+            "literal": "caput deste artigo",
+            "status": "C",
+            "targets": [],
+            "span": [
+              28,
+              46
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cf",
+            "adct-124",
+            0
+          ],
+          "expected": {
+            "literal": "art. 156-A",
+            "status": "A",
+            "targets": [
+              "cf:156-A"
+            ],
+            "span": [
+              52,
+              62
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cf",
+            "adct-124",
+            0
+          ],
+          "expected": {
+            "literal": "art. 195",
+            "status": "A",
+            "targets": [
+              "cf:195"
+            ],
+            "span": [
+              68,
+              76
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cf",
+            "adct-124",
+            0
+          ],
+          "expected": {
+            "literal": "arts. 125 a 133",
+            "status": "A",
+            "targets": [
+              "cf:adct-125",
+              "cf:adct-126",
+              "cf:adct-127",
+              "cf:adct-128",
+              "cf:adct-129",
+              "cf:adct-130",
+              "cf:adct-131",
+              "cf:adct-132",
+              "cf:adct-133"
+            ],
+            "span": [
+              153,
+              168
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cf",
+            "adct-117",
+            0
+          ],
+          "expected": {
+            "literal": "arts. 115 e 116",
+            "status": "D",
+            "targets": [],
+            "span": [
+              60,
+              75
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cpp",
+            "561",
+            2
+          ],
+          "expected": {
+            "literal": "art. 29",
+            "status": "D",
+            "targets": [],
+            "span": [
+              109,
+              116
+            ]
+          },
+          "actual": null
+        },
+        {
+          "source": [
+            "cpp",
+            "561",
+            2
+          ],
+          "expected": {
+            "literal": "art. 60",
+            "status": "D",
+            "targets": [],
+            "span": [
+              138,
+              145
+            ]
+          },
+          "actual": null
+        }
+      ]
+    }
+  },
+  "normsUnchanged": true,
+  "deterministic": true
+}

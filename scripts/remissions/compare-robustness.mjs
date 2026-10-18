@@ -1,0 +1,25 @@
+// Analysis only. Usage: node scripts/remissions/compare-robustness.mjs BASE_ARCHIVE_DIR OUTPUT
+import {writeFile} from 'node:fs/promises';
+import {cases,runCase,corpusFromBuild} from './adversarial.mjs';
+import {pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+const base=pathToFileURL(resolve(process.argv[2])+'/');
+const {buildRemissions:oldBuild}=await import(new URL('scripts/remissions/build-resource.mjs',base));
+const {buildPackage:oldPackage}=await import(new URL('scripts/build.mjs',base));
+const {extractRemissions:extract}=await import(new URL('scripts/remissions/extract.mjs',base));
+const {applyEligibility:eligible}=await import(new URL('scripts/remissions/eligibility.mjs',base));
+import {buildRemissions as newBuild} from './build-resource.mjs';
+import {buildPackage as newPackage} from '../build.mjs';
+const corpus=await corpusFromBuild(),old=oldBuild(corpus),next=newBuild(corpus);
+const key=o=>[o.source.codeId,o.source.articleId,o.location.paragraph,o.location.start,o.location.end].join('/');
+const accepted=b=>b.audit.occurrences.filter(o=>b.audit.decisions.some(d=>d.occurrenceId===o.id&&d.eligible));
+const oldAccepted=accepted(old),newAccepted=accepted(next),newKeys=new Set(newAccepted.map(key)),oldKeys=new Set(oldAccepted.map(key));
+const removed=oldAccepted.filter(o=>!newKeys.has(key(o))).map(o=>{const n=next.audit.occurrences.find(n=>key(n)===key(o));return {source:o.source,location:o.location,oldTargets:o.resolution.targets,newClassification:n?.classification,newReason:n?.reason,decision:next.audit.decisions.find(d=>d.occurrenceId===n?.id),historical:n?.historical};});
+const added=newAccepted.filter(o=>!oldKeys.has(key(o)));
+const before=await oldPackage(),after=await newPackage();
+const defaultEqual=before.html===after.html&&JSON.stringify(before.manifest)===JSON.stringify(after.manifest)&&before.files.size===after.files.size&&[...before.files].every(([p,b])=>b===after.files.get(p));
+const historicalVariants=['consultar','aplicar','considerar'].map(verb=>{const c=structuredClone(cases.find(c=>c.id==='B02'));c.paragraphs[0][1].text=verb+' art. 147 desta Lei.';return {verb,before:runCase(corpus,c,{extract,eligible}),after:runCase(corpus,c)};});
+const edges=b=>new Set(b.index.edges.map(e=>[b.index.editions[e[0]][0],e[1],b.index.editions[e[2]][0],e[3]].join('/')));
+const beforeEdges=edges(old),afterEdges=edges(next),removedEdges=[...beforeEdges].filter(k=>!afterEdges.has(k)),addedEdges=[...afterEdges].filter(k=>!beforeEdges.has(k));
+const data={defaultEqual,edgeSetsEqual:!removedEdges.length&&!addedEdges.length,removedEdges,addedEdges,removed,added,historicalVariants,counts:{before:old.audit.edges,after:next.audit.edges}};
+await writeFile(process.argv[3]||'test-results/remissions-delta.json',JSON.stringify(data,null,2));console.log(JSON.stringify(data,null,2));

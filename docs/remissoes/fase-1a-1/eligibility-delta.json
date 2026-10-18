@@ -1,0 +1,551 @@
+{
+  "defaultEqual": true,
+  "edgeSetsEqual": true,
+  "removedEdges": [],
+  "addedEdges": [],
+  "removed": [],
+  "added": [],
+  "historicalVariants": [
+    {
+      "verb": "consultar",
+      "before": {
+        "id": "B02",
+        "source": {
+          "code": "licitacoes",
+          "article": "100",
+          "synthetic": true
+        },
+        "paragraphs": [
+          {
+            "runs": [
+              {
+                "text": "Segundo a Lei nº 8.666/1993, ",
+                "deleted": true
+              },
+              {
+                "text": "consultar art. 147 desta Lei.",
+                "deleted": false
+              }
+            ]
+          }
+        ],
+        "expected": [],
+        "justification": "Identidade contextual riscada necessária; abstenção.",
+        "rawTargets": [
+          "licitacoes/147"
+        ],
+        "eligibleTargets": [
+          "licitacoes/147"
+        ],
+        "occurrences": [
+          {
+            "id": "52a2f1cfeea6fe3d72cb4d82343843d1aa48557b0e046f9421c9c7b673225a9d",
+            "source": {
+              "codeId": "licitacoes",
+              "articleId": "100",
+              "scope": "main",
+              "editionSha256": "1bb2d82b1711da86c1284e10502969f8a1d620093dcb733fd58c22b13af5c844"
+            },
+            "location": {
+              "field": "paragraphs",
+              "paragraph": 0,
+              "offsetUnit": "utf16",
+              "start": 39,
+              "end": 47,
+              "text": "art. 147"
+            },
+            "qualifiers": [],
+            "normEvidence": {
+              "start": 47,
+              "end": 57,
+              "text": " desta Lei"
+            },
+            "norm": {
+              "status": "resolved",
+              "codeId": "licitacoes",
+              "scope": "main",
+              "identity": null
+            },
+            "kind": "internal-explicit",
+            "classification": "A",
+            "resolution": {
+              "status": "resolved",
+              "reason": "explicit-self",
+              "targets": [
+                {
+                  "codeId": "licitacoes",
+                  "articleId": "147",
+                  "scope": "main",
+                  "editionSha256": "1bb2d82b1711da86c1284e10502969f8a1d620093dcb733fd58c22b13af5c844",
+                  "resolutionLevel": "article"
+                }
+              ]
+            },
+            "historical": {
+              "core": "clear",
+              "qualifiers": "clear",
+              "context": "clear",
+              "state": "clear"
+            },
+            "reason": "explicit-self"
+          }
+        ],
+        "decisions": [
+          {
+            "occurrenceId": "52a2f1cfeea6fe3d72cb4d82343843d1aa48557b0e046f9421c9c7b673225a9d",
+            "eligible": true,
+            "syntaxClass": "self-qualified-article-list"
+          }
+        ]
+      },
+      "after": {
+        "id": "B02",
+        "source": {
+          "code": "licitacoes",
+          "article": "100",
+          "synthetic": true
+        },
+        "paragraphs": [
+          {
+            "runs": [
+              {
+                "text": "Segundo a Lei nº 8.666/1993, ",
+                "deleted": true
+              },
+              {
+                "text": "consultar art. 147 desta Lei.",
+                "deleted": false
+              }
+            ]
+          }
+        ],
+        "expected": [],
+        "justification": "Identidade contextual riscada necessária; abstenção.",
+        "rawTargets": [],
+        "eligibleTargets": [],
+        "occurrences": [
+          {
+            "id": "2d0fb88ae23b0f330f534d8a79400d940eecc33cd776bd7b6f67bb3a805bf37e",
+            "source": {
+              "codeId": "licitacoes",
+              "articleId": "100",
+              "scope": "main",
+              "editionSha256": "1bb2d82b1711da86c1284e10502969f8a1d620093dcb733fd58c22b13af5c844"
+            },
+            "location": {
+              "field": "paragraphs",
+              "paragraph": 0,
+              "offsetUnit": "utf16",
+              "start": 39,
+              "end": 47,
+              "text": "art. 147"
+            },
+            "qualifiers": [],
+            "normEvidence": {
+              "start": 47,
+              "end": 57,
+              "text": " desta Lei"
+            },
+            "norm": {
+              "status": "resolved",
+              "codeId": "licitacoes",
+              "scope": "main",
+              "identity": null
+            },
+            "kind": "internal-explicit",
+            "classification": "C",
+            "resolution": {
+              "status": "resolved",
+              "reason": "explicit-self",
+              "targets": [
+                {
+                  "codeId": "licitacoes",
+                  "articleId": "147",
+                  "scope": "main",
+                  "editionSha256": "1bb2d82b1711da86c1284e10502969f8a1d620093dcb733fd58c22b13af5c844",
+                  "resolutionLevel": "article"
+                }
+              ]
+            },
+            "historical": {
+              "core": "clear",
+              "qualifiers": "clear",
+              "context": "mixed",
+              "state": "mixed"
+            },
+            "reason": "historical-required-evidence"
+          }
+        ],
+        "decisions": [
+          {
+            "occurrenceId": "2d0fb88ae23b0f330f534d8a79400d940eecc33cd776bd7b6f67bb3a805bf37e",
+            "eligible": false,
+            "reason": "classification-C"
+          }
+        ]
+      }
+    },
+    {
+      "verb": "aplicar",
+      "before": {
+        "id": "B02",
+        "source": {
+          "code": "licitacoes",
+          "article": "100",
+          "synthetic": true
+        },
+        "paragraphs": [
+          {
+            "runs": [
+              {
+                "text": "Segundo a Lei nº 8.666/1993, ",
+                "deleted": true
+              },
+              {
+                "text": "aplicar art. 147 desta Lei.",
+                "deleted": false
+              }
+            ]
+          }
+        ],
+        "expected": [],
+        "justification": "Identidade contextual riscada necessária; abstenção.",
+        "rawTargets": [
+          "licitacoes/147"
+        ],
+        "eligibleTargets": [
+          "licitacoes/147"
+        ],
+        "occurrences": [
+          {
+            "id": "84d0b6745147a19fc44b16549af52b395194fed61d70749e5b0d1f142329c853",
+            "source": {
+              "codeId": "licitacoes",
+              "articleId": "100",
+              "scope": "main",
+              "editionSha256": "5b6296cc5a8905e67cbe9bb5507e7470c30388aba6f41ffe81137bc4239480dc"
+            },
+            "location": {
+              "field": "paragraphs",
+              "paragraph": 0,
+              "offsetUnit": "utf16",
+              "start": 37,
+              "end": 45,
+              "text": "art. 147"
+            },
+            "qualifiers": [],
+            "normEvidence": {
+              "start": 45,
+              "end": 55,
+              "text": " desta Lei"
+            },
+            "norm": {
+              "status": "resolved",
+              "codeId": "licitacoes",
+              "scope": "main",
+              "identity": null
+            },
+            "kind": "internal-explicit",
+            "classification": "A",
+            "resolution": {
+              "status": "resolved",
+              "reason": "explicit-self",
+              "targets": [
+                {
+                  "codeId": "licitacoes",
+                  "articleId": "147",
+                  "scope": "main",
+                  "editionSha256": "5b6296cc5a8905e67cbe9bb5507e7470c30388aba6f41ffe81137bc4239480dc",
+                  "resolutionLevel": "article"
+                }
+              ]
+            },
+            "historical": {
+              "core": "clear",
+              "qualifiers": "clear",
+              "context": "clear",
+              "state": "clear"
+            },
+            "reason": "explicit-self"
+          }
+        ],
+        "decisions": [
+          {
+            "occurrenceId": "84d0b6745147a19fc44b16549af52b395194fed61d70749e5b0d1f142329c853",
+            "eligible": true,
+            "syntaxClass": "self-qualified-article-list"
+          }
+        ]
+      },
+      "after": {
+        "id": "B02",
+        "source": {
+          "code": "licitacoes",
+          "article": "100",
+          "synthetic": true
+        },
+        "paragraphs": [
+          {
+            "runs": [
+              {
+                "text": "Segundo a Lei nº 8.666/1993, ",
+                "deleted": true
+              },
+              {
+                "text": "aplicar art. 147 desta Lei.",
+                "deleted": false
+              }
+            ]
+          }
+        ],
+        "expected": [],
+        "justification": "Identidade contextual riscada necessária; abstenção.",
+        "rawTargets": [],
+        "eligibleTargets": [],
+        "occurrences": [
+          {
+            "id": "537f85a6834428b5350d75922e61240e7d8af49d85b8d4f62a5db97b0a2854a7",
+            "source": {
+              "codeId": "licitacoes",
+              "articleId": "100",
+              "scope": "main",
+              "editionSha256": "5b6296cc5a8905e67cbe9bb5507e7470c30388aba6f41ffe81137bc4239480dc"
+            },
+            "location": {
+              "field": "paragraphs",
+              "paragraph": 0,
+              "offsetUnit": "utf16",
+              "start": 37,
+              "end": 45,
+              "text": "art. 147"
+            },
+            "qualifiers": [],
+            "normEvidence": {
+              "start": 45,
+              "end": 55,
+              "text": " desta Lei"
+            },
+            "norm": {
+              "status": "resolved",
+              "codeId": "licitacoes",
+              "scope": "main",
+              "identity": null
+            },
+            "kind": "internal-explicit",
+            "classification": "C",
+            "resolution": {
+              "status": "resolved",
+              "reason": "explicit-self",
+              "targets": [
+                {
+                  "codeId": "licitacoes",
+                  "articleId": "147",
+                  "scope": "main",
+                  "editionSha256": "5b6296cc5a8905e67cbe9bb5507e7470c30388aba6f41ffe81137bc4239480dc",
+                  "resolutionLevel": "article"
+                }
+              ]
+            },
+            "historical": {
+              "core": "clear",
+              "qualifiers": "clear",
+              "context": "mixed",
+              "state": "mixed"
+            },
+            "reason": "historical-required-evidence"
+          }
+        ],
+        "decisions": [
+          {
+            "occurrenceId": "537f85a6834428b5350d75922e61240e7d8af49d85b8d4f62a5db97b0a2854a7",
+            "eligible": false,
+            "reason": "classification-C"
+          }
+        ]
+      }
+    },
+    {
+      "verb": "considerar",
+      "before": {
+        "id": "B02",
+        "source": {
+          "code": "licitacoes",
+          "article": "100",
+          "synthetic": true
+        },
+        "paragraphs": [
+          {
+            "runs": [
+              {
+                "text": "Segundo a Lei nº 8.666/1993, ",
+                "deleted": true
+              },
+              {
+                "text": "considerar art. 147 desta Lei.",
+                "deleted": false
+              }
+            ]
+          }
+        ],
+        "expected": [],
+        "justification": "Identidade contextual riscada necessária; abstenção.",
+        "rawTargets": [
+          "licitacoes/147"
+        ],
+        "eligibleTargets": [
+          "licitacoes/147"
+        ],
+        "occurrences": [
+          {
+            "id": "f5d7d3be9e50d2c44837566c009793b757881b0a66103c8e3fbcdd404a1eaaa5",
+            "source": {
+              "codeId": "licitacoes",
+              "articleId": "100",
+              "scope": "main",
+              "editionSha256": "813c8e91dbdeb688b4e1fb22abd056cbce0b24f98b7850167bacbc7967c812e3"
+            },
+            "location": {
+              "field": "paragraphs",
+              "paragraph": 0,
+              "offsetUnit": "utf16",
+              "start": 40,
+              "end": 48,
+              "text": "art. 147"
+            },
+            "qualifiers": [],
+            "normEvidence": {
+              "start": 48,
+              "end": 58,
+              "text": " desta Lei"
+            },
+            "norm": {
+              "status": "resolved",
+              "codeId": "licitacoes",
+              "scope": "main",
+              "identity": null
+            },
+            "kind": "internal-explicit",
+            "classification": "A",
+            "resolution": {
+              "status": "resolved",
+              "reason": "explicit-self",
+              "targets": [
+                {
+                  "codeId": "licitacoes",
+                  "articleId": "147",
+                  "scope": "main",
+                  "editionSha256": "813c8e91dbdeb688b4e1fb22abd056cbce0b24f98b7850167bacbc7967c812e3",
+                  "resolutionLevel": "article"
+                }
+              ]
+            },
+            "historical": {
+              "core": "clear",
+              "qualifiers": "clear",
+              "context": "clear",
+              "state": "clear"
+            },
+            "reason": "explicit-self"
+          }
+        ],
+        "decisions": [
+          {
+            "occurrenceId": "f5d7d3be9e50d2c44837566c009793b757881b0a66103c8e3fbcdd404a1eaaa5",
+            "eligible": true,
+            "syntaxClass": "self-qualified-article-list"
+          }
+        ]
+      },
+      "after": {
+        "id": "B02",
+        "source": {
+          "code": "licitacoes",
+          "article": "100",
+          "synthetic": true
+        },
+        "paragraphs": [
+          {
+            "runs": [
+              {
+                "text": "Segundo a Lei nº 8.666/1993, ",
+                "deleted": true
+              },
+              {
+                "text": "considerar art. 147 desta Lei.",
+                "deleted": false
+              }
+            ]
+          }
+        ],
+        "expected": [],
+        "justification": "Identidade contextual riscada necessária; abstenção.",
+        "rawTargets": [],
+        "eligibleTargets": [],
+        "occurrences": [
+          {
+            "id": "f24a1c1c5eba296597e897ad10dccc74c61b4b443a90b78748514f01a2e9f2a7",
+            "source": {
+              "codeId": "licitacoes",
+              "articleId": "100",
+              "scope": "main",
+              "editionSha256": "813c8e91dbdeb688b4e1fb22abd056cbce0b24f98b7850167bacbc7967c812e3"
+            },
+            "location": {
+              "field": "paragraphs",
+              "paragraph": 0,
+              "offsetUnit": "utf16",
+              "start": 40,
+              "end": 48,
+              "text": "art. 147"
+            },
+            "qualifiers": [],
+            "normEvidence": {
+              "start": 48,
+              "end": 58,
+              "text": " desta Lei"
+            },
+            "norm": {
+              "status": "resolved",
+              "codeId": "licitacoes",
+              "scope": "main",
+              "identity": null
+            },
+            "kind": "internal-explicit",
+            "classification": "C",
+            "resolution": {
+              "status": "resolved",
+              "reason": "explicit-self",
+              "targets": [
+                {
+                  "codeId": "licitacoes",
+                  "articleId": "147",
+                  "scope": "main",
+                  "editionSha256": "813c8e91dbdeb688b4e1fb22abd056cbce0b24f98b7850167bacbc7967c812e3",
+                  "resolutionLevel": "article"
+                }
+              ]
+            },
+            "historical": {
+              "core": "clear",
+              "qualifiers": "clear",
+              "context": "mixed",
+              "state": "mixed"
+            },
+            "reason": "historical-required-evidence"
+          }
+        ],
+        "decisions": [
+          {
+            "occurrenceId": "f24a1c1c5eba296597e897ad10dccc74c61b4b443a90b78748514f01a2e9f2a7",
+            "eligible": false,
+            "reason": "classification-C"
+          }
+        ]
+      }
+    }
+  ],
+  "counts": {
+    "before": 329,
+    "after": 329
+  }
+}
