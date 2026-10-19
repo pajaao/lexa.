@@ -49,7 +49,7 @@ try:
  with sync_playwright() as p:
   browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
   errors=[];cases=0
-  for width,height in [(1366,768),(375,812),(320,700)]:
+  for width,height in [(1366,768),(390,812),(320,700)]:
    for motion in ['no-preference','reduce']:
     context=browser.new_context(viewport={'width':width,'height':height},service_workers='block',reduced_motion=motion)
     page=context.new_page();page.on('pageerror',lambda error:errors.append(str(error)))
@@ -68,6 +68,19 @@ try:
      if width<=700:assert not page.locator('.reader-index').evaluate('(element)=>element.open')
      cases+=1
     page.goto(base+'#/cf/5');page.locator('#art-5').wait_for()
+    if width<=700:
+     controls=page.locator('.reading-controls')
+     assert controls.bounding_box()['height']<=120,controls.bounding_box()
+     page.locator('#art-5 .legal-unit').nth(4).scroll_into_view_if_needed()
+     page.wait_for_function("Math.abs(document.querySelector('.reading-controls').getBoundingClientRect().top)<1")
+     assert page.locator('#reading-location').inner_text()!='Leitura'
+     page.locator('#article-search').focus();expect(page.locator('#article-search')).to_be_focused()
+     button=page.get_by_role('button',name='Índice',exact=True)
+     button.focus();page.keyboard.press('Enter')
+     expect(page.locator('.reader-index>summary')).to_be_focused()
+     expect(button).to_have_attribute('aria-expanded','true')
+    else:
+     expect(page.locator('.mobile-index-toggle')).to_be_hidden()
     page.locator('.reader-index').evaluate('(element)=>element.open=true')
     selection=page.locator('#index-list .index-entry').first
     selection.focus();page.keyboard.press('Enter')
