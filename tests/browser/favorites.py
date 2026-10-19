@@ -1,7 +1,7 @@
 """Validate existing favorites and compact reading controls in real Chromium."""
 from pathlib import Path
 import functools,http.server,threading
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -44,10 +44,10 @@ try:
   for width in [320,390,1280]:
    page.set_viewport_size({'width':width,'height':900})
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),('favorites',width)
-   page.screenshot(path=f'/tmp/lexa-favorites-{width}.png')
+   page.screenshot(path=artifact_path(f'lexa-favorites-{width}.png'))
    page.goto(base+'#/cf/5');expect(page.locator('#art-5')).to_be_visible()
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),('reading',width)
-   page.screenshot(path=f'/tmp/lexa-compact-{width}.png')
+   page.screenshot(path=artifact_path(f'lexa-compact-{width}.png'))
    page.goto(base+'#/favoritos')
   while page.locator('[data-remove-favorite]').count():page.locator('[data-remove-favorite]').first.click()
   expect(page.locator('.favorites-empty')).to_contain_text('Sua seleção começa aqui')

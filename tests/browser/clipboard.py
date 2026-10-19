@@ -1,7 +1,7 @@
 """Validate clipboard interaction, denied permission fallback and mobile layout."""
 from pathlib import Path
 import functools,http.server,threading
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -38,7 +38,7 @@ try:
    page.set_viewport_size({'width':width,'height':900})
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
    assert page.locator('#copy-dialog').bounding_box()['width']<=width
-   page.screenshot(path=f'/tmp/lexa-copy-dialog-{width}.png')
+   page.screenshot(path=artifact_path(f'lexa-copy-dialog-{width}.png'))
   page.keyboard.press('Escape');expect(page.locator('#copy-dialog')).not_to_be_visible()
   assert page.locator('body').evaluate("e=>e.classList.contains('reading-focus')")
   page.keyboard.press('Escape');assert page.locator('#art-5 .article-copy').evaluate('e=>!e.open')
@@ -48,7 +48,7 @@ try:
    page.set_viewport_size({'width':width,'height':900})
    page.locator('#art-13 .article-copy>summary').click()
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
-   page.screenshot(path=f'/tmp/lexa-copy-menu-{width}.png')
+   page.screenshot(path=artifact_path(f'lexa-copy-menu-{width}.png'))
    page.locator('#art-13 .article-copy>summary').click()
   assert not errors,errors
   browser.close();print('Cópia validada: texto e link reais, CF/ADCT, súmulas, intervalo agrupado, permissão negada, seleção manual e telas menores.')

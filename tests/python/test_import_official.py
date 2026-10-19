@@ -12,8 +12,8 @@ from import_official import ROOT, convert, prepare, history_event, load_js
 class OfficialImportTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.specs=json.loads((ROOT/'monitor/sources.json').read_text())
-        cls.snapshots={s['id']:json.loads((ROOT/'monitor/official'/(s['id']+'.json')).read_text()) for s in cls.specs}
+        cls.specs=json.loads((ROOT/'monitor/sources.json').read_text(encoding='utf-8'))
+        cls.snapshots={s['id']:json.loads((ROOT/'monitor/official'/(s['id']+'.json')).read_text(encoding='utf-8')) for s in cls.specs}
         cls.converted={s['id']:convert(s,cls.snapshots[s['id']]) for s in cls.specs}
 
     def article(self,code,id):
@@ -71,7 +71,7 @@ class OfficialImportTests(unittest.TestCase):
             shutil.copytree(ROOT/'monitor/official',root/'monitor/official')
             shutil.copyfile(ROOT/'monitor/sources.json',root/'monitor/sources.json')
             shutil.copyfile(ROOT/'data/archive/legislation.js',root/'data/archive/legislation.js')
-            (root/'data/official/legislation.js').write_text('export const officialImported = {};\n')
+            (root/'data/official/legislation.js').write_text('export const officialImported = {};\n', encoding='utf-8')
             archive=(root/'data/archive/legislation.js').read_bytes()
             prepare(root)
             first=(root/'data/official/legislation.js').read_bytes()

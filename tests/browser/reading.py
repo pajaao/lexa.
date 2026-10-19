@@ -1,6 +1,6 @@
 from pathlib import Path
 import functools,http.server,threading
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class Quiet(http.server.SimpleHTTPRequestHandler):
@@ -31,7 +31,7 @@ try:
    page.set_viewport_size({'width':width,'height':900});page.locator('#focus-mode').scroll_into_view_if_needed()
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
    page.locator('#focus-mode').click();assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),('focus',width)
-   page.screenshot(path=f'/tmp/lexa-reading-{width}.png',full_page=False)
+   page.screenshot(path=artifact_path(f'lexa-reading-{width}.png'),full_page=False)
    page.locator('#focus-mode').click()
   page.goto(base);page.locator('#forget-reading').click();assert page.locator('.resume-reading').count()==0;page.reload();assert page.locator('.resume-reading').count()==0
   # Malformed persisted state and unavailable storage must not block reading.

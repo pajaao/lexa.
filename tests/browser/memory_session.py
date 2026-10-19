@@ -10,7 +10,7 @@ parser.add_argument('directory',nargs='?',type=Path,default=root/'dist')
 parser.add_argument('--before',action='store_true',help='Record a previous build without imposing the new cache contract')
 parser.add_argument('--output',type=Path)
 args=parser.parse_args();directory=args.directory.resolve()
-catalog=json.loads((directory/'catalog.json').read_text());specs=catalog['collections']
+catalog=json.loads((directory/'catalog.json').read_text(encoding='utf-8'));specs=catalog['collections']
 server=BenchmarkServer(directory);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
 snapshots=[]
 try:
@@ -33,9 +33,9 @@ try:
   if not args.before:assert app_evaluate(page,'collections.filter(c=>c.loaded).length')<=3
   page.goto(base);page.locator('#library-search').fill('dignidade');search_ready(page,'dignidade',12)
   actual=app_evaluate(page,"searchLibraryText('dignidade').map(g=>({id:g.code.id,ids:g.matches.map(m=>m.article.id)}))")
-  assert actual==json.loads((root/'tests/fixtures/dignidade-results.json').read_text())
+  assert actual==json.loads((root/'tests/fixtures/dignidade-results.json').read_text(encoding='utf-8'))
   browser.close()
  report={'cpu':4,'rounds':2,'collections':len(specs),'memory':'page V8 heap after GC; not total browser RAM','snapshots':snapshots}
- if args.output:args.output.write_text(json.dumps(report,indent=2)+'\n')
+ if args.output:args.output.write_text(json.dumps(report,indent=2)+'\n', encoding='utf-8')
  print(json.dumps(report))
 finally:server.shutdown();server.server_close();thread.join()

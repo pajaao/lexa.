@@ -11,3 +11,5 @@ _site/
 
 # Browser diagnostics and ad hoc performance reports
 /test-results/
+
+.venv/
