@@ -128,7 +128,7 @@ Sugestões para melhorar a navegação e a leitura também são bem-vindas.
 
 Veja o [guia da estrutura](docs/ESTRUTURA.md) para saber o que editar e o que é gerado.
 
-A [central de documentação](docs/INDEX.md) organiza os guias correntes, os registros históricos, os experimentos em outras branches e os [pareceres da Coordenação](docs/coordenacao/INDEX.md), com indicação explícita de seus estados.
+A [central de documentação](docs/INDEX.md) organiza os guias correntes, os registros históricos e os [pareceres da Coordenação](docs/coordenacao/INDEX.md), com indicação explícita de seus estados.
 
 ### Executar no computador
 
