@@ -19,6 +19,11 @@ Este arquivo reúne as instruções operacionais essenciais do Lexa. A **Governa
 
 Use Issues e PRs como registros principais. Não produza pareceres, auditorias, atas ou relatórios extensos por padrão, nem duplique registros entre GitHub, Drive e Markdown. Documentos adicionais só quando necessários para decisões duradouras, investigações complexas, evidência jurídica ou reprodução de testes. Não repita auditorias concluídas se o código relevante não mudou.
 
+## Comunicação proporcional
+- Prefira respostas diretas e breves para perguntas simples. Aprofunde somente quando a complexidade, o risco ou o pedido exigirem.
+- Não repita contextos conhecidos nem crie títulos, tabelas, alternativas, relatórios ou próximas etapas desnecessárias.
+- Preserve informações essenciais, evidências e limitações, mesmo em respostas curtas.
+
 ## Verificação e entrega
 - Aplicação: Node.js >=22; `npm test` executa build e testes Node.
 - Monitores/importadores: Python >=3.12; `python -m unittest discover -s tests -p 'test_*.py'` (ou comando equivalente do ambiente).
