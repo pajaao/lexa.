@@ -1,61 +1,64 @@
-# Lexa — processo de trabalho e governança
+# Lexa — Governança v3 — Desenvolvimento Enxuto
 
-**Aplicação:** este processo passa a reger a colaboração quando integrado à branch principal. Sua adoção não modifica implementação nem decisões jurídicas já registradas.
+Desenvolvimento orientado a entregas, com revisão proporcional ao impacto real. A governança não altera implementação nem decisões jurídicas já registradas e não exige pareceres sucessivos para tarefas rotineiras.
 
-## 1. Modelo de trabalho
-- **Coordenação Central (decisão):** prioriza tarefas, aprova escopos, resolve divergências e autoriza merges/publicações.
-- **Engenharia (execução):** arquitetura, código, builds, importadores e testes técnicos. O Codex local é o executor preferencial de tarefas delimitadas.
-- **Integridade Jurídica (revisão especializada):** fidelidade às fontes, remissões, critérios de versão e limites de conclusão jurídica. Parecer de IA não substitui revisão humana independente.
-- **UX e Produto (desenho e validação de experiência):** usabilidade, acessibilidade, UX Writing, protótipos e especificações.
-- **Qualidade e Testes (verificação):** critérios de aceite, regressões, evidências reproduzíveis, comportamento em navegadores/dispositivos.
-- **Inovação (consultiva):** hipóteses e exploração, acionada quando existir decisão de produto que mereça investigação. Não é uma aprovação obrigatória.
+## 1. Funções e responsabilidades
 
-As frentes são responsabilidades de trabalho, não agentes humanos autônomos nem garantia de independência epistêmica. Só convocar as pertinentes ao risco da tarefa.
+- **Produto e Coordenação:** define problema, prioridades, escopo e critérios de aceite; resolve divergências e autoriza a integração.
+- **Desenvolvimento:** implementa com Codex local, executa os testes correspondentes e prepara o PR.
+- **Revisão e Qualidade:** realiza verificação técnica ou independente quando necessária, especialmente em alterações relevantes ou críticas.
 
-## 2. Fonte de verdade
+Engenharia especializada, UX, Integridade Jurídica e Inovação são competências acionadas conforme a necessidade, não etapas administrativas permanentes. As funções não representam agentes humanos autônomos nem garantem independência da revisão. IA e testes não substituem homologação jurídica humana independente.
+
+## 2. Classificação das tarefas
+
+Classifique pelo impacto real, não pela quantidade de arquivos modificados. Uma alteração localizada pode ser crítica se afetar um mecanismo sensível.
+
+| Nível | Exemplos e tratamento |
+| --- | --- |
+| **Simples** | Correções localizadas, textos de interface e pequenos ajustes visuais. Execução direta, testes pertinentes e PR conciso. |
+| **Intermediário** | Novas funcionalidades e mudanças relevantes na navegação, acessibilidade ou experiência. Critérios de aceite claros, implementação, testes e revisão dirigida. |
+| **Crítico** | Alterações em texto jurídico, fontes, extratores, integridade de dados, hashes, segurança, atualizações PWA ou mecanismos sensíveis. Análise de risco, testes rigorosos e revisão especializada; revisão humana independente quando a natureza jurídica exigir. |
+
+## 3. Fluxo de uma entrega
+
+1. **Definir:** Produto e Coordenação cria uma Issue ou autoriza uma solicitação pequena, delimitando problema, escopo e critérios de aceite. Identificar base e nível de risco; planejar apenas o necessário para esse nível.
+2. **Implementar:** conferir o Git e trabalhar em branch de tarefa, com a menor alteração que satisfaça a entrega. Evitar múltiplos executores alterando a mesma árvore; preservar trabalho local e usar commits pequenos e reversíveis.
+3. **Verificar e preparar o PR:** executar testes pertinentes, registrar resultados reais e revisar o diff. O GitHub Actions verifica o PR novamente. Não repetir auditorias concluídas quando o código relevante não mudou.
+4. **Revisar e decidir:** aplicar revisão dirigida ou especializada conforme o risco. Produto e Coordenação decide corrigir, manter em experimento, encerrar ou autorizar a integração. Não exigir rodadas sucessivas de pareceres por rotina.
+
+Abertura de PR não é merge; fechamento sem merge não incorpora conteúdo. PRs experimentais conservam sua base correta, sem redirecionamento para `main` por conveniência. Merge, publicação, alteração de credenciais e operações destrutivas exigem autorização expressa.
+
+## 4. Registros e fonte de verdade
+
+Issues e PRs são os registros principais de execução e decisão. O resumo habitual informa apenas alterações realizadas, testes efetivamente executados, riscos ou limitações e pendências reais.
+
 | Pergunta | Fonte primária |
 | --- | --- |
-| O que está implementado? | Código e histórico da branch efetivamente examinada, com SHA |
+| O que está implementado? | Código e histórico da branch examinada, com SHA |
 | O que está em produção? | `main` e execução de publicação do GitHub Pages |
-| O que há para fazer? | GitHub Issues e respectivos critérios de aceite |
-| Uma alteração foi proposta ou integrada? | GitHub Pull Requests: base, HEAD, checks e campo `merged_at` |
-| Qual regra arquitetural/de manutenção está vigente? | `docs/ESTRUTURA.md` e `docs/MANUTENCAO.md` na branch correspondente |
-| Quais evidências embasam uma conclusão? | Testes, commits, arquivos vinculados e pareceres identificados |
-| Onde ficam pareceres administrativos e pesquisa? | Google Drive, com links estáveis do registro decisório |
+| O que há para fazer? | Issues e critérios de aceite |
+| Uma alteração foi proposta ou integrada? | PR: base, HEAD, checks e `merged_at` |
+| Qual regra técnica está vigente? | [Estrutura](ESTRUTURA.md) e [Manutenção](MANUTENCAO.md) na branch correspondente |
+| Quais evidências sustentam a entrega? | Resultados reais, commits e arquivos vinculados na Issue ou no PR |
 
-Não manter tabelas manuais de status de PR repetidas em vários documentos; usar links e consultar o estado real no GitHub. Documento histórico conserva a situação da data de elaboração e não é reescrito retroativamente.
+Não produzir pareceres, auditorias, atas ou relatórios extensos por padrão. Evitar duplicação entre GitHub, Drive e Markdown, inclusive tabelas manuais de status de PR. Criar documentos adicionais somente para decisões duradouras, investigações complexas, evidência jurídica ou reprodução de testes. Vincular material existente quando necessário; não reescrever documentos históricos para alterar a situação registrada à época. Atualizar documentação corrente apenas quando seu conteúdo mudar. A simplificação não exige novos documentos, templates ou etapas de aprovação.
 
-## 3. Ciclo de uma tarefa
-1. **Abertura:** a Coordenação cria uma Issue ou autoriza uma solicitação pequena. Registrar problema, escopo, fora de escopo, branch-base, critérios de aceite, risco e verificações previstas.
-2. **Planejamento proporcional:** atividade trivial vai diretamente à execução; mudança relevante de arquitetura, fontes, remissões, acessibilidade ou PWA exige plano curto e revisões dirigidas.
-3. **Execução em branch de tarefa:** Codex local edita somente o escopo aprovado. Evitar múltiplos executores alterando a mesma árvore. Commits pequenos e reversíveis.
-4. **Verificação:** executar os testes correspondentes e guardar resultados; separar evidência técnica de aprovação jurídica. O GitHub Actions verifica o PR novamente.
-5. **Revisão:** Qualidade ou Integridade são chamadas conforme risco; a Coordenação decide corrigir, manter em experimento, encerrar ou integrar.
-6. **Fechamento:** registrar no PR/Issue o que foi implementado, commit/branch, testes observados, ressalvas e decisão. Atualizar documentação corrente apenas quando o conteúdo realmente mudar.
+## 5. Proteções e verificações proporcionais
 
-Abertura de PR **não** é merge; fechamento sem merge **não** incorpora conteúdo. PRs com base experimental devem manter a base correta; não redirecionar para `main` por conveniência.
+- **Integridade jurídica:** preservar texto, proveniência das fontes, identidade das edições, hashes, URLs, notas e histórico. Mudanças em texto jurídico, fontes, extratores ou remissões requerem revisão específica de Integridade Jurídica e homologação humana independente quando aplicável. Não inferir vigência por IA nem confundir testes ou parecer técnico com aprovação jurídica.
+- **Remissões expressas:** temporariamente suspensas. Esta alteração documental não propõe sua reativação. Manter ambientes e branches experimentais separados da produção; material em branch, PR ou Drive não comprova publicação.
+- **Segurança e qualidade:** preservar segurança, integridade, acessibilidade, comportamento offline e atualização consentida. Não desativar testes para obter aprovação, não descartar trabalho local sem verificação e não corrigir dados gerados à mão: corrigir a origem e conferir a saída. Tarefas de UX/estilo não alteram dados ou histórico jurídico.
+- **Documentação:** verificar links, caminhos, consistência, diff e `git diff --check`; testes funcionais completos podem ser desnecessários.
+- **UI/UX:** testes Node e verificações de navegador pertinentes, incluindo teclado, mobile, temas e offline quando afetados.
+- **Infra/PWA/importadores:** build, testes Node, Python e navegador, com verificações de cache e versões relevantes ao risco.
+- **Conteúdo jurídico:** evidências de procedência, testes de integridade e revisão humana independente antes da incorporação quando juridicamente necessária.
 
-## 4. Verificações proporcionais
-- **Documentação:** links, paths, consistência, `git diff --check` e natureza do arquivo; suíte completa opcional.
-- **UI/UX:** teste Node + verificações browser dirigidas (incluindo teclado, mobile, claro/escuro e estados offline quando afetados).
-- **Infra/PWA/importadores:** build, Node, Python, testes de navegador e políticas de cache/versões relevantes.
-- **Conteúdo jurídico/remissões:** evidências de procedência, testes de integridade + revisão humana independente antes da incorporação jurídica. Não validar vigência por inferência de IA.
+Executar os comandos aplicáveis de [AGENTS.md](../AGENTS.md) e [Manutenção](MANUTENCAO.md). Nunca declarar testes não executados como aprovados nem alegar execução local, certificação de acessibilidade ou aprovação jurídica sem evidência.
 
-Não alegar execução local, certificação de acessibilidade ou aprovação jurídica sem evidência correspondente.
+## 6. Operação com Codex local
 
-## 5. Regras para o Free e Codex local
-- Código e testes residem no computador; GitHub preserva repositório e histórico; ChatGPT coordena, sem ser a única memória.
-- `AGENTS.md` mantém poucas instruções duráveis; o restante fica em docs específicas, consultadas sob demanda.
-- Priorizar tarefas objetivas (uma Issue/uma branch/um PR), não reprocessar o histórico em cada sessão e monitorar o limite do Codex.
-- Se o limite de Codex terminar, trabalhar manualmente ou retomar outra sessão a partir do Git, sem depender de execuções remotas.
-- Codex local utiliza modelos hospedados e autenticação; **não** é operação de IA inteiramente offline.
-
-## 6. Segurança da transição
-Esta migração altera apenas processo e documentação. Não muda `src/`, `data/`, `sources/`, `monitor/`, workflows, conteúdo publicado ou remissões. Qualquer mudança de produção terá autorização e PR próprios. Antes de executar a migração local, conservar uma cópia íntegra/clone do repositório e conferir `git status`; nunca descartar alterações locais sem verificação.
-
-## 7. Critério de conclusão da migração
-- Documento de governança e `AGENTS.md` revisados e integrados.
-- Codex local instalado **pelo usuário**, autenticado e testado na cópia local com tarefa inicialmente somente de leitura.
-- Fluxo de Issue → branch → PR → revisão → merge exercitado em uma tarefa real.
-- Checks do GitHub verificados; comportamento em produção e dados jurídicos preservados.
-- A Coordenação registra a mudança de processo como operacional somente após a validação acima.
+- Código e testes residem no computador; GitHub preserva repositório e histórico. O chat não é a única memória do trabalho.
+- Manter poucas instruções duráveis em `AGENTS.md`; consultar documentação específica sob demanda, sem reprocessar todo o histórico a cada sessão.
+- Priorizar tarefas delimitadas e monitorar o limite de uso. Se ele terminar, continuar manualmente ou retomar pelo Git em outra sessão, sem depender de execuções remotas.
+- Codex local utiliza modelos hospedados e autenticação; não é operação de IA inteiramente offline. A preparação do Windows permanece em [CODEX-LOCAL.md](CODEX-LOCAL.md).
