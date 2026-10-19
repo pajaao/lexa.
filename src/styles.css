@@ -578,6 +578,7 @@ header nav>a,header nav>button{display:inline-flex;align-items:center;justify-co
  .library .section-heading h2{font-size:29px}
 }
 @media(max-width:400px){
- header nav>a,header nav>button{font-size:11px;padding-inline:6px}
+ header nav{flex-wrap:nowrap}
+ header nav>a,header nav>button{font-size:11px;padding-inline:4px;min-width:44px}
  .hero h1{font-size:32px}
 }

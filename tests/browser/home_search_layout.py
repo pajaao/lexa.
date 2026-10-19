@@ -42,6 +42,7 @@ try:
                     assert box['height'] >= 44 and box['width'] >= 44, (width, box)
                 nav = page.locator('header nav>a,header nav>button').evaluate_all('(els)=>els.map(el=>el.getBoundingClientRect().top)')
                 assert max(nav)-min(nav) <= 1, (width, nav)
+                assert page.locator('header nav>a,header nav>button').evaluate_all('(els)=>els.every(el=>el.scrollWidth<=el.clientWidth+1)'), width
                 field = page.locator('.hero-search').bounding_box()
                 assert abs(field['x']+field['width']/2-width/2) <= 1
                 assert abs(field['width']-min(760, width-(40 if width<=700 else 88))) <= 1
@@ -88,6 +89,15 @@ try:
                 navigation_state(page, '#')
                 assert not errors, errors
                 context.close()
+        # Wider fallback metrics must not wrap or clip the narrow navigation.
+        context = browser.new_context(viewport={'width':320,'height':900}, service_workers='block')
+        page = context.new_page();page.goto(base)
+        page.add_style_tag(content='header nav{font-family:Verdana,sans-serif}')
+        nav = page.locator('header nav>a,header nav>button')
+        tops = nav.evaluate_all('(els)=>els.map(el=>el.getBoundingClientRect().top)')
+        assert max(tops)-min(tops)<=1, tops
+        assert nav.evaluate_all('(els)=>els.every(el=>el.scrollWidth<=el.clientWidth+1)')
+        context.close()
         context = browser.new_context(service_workers='block', forced_colors='active')
         page = context.new_page();page.goto(base)
         active = page.locator('header nav>a[aria-current="page"]')
