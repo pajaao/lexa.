@@ -3,7 +3,7 @@
 ## Missão e limites
 O Lexa é uma PWA estática de consulta à legislação brasileira. Princípio: **"A complexidade está no Direito, não na sua consulta."** Não é ferramenta de interpretação jurídica nem utiliza IA na consulta ao usuário.
 
-Siga a **Governança v3 — Desenvolvimento Enxuto** definida em [docs/PROCESSO-DE-TRABALHO.md](docs/PROCESSO-DE-TRABALHO.md). Para configuração do Codex no Windows, consulte [docs/CODEX-LOCAL.md](docs/CODEX-LOCAL.md).
+Este arquivo reúne as instruções operacionais essenciais do Lexa. A **Governança v3 — Desenvolvimento Enxuto** está detalhada em [docs/PROCESSO-DE-TRABALHO.md](docs/PROCESSO-DE-TRABALHO.md) e deve ser consultada quando houver dúvidas sobre procedimentos, classificação de risco ou mudanças nas regras do projeto. **Não é necessário reler o documento completo a cada tarefa**: aplique as regras aqui descritas e consulte apenas o contexto complementar relevante. Para configuração do Codex no Windows, consulte [docs/CODEX-LOCAL.md](docs/CODEX-LOCAL.md).
 
 ## Como trabalhar
 - Produto e Coordenação define problema, escopo, aceite e autoriza a integração; Desenvolvimento implementa com Codex local, testa e prepara o PR; Revisão e Qualidade verifica conforme o risco. Engenharia especializada, UX, Integridade Jurídica e Inovação são competências acionadas quando necessárias, sem etapas administrativas permanentes.
