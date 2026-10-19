@@ -63,7 +63,8 @@ try:
      page.locator('#previous-page').click();expect(page.locator('#articles .article').first).to_have_attribute('id',original)
      check_start(page,(width,motion,code,'previous'))
      # Pointer selection of a hierarchical branch also returns to its content.
-     page.locator('.reader-index').evaluate('(element)=>element.open=true')
+     if width<=700:page.locator('.mobile-index-toggle').click()
+     else:page.locator('.reader-index').evaluate('(element)=>element.open=true')
      page.locator('[data-branch]').first.click();check_start(page,(width,motion,code,'branch'))
      if width<=700:assert not page.locator('.reader-index').evaluate('(element)=>element.open')
      cases+=1
@@ -78,11 +79,13 @@ try:
      page.locator('#article-search').focus();expect(page.locator('#article-search')).to_be_focused()
      button=page.get_by_role('button',name='Índice',exact=True)
      button.focus();page.keyboard.press('Enter')
-     expect(page.locator('.reader-index>summary')).to_be_focused()
+     expect(page.locator('.index-panel-close')).to_be_focused()
      expect(button).to_have_attribute('aria-expanded','true')
     else:
      expect(page.locator('.mobile-index-toggle')).to_be_hidden()
-    page.locator('.reader-index').evaluate('(element)=>element.open=true')
+    if width<=700:
+     if not page.locator('.reader-index-panel').evaluate('el=>el.open'):page.locator('.mobile-index-toggle').click()
+    else:page.locator('.reader-index').evaluate('(element)=>element.open=true')
     selection=page.locator('#index-list .index-entry').first
     selection.focus();page.keyboard.press('Enter')
     first_link=page.locator('#articles .article .article-heading>a').first
@@ -92,7 +95,9 @@ try:
     cases+=1
     # A division can be empty with the existing favorites filter enabled.
     page.locator('#saved-filter').click()
-    page.locator('.reader-index').evaluate('(element)=>element.open=true')
+    if width<=700:
+     if not page.locator('.reader-index-panel').evaluate('el=>el.open'):page.locator('.mobile-index-toggle').click()
+    else:page.locator('.reader-index').evaluate('(element)=>element.open=true')
     page.locator('#index-list .index-entry').first.focus();page.keyboard.press('Enter')
     empty_heading=page.locator('#articles .empty h3')
     expect(empty_heading).to_be_focused()
