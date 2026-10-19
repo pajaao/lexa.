@@ -1,3 +1,4 @@
+import {setupReaderSearch} from './reader-search.js';
 import {readerModel} from './reader-model.js';
 import {articleCopyText} from './copy.js';
 import {sectionPath,unitKind} from './structure.js';
@@ -6,7 +7,7 @@ import {escape,number,codeHref,collectionDate,sourcePanel,highlight,sectionHeadi
 
 export function reader(code, requested, params, context) {
  const {app,state,readingPreferences,storageWrite,historyArticleIds,copyContent,toast}=context;
- const target=requested?articleById(code,requested):null;
+ let target=requested?articleById(code,requested):null;
  let scope=target?.scope || (params.get('scope')==='adct'?'adct':'main');
  let query=params.get('q') || (requested&&!target?requested:'');
  let onlySaved=params.get('saved')==='1';
@@ -19,14 +20,14 @@ export function reader(code, requested, params, context) {
  const input=document.querySelector('#article-search');input.value=query;
  const sheet=document.querySelector('.reading-sheet');
  document.querySelector('.reading').append(sheet);
- let active=true, positionTimer, focusMode=false;
+ let active=true, positionTimer, focusMode=false,searchUI=null;
  const reading=document.querySelector('.reading');
  const controls=document.querySelector('.reading-controls');
  const updateReadingOffset=()=>reading.style.setProperty('--reading-offset',Math.ceil(controls.getBoundingClientRect().height+24)+'px');
  const controlsObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(updateReadingOffset):null;
  controlsObserver?.observe(controls);updateReadingOffset();
  function rememberPosition(){
-  if(!active||sheet.open||indexPanel.open)return;
+  if(!active||sheet.open||indexPanel.open||searchUI?.isOpen)return;
   const entries=[...document.querySelectorAll('#articles .article')];
   const line=Math.min(window.innerHeight*0.45,300);
   const current=entries.find(el=>{const rect=el.getBoundingClientRect();return rect.bottom>line&&rect.top<=line;});
@@ -79,7 +80,7 @@ export function reader(code, requested, params, context) {
  }
  function openSettings(){
   if(!mobile.matches||sheet.open)return;
-  closeIndex(false);
+  searchUI?.close(false);closeIndex(false);
   panelState={x:window.scrollX,y:window.scrollY,bodyStyle:document.body.style.cssText};
   sheet.querySelector('.sheet-controls').append(size,adjustments);
   document.body.style.position='fixed';document.body.style.top=-panelState.y+'px';
@@ -117,12 +118,7 @@ export function reader(code, requested, params, context) {
   outside=false;
  });
  sheet.addEventListener('pointercancel',()=>{drag=null;outside=false;});
- function showSearch(value){
-  controls.classList.toggle('search-open',value);searchButton.setAttribute('aria-expanded',String(value));
-  updateReadingOffset();
-  if(value)input.focus({preventScroll:true});else searchButton.focus({preventScroll:true});
- }
- searchButton.onclick=()=>showSearch(!controls.classList.contains('search-open'));
+ function showSearch(value){if(value)searchUI?.open();else searchUI?.close();}
  const indexButton=document.querySelector('.mobile-index-toggle');
  const index=document.querySelector('.reader-index');
  const indexHome=index.parentElement;
@@ -143,7 +139,7 @@ export function reader(code, requested, params, context) {
  }
  function openIndex(){
   if(!mobile.matches||indexPanel.open)return;
-  closeSettings(false);rememberPosition();indexSwiped=false;indexDrag=null;indexOutside=false;
+  searchUI?.close(false);closeSettings(false);rememberPosition();indexSwiped=false;indexDrag=null;indexOutside=false;
   indexState={x:window.scrollX,y:window.scrollY,bodyStyle:document.body.style.cssText,open:index.open};
   indexPanel.querySelector('.index-panel-body').append(index);index.open=true;
   document.body.style.position='fixed';document.body.style.top=-indexState.y+'px';
@@ -216,9 +212,9 @@ export function reader(code, requested, params, context) {
   else focusButton.scrollIntoView({block:'nearest'});
  }
  focusButton.onclick=()=>setFocus(!focusMode);
- const onEscape=e=>{if(sheet.open||indexPanel.open)return;if(e.key==='Escape'&&mobile.matches&&controls.classList.contains('search-open')){showSearch(false);return;}if(e.key==='Escape'&&focusMode&&!document.querySelector('#copy-dialog').open){setFocus(false);focusButton.focus();}};
+ const onEscape=e=>{if(sheet.open||indexPanel.open||searchUI?.isOpen)return;if(e.key==='Escape'&&focusMode&&!document.querySelector('#copy-dialog').open){setFocus(false);focusButton.focus();}};
  const onSearchShortcut=event=>{
-  if(mobile.matches&&!sheet.open&&!indexPanel.open&&event.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){
+  if(mobile.matches&&!sheet.open&&!indexPanel.open&&!searchUI?.isOpen&&event.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){
    event.preventDefault();event.stopImmediatePropagation();showSearch(true);
   }
  };
@@ -230,9 +226,17 @@ export function reader(code, requested, params, context) {
  let expanded=new Set(),indexInitialized=false,indexMarkupKey=null,selectionCache=null;
  function selectedArticles(){
   if(selectionCache&&selectionCache.query===query&&selectionCache.scope===scope&&selectionCache.sectionId===sectionId&&selectionCache.onlySaved===onlySaved&&selectionCache.saved===state.saved)return selectionCache.articles;
-  const ids=sectionId?.startsWith('branch:')?trees.get(scope).nodes.get(sectionId.slice(7))?.sectionIds:null;
-  const articles=searchArticles(code,query,scope).filter(a=>(!sectionId||(ids?ids.includes(a.sectionId):a.sectionId===sectionId))&&(!onlySaved||state.saved.includes(code.id+'/'+a.id)));
+  const articles=articlesFor({query,scope,sectionId,onlySaved});
   selectionCache={query,scope,sectionId,onlySaved,saved:state.saved,articles};return articles;
+ }
+ function searchSelection(value,selection){
+  const next={...selection,query:value},ref=parseReference(value);
+  if(ref&&(!ref.codeId||ref.codeId===code.id)){if(ref.scope)next.scope=ref.scope;next.sectionId=null;}
+  return next;
+ }
+ function articlesFor({query,scope,sectionId,onlySaved}){
+  const ids=sectionId?.startsWith('branch:')?trees.get(scope).nodes.get(sectionId.slice(7))?.sectionIds:null;
+  return searchArticles(code,query,scope).filter(a=>(!sectionId||(ids?ids.includes(a.sectionId):a.sectionId===sectionId))&&(!onlySaved||state.saved.includes(code.id+'/'+a.id)));
  }
  function updateLocation(id){
   const section=sectionMap.get(id);if(!section)return;
@@ -267,19 +271,20 @@ export function reader(code, requested, params, context) {
   });
   updateLocation(currentSection);
  }
- function scrollReading(focusContent=false){
+ function scrollReading(focusContent=false,articleId=null){
   requestAnimationFrame(()=>{
    if(!active)return;
    updateReadingOffset();
-   const first=document.querySelector('#articles .article, #articles .empty');if(!first)return;
-   const link=first.querySelector('.article-heading>a, h3');
+   const first=articleId?document.getElementById('art-'+articleId):document.querySelector('#articles .article, #articles .empty');if(!first)return;
+   const match=articleId?first.querySelector('mark')?.closest('.legal-unit,p,h3,h4'):null;
+   const link=match||first.querySelector('.article-heading>a, h3');
    const offset=Math.ceil(controls.getBoundingClientRect().height)+24;
    // Keep as much legislative context as fits, while showing the first article.
    // A sticky toolbar is not a document-position target for a new content page.
    const headings=[...(first.previousElementSibling?.querySelectorAll('.legal-heading')||[])];
    const paragraph=first.querySelector('.legal-unit');
    const end=paragraph?paragraph.getBoundingClientRect().top+parseFloat(getComputedStyle(paragraph).lineHeight):link.getBoundingClientRect().bottom;
-   const destination=headings.find(heading=>end-heading.getBoundingClientRect().top<=window.innerHeight-offset-24)||first;
+   const destination=match||headings.find(heading=>end-heading.getBoundingClientRect().top<=window.innerHeight-offset-24)||first;
    const top=window.scrollY+destination.getBoundingClientRect().top-offset;
    if(first.matches('.article')){
     storageWrite('lexa-last-reading',{codeId:code.id,articleId:first.id.slice(4)});
@@ -327,8 +332,21 @@ export function reader(code, requested, params, context) {
   requestAnimationFrame(()=>{if(active)rememberPosition();});
  }
  if(target){const index=selectedArticles().findIndex(a=>a.id===target.id);page=Math.max(0,Math.floor(index/pageSize));}
- let debounce;
- input.addEventListener('input',()=>{clearTimeout(debounce);debounce=setTimeout(()=>{query=input.value;const ref=parseReference(query);if(ref&&(!ref.codeId||ref.codeId===code.id)){if(ref.scope)scope=ref.scope;sectionId=null;}page=0;draw();},120);});
+ searchUI=setupReaderSearch({reading,field:document.querySelector('.reader-search-field'),input,trigger:searchButton,mobile,code,pageSize,
+  getSelection:()=>({query,scope,sectionId,onlySaved}),
+  beforeOpen:()=>{closeIndex(false);closeSettings(false);rememberPosition();},
+  search:(value,selection)=>articlesFor(searchSelection(value,selection)),
+  alternative:value=>searchLibraryReferences(value)?.find(result=>result.code.id!==code.id),
+  desktopInput:value=>{({query,scope,sectionId,onlySaved}=searchSelection(value,{scope,sectionId,onlySaved}));page=0;draw();},
+  select:(article,value,selection)=>{
+   ({query,scope,sectionId,onlySaved}=searchSelection(value,selection));input.value=query;target=article;
+   const params=new URLSearchParams({q:query});if(onlySaved)params.set('saved','1');
+   history.pushState(null,'',codeHref(code,article.id)+'?'+params);
+   page=Math.max(0,Math.floor(selectedArticles().findIndex(entry=>entry.id===article.id)/pageSize));
+   draw();scrollReading(true,article.id);
+  }
+ });
+ const cleanupSearch=state.cleanupReader;state.cleanupReader=()=>{searchUI.cleanup();cleanupSearch();};
  document.querySelector('#font-down').onclick=()=>{readingPreferences.size=Math.max(16,readingPreferences.size-1);savePreferences();};
  document.querySelector('#font-up').onclick=()=>{readingPreferences.size=Math.min(26,readingPreferences.size+1);savePreferences();};
  document.querySelector('#saved-filter').onclick=()=>{onlySaved=!onlySaved;page=0;draw();};
