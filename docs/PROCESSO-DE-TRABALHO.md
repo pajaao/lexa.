@@ -1,6 +1,6 @@
 # Lexa — processo de trabalho e governança
 
-**Situação:** proposta de migração operacional. Este documento só se torna norma do projeto depois de integrado à branch principal. Não modifica implementação nem decisões jurídicas já registradas.
+**Aplicação:** este processo passa a reger a colaboração quando integrado à branch principal. Sua adoção não modifica implementação nem decisões jurídicas já registradas.
 
 ## 1. Modelo de trabalho
 - **Coordenação Central (decisão):** prioriza tarefas, aprova escopos, resolve divergências e autoriza merges/publicações.
