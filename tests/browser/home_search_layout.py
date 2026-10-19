@@ -46,18 +46,7 @@ try:
                 field = page.locator('.hero-search').bounding_box()
                 assert abs(field['x']+field['width']/2-width/2) <= 1
                 assert abs(field['width']-min(760, width-(40 if width<=700 else 88))) <= 1
-                decorations = page.locator('.hero-ornament')
-                expect(decorations).to_have_count(2)
-                for decoration in decorations.all():
-                    expect(decoration).to_have_attribute('aria-hidden', 'true')
-                    expect(decoration).to_have_attribute('focusable', 'false')
-                    assert decoration.evaluate("el=>getComputedStyle(el).pointerEvents") == 'none'
-                    if width < 1200:
-                        expect(decoration).to_be_hidden()
-                    else:
-                        expect(decoration).to_be_visible()
-                        box = decoration.bounding_box()
-                        assert box['x']+box['width']<=field['x'] or box['x']>=field['x']+field['width']
+                expect(page.locator('.hero-ornament')).to_have_count(0)
                 gap = page.locator('.section-heading .eyebrow').bounding_box()['y']-page.locator('.hero-note').evaluate('el=>el.getBoundingClientRect().bottom')
                 assert abs(gap-(32 if width<=700 else 36))<=1, (width, gap)
                 assert page.locator('.hero-note').bounding_box()['y'] < page.locator('.library').bounding_box()['y']
@@ -103,9 +92,9 @@ try:
         active = page.locator('header nav>a[aria-current="page"]')
         assert active.evaluate("el=>getComputedStyle(el).borderBottomStyle") == 'solid'
         assert active.evaluate("el=>getComputedStyle(el).borderBottomColor") != 'rgba(0, 0, 0, 0)'
-        expect(page.locator('.hero-ornament:visible')).to_have_count(0)
+        expect(page.locator('.hero-geometry:visible')).to_have_count(0)
         context.close()
         browser.close()
-    print('Home: hierarquia, espaçamentos, ornamentos laterais não interativos, largura da busca, alvos de 44 px, teclado e navegação; 320–1440 px, claro/escuro e alto contraste, sem transbordamento.')
+    print('Home híbrida: hierarquia, espaçamentos, largura da busca, alvos de 44 px, teclado e navegação; 320–1440 px, claro/escuro e alto contraste, sem transbordamento.')
 finally:
     server.shutdown();server.server_close()
