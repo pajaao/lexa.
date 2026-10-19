@@ -1,6 +1,6 @@
 # Índice da documentação — Lexa
 
-**Referência:** `main` em 18/10/2026, commit `84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf`. Este índice distingue documentação incorporada na base de pareceres e experimentos existentes apenas em outros refs. A criação do índice em um PR **não significa que ele já esteja em `main`**.
+**Escopo:** documentação corrente da `main` e ligações explícitas para registros históricos. Referências a commits antigos identificam a proveniência dos documentos, não o estado atual da aplicação.
 
 ## Introdução e arquitetura — documentação corrente
 - [README principal](../README.md): produto, instalação, navegação, fontes e desenvolvimento.
@@ -28,17 +28,14 @@
 - [Instruções de manutenção e execução](MANUTENCAO.md), [comandos npm](../package.json), [suíte Node](../tests/node/), [suíte Python](../tests/python/) e [suíte browser](../tests/browser/).
 - [Verificação CI](../.github/workflows/verify.yml). Testes descritos em pareceres não equivalem a execuções próprias.
 
-## Remissões expressas — **experimentais, não incorporadas à `main`**
-- [Histórico experimental e artefatos da Fase 0.5 ao fechamento 1A.2](https://github.com/pajaao/lexa./tree/64862b4b47811ab886396b9b22d4888af49aa4db/docs/remissoes) (**branch de fechamento**, commit fixado).
-- [Relatório da Fase 1A.2](https://github.com/pajaao/lexa./blob/64862b4b47811ab886396b9b22d4888af49aa4db/docs/remissoes/fase-1a-2.md), [fechamento](https://github.com/pajaao/lexa./blob/64862b4b47811ab886396b9b22d4888af49aa4db/docs/remissoes/fase-1a-2-fechamento.md) e [protocolo](https://github.com/pajaao/lexa./blob/64862b4b47811ab886396b9b22d4888af49aa4db/docs/remissoes/fase-1a-2-fechamento/protocolo-revisao.md).
-- [Deliberação metodológica 1A.3 — PR #16 aberto](https://github.com/pajaao/lexa./pull/16). O documento não altera regras executáveis nem homologa relações.
-- **Estado:** quatro classes existentes, política `experimental-only`, inventário de 329 arestas e 30 parentéticas pendentes. Sem remissões ativadas no leitor da `main`. A primeira liberação exige decisão central e revisão jurídica humana independente.
-- [Índice da branch experimental — PR documental separado](https://github.com/pajaao/lexa./tree/docs/engenharia-o2-remissoes/docs/remissoes) (referência à proposta, **não** conteúdo incorporado à `main`).
+## Remissões expressas — funcionalidade temporariamente suspensa
+
+As remissões expressas foram retiradas temporariamente do Lexa e **não integram a interface nem a documentação operacional corrente**. Sua eventual retomada é uma decisão futura; os protótipos e pareceres anteriores não autorizam ativação, não constituem homologação jurídica e não alteram o texto das normas.
+
+Para preservar a rastreabilidade sem sobrecarregar a documentação de uso, os registros experimentais permanecem consultáveis pelo [histórico de desenvolvimento das remissões (commit fixado)](https://github.com/pajaao/lexa./tree/64862b4b47811ab886396b9b22d4888af49aa4db/docs/remissoes) e pelo [PR #19](https://github.com/pajaao/lexa./pull/19). A Coordenação também registrou um [backup ZIP no Drive](https://drive.google.com/file/d/1SwW70b05p6H7pEmtmrH9_eLRfwOQYGAx/view) e um [inventário de arquivos e SHAs](https://docs.google.com/document/d/1WWYtqP3ot84Wq0Lr9u0HwkvWOUUbIIJxGyHz9KlsL-0/edit); **o conteúdo do ZIP e seus hashes ainda não foram verificados independentemente**. Nenhum desses registros é parte do produto publicado.
 
 ## Pareceres e Coordenação — Drive como repositório administrativo
 - [Índice dos pareceres, bases e PRs](coordenacao/INDEX.md).
 - [Parecer O1 no Google Drive](https://docs.google.com/document/d/1uFfKWgjsr_PI0IGksg2JlgM46ZHfOBJX-cu-x8Jx7dE/edit), preservado após [encerramento do PR #17 sem merge](https://github.com/pajaao/lexa./pull/17); [commit original](https://github.com/pajaao/lexa./blob/8c93c9dd9fabfa4296e1faff417f04a3ab2650da/docs/coordenacao/01-engenharia-organizacao-o1.md).
-- **Situação pós-T3 (18/10/2026):** #7–#12, #14, #15, #17 e #20 encerrados sem merge; seus pareceres estão preservados no Drive. #13 e #16 seguem abertos para destinação técnica; #18 e #19 seguem como propostas documentais, em bases distintas. [Registro de saneamento T3](https://docs.google.com/document/d/1qWamkDUgSPCnJs4X245ZyvNrZ06M0JjsIsfg8Vh-OhE/edit). Não há incorporação desses pareceres à `main` por efeito de seu encerramento.
-- A presença de um link externo para PR/branch **não** constitui aprovação, merge ou publicação. Para documentos históricos não incorporados, usar URL com commit fixo ou PR, nunca caminho relativo local inexistente.
 
 **Regra de manutenção:** atualizar este índice após confirmar refs/commits e diffs efetivos, sem reescrever históricos, inventários ou relatórios originais.
