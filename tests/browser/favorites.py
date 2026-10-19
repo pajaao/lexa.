@@ -30,10 +30,11 @@ try:
   page.locator('.reading-settings>summary').click();page.locator('#font-up').click()
   expect(page.locator('#font-size')).to_have_text('20 px')
   page.locator('#reading-spacing').select_option('wide')
-  page.locator('.reading-settings>summary').click()
+  page.locator('.sheet-close').click()
   assert page.locator('#font-up').is_hidden()
   page.reload();expect(page.locator('#font-size')).to_have_text('20 px')
   page.locator('.reading-settings>summary').click();assert page.locator('#reading-spacing').input_value()=='wide'
+  page.locator('.sheet-close').click()
   page.locator('[data-save="186"]').click()
   page.goto(base+'#/favoritos');assert page.locator('.favorite-link[href="#/civil/186"]').count()==0
   page.locator('[data-remove-favorite="cf/60"]').click();page.reload()
