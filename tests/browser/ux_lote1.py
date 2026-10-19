@@ -48,12 +48,12 @@ try:
     page.screenshot(path=str(args.artifacts/f'reader-{width}-{"dark" if dark else "light"}.png'))
     page.evaluate('scrollTo(0,0)');page.screenshot(path=str(args.artifacts/f'edition-{width}-{"dark" if dark else "light"}.png'))
     if width<701:
-     details=page.locator('.reader-index');summary=details.locator(':scope > summary');summary.focus()
-     if details.get_attribute('open') is not None:summary.press('Enter')
-     summary.press('Space');expect(details).to_have_attribute('open','');expect(page.locator('#index-list')).to_be_visible()
+     trigger=page.locator('.mobile-index-toggle');trigger.focus();trigger.press('Space')
+     expect(page.locator('.reader-index-panel')).to_be_visible();expect(page.locator('#index-list')).to_be_visible()
      assert page.locator('#index-list [data-section]:visible').count()>0
      assert page.locator('.reader-layout').evaluate('el=>getComputedStyle(el).display')=='block'
      page.screenshot(path=str(args.artifacts/f'index-{width}-{"dark" if dark else "light"}.png'))
+     page.locator('.index-panel-close').click()
     if not args.capture_only:
      page.goto(base+'#/cf/adct-1');expect(page.locator('#art-adct-1')).to_be_visible();expect(page.locator('#reading-scope')).to_have_text('ADCT');no_overflow(page)
      page.goto(base+'#/civil/186');expect(page.locator('#art-186')).to_be_visible();page.wait_for_function('JSON.parse(localStorage.getItem("lexa-last-reading"))?.articleId==="186"');settings=page.locator('.reading-settings')
