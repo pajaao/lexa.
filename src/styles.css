@@ -558,14 +558,6 @@ header nav>a,header nav>button{display:inline-flex;align-items:center;justify-co
 .code-icon{display:grid;place-items:center;line-height:1}
 .code-card>.card-count{margin-top:auto;padding-top:12px}
 .card-bottom{min-height:60px;align-items:center}
-.hero-ornament{display:none;position:absolute;width:128px;height:196px;color:var(--muted);opacity:.32;fill:none;stroke:currentColor;stroke-width:1;pointer-events:none;user-select:none}
-.hero-ornament text{font:32px var(--serif);fill:currentColor;stroke:none}
-@media(min-width:1200px){
- .hero-ornament{display:block}
- .hero-ornament-left{left:34px;top:72px}
- .hero-ornament-right{right:34px;top:128px}
-}
-@media(forced-colors:active),print{.hero-ornament{display:none}}
 @media(max-width:700px){
  header .brand{font-size:30px}
  .hero{padding:26px 20px 16px}
