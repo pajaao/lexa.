@@ -15,8 +15,10 @@ export function reader(code, requested, params, context) {
  document.title=`${escape(code.short)} · ${escape(code.name)} — Lexa`;
  const source=code.source;
  const isSumula=code.kind==='sumulas';
- app.innerHTML=`<section class="reader-top"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">${escape(code.area)}</div><h1>${escape(code.name)}</h1><p>${escape(code.law)} <span>·</span> <a href="#/atualizacoes?codigo=${escape(code.id)}">Histórico de versões</a> <span>·</span> <a href="${escape(code.url)}" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a></p><div class="reading-notice"><span class="edition-label">Edição consultada</span><strong>${escape(source.edition)}</strong> <br>${['official_html','official_stf'].includes(source.kind)?'Coleta da fonte oficial · '+collectionDate(source):isSumula?'Data de consulta declarada no PDF · 16/10/2026':'Importação do PDF fornecido · '+source.importedAt.split('-').reverse().join('/')} · Confira as notas de vigência.</div><details class="source-details"><summary>Sobre esta edição e a fonte de origem</summary>${sourcePanel(source)}</details></section><div class="reader-layout"><aside><details id="reader-index" class="reader-index" ${window.innerWidth>700?'open':''}><summary>${isSumula?'Índice das súmulas':'Índice da legislação'}</summary><p class="index-note">${isSumula?'Escolha um intervalo para navegar pelas súmulas.':'Expanda as divisões e escolha o trecho que deseja ler.'}</p><div id="index-list"></div></details></aside><section class="reading">${code.id==='cf'?'<div class="scope-tabs" role="group" aria-label="Parte da Constituição"><button data-scope="main">Constituição</button><button data-scope="adct">ADCT</button></div>':''}<div class="reading-controls"><div class="reading-context"><nav class="reading-position reader-breadcrumb" aria-label="Localização na legislação"><ol><li><strong>${escape(code.short)}</strong></li>${code.id==='cf'?'<li id="reading-scope">Constituição Federal</li>':''}<li id="reading-location" aria-current="location">Leitura</li></ol></nav><button id="focus-mode" aria-pressed="false">Modo de foco</button></div><div class="reading-toolbar"><div class="reader-search-field"><label class="field-label" for="article-search">${isSumula?'Buscar nestas súmulas':'Buscar nesta legislação'}</label><div class="search"><span aria-hidden="true">⌕</span><input id="article-search" placeholder="${isSumula?'Buscar expressão ou súmula (ex.: SV 13)':'Buscar expressão ou artigo (ex.: 5 ou 54-A)'}" aria-label="${isSumula?'Buscar nestas súmulas':'Buscar nesta legislação'}"></div></div><button class="mobile-index-toggle" aria-controls="reader-index" aria-expanded="false">Índice</button></div><details class="reading-settings" ${window.innerWidth>700?'open':''}><summary><span class="settings-label">Ajustes<span class="settings-label-long"> de leitura</span></span> <span id="font-size" role="status"></span></summary><div class="reading-adjustments"><div class="font-controls" role="group" aria-label="Tamanho da fonte"><button id="font-down" aria-label="Diminuir fonte">A−</button><button id="font-up" aria-label="Aumentar fonte">A+</button></div><div class="reading-spacing-control"><label for="reading-spacing">Espaçamento</label><select id="reading-spacing"><option value="standard">Padrão</option><option value="comfortable">Confortável</option><option value="wide">Amplo</option></select></div><button id="reset-reading">Restaurar leitura</button></div></details></div><div class="reader-options"><button id="saved-filter" aria-pressed="${onlySaved}">${onlySaved?'Mostrar todos':'Mostrar só favoritos'}</button><button id="clear-section" hidden>Limpar divisão selecionada ×</button><span id="results-label" role="status"></span></div><div id="introduction"></div><div id="articles"></div><nav class="pagination" aria-label="Páginas de leitura"><button id="previous-page">← Anteriores</button><span id="page-label"></span><button id="next-page">Próximos →</button></nav></section></div>`;
+ app.innerHTML=`<section class="reader-top"><a class="back" href="#">← Voltar à biblioteca</a><div class="eyebrow">${escape(code.area)}</div><h1>${escape(code.name)}</h1><p>${escape(code.law)} <span>·</span> <a href="#/atualizacoes?codigo=${escape(code.id)}">Histórico de versões</a> <span>·</span> <a href="${escape(code.url)}" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a></p><div class="reading-notice"><span class="edition-label">Edição consultada</span><strong>${escape(source.edition)}</strong> <br>${['official_html','official_stf'].includes(source.kind)?'Coleta da fonte oficial · '+collectionDate(source):isSumula?'Data de consulta declarada no PDF · 16/10/2026':'Importação do PDF fornecido · '+source.importedAt.split('-').reverse().join('/')} · Confira as notas de vigência.</div><details class="source-details"><summary>Sobre esta edição e a fonte de origem</summary>${sourcePanel(source)}</details></section><div class="reader-layout"><aside><details id="reader-index" class="reader-index" ${window.innerWidth>700?'open':''}><summary>${isSumula?'Índice das súmulas':'Índice da legislação'}</summary><p class="index-note">${isSumula?'Escolha um intervalo para navegar pelas súmulas.':'Expanda as divisões e escolha o trecho que deseja ler.'}</p><div id="index-list"></div></details></aside><section class="reading">${code.id==='cf'?'<div class="scope-tabs" role="group" aria-label="Parte da Constituição"><button data-scope="main">Constituição</button><button data-scope="adct">ADCT</button></div>':''}<div class="reading-controls"><div class="reading-context"><nav class="reading-position reader-breadcrumb" aria-label="Localização na legislação"><ol><li><strong>${escape(code.short)}</strong></li>${code.id==='cf'?'<li id="reading-scope">Constituição Federal</li>':''}<li id="reading-location" aria-current="location">Leitura</li></ol></nav><button id="focus-mode" aria-pressed="false">Modo de foco</button></div><div class="reading-toolbar"><button class="mobile-search-toggle" aria-label="Buscar nesta coleção" aria-controls="article-search-field" aria-expanded="false">Buscar</button><div id="article-search-field" class="reader-search-field"><label class="field-label" for="article-search">${isSumula?'Buscar nestas súmulas':'Buscar nesta legislação'}</label><div class="search"><span aria-hidden="true">⌕</span><input id="article-search" placeholder="${isSumula?'Buscar expressão ou súmula (ex.: SV 13)':'Buscar expressão ou artigo (ex.: 5 ou 54-A)'}" aria-label="${isSumula?'Buscar nestas súmulas':'Buscar nesta legislação'}"></div></div><button class="mobile-index-toggle" aria-controls="reader-index" aria-expanded="false">Índice</button></div><details class="reading-settings" ${window.innerWidth>700?'open':''}><summary><span class="settings-label">Ajustes<span class="settings-label-long"> de leitura</span></span> <span id="font-size" role="status"></span></summary><div class="reading-adjustments"><div class="font-controls" role="group" aria-label="Tamanho da fonte"><button id="font-down" aria-label="Diminuir fonte">A−</button><button id="font-up" aria-label="Aumentar fonte">A+</button></div><div class="reading-spacing-control"><label for="reading-spacing">Espaçamento</label><select id="reading-spacing"><option value="standard">Padrão</option><option value="comfortable">Confortável</option><option value="wide">Amplo</option></select></div><button id="reset-reading">Restaurar leitura</button></div></details></div><div class="reader-options"><button id="saved-filter" aria-pressed="${onlySaved}">${onlySaved?'Mostrar todos':'Mostrar só favoritos'}</button><button id="clear-section" hidden>Limpar divisão selecionada ×</button><span id="results-label" role="status"></span></div><div id="introduction"></div><div id="articles"></div><nav class="pagination" aria-label="Páginas de leitura"><button id="previous-page">← Anteriores</button><span id="page-label"></span><button id="next-page">Próximos →</button></nav></section></div><dialog class="reading-sheet" aria-labelledby="reading-sheet-title"><div class="sheet-handle" aria-hidden="true"></div><div class="sheet-heading"><h2 id="reading-sheet-title">Ajustes de leitura</h2><button class="sheet-close" aria-label="Fechar ajustes de leitura">Fechar</button></div><div class="sheet-controls"></div></dialog>`;
  const input=document.querySelector('#article-search');input.value=query;
+ const sheet=document.querySelector('.reading-sheet');
+ document.querySelector('.reading').append(sheet);
  let active=true, positionTimer, focusMode=false;
  const reading=document.querySelector('.reading');
  const controls=document.querySelector('.reading-controls');
@@ -24,7 +26,7 @@ export function reader(code, requested, params, context) {
  const controlsObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(updateReadingOffset):null;
  controlsObserver?.observe(controls);updateReadingOffset();
  function rememberPosition(){
-  if(!active)return;
+  if(!active||sheet.open)return;
   const entries=[...document.querySelectorAll('#articles .article')];
   const line=Math.min(window.innerHeight*0.45,300);
   const current=entries.find(el=>{const rect=el.getBoundingClientRect();return rect.bottom>line&&rect.top<=line;});
@@ -41,10 +43,101 @@ export function reader(code, requested, params, context) {
   document.querySelector('#font-down').disabled=readingPreferences.size===16;
   document.querySelector('#font-up').disabled=readingPreferences.size===26;
  }
- function savePreferences(){applyPreferences();if(!storageWrite('lexa-reading',readingPreferences))toast('Ajustes temporários: armazenamento indisponível');}
+ function readingAnchor(){
+  const line=controls.getBoundingClientRect().bottom+12;
+  const element=[...document.querySelectorAll('#articles .legal-unit,#articles .article-heading')].find(el=>el.getBoundingClientRect().bottom>line);
+  return element?{element,top:element.getBoundingClientRect().top}:null;
+ }
+ function savePreferences(){
+  const anchor=sheet.open?readingAnchor():null;
+  applyPreferences();
+  if(anchor&&panelState){
+   panelState.y+=anchor.element.getBoundingClientRect().top-anchor.top;
+   document.body.style.top=-panelState.y+'px';
+  }
+  if(!storageWrite('lexa-reading',readingPreferences))toast('Ajustes temporários: armazenamento indisponível');
+ }
  document.querySelector('#reading-spacing').onchange=e=>{readingPreferences.spacing=e.target.value;savePreferences();};
  document.querySelector('#reset-reading').onclick=()=>{readingPreferences.size=19;readingPreferences.spacing='standard';savePreferences();};
  const focusButton=document.querySelector('#focus-mode');
+ const mobile=window.matchMedia('(max-width:700px)');
+ const settings=document.querySelector('.reading-settings');
+ const summary=settings.querySelector('summary');
+ const adjustments=settings.querySelector('.reading-adjustments');
+ const size=document.querySelector('#font-size');
+ const searchButton=document.querySelector('.mobile-search-toggle');
+ let panelState=null,desktopSettingsOpen=window.innerWidth>700?settings.open:true;
+ function closeSettings(restoreFocus=true){
+  if(!panelState)return;
+  const previous=panelState;panelState=null;
+  sheet.close();
+  settings.append(adjustments);summary.append(size);
+  document.body.style.cssText=previous.bodyStyle;
+  window.scrollTo({left:previous.x,top:previous.y,behavior:'instant'});
+  summary.setAttribute('aria-expanded','false');
+  if(restoreFocus)summary.focus({preventScroll:true});
+ }
+ function openSettings(){
+  if(!mobile.matches||sheet.open)return;
+  panelState={x:window.scrollX,y:window.scrollY,bodyStyle:document.body.style.cssText};
+  sheet.querySelector('.sheet-controls').append(size,adjustments);
+  document.body.style.position='fixed';document.body.style.top=-panelState.y+'px';
+  document.body.style.left='0';document.body.style.right='0';
+  settings.open=false;summary.setAttribute('aria-expanded','true');
+  sheet.showModal();sheet.querySelector('.sheet-close').focus({preventScroll:true});
+ }
+ summary.addEventListener('click',event=>{if(mobile.matches){event.preventDefault();openSettings();}});
+ sheet.querySelector('.sheet-close').onclick=()=>closeSettings();
+ sheet.addEventListener('cancel',event=>{event.preventDefault();closeSettings();});
+ sheet.addEventListener('close',()=>{if(!sheet.open)closeSettings();});
+ sheet.addEventListener('keydown',event=>{
+  if(event.key!=='Tab')return;
+  const buttons=[...sheet.querySelectorAll('button:not(:disabled),select:not(:disabled)')].filter(el=>el.getClientRects().length);
+  const destination=event.shiftKey&&document.activeElement===buttons[0]?buttons.at(-1):
+   !event.shiftKey&&document.activeElement===buttons.at(-1)?buttons[0]:null;
+  if(destination){event.preventDefault();destination.focus({preventScroll:true});}
+ });
+ let outside=false,drag=null;
+ sheet.addEventListener('pointerdown',event=>{
+  const rect=sheet.getBoundingClientRect();
+  outside=event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;
+  if(event.isPrimary&&event.button===0&&event.target.closest('.sheet-handle,.sheet-heading')&&!event.target.closest('button')){
+   drag={id:event.pointerId,x:event.clientX,y:event.clientY};sheet.setPointerCapture(event.pointerId);
+  }
+ });
+ sheet.addEventListener('pointerup',event=>{
+  const rect=sheet.getBoundingClientRect();
+  const isOutside=event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;
+  if(outside&&isOutside)closeSettings();
+  if(drag&&event.pointerId===drag.id){
+   if(event.clientY-drag.y>60&&Math.abs(event.clientX-drag.x)<(event.clientY-drag.y)*0.7)closeSettings();
+   drag=null;
+  }
+  outside=false;
+ });
+ sheet.addEventListener('pointercancel',()=>{drag=null;outside=false;});
+ function showSearch(value){
+  controls.classList.toggle('search-open',value);searchButton.setAttribute('aria-expanded',String(value));
+  updateReadingOffset();
+  if(value)input.focus({preventScroll:true});else searchButton.focus({preventScroll:true});
+ }
+ searchButton.onclick=()=>showSearch(!controls.classList.contains('search-open'));
+ function responsiveControls(){
+  closeSettings(false);
+  if(mobile.matches){
+   desktopSettingsOpen=settings.open;settings.open=false;
+   summary.setAttribute('aria-haspopup','dialog');summary.setAttribute('aria-controls','reading-sheet');
+   summary.setAttribute('aria-expanded','false');
+   document.querySelector('.reader-options').prepend(focusButton);
+  }else{
+   summary.removeAttribute('aria-haspopup');summary.removeAttribute('aria-controls');summary.removeAttribute('aria-expanded');
+   settings.open=desktopSettingsOpen;document.querySelector('.reading-context').append(focusButton);
+  }
+  updateReadingOffset();
+ }
+ sheet.id='reading-sheet';responsiveControls();mobile.addEventListener('change',responsiveControls);
+ const cleanupControls=state.cleanupReader;
+ state.cleanupReader=()=>{closeSettings(false);mobile.removeEventListener('change',responsiveControls);cleanupControls();};
  function setFocus(value){
   const line=Math.min(window.innerHeight*0.45,300);
   const anchor=[...document.querySelectorAll('#articles .article')].find(el=>{const rect=el.getBoundingClientRect();return rect.top<=line&&rect.bottom>line;});
@@ -66,9 +159,15 @@ export function reader(code, requested, params, context) {
   summary.focus({preventScroll:true});
   summary.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
  };
- const onEscape=e=>{if(e.key==='Escape'&&focusMode&&!document.querySelector('#copy-dialog').open){setFocus(false);focusButton.focus();}};
+ const onEscape=e=>{if(sheet.open)return;if(e.key==='Escape'&&mobile.matches&&controls.classList.contains('search-open')){showSearch(false);return;}if(e.key==='Escape'&&focusMode&&!document.querySelector('#copy-dialog').open){setFocus(false);focusButton.focus();}};
+ const onSearchShortcut=event=>{
+  if(mobile.matches&&!sheet.open&&event.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){
+   event.preventDefault();event.stopImmediatePropagation();showSearch(true);
+  }
+ };
+ document.addEventListener('keydown',onSearchShortcut,true);
  document.addEventListener('keydown',onEscape);
- const previousCleanup=state.cleanupReader;state.cleanupReader=()=>{document.removeEventListener('keydown',onEscape);previousCleanup();};
+ const previousCleanup=state.cleanupReader;state.cleanupReader=()=>{document.removeEventListener('keydown',onSearchShortcut,true);document.removeEventListener('keydown',onEscape);previousCleanup();};
  applyPreferences();
  const {sectionMap,trees,bySection}=readerModel(code);
  let expanded=new Set(),indexInitialized=false,indexMarkupKey=null,selectionCache=null;

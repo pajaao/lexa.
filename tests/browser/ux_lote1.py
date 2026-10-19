@@ -43,6 +43,7 @@ try:
     if not args.capture_only:
      page.wait_for_function('document.querySelector("#art-5 .article-heading").getBoundingClientRect().top >= document.querySelector(".reading-controls").getBoundingClientRect().bottom')
     if not args.capture_only:
+     if width<=700:page.locator('.mobile-search-toggle').click()
      expect(page.get_by_label('Buscar nesta legislação',exact=True)).to_be_visible();expect(page.locator('.edition-label')).to_have_text('Edição consultada');expect(page.locator('#reading-scope')).to_have_text('Constituição Federal')
     page.screenshot(path=str(args.artifacts/f'reader-{width}-{"dark" if dark else "light"}.png'))
     page.evaluate('scrollTo(0,0)');page.screenshot(path=str(args.artifacts/f'edition-{width}-{"dark" if dark else "light"}.png'))
@@ -58,6 +59,7 @@ try:
      page.goto(base+'#/civil/186');expect(page.locator('#art-186')).to_be_visible();page.wait_for_function('JSON.parse(localStorage.getItem("lexa-last-reading"))?.articleId==="186"');settings=page.locator('.reading-settings')
      if settings.get_attribute('open') is None:settings.locator(':scope > summary').click()
      page.locator('#font-up').click();expect(page.locator('#font-size')).to_have_text('20 px');page.locator('#reading-spacing').select_option('comfortable');expect(page.locator('.reading')).to_have_attribute('data-spacing','comfortable')
+     if width<=700:page.locator('.sheet-close').click()
      page.locator('#focus-mode').click();expect(page.locator('#focus-mode')).to_have_attribute('aria-pressed','true');page.locator('#focus-mode').click()
      page.locator('#art-186 [data-save]').click();page.locator('#saved-filter').click();expect(page.locator('#saved-filter')).to_have_text('Mostrar todos');expect(page.locator('#articles .article')).to_have_count(1)
      page.goto(base+'#/favoritos');expect(page.locator('.favorite-link')).to_have_count(1);page.reload();expect(page.locator('.favorite-link')).to_have_count(1)
