@@ -37,7 +37,7 @@ class STFBrowserTests(unittest.TestCase):
                 browser.fetch(URL)
             browser.page.wait_for_function.assert_not_called()
             browser.page.goto.assert_called_once()
-            report = json.loads((Path(path) / 'access-diagnostic.json').read_text())
+            report = json.loads((Path(path) / 'access-diagnostic.json').read_text(encoding='utf-8'))
             self.assertEqual(report['status'], 403)
             self.assertEqual(report['url'], URL)
             browser.page.screenshot.assert_called_once()

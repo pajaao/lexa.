@@ -1,5 +1,5 @@
 """Exercise the real service-worker lifecycle on a GitHub Pages-style subpath.
-Requires Playwright for Python and /usr/bin/chromium; run npm run build first.
+Requires Playwright for Python and its Chromium; run npm run build first.
 """
 from pathlib import Path
 import functools, hashlib, http.server, re, shutil, tempfile, threading, json
@@ -25,16 +25,16 @@ with tempfile.TemporaryDirectory() as temporary:
     server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=temporary))
     threading.Thread(target=server.serve_forever,daemon=True).start()
     def deploy(version):
-        html=(site/'index.html').read_text()
+        html=(site/'index.html').read_text(encoding='utf-8')
         html=re.sub(r'<body[^>]*>',f'<body data-test-version="{version}">',html,count=1)
-        (site/'index.html').write_text(html)
-        worker=(site/'sw.js').read_text()
+        (site/'index.html').write_bytes(html.encode('utf-8'))
+        worker=(site/'sw.js').read_text(encoding='utf-8')
         worker=re.sub(r"const VERSION = '[a-f0-9]{64}'",f"const VERSION = '{hashlib.sha256(version.encode()).hexdigest()}'",worker)
         specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
         for spec in specs:
-            if spec['file']=='index.html':spec['sha256']=hashlib.sha256(html.encode()).hexdigest()
+            if spec['file']=='index.html':spec['sha256']=hashlib.sha256((site/'index.html').read_bytes()).hexdigest()
         worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker)
-        (site/'sw.js').write_text(worker)
+        (site/'sw.js').write_bytes(worker.encode('utf-8'))
     try:
         with sync_playwright() as p:
             browser=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage','--no-proxy-server'])
@@ -103,7 +103,7 @@ with tempfile.TemporaryDirectory() as temporary:
             context.set_offline(True);page.reload();expect(page.locator('body')).to_have_attribute('data-test-version','v2')
             # A new immutable legal file with the wrong bytes must also be rejected.
             failure['enabled']=False;deploy('v4')
-            worker=(site/'sw.js').read_text()
+            worker=(site/'sw.js').read_text(encoding='utf-8')
             specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
             spec=next(item for item in specs if item['file'].startswith('data/clt.'))
             original=(site/spec['file']).read_bytes();new_bytes=original+b' '
@@ -111,7 +111,7 @@ with tempfile.TemporaryDirectory() as temporary:
             spec['file']='data/clt.'+new_hash+'.json';spec['sha256']=new_hash
             (site/spec['file']).write_bytes(original) # deliberately wrong bytes
             worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker)
-            (site/'sw.js').write_text(worker)
+            (site/'sw.js').write_bytes(worker.encode('utf-8'))
             context.set_offline(False)
             page.evaluate('''async()=>{
                 const r=await navigator.serviceWorker.getRegistration();

@@ -20,13 +20,13 @@ with tempfile.TemporaryDirectory() as directory:
    old_namespace=next((site/'app').iterdir()).name
    new_namespace=hashlib.sha256(b'new-native-namespace').hexdigest()
    shutil.copytree(site/'app'/old_namespace,site/'app'/new_namespace);shutil.rmtree(site/'app'/old_namespace)
-   html=(site/'index.html').read_text().replace(old_namespace,new_namespace).replace('<body','<body data-test-version="partial-v2"',1);(site/'index.html').write_text(html)
-   worker=(site/'sw.js').read_text();worker=re.sub(r"const VERSION = '[a-f0-9]{64}'",f"const VERSION = '{hashlib.sha256(b'partial-v2').hexdigest()}'",worker)
+   html=(site/'index.html').read_text(encoding='utf-8').replace(old_namespace,new_namespace).replace('<body','<body data-test-version="partial-v2"',1);(site/'index.html').write_bytes(html.encode('utf-8'))
+   worker=(site/'sw.js').read_text(encoding='utf-8');worker=re.sub(r"const VERSION = '[a-f0-9]{64}'",f"const VERSION = '{hashlib.sha256(b'partial-v2').hexdigest()}'",worker)
    specs=json.loads(re.search(r'const INTEGRITY = ([^;]+);',worker)[1])
    for spec in specs:
     spec['file']=spec['file'].replace(old_namespace,new_namespace)
-    if spec['file']=='index.html':spec['sha256']=hashlib.sha256(html.encode()).hexdigest()
-   worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker);(site/'sw.js').write_text(worker)
+    if spec['file']=='index.html':spec['sha256']=hashlib.sha256((site/'index.html').read_bytes()).hexdigest()
+   worker=re.sub(r'const INTEGRITY = [^;]+;',lambda _: 'const INTEGRITY = '+json.dumps(specs)+';',worker);(site/'sw.js').write_bytes(worker.encode('utf-8'))
    audit=server.begin()
    page.evaluate('async()=>{await (await navigator.serviceWorker.getRegistration()).update()}')
    expect(page.locator('#pwa-update')).to_be_visible(timeout=30000)

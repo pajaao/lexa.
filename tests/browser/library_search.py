@@ -1,7 +1,7 @@
 """Validate grouped whole-library text search, reader links and responsive UI."""
 from pathlib import Path
 import functools,http.server,threading
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
@@ -50,7 +50,7 @@ try:
   for width in [320,390,1280]:
    page.set_viewport_size({'width':width,'height':900})
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
-   page.locator('#text-results').scroll_into_view_if_needed();page.screenshot(path=f'/tmp/lexa-global-search-{width}.png')
+   page.locator('#text-results').scroll_into_view_if_needed();page.screenshot(path=artifact_path(f'lexa-global-search-{width}.png'))
   # Leaving the page while a search is pending cannot run against the next view.
   search.fill('uma busca pendente');page.evaluate("location.hash='#/favoritos'");page.wait_for_timeout(300)
   expect(page.locator('.favorites-page')).to_be_visible()

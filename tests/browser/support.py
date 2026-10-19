@@ -7,6 +7,13 @@ from playwright.sync_api import expect
 expect.set_options(timeout=15_000)
 
 
+def artifact_path(name):
+    """Keep screenshots after temporary test sites and browsers are closed."""
+    directory = Path(os.environ.get('LEXA_TEST_ARTIFACTS', Path(__file__).resolve().parents[2] / 'test-results/browser'))
+    directory.mkdir(parents=True, exist_ok=True)
+    return str(directory / name)
+
+
 def chromium_executable():
     explicit = os.environ.get('LEXA_CHROMIUM')
     if explicit:

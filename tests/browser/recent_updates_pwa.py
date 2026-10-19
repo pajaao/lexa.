@@ -16,7 +16,7 @@ with tempfile.TemporaryDirectory() as directory:
  await stagePages(process.argv[1],{history:history.filter(event=>event.kind!=='text')});
  await stagePages(process.argv[2],{history});
  """,str(old),str(new)],cwd=root,check=True,stdout=subprocess.DEVNULL)
- expected=json.loads((new/'catalog.json').read_text())['recentUpdates']
+ expected=json.loads((new/'catalog.json').read_text(encoding='utf-8'))['recentUpdates']
  assert expected,'O histórico de teste deve conter ao menos uma diferença textual real registrada.'
  server=BenchmarkServer(old);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
  try:

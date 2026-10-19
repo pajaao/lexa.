@@ -53,6 +53,33 @@ Os testes de navegador dependem de configuração própria descrita em `docs/MAN
 python scripts/run_browser_tests.py --suite essential
 ```
 
+### Testes no Windows: UTF-8, fuso e artefatos
+
+Use um ambiente virtual Python 3.12+ e prepare as dependências de teste:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r scripts/requirements-test.txt
+.\.venv\Scripts\python.exe -m playwright install chromium
+.\.venv\Scripts\python.exe -X utf8 -m unittest discover -s tests -p "test_*.py"
+npm run build
+.\.venv\Scripts\python.exe scripts/run_browser_tests.py --suite all --artifacts test-results/browser
+```
+
+`requirements-test.txt` inclui o Playwright fixado e `tzdata` somente no Windows, para resolver `America/Sao_Paulo`. Importar PDFs exige separadamente `scripts/requirements-import.txt`. O modo `-X utf8` é necessário nos testes Python que chamam ferramentas de manutenção com operações de texto dependentes do encoding padrão; essas ferramentas não são alteradas pela preparação dos testes. Para executar um teste de navegador individualmente, use também `-X utf8`.
+
+O executor de navegador força UTF-8 nos subprocessos e logs. Screenshots são gravados diretamente em `--artifacts`, inclusive quando um teste falha; a execução individual usa `test-results/browser` ou a variável `LEXA_TEST_ARTIFACTS`. Use diretórios de artefatos diferentes para conservar execuções anteriores. Fixtures PWA são alteradas apenas em cópias temporárias, gravadas como bytes UTF-8, com SHA-256 calculado sobre o arquivo gravado.
+
+Os testes usam `tempfile`, que respeita `TEMP` e `TMP`. Se o temporário do sandbox não permitir criar/remover subdiretórios, escolha um diretório gravável para esta sessão PowerShell antes de executar os testes:
+
+```powershell
+New-Item -ItemType Directory -Force test-results/tmp | Out-Null
+$env:TEMP = (Resolve-Path test-results/tmp).Path
+$env:TMP = $env:TEMP
+```
+
+Não versione `.venv/`, `dist/` nem os artefatos de teste. Os testes não certificam vigência ou homologação jurídica.
+
 ## Fluxo habitual
 1. Escolha uma Issue com critérios de aceite e verifique `git status`.
 2. Atualize a branch-base com cuidado e crie branch própria: `git switch -c tarefa/descricao-curta`.

@@ -1,0 +1,3 @@
+# Shared test preparation; no application dependencies.
+-r requirements-browser.txt
+tzdata; sys_platform == "win32"

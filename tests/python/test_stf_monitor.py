@@ -28,9 +28,9 @@ def seed(root):
     second = parse_item(html(2), 2, INDEX + '&sumula=1186')
     pdf = {'id': 'sv', 'short': 'SV · STF', 'name': 'Súmulas Vinculantes do STF', 'area': 'Súmulas',
            'kind': 'sumulas', 'source': {'kind': 'supplied_pdf'}, 'articles': [first, second]}
-    (root / 'data/archive/sumulas.js').write_text('export const sumulas = ' + json.dumps([pdf]) + ';\n')
-    (root / 'data/official/sumulas.js').write_text('export const officialSumulas = [];\n')
-    (root / 'data/history/sumulas.js').write_text('export const sumulaUpdates = [];\n')
+    (root / 'data/archive/sumulas.js').write_text('export const sumulas = ' + json.dumps([pdf]) + ';\n', encoding='utf-8')
+    (root / 'data/official/sumulas.js').write_text('export const officialSumulas = [];\n', encoding='utf-8')
+    (root / 'data/history/sumulas.js').write_text('export const sumulaUpdates = [];\n', encoding='utf-8')
     return pdf
 
 
@@ -106,7 +106,7 @@ class STFMonitorTests(unittest.TestCase):
             self.assertEqual(event['changes'][0]['kind'], 'vinculante')
             self.assertIn('Cancelada', event['changes'][0]['after']['title'])
             self.assertEqual(len(candidate['articles']), 3)
-            self.assertEqual(json.loads((root / 'monitor/stf/items/3.json').read_text())['semantic_sha256'], digest(candidate['articles'][2]))
+            self.assertEqual(json.loads((root / 'monitor/stf/items/3.json').read_text(encoding='utf-8'))['semantic_sha256'], digest(candidate['articles'][2]))
 
     def test_mid_capture_failure_changes_no_tracked_candidates(self):
         with TemporaryDirectory() as directory:
@@ -119,7 +119,7 @@ class STFMonitorTests(unittest.TestCase):
                 run(root, broken, sleeper=lambda _: None)
             after = {str(path.relative_to(root)): path.read_bytes() for path in root.rglob('*') if path.is_file() and 'run' not in path.parts}
             self.assertEqual(before, after)
-            self.assertEqual(json.loads((root / 'monitor/run/stf/report.json').read_text())['status'], 'failed')
+            self.assertEqual(json.loads((root / 'monitor/run/stf/report.json').read_text(encoding='utf-8'))['status'], 'failed')
 
 
 if __name__ == '__main__':

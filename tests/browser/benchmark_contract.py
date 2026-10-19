@@ -7,7 +7,7 @@ from support import chromium_executable, app_evaluate
 from performance import BenchmarkServer, Probe, library_ready, search_ready
 
 root=Path(__file__).resolve().parents[2]
-catalog=json.loads((root/'dist/catalog.json').read_text())
+catalog=json.loads((root/'dist/catalog.json').read_text(encoding='utf-8'))
 count=len(catalog['collections'])
 server=BenchmarkServer(root/'dist')
 thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
@@ -17,7 +17,7 @@ try:
   context=browser.new_context(service_workers='block');page=context.new_page()
   probe=Probe(page,context,server,1,False)
   page.goto(f'http://127.0.0.1:{server.server_port}/');library_ready(page,count)
-  fixture=json.loads((root/'tests/fixtures/dignidade-results.json').read_text())
+  fixture=json.loads((root/'tests/fixtures/dignidade-results.json').read_text(encoding='utf-8'))
   cold=probe.measure('first','cold',lambda:page.locator('#library-search').fill('dignidade'),lambda:search_ready(page,'dignidade',len(fixture)))
   assert cold['transfer']['legal_json_network_bytes']>0
   assert cold['origin_body_bytes']>0
