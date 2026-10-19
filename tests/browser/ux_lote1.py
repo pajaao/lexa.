@@ -45,6 +45,7 @@ try:
     if not args.capture_only:
      if width<=700:page.locator('.mobile-search-toggle').click()
      expect(page.get_by_label('Buscar nesta legislação',exact=True)).to_be_visible();expect(page.locator('.edition-label')).to_have_text('Edição consultada');expect(page.locator('#reading-scope')).to_have_text('Constituição Federal')
+    if width<=700 and not args.capture_only:page.locator('.reader-search-close').click()
     page.screenshot(path=str(args.artifacts/f'reader-{width}-{"dark" if dark else "light"}.png'))
     page.evaluate('scrollTo(0,0)');page.screenshot(path=str(args.artifacts/f'edition-{width}-{"dark" if dark else "light"}.png'))
     if width<701:

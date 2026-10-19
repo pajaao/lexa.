@@ -102,7 +102,7 @@ try:
                 page.keyboard.press('/')
                 expect(page.locator('#article-search')).to_be_focused()
                 page.locator('#article-search').fill('dignidade')
-                expect(page.locator('#articles mark').first).to_be_visible()
+                expect(page.locator('.reader-search-results mark').first).to_be_visible()
                 page.keyboard.press('Escape')
                 expect(page.locator('.mobile-search-toggle')).to_be_focused()
                 expect(page.locator('#article-search')).to_be_hidden()

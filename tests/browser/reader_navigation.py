@@ -77,6 +77,7 @@ try:
      assert page.locator('#reading-location').inner_text()!='Leitura'
      page.locator('.mobile-search-toggle').click()
      page.locator('#article-search').focus();expect(page.locator('#article-search')).to_be_focused()
+     page.locator('.reader-search-close').click()
      button=page.get_by_role('button',name='Índice',exact=True)
      button.focus();page.keyboard.press('Enter')
      expect(page.locator('.index-panel-close')).to_be_focused()
