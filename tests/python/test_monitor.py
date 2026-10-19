@@ -87,7 +87,7 @@ class MonitorTests(unittest.TestCase):
             self.assertFalse((evidence/'civil.diff.txt').exists())
             third = run([SPEC], base, evidence, fetcher=lambda _: (HTML.replace(b'protegidas', b'respeitadas'), None))
             self.assertEqual(third['results'][0]['status'], 'changed')
-            self.assertIn('respeitadas', (evidence/'civil.diff.txt').read_text())
+            self.assertIn('respeitadas', (evidence/'civil.diff.txt').read_text(encoding='utf-8'))
             self.assertFalse(third['published_reading_data_changed'])
 
     def test_failure_does_not_advance_baselines_or_reuse_old_evidence(self):
@@ -111,9 +111,9 @@ class MonitorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             base, evidence = Path(directory)/'official', Path(directory)/'run'
             run([SPEC], base, evidence, fetcher=lambda _: (HTML, None))
-            baseline = json.loads((base/'civil.json').read_text())
+            baseline = json.loads((base/'civil.json').read_text(encoding='utf-8'))
             baseline['semantic_sha256'] = '0'*64
-            (base/'civil.json').write_text(json.dumps(baseline))
+            (base/'civil.json').write_text(json.dumps(baseline), encoding='utf-8')
             result = run([SPEC], base, evidence, fetcher=lambda _: (HTML, None))
             self.assertEqual(result['failed_count'], 1)
             self.assertIn('inconsistente', result['results'][0]['reason'])
@@ -128,9 +128,9 @@ class MonitorTests(unittest.TestCase):
         # Synthetic HTML from the supplied PDF extraction, not a claim of live
         # source connectivity. Exercises coverage with all actual article IDs.
         from html import escape
-        content = (ROOT/'data/archive/legislation.js').read_text()
+        content = (ROOT/'data/archive/legislation.js').read_text(encoding='utf-8')
         imported = json.loads(content[len('export const imported = '):-2])
-        specs = json.loads((ROOT/'monitor/sources.json').read_text())
+        specs = json.loads((ROOT/'monitor/sources.json').read_text(encoding='utf-8'))
         for spec in specs:
             with self.subTest(source=spec['id']):
                 doc = imported[spec['id']]

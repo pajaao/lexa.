@@ -154,7 +154,7 @@ def reader_ready(page):
 
 
 def offline_ready(page, complete=False):
-    page.wait_for_function('navigator.serviceWorker.controller!==null && document.querySelector("#pwa-status").textContent.includes("preparada")')
+    page.wait_for_function('navigator.serviceWorker.controller!==null && ["partial","full"].includes(document.querySelector("#pwa-status").dataset.offlineMode)')
     if complete and page.locator('#pwa-cache-all').count():
         page.locator('.pwa-help').evaluate('(el)=>el.open=true')
         page.locator('#pwa-cache-all').click()
@@ -173,13 +173,13 @@ def main():
     if args.runs < 1 or args.cpu < 1:
         parser.error('--runs e --cpu devem ser maiores ou iguais a 1')
     directory = args.directory.resolve()
-    catalog = json.loads((directory/'catalog.json').read_text())
+    catalog = json.loads((directory/'catalog.json').read_text(encoding='utf-8'))
     count = len(catalog['collections'])
     # Expected result groups come from the exact build being benchmarked, not a
     # hard-coded collection count that becomes stale when a law is added.
     expected = {query: 0 for query in ['dignidade', 'educacao']}
     for spec in catalog['collections']:
-        content = json.loads((directory/spec['file']).read_text())
+        content = json.loads((directory/spec['file']).read_text(encoding='utf-8'))
         fields = []
         for article in content['articles']:
             fields.extend(''.join(run['text'] for run in p['runs']) for p in [*article['paragraphs'], *article.get('notes', [])])
@@ -302,7 +302,7 @@ def main():
     }
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n')
+        args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     print(json.dumps(report, ensure_ascii=False))
 
 

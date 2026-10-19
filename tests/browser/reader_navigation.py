@@ -2,7 +2,7 @@
 from pathlib import Path
 import functools,http.server,threading
 from playwright.sync_api import sync_playwright,expect
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 
 root=Path(__file__).resolve().parents[2]
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -34,7 +34,7 @@ def check_start(page,label):
   })''')
   assert page.evaluate(visible_start)
  except Exception:
-  page.screenshot(path='/tmp/lexa-ux-navigation-failure.png')
+  page.screenshot(path=artifact_path('lexa-ux-navigation-failure.png'))
   raise AssertionError((label,page.evaluate('''()=>({scrollY,
    first:document.querySelector('#articles .article').getBoundingClientRect().toJSON(),
    controls:document.querySelector('.reading-controls').getBoundingClientRect().toJSON()})''')))
@@ -59,7 +59,7 @@ try:
      page.locator('#next-page').click()
      page.wait_for_function('id=>document.querySelector("#articles .article").id!==id',arg=original)
      expect(page.locator('#articles .article')).to_have_count(15);check_start(page,(width,motion,code,'next'))
-     page.screenshot(path=f'/tmp/lexa-ux-navigation-{width}-{code}-{motion}.png')
+     page.screenshot(path=artifact_path(f'lexa-ux-navigation-{width}-{code}-{motion}.png'))
      page.locator('#previous-page').click();expect(page.locator('#articles .article').first).to_have_attribute('id',original)
      check_start(page,(width,motion,code,'previous'))
      # Pointer selection of a hierarchical branch also returns to its content.
@@ -73,7 +73,7 @@ try:
     selection.focus();page.keyboard.press('Enter')
     first_link=page.locator('#articles .article .article-heading>a').first
     expect(first_link).to_be_focused();check_start(page,(width,motion,'cf','keyboard'))
-    page.screenshot(path=f'/tmp/lexa-ux-keyboard-{width}-{motion}.png')
+    page.screenshot(path=artifact_path(f'lexa-ux-keyboard-{width}-{motion}.png'))
     page.keyboard.press('Tab');expect(page.locator('#articles .article [data-save]').first).to_be_focused()
     cases+=1
     # A division can be empty with the existing favorites filter enabled.

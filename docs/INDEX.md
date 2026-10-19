@@ -1,6 +1,6 @@
 # Índice da documentação — Lexa
 
-**Referência:** `main` em 18/10/2026, commit `84c5bb5c5e28c08376e0bf40cf3f3f4b4fd783cf`. Este índice distingue documentação incorporada na base de pareceres e experimentos existentes apenas em outros refs. A criação do índice em um PR **não significa que ele já esteja em `main`**.
+**Escopo:** documentação corrente da `main` e ligações explícitas para registros históricos. Referências a commits antigos identificam a proveniência dos documentos, não o estado atual da aplicação.
 
 ## Introdução e arquitetura — documentação corrente
 - [README principal](../README.md): produto, instalação, navegação, fontes e desenvolvimento.

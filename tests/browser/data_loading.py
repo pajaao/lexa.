@@ -35,7 +35,7 @@ try:
   page.goto(base);page.locator('#library-search').fill('dignidade')
   expect(page.locator('.text-result-group')).to_have_count(12)
   actual=app_evaluate(page,"searchLibraryText('dignidade').map(g=>({id:g.code.id,ids:g.matches.map(m=>m.article.id)}))")
-  expected=json.loads((root/'tests/fixtures/dignidade-results.json').read_text())
+  expected=json.loads((root/'tests/fixtures/dignidade-results.json').read_text(encoding='utf-8'))
   assert actual==expected
   assert sum(len(group['ids']) for group in actual)==52
   assert app_evaluate(page,'collections.every(code=>code.searchIndex)')

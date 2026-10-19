@@ -3,10 +3,10 @@ from pathlib import Path
 import json,threading
 from urllib.parse import urlencode
 from playwright.sync_api import sync_playwright,expect
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 from performance import BenchmarkServer
 root=Path(__file__).resolve().parents[2]
-catalog=json.loads((root/'dist/catalog.json').read_text());recent=catalog['recentUpdates']
+catalog=json.loads((root/'dist/catalog.json').read_text(encoding='utf-8'));recent=catalog['recentUpdates']
 server=BenchmarkServer(root/'dist');thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
 base=f'http://127.0.0.1:{server.server_port}/'
 try:
@@ -40,7 +40,7 @@ try:
    assert page.locator('#quick-reference').is_hidden()
    page.locator('#library-search').fill('');expect(page.locator('#cards .code-card')).to_have_count(14)
    page.locator('#library-search').fill('Art. 186 CC');expect(page.locator('#quick-reference a')).to_have_count(1)
-   page.screenshot(path=f'/tmp/lexa-ux2-reference-{width}.png')
+   page.screenshot(path=artifact_path(f'lexa-ux2-reference-{width}.png'))
    if recent:
     event=recent[0];article=event['articles'][0]['articleId']
     href='#/atualizacoes?'+urlencode({'codigo':event['codeId'],'artigo':article})
@@ -63,7 +63,7 @@ try:
     page.keyboard.press('Tab');expect(page.locator('#reset-reading')).to_be_focused()
     page.locator('#font-up').click();expect(page.locator('#font-size')).to_have_text('20 px')
     page.get_by_label('Espaçamento',exact=True).select_option('comfortable')
-    page.screenshot(path=f'/tmp/lexa-ux2-settings-{width}.png')
+    page.screenshot(path=artifact_path(f'lexa-ux2-settings-{width}.png'))
     page.locator('#reset-reading').click();expect(page.locator('#font-size')).to_have_text('19 px')
     expect(page.locator('#reading-spacing')).to_have_value('standard')
    context.close()

@@ -1,7 +1,7 @@
 """Check hierarchy, chapter filters and unchanged legal wording in Chromium."""
 from pathlib import Path
 import functools,http.server,threading,json,subprocess
-from support import chromium_executable
+from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 model=json.loads(subprocess.check_output(['node','--input-type=module','-e',"import {collections} from './src/data.js'; console.log(JSON.stringify(collections));"],cwd=root))
@@ -49,7 +49,7 @@ try:
    page.goto(base+'#/civil/1')
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
    page.locator('.legal-parte').first.scroll_into_view_if_needed()
-   page.screenshot(path=f'/tmp/lexa-hierarchy-{width}.png')
+   page.screenshot(path=artifact_path(f'lexa-hierarchy-{width}.png'))
   assert not errors,errors
   browser.close();print('Hierarquia validada nas coleções cadastradas: texto preservado, árvore, filtros, paginação, busca, ADCT, posição atual e telas menores.')
 finally:server.shutdown();server.server_close()
