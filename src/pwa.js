@@ -1,3 +1,4 @@
+import {offlineStatusText} from './interface-copy.js';
 import {initialCatalog} from './collections.js';
 import {loadedResourceFiles} from './loading.js';
 
@@ -11,7 +12,7 @@ export function setupPwa(){
  const prepareLabel=`Preparar biblioteca completa offline (~${size} MB)`;
  function display(value){
   lastStatus=value;status.dataset.offlineMode=value.complete?'full':'partial';
-  status.textContent=(navigator.onLine?'Leitura offline preparada. ':'Você está offline. ')+(value.complete?'Biblioteca completa desta edição disponível.':'Apenas os conteúdos guardados estão disponíveis sem conexão.');
+  status.textContent=offlineStatusText(value.complete,navigator.onLine);
   available.textContent=value.complete?'Todas as legislações, súmulas, busca e histórico desta edição estão disponíveis offline.':
    (value.collections.length?'Normas disponíveis: '+value.collections.map(code=>code.name).join('; ')+'. ':'Nenhuma norma completa foi guardada ainda. ')+
    (value.searchComplete?'Busca global disponível offline. Abrir uma norma ainda não guardada precisa de conexão.':'Prepare a biblioteca completa para pesquisar todo o acervo sem conexão.');
