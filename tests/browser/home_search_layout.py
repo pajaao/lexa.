@@ -92,9 +92,9 @@ try:
         active = page.locator('header nav>a[aria-current="page"]')
         assert active.evaluate("el=>getComputedStyle(el).borderBottomStyle") == 'solid'
         assert active.evaluate("el=>getComputedStyle(el).borderBottomColor") != 'rgba(0, 0, 0, 0)'
-        expect(page.locator('.hero-ornament:visible')).to_have_count(0)
+        expect(page.locator('.hero-geometry:visible')).to_have_count(0)
         context.close()
         browser.close()
-    print('Home: hierarquia, espaçamentos, sem ornamentos laterais, largura da busca, alvos de 44 px, teclado e navegação; 320–1440 px, claro/escuro e alto contraste, sem transbordamento.')
+    print('Home híbrida: hierarquia, espaçamentos, largura da busca, alvos de 44 px, teclado e navegação; 320–1440 px, claro/escuro e alto contraste, sem transbordamento.')
 finally:
     server.shutdown();server.server_close()

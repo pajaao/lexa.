@@ -8,6 +8,16 @@ Referência recebida: `LEXA_UXUI_Lote1_Pacote_Codex.zip`, SHA-256 `7f921c4e1afd4
 
 Direção A: superfícies claras, tipografia editorial, espaçamento e controles consistentes; tema escuro preservado. Direção B: identificação textual da legislação, edição e escopo CF/ADCT, com localização estrutural discreta. A estrutura jurídica exibida continua vindo dos mesmos dados e funções.
 
+## Página inicial consolidada: composição híbrida e geometria editorial
+
+A composição híbrida mantém a busca central com até 760 px, título de 36 px no desktop (30 px até 700 px e 28 px até 400 px), descrição próxima, exemplos e biblioteca logo abaixo. Preserva a paleta e a tipografia existentes. A geometria editorial expressiva foi a alternativa aprovada; não há seletor de variantes.
+
+- **Primitivas:** linhas retas, cantos abertos, interrupções, arcos parciais e pequenos círculos. Coordenadas em grade de oito unidades, arcos de raios 32/48 e círculos de raio 2 no `viewBox` de 160 × 224. Sem símbolos jurídicos, textos, gradientes ou sombras decorativas.
+- **Traço e cor:** traço uniforme de 1 px, com `non-scaling-stroke`; cor `--muted` da paleta de cada tema e opacidade de 0,4. Largura de 128 px por SVG, com altura proporcional. `--geometry-size`, `--geometry-stroke` e `--geometry-alpha` registram esses valores, sem ampliar contraste ou escala.
+- **Composição:** dois SVGs assimétricos exclusivamente nas laterais da busca, sem ocupar espaço no fluxo. Recuo lateral de 34 px; posições verticais de 56 px à esquerda e 92 px à direita, relativas à região de busca. Manter o centro livre e o ritmo dos segmentos; não espelhar nem criar margens para acomodar os desenhos.
+- **Responsividade e acessibilidade:** exibir somente a partir de 1200 px; ocultar em telas menores, alto contraste e impressão. Usar `aria-hidden="true"`, `focusable="false"` e `pointer-events:none`, sem ações, foco ou animações.
+- **Escopo e verificação:** implementação em [app.js](../../src/app.js) e [styles.css](../../src/styles.css), restrita à home, sem biblioteca de componentes. [home_geometry.py](../../tests/browser/home_geometry.py), integrado à suíte essencial, verifica os valores aprovados, margens livres, invariância do conteúdo/layout, teclado, temas, alto contraste e impressão.
+
 ## Alterações
 
 - `src/styles.css`: refinamento incremental de cabeçalho, busca, cartões, leitor e controles. Grade móvel em uma coluna; índice nativo expansível funcional. Cabeçalho permite quebra de linha em 320 px. Localização estrutural tem espaço reservado e resumo visual limitado, evitando que sua atualização aumente a barra sticky após a rolagem. O texto estrutural completo permanece no DOM.
