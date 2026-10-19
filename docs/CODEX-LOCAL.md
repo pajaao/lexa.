@@ -68,4 +68,4 @@ python scripts/run_browser_tests.py --suite essential
 - Verifique permissões de sandbox do Windows e solicitações de confirmação antes de conceder acesso fora da pasta.
 - Se a versão instalada alterar comandos ou autenticação, consulte a documentação oficial atual; não introduza chaves da API apenas para contornar o Free.
 
-**Status da migração local:** pendente de execução e validação no computador do mantenedor. A existência deste guia ou de um PR não significa que a instalação ocorreu.
+**Comprovação:** o estado da instalação é externo ao repositório e deve ser confirmado pelo mantenedor. A existência deste guia ou de um PR não comprova a instalação.
