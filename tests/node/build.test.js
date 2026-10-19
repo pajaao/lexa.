@@ -18,7 +18,7 @@ async function renderHome(payload){
   assert.notEqual(original,injected);await writeFile(path,injected);
  }
  const nodes=new Map();
- const node=selector=>{if(!nodes.has(selector))nodes.set(selector,{innerHTML:'',value:'',classList:{toggle(){}},addEventListener(){}});return nodes.get(selector);};
+ const node=selector=>{if(!nodes.has(selector))nodes.set(selector,{innerHTML:'',value:'',dataset:{},classList:{toggle(){}},addEventListener(){}});return nodes.get(selector);};
  const previous={document:globalThis.document,window:globalThis.window,location:globalThis.location};
  globalThis.document={querySelector:node,querySelectorAll:()=>[],documentElement:{classList:{toggle(){}}},addEventListener(){}};
  globalThis.window={addEventListener(){},scrollTo(){}};globalThis.location={hash:''};
