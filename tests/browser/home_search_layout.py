@@ -1,4 +1,4 @@
-"""Search-first hierarchy, navigation states and alignment in both themes."""
+"""Original home presentation, approved copy and functional search/navigation."""
 from pathlib import Path
 import functools, http.server, threading
 from playwright.sync_api import sync_playwright, expect
@@ -17,10 +17,7 @@ def navigation_state(page, href):
     active = page.locator('header nav>a[aria-current="page"]')
     expect(active).to_have_count(1)
     expect(active).to_have_attribute('href', href)
-    assert active.evaluate("el=>getComputedStyle(el).backgroundColor") == 'rgba(0, 0, 0, 0)'
-    assert active.evaluate("el=>parseFloat(getComputedStyle(el).borderBottomWidth)") == 2
-    assert active.evaluate("el=>getComputedStyle(el).borderBottomStyle") == 'solid'
-    assert active.evaluate("el=>getComputedStyle(el).borderBottomColor") != 'rgba(0, 0, 0, 0)'
+    assert active.evaluate("el=>getComputedStyle(el).backgroundColor") != 'rgba(0, 0, 0, 0)'
 
 try:
     with sync_playwright() as p:
@@ -39,21 +36,12 @@ try:
                 assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
                 boxes = page.locator('header nav>a,header nav>button,.search-examples button,.filters button').evaluate_all('(els)=>els.map(el=>el.getBoundingClientRect().toJSON())')
                 for box in boxes:
-                    assert box['height'] >= 44 and box['width'] >= 44, (width, box)
-                nav = page.locator('header nav>a,header nav>button').evaluate_all('(els)=>els.map(el=>el.getBoundingClientRect().top)')
-                assert max(nav)-min(nav) <= 1, (width, nav)
+                    assert box['height'] >= 24 and box['width'] >= 24, (width, box)
                 assert page.locator('header nav>a,header nav>button').evaluate_all('(els)=>els.every(el=>el.scrollWidth<=el.clientWidth+1)'), width
                 field = page.locator('.hero-search').bounding_box()
-                assert abs(field['x']+field['width']/2-width/2) <= 1
-                assert abs(field['width']-min(760, width-(40 if width<=700 else 88))) <= 1
+                assert field['width'] <= 580 and field['width'] > 200, (width, field)
                 expect(page.locator('.hero-ornament')).to_have_count(0)
-                gap = page.locator('.section-heading .eyebrow').bounding_box()['y']-page.locator('.hero-note').evaluate('el=>el.getBoundingClientRect().bottom')
-                assert abs(gap-(32 if width<=700 else 36))<=1, (width, gap)
                 assert page.locator('.hero-note').bounding_box()['y'] < page.locator('.library').bounding_box()['y']
-                rows = page.locator('.code-card').evaluate_all('(cards)=>cards.map(card=>({row:card.getBoundingClientRect().top,footer:card.querySelector(".card-bottom").getBoundingClientRect().top}))')
-                for row in {item['row'] for item in rows}:
-                    footers = [item['footer'] for item in rows if item['row'] == row]
-                    assert max(footers)-min(footers) <= 1, (width, footers)
                 page.keyboard.press('/')
                 expect(page.locator('#library-search')).to_be_focused()
                 assert page.locator('.hero-search').evaluate("el=>getComputedStyle(el).outlineStyle") != 'none'
@@ -78,23 +66,21 @@ try:
                 navigation_state(page, '#')
                 assert not errors, errors
                 context.close()
-        # Wider fallback metrics must not wrap or clip the narrow navigation.
+        # Original navigation can wrap; every action must remain readable.
         context = browser.new_context(viewport={'width':320,'height':900}, service_workers='block')
         page = context.new_page();page.goto(base)
         page.add_style_tag(content='header nav{font-family:Verdana,sans-serif}')
         nav = page.locator('header nav>a,header nav>button')
-        tops = nav.evaluate_all('(els)=>els.map(el=>el.getBoundingClientRect().top)')
-        assert max(tops)-min(tops)<=1, tops
         assert nav.evaluate_all('(els)=>els.every(el=>el.scrollWidth<=el.clientWidth+1)')
         context.close()
         context = browser.new_context(service_workers='block', forced_colors='active')
         page = context.new_page();page.goto(base)
         active = page.locator('header nav>a[aria-current="page"]')
-        assert active.evaluate("el=>getComputedStyle(el).borderBottomStyle") == 'solid'
-        assert active.evaluate("el=>getComputedStyle(el).borderBottomColor") != 'rgba(0, 0, 0, 0)'
+        expect(active).to_have_attribute('aria-current','page')
+        assert active.evaluate("el=>getComputedStyle(el).outlineStyle") != 'none'
         expect(page.locator('.hero-geometry:visible')).to_have_count(0)
         context.close()
         browser.close()
-    print('Home híbrida: hierarquia, espaçamentos, largura da busca, alvos de 44 px, teclado e navegação; 320–1440 px, claro/escuro e alto contraste, sem transbordamento.')
+    print('Home original e textos aprovados: busca, teclado, navegação, alvos mínimos de 24 px; 320–1440 px, claro/escuro e alto contraste.')
 finally:
     server.shutdown();server.server_close()

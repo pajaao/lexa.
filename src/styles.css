@@ -133,8 +133,7 @@ header{height:88px;border-bottom-color:var(--border)}
 header nav{gap:20px}
 header nav>a,header nav>button{padding:9px 12px;border-radius:8px;font-size:12px}
 header nav>a:hover,header nav>button:hover{background:var(--soft)}
-header nav>a{border-bottom:2px solid transparent}
-header nav>a[aria-current=page]{background:transparent;border-radius:0;box-shadow:none;border-bottom-color:var(--action)}
+header nav>a[aria-current=page]{background:var(--soft);box-shadow:inset 0 -2px var(--ring)}
 .header-label{font-size:9px;line-height:1.6;max-width:150px}
 .hero{padding-top:70px;padding-bottom:58px}
 .hero h1{font-size:clamp(44px,4.4vw,66px);line-height:1.12;letter-spacing:-1.8px}
@@ -528,60 +527,5 @@ header nav>a,header nav>button{min-height:44px;padding:10px 12px;font-size:13px}
 .reader-search-panel.short-search .field-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .short-search .reader-search-context{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* Hybrid home: presentation only; shared reader controls keep their layout. */
-header .brand{gap:10px;font-size:32px;line-height:1}
-header .brand-icon{width:34px;height:36px;font-size:28px;padding:0 0 3px}
-.brand-wordmark{letter-spacing:-1.5px;line-height:1}
-.brand-wordmark .brand-dot{margin-left:0}
-header nav>a,header nav>button{display:inline-flex;align-items:center;justify-content:center;line-height:1.5}
-.hero{padding:28px 44px 18px;text-align:center;overflow:visible}
-.hero h1{font-size:36px;line-height:1.2;letter-spacing:-.5px;max-width:760px;margin:0 auto 10px}
-.hero>p{max-width:760px;margin:0 auto 12px;font-size:14px;line-height:1.7}
-.hero>.field-label{max-width:760px;margin:0 auto 8px;text-align:left}
-.hero-search{width:100%;max-width:760px;min-width:0;min-height:64px;margin-inline:auto;padding:16px 20px;gap:12px}
-.hero-search input{font-size:16px;line-height:1.5;min-height:30px}
-.search-icon{display:block;flex-shrink:0}
-.hero .search-examples{justify-content:center;gap:8px;margin:12px auto 0}
-.search-examples button,.filters button{min-height:44px;padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.5}
-.search-examples button{display:inline-flex;align-items:center;justify-content:center;background:transparent}
-.search-examples button:hover{background:var(--soft)}
-.hero .quick-reference{max-width:760px;margin:12px auto 0;text-align:left}
-.hero-note{justify-content:center;margin:16px auto 0}
-.hero-note span{font-size:12px;line-height:1.7}
-.library{padding-top:18px}
-.library .section-heading h2{font-size:32px;margin-block:10px 12px}
-.library .section-heading p{margin:0}
-.filters{gap:8px;margin-block:24px}
-.filters button.active{box-shadow:none}
-.filters button{display:inline-flex;align-items:center;justify-content:center}
-.code-card{display:flex;flex-direction:column}
-.code-icon{display:grid;place-items:center;line-height:1}
-.code-card>.card-count{margin-top:auto;padding-top:12px}
-.card-bottom{min-height:60px;align-items:center}
-@media(max-width:700px){
- header .brand{font-size:30px}
- .hero{padding:22px 20px 16px}
- .hero h1{font-size:30px;letter-spacing:-.4px}
- .hero>p{margin-bottom:14px}
- .hero-search{min-height:60px;padding:12px;gap:10px}
- .hero .search-examples>span{flex-basis:100%;margin:0}
- .hero-note span{font-size:11px}
- .library{padding-top:16px}
- .library .section-heading h2{font-size:29px}
-}
-@media(max-width:400px){
- header nav{flex-wrap:nowrap}
- header nav>a,header nav>button{font-size:11px;padding-inline:4px;min-width:44px}
- .hero h1{font-size:28px}
-}
-
-/* Editorial geometry: a shared 8-unit grid, no layout footprint. */
-.hero{--geometry-size:128px;--geometry-stroke:1px;--geometry-alpha:.4}
-.hero-geometry{display:none;position:absolute;width:var(--geometry-size);height:auto;color:var(--muted);opacity:var(--geometry-alpha);fill:none;stroke:currentColor;stroke-width:var(--geometry-stroke);pointer-events:none;user-select:none}
-.hero-geometry :is(path,circle){vector-effect:non-scaling-stroke}
-@media(min-width:1200px){
- .hero-geometry{display:block}
- .hero-geometry-left{left:34px;top:56px}
- .hero-geometry-right{right:34px;top:92px}
-}
-@media(forced-colors:active),print{.hero-geometry{display:none}}
+/* Keep the active destination identifiable when forced colors suppress shadows. */
+@media(forced-colors:active){header nav>a[aria-current=page]{outline:2px solid CanvasText;outline-offset:-2px}}

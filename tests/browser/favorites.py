@@ -51,7 +51,7 @@ try:
    page.screenshot(path=artifact_path(f'lexa-compact-{width}.png'))
    page.goto(base+'#/favoritos')
   while page.locator('[data-remove-favorite]').count():page.locator('[data-remove-favorite]').first.click()
-  expect(page.locator('.favorites-empty')).to_contain_text('Sua seleção começa aqui')
+  expect(page.locator('.favorites-empty')).to_contain_text('Nenhum favorito salvo')
   page.reload();expect(page.locator('#favorites-count')).to_have_text('0 favoritos')
   assert not errors,errors
   browser.close();print('Favoritos e barra compacta validados: marcações antigas, agrupamento, ADCT, súmulas, busca, remoção, persistência, estado vazio e telas de 320/390/1280px.')

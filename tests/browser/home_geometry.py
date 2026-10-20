@@ -1,4 +1,4 @@
-"""Validate the approved editorial geometry without moving hybrid home content."""
+"""Validate restored original decoration and approved copy without redesign."""
 from pathlib import Path
 import functools, http.server, threading
 from playwright.sync_api import sync_playwright, expect
@@ -27,48 +27,30 @@ try:
                 expect(page.locator('.code-card')).to_have_count(14)
                 if dark: page.locator('#theme').click()
                 page.evaluate('document.fonts.ready')
-                hidden = page.add_style_tag(content='.hero-geometry{display:none!important}')
-                baseline = positions(page)
-                text = page.locator('.hero').inner_text()
-                hidden.evaluate('(el)=>el.remove()')
-                assert positions(page) == baseline, width
-                assert page.locator('.hero').inner_text() == text
-                assert page.locator('.hero').get_attribute('data-geometry') is None
+                expect(page.locator('.hero-geometry,.hero-ornament')).to_have_count(0)
+                art = page.locator('.hero-art')
+                expect(art).to_have_count(1)
+                expect(art).to_have_attribute('aria-hidden','true')
+                expect(art.locator('.book')).to_have_count(2)
+                expect(art.locator('button,a,input')).to_have_count(0)
                 assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
-                expected_font = 28 if width<=400 else 30 if width<=700 else 36
-                assert page.locator('.hero h1').evaluate('el=>parseFloat(getComputedStyle(el).fontSize)') == expected_font
-                decorations = page.locator('.hero-geometry')
-                expect(decorations).to_have_count(2)
-                for decoration in decorations.all():
-                    expect(decoration).to_have_attribute('aria-hidden','true')
-                    expect(decoration).to_have_attribute('focusable','false')
-                    expect(decoration.locator('text,a,image,g')).to_have_count(0)
-                    expect(decoration.locator('path')).to_have_count(1)
-                    expect(decoration.locator('circle')).to_have_count(2)
-                    style = decoration.evaluate('el=>{const s=getComputedStyle(el);return {pointer:s.pointerEvents,alpha:Number(s.opacity),stroke:parseFloat(s.strokeWidth)}}')
-                    assert style == {'pointer':'none','alpha':.4,'stroke':1}, style
-                    if width < 1200:
-                        expect(decoration).to_be_hidden()
-                    else:
-                        expect(decoration).to_be_visible()
-                        box = decoration.bounding_box()
-                        assert box['width'] == 128
-                        # All central content stays outside both side regions.
-                        for protected in baseline[:-2]:
-                            assert box['x']+box['width']<=protected['left'] or box['x']>=protected['right'], (width, box, protected)
-                assert 'img' not in page.locator('.hero').aria_snapshot()
+                if width <= 900:
+                    expect(art).to_be_hidden()
+                else:
+                    expect(art).to_be_visible()
+                    # The restored illustration must remain outside the search field.
+                    box = art.bounding_box()
+                    search = page.locator('.hero-search').bounding_box()
+                    assert box['x'] >= search['x']+search['width'], (width,box,search)
+                expect(page.locator('.hero>p')).to_have_text('Pesquise normas, artigos e súmulas na biblioteca do Lexa.')
+                expect(page.locator('.section-heading>p')).to_have_text('Consulte as normas e súmulas disponíveis.')
                 page.keyboard.press('/')
                 expect(page.locator('#library-search')).to_be_focused()
                 page.locator('#library-search').blur();page.mouse.move(width-1,0)
-                if width in (390, 1200, 1440):
-                    page.screenshot(path=artifact_path(f'geometry-final-{width}-{"dark" if dark else "light"}.png'))
-                if width >= 1200:
-                    page.emulate_media(forced_colors='active')
-                    expect(page.locator('.hero-geometry:visible')).to_have_count(0)
-                    page.emulate_media(forced_colors='none',media='print')
-                    expect(page.locator('.hero-geometry:visible')).to_have_count(0)
+                if width in (320,390,1440):
+                    page.screenshot(path=artifact_path(f'original-restored-{width}-{"dark" if dark else "light"}.png'))
                 context.close()
         browser.close()
-    print('Geometria editorial consolidada: dimensões/contraste aprovados, composição e textos preservados, margens livres, foco/ARIA; 320–1920 px, claro/escuro, alto contraste e impressão.')
+    print('Interface original: livros decorativos acessíveis, busca livre de sobreposição, textos aprovados e teclado; 320–1920 px, claro/escuro.')
 finally:
     server.shutdown();server.server_close()
