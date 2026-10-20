@@ -19,7 +19,7 @@
     "sha256": "80a307be51e5db989648162ebbf33fe5877a23722b94976633a023dcc578a89d",
     "rawSha256": "5886b77315da4642f902bc4e2dab99dbea31571b1b3c1304cdc212716a775f9c",
     "snapshot": "monitor/official/penal.json",
-    "converterVersion": 1,
+    "converterVersion": 2,
     "coverage": "Texto extraído da fonte oficial, com notas e redações riscadas preservadas.",
     "reviewStatus": "Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração."
   },
