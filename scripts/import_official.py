@@ -126,7 +126,9 @@ def convert(spec, snapshot):
             if not text.startswith('('):
                 heading_pending = False
             continue
-        if spec['id']=='penal' and index+1<len(blocks) and not UNIT.match(text) and len(text)<220 and not text.endswith(('.', ';', ':')) and not text.startswith('(') and ARTICLE.match(text_of(blocks[index+1])):
+        # A penalty followed by an amendment note may end in ')' just like a rubric.
+        # Keep it in its article; headings such as 'Penas restritivas' remain rubrics.
+        if spec['id']=='penal' and index+1<len(blocks) and not UNIT.match(text) and not re.match(r'^Penas?\s*[-–—:]', text, re.I) and len(text)<220 and not text.endswith(('.', ';', ':')) and not text.startswith('(') and ARTICLE.match(text_of(blocks[index+1])):
             rubric = text
             continue
         if current:
@@ -159,7 +161,7 @@ def convert(spec, snapshot):
     source = {'kind':'official_html','edition':'Planalto · texto consultado em '+label_date,
               'url':snapshot['source_url'],'capturedAt':snapshot['captured_at'],
               'sha256':snapshot['semantic_sha256'],'rawSha256':snapshot['raw_sha256'],
-              'snapshot':'monitor/official/'+spec['id']+'.json','converterVersion':1,
+              'snapshot':'monitor/official/'+spec['id']+'.json','converterVersion':2 if spec['id']=='penal' else 1,
               'coverage':'Texto extraído da fonte oficial, com notas e redações riscadas preservadas.',
               'reviewStatus':'Extração automatizada. A data da coleta não certifica o início de vigência de cada alteração.'}
     return {'articles':articles,'sections':sections,'introductions':introductions,'source':source}

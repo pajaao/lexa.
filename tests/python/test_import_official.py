@@ -43,6 +43,70 @@ class OfficialImportTests(unittest.TestCase):
         self.assertEqual(self.article('ctn','52')['rangeEnd'],58)
         self.assertEqual(self.article('civil','1620')['rangeEnd'],1629)
 
+    def test_penal_penalty_remains_in_article_213_not_rubric_of_214(self):
+        blocks = self.snapshots['penal']['document']['blocks']
+        article = self.article('penal', '213')
+        following = self.article('penal', '214')
+        self.assertEqual(article['title'], 'Estupro')
+        self.assertEqual([p['sourceBlock'] for p in article['paragraphs']], list(range(1375, 1381)))
+        self.assertEqual([p['runs'] for p in article['paragraphs']], blocks[1374:1380])
+        self.assertNotIn('title', following)
+        self.assertEqual([p['sourceBlock'] for p in following['paragraphs']], [1381])
+        self.assertEqual(following['paragraphs'][0]['runs'], blocks[1380])
+
+    def test_penal_penalties_with_notes_are_not_rubrics(self):
+        # Preserve the source runs, including deletion flags and amendment notes.
+        spec = next(s for s in self.specs if s['id'] == 'penal')
+        for prefix in ('Pena - ', 'Pena – ', 'Pena — ', 'Pena: ', 'Penas - '):
+            with self.subTest(prefix=prefix):
+                snapshot = copy.deepcopy(self.snapshots['penal'])
+                runs = snapshot['document']['blocks'][1379]
+                runs[0]['text'] = prefix + 'reclusão (Nota da fonte)'
+                runs[0]['deleted'] = True
+                snapshot['semantic_sha256'] = fingerprint(snapshot['document'])
+                converted = convert(spec, snapshot)
+                article = next(a for a in converted['articles'] if a['id'] == '213')
+                following = next(a for a in converted['articles'] if a['id'] == '214')
+                self.assertEqual(article['paragraphs'][-1]['runs'], runs)
+                self.assertEqual(article['paragraphs'][-1]['sourceBlock'], 1380)
+                self.assertNotIn('title', following)
+
+    def test_penal_nearby_rubrics_and_penalty_heading_are_preserved(self):
+        for id, title in [('43', 'Penas restritivas de direitos'),
+                          ('211', 'Destruição, subtração ou ocultação de cadáver'),
+                          ('212', 'Vilipêndio a cadáver'), ('213', 'Estupro')]:
+            with self.subTest(article=id):
+                self.assertEqual(self.article('penal', id)['title'], title)
+
+    def test_penal_reprocessing_preserves_text_and_other_official_collections(self):
+        previous = load_js(ROOT/'data/official/legislation.js', 'officialImported')
+        def content(collection):
+            from collections import Counter
+            return Counter([a['title'] for a in collection['articles'] if a.get('title')] +
+                           [''.join(r['text'] for r in p['runs']).strip()
+                            for a in collection['articles'] for p in a['paragraphs']])
+        self.assertEqual(content(previous['penal']), content(self.converted['penal']))
+        for id, candidate in self.converted.items():
+            if id != 'penal':
+                with self.subTest(collection=id):
+                    self.assertEqual(candidate, previous[id])
+
+    def test_penal_four_penalties_keep_source_blocks_and_runs(self):
+        blocks = self.snapshots['penal']['document']['blocks']
+        for owner, following, penalty_block in [('213', '214', 1380),
+                                               ('215-A', '216', 1388),
+                                               ('309', '310', 1952),
+                                               ('359-M', '359-M-A', 2358)]:
+            with self.subTest(article=owner):
+                article = self.article('penal', owner)
+                next_article = self.article('penal', following)
+                penalty = article['paragraphs'][-1]
+                self.assertEqual(penalty['sourceBlock'], penalty_block)
+                self.assertEqual(penalty['runs'], blocks[penalty_block-1])
+                self.assertNotIn('title', next_article)
+                self.assertEqual(next_article['paragraphs'][0]['sourceBlock'], penalty_block+1)
+                self.assertEqual(next_article['paragraphs'][0]['runs'], blocks[penalty_block])
+
     def test_constitution_namespaces_preamble_and_end_boundaries(self):
         self.assertIn('A República Federativa do Brasil',self.text(self.article('cf','1')))
         self.assertIn('O Presidente da República',self.text(self.article('cf','adct-1')))
