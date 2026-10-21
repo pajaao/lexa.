@@ -24,6 +24,7 @@ const referenceAliases = [
  ...catalog.flatMap(code=>[code.short,code.name].map(alias=>({alias:normalize(alias),codeId:code.id}))),
  ...[['Lei de Licitações','licitacoes'],['licitações','licitacoes'],['Maria da Penha','maria-penha'],['Improbidade','improbidade']].map(([alias,codeId])=>({alias:normalize(alias),codeId})),
  {alias:'cf/88',codeId:'cf'}, {alias:'cf88',codeId:'cf'}, {alias:'constituição',codeId:'cf'},
+ {alias:'penal',codeId:'penal'},
  {alias:'adct',codeId:'cf',scope:'adct'},
  ...['súmula vinculante','súmula','sv'].map(alias=>({alias:normalize(alias),codeId:'sv'}))
 ].map(item=>({...item,alias:normalize(item.alias)})).sort((a,b)=>b.alias.length-a.alias.length);
