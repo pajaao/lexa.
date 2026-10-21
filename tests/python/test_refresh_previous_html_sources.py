@@ -7,7 +7,7 @@ import unittest
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'scripts'))
 from saved_html_source import source_path
-from refresh_previous_html_sources import process, INPUTS
+from refresh_previous_html_sources import process, reprocess, INPUTS
 from prepare_previous_only import ensure_source_baseline
 
 
@@ -64,20 +64,27 @@ class SourceRefresh(unittest.TestCase):
 
     def test_saved_refresh_keeps_all_records_and_other_ten_sources(self):
         root=Path(__file__).resolve().parents[2]
-        runs=sorted((root/'experiments/html-history/source-refresh').glob('*/manifest.json'))
+        runs=sorted(p for p in (root/'experiments/html-history/source-refresh').glob('*/manifest.json') if json.loads(p.read_text(encoding='utf-8')).get('runKind')!='numbering_reprocess')
         if not runs:
             self.skipTest('Run the controlled source refresh first')
         run=runs[-1].parent
         manifest=json.loads((run/'manifest.json').read_text(encoding='utf-8'))
         result=json.loads((run/'results.json').read_text(encoding='utf-8'))
         before=json.loads((run/'previous-fixture-before.json').read_text(encoding='utf-8'))['records']
-        after=json.loads((root/'tests/fixtures/previous-wordings-html.json').read_text(encoding='utf-8'))['records']
+        correction=root/'experiments/html-history/association-review/20261021/fixture-before.json'
+        after=json.loads((correction if correction.exists() else root/'tests/fixtures/previous-wordings-html.json').read_text(encoding='utf-8'))['records']
         self.assertEqual(after[:len(before)],before)
         baseline=json.loads((root/'experiments/html-history/existing-records.json').read_text(encoding='utf-8'))
         baseline+=json.loads((root/'tests/fixtures/legislative-history-html.json').read_text(encoding='utf-8'))['records']
         baseline+=before
         self.assertEqual(json.loads((run/'existing.json').read_text(encoding='utf-8')),baseline)
-        self.assertEqual(after[len(before):],result['additions'])
+        expected=before+result['additions']
+        later=sorted(p for p in (root/'experiments/html-history/source-refresh').glob('*/manifest.json') if p.parent.name>run.name and json.loads(p.read_text(encoding='utf-8')).get('runKind')=='numbering_reprocess')
+        for p in later:
+            snapshot=json.loads((p.parent/'previous-fixture-before.json').read_text(encoding='utf-8'))['records']
+            self.assertEqual(snapshot,expected)
+            expected+=json.loads((p.parent/'results.json').read_text(encoding='utf-8'))['additions']
+        self.assertEqual(after,expected)
         self.assertEqual(len({r['id'] for r in after}),len(after))
         self.assertFalse(manifest['publicationAllowed'])
         self.assertTrue(all(r['review']=={'status':'pending'} and r['wording']['status']=='previous' for r in result['additions']))
@@ -90,6 +97,51 @@ class SourceRefresh(unittest.TestCase):
             self.assertTrue(source_path(name,digest).is_file())
         for name,digest in manifest['files'].items():
             self.assertEqual(hashlib.sha256((run/name).read_bytes()).hexdigest(),digest)
+
+    def test_numbering_reprocess_is_additive_and_does_not_mutate_existing_records(self):
+        with tempfile.TemporaryDirectory(dir=TEMP) as directory:
+            folder=Path(directory)
+            text=('<!-- saved from url=(0050)https://www.planalto.gov.br/test.htm -->'
+                '<meta charset="utf-8"><p><s>Art. 406. Anterior.</s></p><p>Art. 497. Final.</p>'
+                '<p><a name="capituloii">CAPÍTULO II</a></p><p><a name="art406">Art. 406. Atual.</a></p>'
+                '<p><s>Art. 498. Recuperada.</s></p>')
+            (folder/'Del3689.html').write_text(text,encoding='utf-8')
+            first=reprocess(folder,[],{'cpp':['406','497','498']},['cpp'])
+            self.assertEqual(len(first['additions']),2)
+            snapshot=json.dumps(first['additions'],ensure_ascii=False)
+            second=reprocess(folder,first['additions'],{'cpp':['406','497','498']},['cpp'])
+            self.assertEqual(second['additions'],[])
+            self.assertEqual(json.dumps(first['additions'],ensure_ascii=False),snapshot)
+
+    def test_saved_numbering_run_preserves_baseline_states_sources_and_raw_evidence(self):
+        from extract_previous_html import decode, split_notes
+        root=Path(__file__).resolve().parents[2]
+        runs=sorted(p for p in (root/'experiments/html-history/source-refresh').glob('*/manifest.json') if json.loads(p.read_text(encoding='utf-8')).get('runKind')=='numbering_reprocess')
+        if not runs:
+            self.skipTest('Run the corrected numbering preparation first')
+        run=runs[-1].parent
+        m=json.loads((run/'manifest.json').read_text(encoding='utf-8'))
+        result=json.loads((run/'results.json').read_text(encoding='utf-8'))
+        baseline=json.loads((run/'previous-fixture-before.json').read_text(encoding='utf-8'))['records']
+        correction=root/'experiments/html-history/association-review/20261021/fixture-before.json'
+        actual=json.loads((correction if correction.exists() else root/'tests/fixtures/previous-wordings-html.json').read_text(encoding='utf-8'))['records']
+        self.assertEqual(actual,baseline+result['additions'])
+        self.assertEqual(m['sourcesBefore'],m['sourcesAfter'])
+        self.assertFalse(m['publicationAllowed'])
+        decoded={}
+        for row in result['additions']:
+            self.assertEqual(row['review'],{'status':'pending'})
+            self.assertEqual(row['wording']['status'],'previous')
+            self.assertNotIn('blockquote',row['evidence']['contextTags'])
+            name=row['source']['document']
+            if name not in decoded:
+                raw=(root/'HTML'/name).read_bytes()
+                self.assertEqual(hashlib.sha256(raw).hexdigest(),row['source']['sha256'])
+                decoded[name]=decode(raw)[0]
+            a,b=row['evidence']['charRange']
+            self.assertEqual(decoded[name][a:b],row['evidence']['rawHtml'])
+            self.assertEqual(split_notes(row['evidence']['rawText'])[0],row['text'])
+        self.assertTrue(all(not r['recognizedBefore'] or r['recognizedAfter'] for r in result['comparisons']))
 
 
 if __name__=='__main__':

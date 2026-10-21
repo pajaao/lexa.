@@ -185,7 +185,9 @@ class Extraction(unittest.TestCase):
         self.assertFalse(manifest['publicationAllowed'])
         for name,expected in manifest['files'].items():
             self.assertEqual(hashlib.sha256((folder/name).read_bytes()).hexdigest(),expected)
-        self.assertEqual(hashlib.sha256((ROOT/'scripts/extract_previous_html.py').read_bytes()).hexdigest(),manifest['extractorSha256'])
+        expected=manifest['extractorSha256']
+        editions=[ROOT/'scripts/extract_previous_html.py',ROOT/'experiments/html-history/script-archives'/expected/'extract_previous_html.py']
+        self.assertTrue(any(p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==expected for p in editions),'The exact parser edition used for this historical snapshot must remain preserved')
 
 
 if __name__=='__main__':

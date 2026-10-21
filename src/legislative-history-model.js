@@ -9,7 +9,7 @@ export function historyRecords(data,codeId,articleId){
    Object.hasOwn(historicalParts,record.part)&&typeof record.text==='string'&&record.text.trim()&&
    Number.isSafeInteger(record.sequence?.order)&&typeof record.sequence?.basis==='string'&&record.sequence.basis.trim()&&
    Array.isArray(record.notes)&&record.notes.every(note=>typeof note==='string')&&
-   (data.demo?record.review?.status==='demonstration':record.review?.status==='approved'||data.preview===true&&record.review?.status==='pending');
+   (data.demo?record.review?.status==='demonstration':record.review?.status==='approved'||(data.preview===true||data.candidate===true||data.publication?.authorized===true)&&record.review?.status==='pending');
   if(valid)ids.add(record.id);
   return valid;
  }).sort((a,b)=>a.sequence.order-b.sequence.order||a.id.localeCompare(b.id));

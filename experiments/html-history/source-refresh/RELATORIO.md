@@ -57,3 +57,40 @@ python -m unittest discover -s tests/python -p test_refresh_previous_html_source
 ```
 
 **Conclusão:** as três fontes são adequadas para continuar a preparação experimental, com aumento efetivo de cobertura e preservação dos registros anteriores. O CPP ainda exige correção localizada do reconhecimento de regiões com numeração reiniciada antes de afirmar aproveitamento integral. As demais exclusões permanecem documentadas. Não houve retomada do coletor, reconstrução histórica, alteração de homologação, commit, push, merge ou publicação. Homologação jurídica humana e autorização de publicação continuam independentes.
+
+
+## Validação dirigida de numeração — 21/10/2026
+
+Execução preservada: `20261021T175224964205Z`; somente CP, CPP, CLT e Licitações reprocessados. As 13 fontes foram inspecionadas, sem mudança em seus bytes.
+
+| Fonte | Anteriores existentes preservadas | Novas | Exclusões antes → depois |
+| --- | ---: | ---: | ---: |
+| CP | 435 | 426 | 776 → 346 |
+| CPP | 477 | 139 | 209 → 70 |
+| CLT | 0 | 1 | 6 → 5 |
+| Licitações | 6 | 2 | 26 → 24 |
+
+Causas: CP reinicia a Parte Geral em 1 após 120; CPP reinicia seção do júri em 406 após 497. Exige-se cabeçalho e âncora nativos, além de artigo previamente observado. CLT contém decreto de aprovação separado; Licitações cita artigos de outra lei em blockquote. CF separa ADCT; Civil, CPC, CTN, LEP, ECA, CDC, Improbidade e Maria da Penha não apresentaram regressões imediatas na numeração. Nenhum candidato permaneceu bloqueado por numeração na inspeção final; isso não demonstra cobertura textual integral.
+
+Os 2.373 registros anteriores à tarefa foram preservados integralmente. Nenhum registro antes reconhecido perdeu reconhecimento; dois antigos do CP já não eram reconhecidos pelas regras anteriores (332-caput-01 e 234-A-batch-pdf-p57-b18), permanecendo intactos. Todos os 568 acréscimos são previous/pending. Total armazenado: 2.941; 2.562 anteriores, 379 candidatas atuais arquivadas; painel: 2.561 entradas em 806 artigos.
+
+A comparação sinalizou 19 diferenças de notas no CP, sem alteração nos registros: 16 já existiam antes da correção (quebras de linha ou notas editoriais do piloto); três, nos arts. 116 e 117, decorrem da seleção da primeira ocorrência de texto idêntico na Parte Geral original, sem a nota da ocorrência posterior. As evidências antigas e novas fontes foram preservadas. Não são mudanças de texto normativo nem autorização para remover notas existentes.
+
+Verificações desta tarefa: 43 testes Python direcionados aprovados (25+12+6), 72 testes Node aprovados; navegador aprovado em 390/1280 px com exemplos recuperados e demonstração também em 320 px; reproduções offline da execução anterior e desta execução aprovadas, incluindo hashes. A seleção ampla inicial encontrou erro de importação de fitz em teste PDF fora do escopo; o conjunto HTML direcionado não depende desse módulo. Nenhum teste PDF foi apresentado como aprovado.
+
+Persistem exclusões por risco parcial, unidade/associação incerta, contêiner citado ou ausência de correspondência segura no leitor. CSS externo não é interpretado. Conferência técnica assistida por IA não é homologação jurídica humana; não foi medida conferência humana independente dos 568 acréscimos. Recomenda-se revisão dirigida dos reinícios, exemplos recuperados e notas antes de homologação/publicação. Sem novo commit, push ou publicação nesta tarefa.
+
+
+## Correção bloqueante de associação — revisão incremental
+
+A seção anterior registra o resultado então produzido, não o estado atual de aceitação. A revisão identificou que os 426 registros da Parte Geral antiga do CP haviam sido associados à organização posterior apenas por numeração. Cabeçalho/âncora comprovavam reinício documental, mas não continuidade normativa. A preparação atual volta a separar essa região e não tenta determinar equivalências.
+
+Dos 426: zero mantidos na prévia e 426 inconclusivos em quarentena documental, sem alterar texto, evidências ou estado pending. Nenhum é declarado juridicamente válido por esta correção. Os arts. 4º e 5º estão abrangidos pela exclusão integral. Os 2.373 anteriores à execução permanecem integralmente preservados. A execução de 568 continua arquivada e reproduzível no modo histórico; não sobrescrevemos manifestos nem resultados anteriores.
+
+Mantidos 139 CPP, um CLT e dois Licitações, nas mesmas ocorrências (ID, texto, notas, fonte e evidência integralmente iguais). O CPP mantém seu contexto nativo posterior ao reinício, a CLT separa seu decreto de aprovação e Licitações não toma artigos citados por próprios. Isso é verificação documental dirigida, não homologação ou prova de completude histórica.
+
+Das 19 diferenças editoriais, 16 preexistentes permanecem (13 notas explicativas do piloto e três diferenças de quebra de linha); as três dos arts. 116/117 deixam de ocorrer com a seleção da região documental correta. Não houve transferência nem alteração de notas armazenadas.
+
+Estado atual: 2.515 registros armazenados, 2.136 anteriores e 379 candidatas atuais arquivadas; prévia com 2.135 entradas em 707 artigos; fixture previous-wordings-html com 1.698. Quarentena e decisões individuais em association-review/20261021/results.json, com snapshot anterior e manifesto próprios. O script revalidate_previous_associations.py --verify reproduz a avaliação sem alterar registros.
+
+Testes desta correção: 46 Python (25 núcleo, 13 preparação, seis atualização, dois de revisão dirigida), 72 Node, reprodução offline histórica e dirigida. O navegador inclui ausência dos trechos em quarentena nos arts. 4º/5º, além dos casos CPP/CLT/Licitações. Resultados finais e logs acompanham o pacote incremental. Não foi executada homologação jurídica humana. Nenhum commit, push ou publicação autorizado nesta tarefa.

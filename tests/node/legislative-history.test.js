@@ -67,7 +67,7 @@ test('pacote normal exclui fixtures; demonstração exige build explícito e nã
  test('piloto real fica fora do pacote publicável e exige prévia explícita',async()=>{
  const normal=await buildPackage();
  const pilot=await buildPackage({legislativeHistoryPilot:true});
- const contains=pack=>[...pack.files.values()].some(bytes=>String(bytes).includes('mulher honesta'));
+ const contains=pack=>[...pack.files.values()].some(bytes=>String(bytes).includes('penal-215-caput-01'));
  assert.equal(contains(normal),false);assert.equal(contains(pilot),true);
  assert.ok(historyContent(approvedData,'penal','215').includes('homologação jurídica independente pendente'));
  await assert.rejects(stagePages(undefined,{legislativeHistoryPilot:true}),/Demonstração não pode/);

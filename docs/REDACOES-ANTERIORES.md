@@ -1,3 +1,5 @@
+> Direção atual: o fluxo simplificado independente está em [REDACOES-ANTERIORES-SIMPLES.md](REDACOES-ANTERIORES-SIMPLES.md). O material abaixo documenta a implementação anterior, preservada; `--pilot` não é a nova prévia.
+
 # Redações anteriores — fluxo experimental consolidado
 
 ## Escopo aprovado
@@ -23,9 +25,9 @@ A documentação operacional é este arquivo. `HISTORICO-LEGISLATIVO.md` é uma 
 
 ## Dados preservados e apresentação
 
-As camadas são: 96 registros de referência em `experiments/html-history/existing-records.json`, 721 em `tests/fixtures/legislative-history-html.json` e 1.556 em `tests/fixtures/previous-wordings-html.json`. O piloto e o lote em fixtures compõem os mesmos 96 registros; não somá-los novamente.
+As camadas são: 96 registros de referência em `experiments/html-history/existing-records.json`, 721 em `tests/fixtures/legislative-history-html.json` e 1.698 em `tests/fixtures/previous-wordings-html.json`. O piloto e o lote em fixtures compõem os mesmos 96 registros; não somá-los novamente.
 
-Total armazenado: 2.373 registros, dos quais 1.994 são `previous` e 379 são candidatas atuais arquivadas. O painel filtra somente anteriores e apresenta 1.993 entradas em 639 artigos, incluindo ADCT. Uma repetição de caput contida em trecho integral de caput e pena é suprimida na apresentação. São trechos documentais, não versões históricas completas.
+Total armazenado: 2.515 registros, dos quais 2.136 são `previous` e 379 são candidatas atuais arquivadas. O painel filtra somente anteriores e apresenta 2.135 entradas em 707 artigos, incluindo ADCT. Uma repetição de caput contida em trecho integral de caput e pena é suprimida na apresentação. São trechos documentais, não versões históricas completas.
 
 São preservados texto integral identificado, notas, referências disponíveis, links dos runs, fonte/hash e localização. Caput e pena no mesmo bloco permanecem explicitamente identificados como trecho conjunto. Não são combinados blocos para reconstruir artigos. Os dois caputs antigos do art. 216 não recebem o texto de superior hierárquico do art. 216-A.
 
@@ -44,7 +46,7 @@ npm test
 python scripts/refresh_previous_html_sources.py --verify experiments/html-history/source-refresh/20261021T151338664875Z
 ```
 
-Os três comandos Python de teste correspondem a 25 + 6 + 4 testes na base consolidada. Não usar seleção ampla de testes anteriores de PDFs/Câmara para validar este escopo. `--verify` reproduz a execução existente sem substituir fontes ou fixtures. Não executar os comandos de preparação/atualização com escrita durante a consolidação.
+Os três comandos Python de teste correspondem a 25 + 13 + 6 testes HTML, mais dois testes de associação dirigida. Não usar seleção ampla de testes anteriores de PDFs/Câmara para validar este escopo. `--verify` reproduz a execução existente sem substituir fontes ou fixtures. Não executar os comandos de preparação/atualização com escrita durante a consolidação.
 
 ```powershell
 $env:PORT='3012'
@@ -63,12 +65,22 @@ O CPC recebido como `L13105.html` mantém o nome ativo local `L13105compilada.ht
 
 Os HTMLs possuem pastas auxiliares de recursos, preservadas localmente, mas não lidas pelo extrator. Cópias novas em `source-archives/` que duplicam exatamente as fontes ativas e os arquivos `incoming/` podem ficar fora do commit; as três edições antigas requeridas pelos testes devem ser incluídas. Relatórios anteriores e experimentos suspensos também ficam preservados fora do commit. A seleção exata deve ser revisada antes de autorizar o commit; não usar `git add .`.
 
-## Pendências, sem correções nesta consolidação
+## Correção dirigida e pendências
 
-- CPP: a numeração volta de 497 a 406 em seção legítima. A proteção atual exclui candidatos posteriores; a inspeção dirigida das 13 fontes e a correção pertencem à próxima etapa.
-- CSS externo não é interpretado; unidades parciais ou mal delimitadas continuam excluídas. A parte geral antiga do CP não é automaticamente remapeada.
+- A inspeção dirigida das 13 fontes distinguiu reinícios documentados no CP/CPP, o decreto de aprovação da CLT e citações em Licitações. A execução inicial acrescentou 568 anteriores; a revisão posterior identificou associação indevida nos 426 do CP, agora preservados fora da prévia em `experiments/html-history/association-review/20261021/`. Os 142 restantes permanecem `pending`, sem substituir registros anteriores. Resultados e limites estão no relatório de atualização de fontes.
+- CSS externo não é interpretado; unidades parciais ou mal delimitadas continuam excluídas. A Parte Geral antiga do CP não é associada à organização posterior: cabeçalhos e âncoras comprovam contexto, mas não identidade normativa.
 - O inventário de 2.416 blocos é uma fotografia anterior à atualização das três fontes, não uma contagem atual de cobertura.
 - Referências e links são preservados nas evidências, mas os novos registros não preenchem automaticamente `reference` a partir das notas.
 - Não há comprovação de completude jurídica nem homologação independente do conjunto. Os pacotes antigos de revisão não representam o conteúdo consolidado atual.
 
-A consolidação não muda conteúdo jurídico, revisão, cobertura ou reconhecimento de artigos. O commit depende de autorização expressa; push, merge, publicação e remoção de branches não estão autorizados.
+A consolidação foi versionada em d93120f15d0e94ed3e5340831bf5851a79c9a676. A correção posterior está local e requer nova autorização de commit; push, merge, publicação e remoção de branches não estão autorizados.
+
+Reprodução da correção dirigida (sem escrita):
+
+```powershell
+python -B scripts/refresh_previous_html_sources.py --verify experiments/html-history/source-refresh/20261021T175224964205Z
+```
+
+O modo `--reprocess --codes ...` prepara uma execução aditiva apenas das fontes selecionadas; não o executar para simples conferência. A verificação de execuções antigas mantém as regras históricas registradas.
+
+Verificação incremental da associação: `python -B scripts/revalidate_previous_associations.py --verify`. A execução anterior continua reproduzível em modo histórico explícito; não usar seus resultados como fixture atual. A quarentena preserva os 426 registros completos, sem homologar nem inferir equivalências.

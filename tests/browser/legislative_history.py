@@ -122,6 +122,16 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                 for width in (390, 1280):
                     context = browser.new_context(viewport={'width': width, 'height': 850}, service_workers='block')
                     page = context.new_page()
+                    # Original General Part must never appear under reorganized IDs.
+                    quarantine=json.loads((ROOT/'experiments/html-history/association-review/20261021/results.json').read_text(encoding='utf-8'))['quarantined']
+                    for blocked_article in ('4','5'):
+                        page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/{blocked_article}')
+                        blocked_trigger=page.locator(f'#art-{blocked_article} [data-legislative-history]')
+                        if blocked_trigger.count():
+                            blocked_trigger.click()
+                            blocked_text=page.locator('.legislative-text').all_text_contents()
+                            assert not any(row['text'] in blocked_text for row in quarantine if row['articleId']==blocked_article)
+                            page.keyboard.press('Escape')
                     page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/215')
                     button = page.locator('#art-215 [data-legislative-history]')
                     expect(button).to_be_visible()
@@ -200,6 +210,8 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     selections.append(next(row for row in additions if row['codeId']=='cpc'))
                     selections.append(next(row for row in additions if row['codeId']=='cf' and row['articleId'].startswith('adct-')))
                     selections.append(next(row for row in additions if row['codeId']=='cpp' and row['articleId'].isdigit() and 363<int(row['articleId'])<406))
+                    for code,article_id in [('cpp','439'),('clt','73'),('licitacoes','191')]:
+                        selections.append(next(row for row in additions if row['codeId']==code and row['articleId']==article_id))
                     prior = json.loads((ROOT/'experiments/html-history/existing-records.json').read_text(encoding='utf-8'))
                     for selected in selections:
                         code, article_id = selected['codeId'], selected['articleId']

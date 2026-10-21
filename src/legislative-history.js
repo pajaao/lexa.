@@ -4,14 +4,18 @@ import {legislativeHistoryData} from './legislative-history-data.js';
 
 export function historyContent(data,codeId,articleId,currentArticle){
  const records=previousRecords(data,codeId,articleId);
- const intro=data.preview?'<p class="legislative-demo" role="note">Piloto documental local — não autorizado para publicação. A confirmação local registrada não substitui homologação jurídica humana independente.</p>':data.demo?'<p class="legislative-demo" role="note">Demonstração — todos os registros abaixo são fictícios e não representam legislação.</p>':'';
+ const caputs=records.filter(record=>record.part==='caput');
+ const others=records.filter(record=>record.part!=='caput');
+ const timeline=items=>'<ol class="legislative-timeline">'+items.map(record=>
+   `<li><p class="legislative-wording">Redação anterior</p><h3>${escape(record.unitLabel||historicalParts[record.part])}</h3><p class="legislative-text">${escape(record.text)}</p><p class="legislative-reference">${record.reference?escape(record.reference):'Referência legislativa não informada.'}</p>${record.notes.length?`<details><summary>Notas editoriais</summary>${record.notes.map(note=>`<p>${escape(note)}</p>`).join('')}</details>`:''}</li>`
+  ).join('')+'</ol>';
+ const content=caputs.length&&others.length?timeline(caputs)+`<details class="legislative-other"><summary>Outras redações anteriores (${others.length})</summary>${timeline(others)}</details>`:timeline(records);
+ const intro=data.candidate?'<p class="legislative-demo" role="note">Versão candidata local — publicação ainda não autorizada.</p>':data.preview?'<p class="legislative-demo" role="note">Piloto documental local — não autorizado para publicação. A confirmação local registrada não substitui homologação jurídica humana independente.</p>':data.demo?'<p class="legislative-demo" role="note">Demonstração — todos os registros abaixo são fictícios e não representam legislação.</p>':'';
  return intro+'<p class="legislative-caution">Redações anteriores presentes nas fontes consultadas. Os trechos são reproduzidos sem reconstruir versões completas do artigo.</p>'+(!records.length?
   '<p class="legislative-empty">Ainda não há redações anteriores homologadas disponíveis para este artigo. Isso não significa que ele nunca tenha sido alterado.</p>':
-  '<ol class="legislative-timeline">'+records.map(record=>
-   `<li><p class="legislative-wording">Redação anterior</p><h3>${escape(record.unitLabel||historicalParts[record.part])}</h3><p class="legislative-text">${escape(record.text)}</p><p class="legislative-reference">${record.reference?escape(record.reference):'Referência legislativa não informada.'}</p>${record.notes.length?`<details><summary>Notas editoriais</summary>${record.notes.map(note=>`<p>${escape(note)}</p>`).join('')}</details>`:''}</li>`
-  ).join('')+'</ol><details class="legislative-sources"><summary>Fonte e contexto documental</summary>'+records.map((record,index)=>{
+  content+'<details class="legislative-sources"><summary>Fonte e contexto documental</summary>'+records.map((record,index)=>{
    const url=sourceLink(record.source?.url);
-   return `<section><h3>Redação ${index+1} · ${escape(record.unitLabel||historicalParts[record.part])}</h3><p>${record.reference?escape(record.reference):'Referência legislativa não informada.'}</p><p>${record.source?.label?escape(record.source.label):'Fonte não informada.'}</p>${record.source?.location?`<p>${escape(record.source.location)}</p>`:''}${url?`<p><a href="${escape(url)}" target="_blank" rel="noopener noreferrer">Consultar fonte ↗</a></p>`:''}<p>Ordem documental: ${escape(record.sequence.basis)}</p><p>${data.preview?'Piloto local; homologação jurídica independente pendente.':data.demo?'Registro fictício de demonstração.':'Registro homologado para apresentação.'}</p></section>`;
+   return `<section><h3>Redação ${index+1} · ${escape(record.unitLabel||historicalParts[record.part])}</h3><p>${record.reference?escape(record.reference):'Referência legislativa não informada.'}</p><p>${record.source?.label?escape(record.source.label):'Fonte não informada.'}</p>${record.source?.location?`<p>${escape(record.source.location)}</p>`:''}${url?`<p><a href="${escape(url)}" target="_blank" rel="noopener noreferrer">Consultar fonte ↗</a></p>`:''}<p>Ordem documental: ${escape(record.sequence.basis)}</p><p>${data.candidate?'Versão candidata; publicação ainda não autorizada.':data.publication?.authorized?'Registro documental autorizado para consulta.':data.preview?'Piloto local; homologação jurídica independente pendente.':data.demo?'Registro fictício de demonstração.':'Registro homologado para apresentação.'}</p></section>`;
   }).join('')+'</details>');
 }
 

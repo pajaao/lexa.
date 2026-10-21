@@ -13,7 +13,7 @@ import unicodedata
 from urllib.parse import urlparse
 
 from check_official_sources import OfficialHTML
-from import_official import ARTICLE
+from import_official import ARTICLE, HEADING
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {'cf':'Constituição.html', 'penal':'DEL2848.html', 'cpp':'Del3689.html',
@@ -172,7 +172,32 @@ def row_key(row):
     return row['codeId'], row['articleId'], part, label
 
 
-def inspect_source(code, filename, raw, reader_ids=None):
+def restart_context(blocks, index, article_id, previous_index, seen, reader_ids):
+    """A repeated native article needs its own anchor and a new anchored heading.
+
+    A number or an amendment note alone is never sufficient. Quoted containers
+    cannot establish native structure. This describes document layout, not dates.
+    """
+    block = blocks[index]
+    if article_id not in seen or reader_ids is None or article_id not in reader_ids:
+        return None
+    if 'blockquote' in block['contextTags']:
+        return None
+    marker = re.compile(r'(?:art|c)'+re.escape(article_id)+r'(?:\.\d*)?$', re.I)
+    if not any(marker.fullmatch(a) for a in block['anchors']):
+        return None
+    headings = []
+    for i in range(previous_index+1, index):
+        b = blocks[i]
+        text = spaces(''.join(r['text'] for r in b['runs']))
+        if ('blockquote' not in b['contextTags'] and HEADING.match(text)
+                and any(re.match(r'(?:parte|livro|titulo|título|capitulo|capítulo|secao|seção)', a, re.I) for a in b['anchors'])
+                and any(not r['deleted'] and re.search(r'[A-Za-zÀ-ÿ]', r['text']) for r in b['runs'])):
+            headings.append(dict(block=i, line=b['line'], text=text, anchors=b['anchors']))
+    return dict(headings=headings, anchors=block['anchors']) if headings else None
+
+
+def inspect_source(code, filename, raw, reader_ids=None, documented_restarts=False, allow_unmapped_general_part=False):
     source, encoding = decode(raw)
     origin_match = re.search(r'saved from url=\(\d+\)([^\s]+)', source)
     origin = origin_match[1] if origin_match else None
@@ -184,31 +209,63 @@ def inspect_source(code, filename, raw, reader_ids=None):
     parser.flush()
     blocks = parser.blocks
     candidates, excluded = [], []
-    start = 0
+    start, transitions = 0, []
     if code == 'penal':
         ones = [i for i,b in enumerate(blocks) if (u:=unit(spaces(''.join(r['text'] for r in b['runs'])))) and u[0]=='caput' and u[1]=='1']
         if len(ones)>1:
-            start = ones[-1]
-            excluded.append(dict(reason='original_general_part_not_mapped', blocksSkipped=start))
+            previous = max(i for i in range(ones[-1]) if (u:=unit(spaces(''.join(r['text'] for r in blocks[i]['runs'])))) and u[0]=='caput')
+            proven = documented_restarts and restart_context(blocks, ones[-1], '1', previous, {'1'}, reader_ids)
+            if not proven or not allow_unmapped_general_part:
+                start = ones[-1]
+                excluded.append(dict(reason='original_general_part_not_mapped', blocksSkipped=start))
+    if code == 'clt' and documented_restarts:
+        for i,b in enumerate(blocks):
+            if spaces(''.join(r['text'] for r in b['runs'])).upper()=='CONSOLIDAÇÃO DAS LEIS DO TRABALHO' and 'blockquote' not in b['contextTags']:
+                own = next((j for j in range(i+1,min(i+9,len(blocks))) if (u:=unit(spaces(''.join(r['text'] for r in blocks[j]['runs'])))) and u[:2]==('caput','1') and any(re.fullmatch(r'art1\.?',a,re.I) for a in blocks[j]['anchors'])), None)
+                if own is not None:
+                    start=own
+                    transitions.append(dict(kind='approval_decree_separated',block=own,line=blocks[own]['line'],headingBlock=i))
+                    break
     article, parent, inciso, scope, high = None, 'caput', None, '', 0
     stopped = False
     parents = {}
+    seen, previous_native = set(), -1
     for index,b in enumerate(blocks[start:], start):
         raw_text = ''.join(r['text'] for r in b['runs'])
         text = spaces(raw_text)
+        if code == 'cf' and high >= 250 and text.upper().startswith('ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS'):
+            # The official boundary heading may itself be indented in a
+            # blockquote; it defines a namespace, not a quoted normative unit.
+            scope, high, stopped = 'adct-', 0, False
+            seen, previous_native = set(), index
+            if documented_restarts:
+                transitions.append(dict(kind='adct_namespace_boundary',block=index,line=b['line']))
+        if documented_restarts and 'blockquote' in b['contextTags']:
+            # Citations must not advance the owning law's numbering or carry
+            # their subordinate units/penalties into the preceding native article.
+            article, parent, inciso, parents = None, 'caput', None, {}
+            continue
         u = unit(text)
         dashless = ITEM_NO_DASH.match(text) if not u else None
         if dashless and candidates and candidates[-1]['articleId']==article and candidates[-1]['part']=='item' and candidates[-1]['state']=='struck' and candidates[-1]['unitLabel'].endswith('inciso '+dashless[1]):
             u = ('item', None, 'inciso '+dashless[1], dashless.end())
-        if code == 'cf' and high >= 250 and text.upper().startswith('ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS'):
-            scope, high, stopped = 'adct-', 0, False
         if u and u[0] == 'caput':
             n = int(re.match(r'\d+', u[1])[0])
             if n < high:
-                stopped = True
+                context = restart_context(blocks,index,scope+u[1],previous_native,seen,reader_ids) if documented_restarts else None
+                if context:
+                    transitions.append(dict(kind='documented_restart',fromNumber=high,toArticle=scope+u[1],block=index,line=b['line'],**context))
+                    high, stopped = n, False
+                else:
+                    stopped = True
+                    if documented_restarts:
+                        transitions.append(dict(kind='blocked_regression',fromNumber=high,toArticle=scope+u[1],block=index,line=b['line']))
             high = max(high, n)
             article, parent, inciso = scope+u[1], 'caput', None
             parents = {}
+            if not stopped:
+                seen.add(article)
+            previous_native = index
         if not u or not article:
             if article and PENALTY.match(text) and parents.get('paragraph'):
                 parents['paragraph']['flags'].append('paragraph_with_separate_penalty')
@@ -292,9 +349,12 @@ def inspect_source(code, filename, raw, reader_ids=None):
         candidates.append(c)
         if part in {'paragraph','item'}:
             parents[part]=c
-    return candidates, excluded, dict(codeId=code, file=filename, sha256=hashlib.sha256(raw).hexdigest(),
+    inventory = dict(codeId=code, file=filename, sha256=hashlib.sha256(raw).hexdigest(),
         encoding=encoding, origin=origin, blocks=len(blocks), articleIds=sorted({c['articleId'] for c in candidates}),
         candidates=len(candidates), stylesheetStrikeRules=len(parser.deletion_styles))
+    if documented_restarts:
+        inventory['numberingTransitions'] = transitions
+    return candidates, excluded, inventory
 
 
 def prepare_document(code, filename, raw, existing=(), reader_ids=None):

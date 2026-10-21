@@ -15,9 +15,9 @@ from extract_previous_html import (ROOT, FILES, EvidenceHTML, decode,
 
     inspect_source, split_notes, spaces, canonical, PENALTY, unit)
 
-def previous_blocks(code, filename, raw, reader_ids, existing=()):
+def previous_blocks(code, filename, raw, reader_ids, existing=(), documented_restarts=True, allow_unmapped_general_part=False):
 
-    candidates, _, inventory = inspect_source(code, filename, raw, reader_ids)
+    candidates, _, inventory = inspect_source(code, filename, raw, reader_ids, documented_restarts=documented_restarts, allow_unmapped_general_part=allow_unmapped_general_part)
 
     source, _ = decode(raw)
 
@@ -48,6 +48,9 @@ def previous_blocks(code, filename, raw, reader_ids, existing=()):
     for index, block in enumerate(parser.blocks):
 
         candidate = by_block.get(index)
+        quoted = documented_restarts and 'blockquote' in block['contextTags']
+        if quoted:
+            article = None
 
         if candidate:
 
@@ -64,6 +67,8 @@ def previous_blocks(code, filename, raw, reader_ids, existing=()):
             continue
 
         reasons = []
+        if quoted:
+            reasons.append('quoted_or_indented_container_requires_review')
 
         if parser.deletion_styles:
 
@@ -144,6 +149,8 @@ def previous_blocks(code, filename, raw, reader_ids, existing=()):
             charRange=[block['start'],block['end']],line=block['line'],block=index,
 
             anchors=block['anchors'],runs=block['runs'])
+        if documented_restarts:
+            evidence['contextTags']=block['contextTags']
 
         if reasons:
 

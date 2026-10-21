@@ -57,6 +57,12 @@ test('pacote publicado inclui HTML, ícones e PDFs íntegros',async()=>{
   const namespace=(await readdir(join(output,'app')))[0];
   for(const file of await readdir(join(output,'app',namespace))){
    if(['catalog.js','collections.js'].includes(file))continue;
+   if(file==='legislative-history-data.js'){
+    const {releaseData}=await import('../../scripts/previous-wordings-release.mjs');
+    const released=await releaseData();
+    const expected=released.records.length?'export const legislativeHistoryData='+JSON.stringify(released)+';':await readFile(new URL('../../src/'+file,import.meta.url),'utf8');
+    assert.equal(await readFile(join(output,'app',namespace,file),'utf8'),expected);continue;
+   }
    assert.equal(await readFile(join(output,'app',namespace,file),'utf8'),await readFile(new URL('../../src/'+file,import.meta.url),'utf8'));
   }
   assert.match(worker,/const VERSION = '[a-f0-9]{64}'/);

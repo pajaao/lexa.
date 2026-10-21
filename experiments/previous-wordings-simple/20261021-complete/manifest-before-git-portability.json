@@ -1,0 +1,46 @@
+{
+  "publicationAllowed": false,
+  "homologation": "pending",
+  "fixtureSha256": "eceb65fc6ed6f574513b39579920e23d8fed9981e28cfd95040e60f9f892e0e4",
+  "scripts": {
+    "extract_struck_html.py": "b5866e3bc20a293078e6cabfec443791a2aad1a16bb04f72da3853c7bd80ecd7",
+    "present_struck_html.py": "d3ec28f84cee9c7703b502f7a5aac569a2a0dbdf6c950a2827a6036305f4c2fc",
+    "extract_previous_html.py": "491f09f2c036e9cf239381484bb8bba6f62b32e93455c9d5485543d06dcc8175",
+    "check_official_sources.py": "2bae7f7009296f18d6644b0ca36825c8eda2fd2d437699316c9265f0af91bdf7",
+    "import_official.py": "e51e37a22429dff1f224173fbf79bc34b5f1a56873c8fb6f6439657f036dc03b",
+    "official_http.py": "51e6b44120bb67babfd8163371b24e1540c42f135c2bfb7e919ac8bc95f866eb"
+  },
+  "files": {
+    "extraction.json": "a7c4c6c4872ade23eae92a457ea7abd23309af7de431a48d80a132a902a68be5",
+    "fixture-before.json": "a9c2e108cbc92e9c7c47ac9db08acc52e9cc8fbb1aea573244e2bf44bbb83b9b",
+    "manifest-initial.json": "d936f4e66ec4e929b60268d55880c32d0ce0ae5e950769fbd19911d14a8be604",
+    "presentation.json": "8e0cdb82230d7614c070d9cd001d51f3c9408d89479c2deb47c4d066fb8e4716",
+    "preview.json": "eceb65fc6ed6f574513b39579920e23d8fed9981e28cfd95040e60f9f892e0e4",
+    "reader.json": "18cdf5320b330264b79054cac4f36413a8177ea88b52dc0ffe9273c5d7f018f9",
+    "logs/simple-browser.txt": "743b09363e7083f6a1678581384b11794fc1bec5644495eeecdaf70c5e6f241c",
+    "logs/simple-node.txt": "f032526d443fab03ff1770ae4578e9331d17b3506bc642d2c5c804b858c23597",
+    "logs/simple-python.txt": "7f0d0063c0a39f0de52d1cc80d31e6add93ddac91676342d6e6119ed34a31a92",
+    "sources/Constituição.html": "12278976041fb60bfcdb04a59d1ace4a76c376206ce54a19f9e851a9da4e1f41",
+    "sources/DEL2848.html": "7e63bae8522566ca5597a20004448e955cf442c1cae870a6f18a2250a9936a8a",
+    "sources/Del3689.html": "a378beca371ffa9cc9a9dbc4c1257eefe93b954ddc4cc97d69b92d876cf9aae7",
+    "sources/Del5452compilado.html": "f5c716f57f3de040801abe6e63eab612d507711577a655decc350b1d23b2687c",
+    "sources/L10406compilada.html": "c9249c2ff99249a3a93f51c71876060c42d71c226fe13e1f79acedcd715006fe",
+    "sources/L13105compilada.html": "b9b8a9153e4ae886c37c7d63268fb9c24c58fa4675b7d8129279f4ab6b7122c8",
+    "sources/L14133.html": "88a25d81386427d51d531e7fd04f84c55b823fe8f6e6f0e49c374ed766550371",
+    "sources/L5172COMPILADO.html": "166694c96455c9eb24f0671d6f74c6ea62eb223cca905a7b5f2c0d337604e3bd",
+    "sources/L7210.html": "822d3a7122f63783cae86b700fc767476984d699690326b6c8313d5eddc5c610",
+    "sources/L8069.html": "3b0d113eb26db476b80ab354ee6b15649e085b2637d33f8cc31b496020c2f96b",
+    "sources/L8078compilado.html": "e344dbb3b7b7ed7459e7712bbb634aa27da6308cc866cc91a8af617a7bdfc507",
+    "sources/L8429.html": "6b89bc808fb75199ca7beee8df7d5503d88dac4449b81fc0292f825f0d6f9810",
+    "sources/Lei nº 11.340.html": "9e8c59e80fd03e5ba6b25c3a0c0e88ef82ed01899f353e3b9baa9870f75597aa"
+  },
+  "verification": {
+    "pythonPassed": 10,
+    "nodePassed": 74,
+    "browser": "11 collections, 390/1280px, PASS",
+    "previousDataFilesChecked": 59,
+    "previousDataChanged": [],
+    "outside99FilesUnchanged": true,
+    "all13SourcesUnchanged": true
+  }
+}

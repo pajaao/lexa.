@@ -1,13 +1,13 @@
 """Regressions for reader continuity and keyboard focus, without timing budgets."""
 from pathlib import Path
-import functools,http.server,threading
+import functools,http.server,threading,os
 from playwright.sync_api import sync_playwright,expect
 from support import artifact_path, chromium_executable
 
 root=Path(__file__).resolve().parents[2]
 class Handler(http.server.SimpleHTTPRequestHandler):
  def log_message(self,*args):pass
-server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(root/'dist')))
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=os.environ.get('LEXA_TEST_SITE',str(root/'dist'))))
 thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
 base=f'http://127.0.0.1:{server.server_port}/'
 visible_start='''()=>{
