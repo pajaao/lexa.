@@ -1,0 +1,584 @@
+[
+  {
+    "codeId": "cf",
+    "file": "Constituição.html",
+    "sha256": "12278976041fb60bfcdb04a59d1ace4a76c376206ce54a19f9e851a9da4e1f41",
+    "caputBlocks": 514,
+    "regressions": [
+      {
+        "from": "250",
+        "to": "1",
+        "block": 3435,
+        "line": 29502,
+        "anchors": [
+          "sadctart1",
+          "adctart1",
+          "art1adct",
+          "dtart1"
+        ],
+        "contextTags": [
+          "html",
+          "body",
+          "div",
+          "p"
+        ],
+        "text": "Art. 1º. O Presidente da República, o Presidente do Supremo Tribunal Federal e os membros do Congresso Nacional prestarão o compromisso de manter, defender e cumprir a Constituição",
+        "preceding": [
+          {
+            "block": 3430,
+            "anchors": [],
+            "text": "Participantes: Álvaro Dias - Antônio Britto - Bete Mendes - Borges da Silveira - Cardoso Alves - Edivaldo Holanda - Expedito Júnior - Fadah Gattass - Francisco Dias - Geovah Amarante - Hélio Gueiros - Horácio Ferraz - Hu",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 3431,
+            "anchors": [],
+            "text": "In Memoriam: Alair Ferreira - Antônio Farias - Fábio Lucena - Norberto Schwantes - Virgílio Távora.",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 3432,
+            "anchors": [],
+            "text": "Este texto não substitui o publicado no D.O.U. de 5.10.1988 .",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 3433,
+            "anchors": [
+              "adct"
+            ],
+            "text": "ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "p"
+            ]
+          },
+          {
+            "block": 3434,
+            "anchors": [],
+            "text": "(Vide Emenda Constitucional nº 132, de 2023) Vigência",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "p"
+            ]
+          }
+        ]
+      }
+    ],
+    "correctedTransitions": [
+      {
+        "kind": "adct_namespace_boundary",
+        "block": 3433,
+        "line": 29486
+      }
+    ],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "penal",
+    "file": "DEL2848.html",
+    "sha256": "7e63bae8522566ca5597a20004448e955cf442c1cae870a6f18a2250a9936a8a",
+    "caputBlocks": 620,
+    "regressions": [
+      {
+        "from": "120",
+        "to": "1",
+        "block": 676,
+        "line": 2881,
+        "anchors": [
+          "c1",
+          "art1."
+        ],
+        "contextTags": [
+          "html",
+          "body",
+          "ul",
+          "li",
+          "div",
+          "p"
+        ],
+        "text": "Art. 1º - Não há crime sem lei anterior que o defina. Não há pena sem prévia cominação legal. (Redação dada pela Lei nº 7.209, de 11.7.1984)",
+        "preceding": [
+          {
+            "block": 671,
+            "anchors": [
+              "art120."
+            ],
+            "text": "Art 120. A rehabilitação é revogada e não pode mais ser concedida, se o rahabilitado sofre nova condenação, por sentença irrecorrivel, à pena privativa de liberdade.",
+            "contextTags": [
+              "html",
+              "body",
+              "div",
+              "ul",
+              "li"
+            ]
+          },
+          {
+            "block": 672,
+            "anchors": [
+              "partegeral."
+            ],
+            "text": "PARTE GERAL",
+            "contextTags": [
+              "html",
+              "body",
+              "ul",
+              "li",
+              "p"
+            ]
+          },
+          {
+            "block": 673,
+            "anchors": [
+              "partegeraltituloi",
+              "tituloi"
+            ],
+            "text": "TÍTULO I",
+            "contextTags": [
+              "html",
+              "body",
+              "ul",
+              "li",
+              "p"
+            ]
+          },
+          {
+            "block": 674,
+            "anchors": [],
+            "text": "DA APLICAÇÃO DA LEI PENAL (Redação dada pela Lei nº 7.209, de 11.7.1984)",
+            "contextTags": [
+              "html",
+              "body",
+              "ul",
+              "li",
+              "p"
+            ]
+          },
+          {
+            "block": 675,
+            "anchors": [],
+            "text": "Anterioridade da Lei",
+            "contextTags": [
+              "html",
+              "body",
+              "ul",
+              "li",
+              "div",
+              "p"
+            ]
+          }
+        ]
+      }
+    ],
+    "originalPartSkipped": {
+      "blocks": 676,
+      "struckBlocks": 656
+    },
+    "correctedTransitions": [
+      {
+        "kind": "documented_restart",
+        "fromNumber": 120,
+        "toArticle": "1",
+        "block": 676,
+        "line": 2881,
+        "headings": [
+          {
+            "block": 672,
+            "line": 2867,
+            "text": "PARTE GERAL",
+            "anchors": [
+              "partegeral."
+            ]
+          },
+          {
+            "block": 673,
+            "line": 2870,
+            "text": "TÍTULO I",
+            "anchors": [
+              "partegeraltituloi",
+              "tituloi"
+            ]
+          }
+        ],
+        "anchors": [
+          "c1",
+          "art1."
+        ]
+      }
+    ],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "cpp",
+    "file": "Del3689.html",
+    "sha256": "a378beca371ffa9cc9a9dbc4c1257eefe93b954ddc4cc97d69b92d876cf9aae7",
+    "caputBlocks": 1098,
+    "regressions": [
+      {
+        "from": "497",
+        "to": "406",
+        "block": 1812,
+        "line": 13410,
+        "anchors": [
+          "c406",
+          "art406"
+        ],
+        "contextTags": [
+          "html",
+          "body",
+          "p"
+        ],
+        "text": "Art. 406. O juiz, ao receber a denúncia ou a queixa, ordenará a citação do acusado para responder a acusação, por escrito, no prazo de 10 (dez) dias. (Redação dada pela Lei nº 11.6",
+        "preceding": [
+          {
+            "block": 1807,
+            "anchors": [
+              "livroiitituloicapituloii."
+            ],
+            "text": "CAPÍTULO II",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 1808,
+            "anchors": [],
+            "text": "(Redação dada pela Lei nº 11.689, de 2008)",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 1809,
+            "anchors": [],
+            "text": "DO PROCEDIMENTO RELATIVO AOS PROCESSOS DA COMPETÊNCIA DO TRIBUNAL DO JÚRI",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 1810,
+            "anchors": [
+              "livroiitituloicapituloiiseçaoi."
+            ],
+            "text": "Seção I",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 1811,
+            "anchors": [],
+            "text": "Da Acusação e da Instrução Preliminar",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          }
+        ]
+      }
+    ],
+    "correctedTransitions": [
+      {
+        "kind": "documented_restart",
+        "fromNumber": 497,
+        "toArticle": "406",
+        "block": 1812,
+        "line": 13410,
+        "headings": [
+          {
+            "block": 1807,
+            "line": 13388,
+            "text": "CAPÍTULO II",
+            "anchors": [
+              "livroiitituloicapituloii."
+            ]
+          },
+          {
+            "block": 1810,
+            "line": 13402,
+            "text": "Seção I",
+            "anchors": [
+              "livroiitituloicapituloiiseçaoi."
+            ]
+          }
+        ],
+        "anchors": [
+          "c406",
+          "art406"
+        ]
+      }
+    ],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "clt",
+    "file": "Del5452compilado.html",
+    "sha256": "f5c716f57f3de040801abe6e63eab612d507711577a655decc350b1d23b2687c",
+    "caputBlocks": 1016,
+    "regressions": [
+      {
+        "from": "2",
+        "to": "1",
+        "block": 21,
+        "line": 92,
+        "anchors": [
+          "art1."
+        ],
+        "contextTags": [
+          "html",
+          "body",
+          "p"
+        ],
+        "text": "Art. 1º - Esta Consolidação estatui as normas que regulam as relações individuais e coletivas de trabalho, nela previstas.",
+        "preceding": [
+          {
+            "block": 16,
+            "anchors": [],
+            "text": "Alexandre Marcondes Filho.",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 17,
+            "anchors": [],
+            "text": "Este texto não substitui o publicado no DOU de 9.8.1943, retificado pelo Decreto-Lei nº 6.353, de 1944) e retificado pelo Decreto-Lei nº 9.797, de 1946)",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 18,
+            "anchors": [],
+            "text": "CONSOLIDAÇÃO DAS LEIS DO TRABALHO",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 19,
+            "anchors": [
+              "tituloi"
+            ],
+            "text": "TÍTULO I",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          },
+          {
+            "block": 20,
+            "anchors": [],
+            "text": "INTRODUÇÃO",
+            "contextTags": [
+              "html",
+              "body",
+              "p"
+            ]
+          }
+        ]
+      }
+    ],
+    "correctedTransitions": [
+      {
+        "kind": "approval_decree_separated",
+        "block": 21,
+        "line": 92,
+        "headingBlock": 18
+      }
+    ],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "civil",
+    "file": "L10406compilada.html",
+    "sha256": "c9249c2ff99249a3a93f51c71876060c42d71c226fe13e1f79acedcd715006fe",
+    "caputBlocks": 2083,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "cpc",
+    "file": "L13105compilada.html",
+    "sha256": "b9b8a9153e4ae886c37c7d63268fb9c24c58fa4675b7d8129279f4ab6b7122c8",
+    "caputBlocks": 1082,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "licitacoes",
+    "file": "L14133.html",
+    "sha256": "88a25d81386427d51d531e7fd04f84c55b823fe8f6e6f0e49c374ed766550371",
+    "caputBlocks": 211,
+    "regressions": [
+      {
+        "from": "337-P",
+        "to": "179",
+        "block": 1567,
+        "line": 9388,
+        "anchors": [
+          "art179"
+        ],
+        "contextTags": [
+          "html",
+          "body",
+          "p"
+        ],
+        "text": "Art. 179. Os incisos II e III do caput do art. 2º da Lei nº 8.987, de 13 de fevereiro de 1995, passam a vigorar com a seguinte redação:",
+        "preceding": [
+          {
+            "block": 1562,
+            "anchors": [],
+            "text": "Art. 337-O. Omitir, modificar ou entregar à Administração Pública levantamento cadastral ou condição de contorno em relevante dissonância com a realidade, em frustração ao caráter competitivo da licitação ou em detriment",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "blockquote",
+              "p"
+            ]
+          },
+          {
+            "block": 1563,
+            "anchors": [],
+            "text": "Pena - reclusão, de 6 (seis) meses a 3 (três) anos, e multa.",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "blockquote",
+              "p"
+            ]
+          },
+          {
+            "block": 1564,
+            "anchors": [],
+            "text": "§ 1º Consideram-se condição de contorno as informações e os levantamentos suficientes e necessários para a definição da solução de projeto e dos respectivos preços pelo licitante, incluídos sondagens, topografia, estudos",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "blockquote",
+              "p"
+            ]
+          },
+          {
+            "block": 1565,
+            "anchors": [],
+            "text": "§ 2º Se o crime é praticado com o fim de obter benefício, direto ou indireto, próprio ou de outrem, aplica-se em dobro a pena prevista no caput deste artigo.",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "blockquote",
+              "p"
+            ]
+          },
+          {
+            "block": 1566,
+            "anchors": [],
+            "text": "Art. 337-P. A pena de multa cominada aos crimes previstos neste Capítulo seguirá a metodologia de cálculo prevista neste Código e não poderá ser inferior a 2% (dois por cento) do valor do contrato licitado ou celebrado c",
+            "contextTags": [
+              "html",
+              "body",
+              "blockquote",
+              "blockquote",
+              "p"
+            ]
+          }
+        ]
+      }
+    ],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "ctn",
+    "file": "L5172COMPILADO.html",
+    "sha256": "166694c96455c9eb24f0671d6f74c6ea62eb223cca905a7b5f2c0d337604e3bd",
+    "caputBlocks": 229,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "lep",
+    "file": "L7210.html",
+    "sha256": "822d3a7122f63783cae86b700fc767476984d699690326b6c8313d5eddc5c610",
+    "caputBlocks": 243,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "eca",
+    "file": "L8069.html",
+    "sha256": "3b0d113eb26db476b80ab354ee6b15649e085b2637d33f8cc31b496020c2f96b",
+    "caputBlocks": 383,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "cdc",
+    "file": "L8078compilado.html",
+    "sha256": "e344dbb3b7b7ed7459e7712bbb634aa27da6308cc866cc91a8af617a7bdfc507",
+    "caputBlocks": 130,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "improbidade",
+    "file": "L8429.html",
+    "sha256": "6b89bc808fb75199ca7beee8df7d5503d88dac4449b81fc0292f825f0d6f9810",
+    "caputBlocks": 51,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  },
+  {
+    "codeId": "maria-penha",
+    "file": "Lei nº 11.340.html",
+    "sha256": "9e8c59e80fd03e5ba6b25c3a0c0e88ef82ed01899f353e3b9baa9870f75597aa",
+    "caputBlocks": 60,
+    "regressions": [],
+    "correctedTransitions": [],
+    "stillBlockedCandidateCount": 0
+  }
+]

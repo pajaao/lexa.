@@ -1,12 +1,12 @@
 """Validate grouped whole-library text search, reader links and responsive UI."""
 from pathlib import Path
-import functools,http.server,threading
+import functools,http.server,threading,os
 from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
  def log_message(self,*args):pass
-server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,directory=str(root/'dist')))
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,directory=os.environ.get('LEXA_TEST_SITE',str(root/'dist'))))
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
  with sync_playwright() as p:

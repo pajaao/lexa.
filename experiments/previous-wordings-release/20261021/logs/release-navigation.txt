@@ -1,0 +1,1 @@
+Navega��o: 24 casos, tr�s viewports, Civil/CPC, pr�ximos/anteriores/�ndice e teclado na CF, com e sem movimento reduzido.

@@ -62,3 +62,12 @@ Executar os comandos aplicáveis de [AGENTS.md](../AGENTS.md) e [Manutenção](M
 - Manter poucas instruções duráveis em `AGENTS.md`; consultar documentação específica sob demanda, sem reprocessar todo o histórico a cada sessão.
 - Priorizar tarefas delimitadas e monitorar o limite de uso. Se ele terminar, continuar manualmente ou retomar pelo Git em outra sessão, sem depender de execuções remotas.
 - Codex local utiliza modelos hospedados e autenticação; não é operação de IA inteiramente offline. A preparação do Windows permanece em [CODEX-LOCAL.md](CODEX-LOCAL.md).
+
+
+### Redações anteriores — autorização de lançamento
+
+A candidata pode ser preparada com validação automatizada integral e revisão independente por amostragem, identificando expressamente quando a inspeção é por IA. Isso não altera a regra de homologação humana vigente.
+
+Antes de publicar o lote por validação de risco em substituição à homologação individual, o responsável deve registrar expressamente a decisão de governança que admite esse regime, o protocolo e a aceitação da revisão por risco, e a autorização de lançamento. A amostra técnica por IA não preenche esses campos por si só. Até essas decisões, `data/previous-wordings/release.json` permanece com `publicationAuthorized: false`; nenhum registro pending é promovido automaticamente a homologado. O estado de revisão documental e a autorização de publicação são distintos.
+
+O procedimento e as pendências da candidata estão em [REDACOES-ANTERIORES-LANCAMENTO.md](REDACOES-ANTERIORES-LANCAMENTO.md). Esta seção registra a condição operacional, não uma dispensa de homologação nem autorização de publicação.

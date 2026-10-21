@@ -1,0 +1,15 @@
+# Preserve exact source/evidence bytes: recorded SHA-256 must survive checkout.
+/HTML/*.html -text
+/experiments/html-history/** -text
+/tests/fixtures/legislative-history-batch.json -text
+/tests/fixtures/legislative-history-html.json -text
+/tests/fixtures/previous-wordings-html.json -text
+/tests/fixtures/legislative-history-pilot.js -text
+# The historical result manifest pins this shared parser's exact bytes.
+/scripts/extract_previous_html.py -text
+
+# Exact source copies, evidence and data hashes for the simple extractor/release.
+/experiments/previous-wordings-simple/** -text
+/experiments/previous-wordings-release/** -text
+/tests/fixtures/previous-wordings-simple.json -text
+/data/previous-wordings/*.json -text
