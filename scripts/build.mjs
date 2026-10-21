@@ -11,7 +11,7 @@ import {updateHistory} from '../data/history/legislation.js';
 import {sumulaUpdates} from '../data/history/sumulas.js';
 const root=new URL('../',import.meta.url);
 export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
-export async function buildPackage({css:cssOverride,history:historyOverride}={}){
+export async function buildPackage({css:cssOverride,history:historyOverride,legislativeHistoryDemo=false}={}){
  const files=new Map();
  function asset(id,value){
   const bytes=JSON.stringify(value),sha=sha256(bytes),file=`data/${id}.${sha}.json`;
@@ -37,6 +37,10 @@ export async function buildPackage({css:cssOverride,history:historyOverride}={})
 export const collections=initialCatalog.collections.map(code=>({...code,articles:[],sections:[],loaded:false}));
 export const codes=collections.filter(code=>code.kind!=='sumulas');`);
  modules.set('catalog.js',"export {codes as catalog} from './collections.js';");
+ if(legislativeHistoryDemo){
+  modules.set('legislative-history-data.js',await readFile(new URL('tests/fixtures/legislative-history-demo.js',root),'utf8'));
+  modules.set('pwa.js',"export function setupPwa(){}");
+ }
  const moduleHash=createHash('sha256');
  for(const [name,source] of modules)moduleHash.update(name+'\0').update(source+'\0');
  const namespace='app/'+moduleHash.digest('hex')+'/';
