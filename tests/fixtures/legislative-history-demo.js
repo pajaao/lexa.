@@ -1,0 +1,5 @@
+// Fictitious examples. This module is never copied by the normal build.
+export const legislativeHistoryData={demo:true,records:[
+ {id:'demo-caput-1',codeId:'penal',articleId:'1',part:'caput',text:'EXEMPLO FICTÍCIO — Primeira redação de uma regra imaginária: a biblioteca abre ao amanhecer.',sequence:{order:1,basis:'Primeiro registro do documento fictício de demonstração.'},reference:'Norma fictícia Alfa — demonstração',notes:['Nota fictícia: este conteúdo serve apenas para testar a interface.'],source:{label:'Documento fictício de demonstração',location:'Página imaginária 1'},review:{status:'demonstration'}},
+ {id:'demo-caput-2',codeId:'penal',articleId:'1',part:'caput',text:'EXEMPLO FICTÍCIO — Segunda redação de uma regra imaginária: a biblioteca abre ao amanhecer e mantém uma sala de leitura disponível durante a tarde. Este texto deve aparecer integralmente, com todas as suas palavras, sem depender de uma data de vigência.',sequence:{order:2,basis:'Segundo registro do mesmo documento fictício.'},notes:[],source:null,review:{status:'demonstration'}}
+]};
