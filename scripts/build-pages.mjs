@@ -6,7 +6,7 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 
 export async function stagePages(destination=resolve(root,'dist'),options={}) {
- if(options.legislativeHistoryDemo&&resolve(destination)===resolve(root,'dist'))throw new Error('Demonstração não pode substituir o pacote de publicação.');
+ if((options.legislativeHistoryDemo||options.legislativeHistoryPilot)&&resolve(destination)===resolve(root,'dist'))throw new Error('Demonstração não pode substituir o pacote de publicação.');
  const archive=JSON.parse(await readFile(resolve(root,'sources/manifest.json'),'utf8'));
  const sumulas=JSON.parse(await readFile(resolve(root,'sources/sumulas-manifest.json'),'utf8'));
  const documents=[...Object.values(archive),sumulas];

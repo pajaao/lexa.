@@ -1,0 +1,50 @@
+{
+  "publicationAllowed": false,
+  "sourcesBefore": {
+    "Constituição.html": "21555c2e0e32eb59db4ee8caaac0c0ab06ca7e70be893a2c6f4d680a83bddcf0",
+    "DEL2848.html": "7e63bae8522566ca5597a20004448e955cf442c1cae870a6f18a2250a9936a8a",
+    "Del3689.html": "3e704b92375ce40c3b838da01167c5dfb8e1244aa948f26f636ca9d6949f4c51",
+    "Del5452compilado.html": "f5c716f57f3de040801abe6e63eab612d507711577a655decc350b1d23b2687c",
+    "L10406compilada.html": "c9249c2ff99249a3a93f51c71876060c42d71c226fe13e1f79acedcd715006fe",
+    "L13105compilada.html": "a83179b2ff54a930e0e041f81c419a7c74ddbec539d5d4d8aeeef530fda4bcc8",
+    "L14133.html": "88a25d81386427d51d531e7fd04f84c55b823fe8f6e6f0e49c374ed766550371",
+    "L5172COMPILADO.html": "166694c96455c9eb24f0671d6f74c6ea62eb223cca905a7b5f2c0d337604e3bd",
+    "L7210.html": "822d3a7122f63783cae86b700fc767476984d699690326b6c8313d5eddc5c610",
+    "L8069.html": "3b0d113eb26db476b80ab354ee6b15649e085b2637d33f8cc31b496020c2f96b",
+    "L8078compilado.html": "e344dbb3b7b7ed7459e7712bbb634aa27da6308cc866cc91a8af617a7bdfc507",
+    "L8429.html": "6b89bc808fb75199ca7beee8df7d5503d88dac4449b81fc0292f825f0d6f9810",
+    "Lei nº 11.340.html": "9e8c59e80fd03e5ba6b25c3a0c0e88ef82ed01899f353e3b9baa9870f75597aa"
+  },
+  "sourcesAfter": {
+    "Constituição.html": "12278976041fb60bfcdb04a59d1ace4a76c376206ce54a19f9e851a9da4e1f41",
+    "DEL2848.html": "7e63bae8522566ca5597a20004448e955cf442c1cae870a6f18a2250a9936a8a",
+    "Del3689.html": "a378beca371ffa9cc9a9dbc4c1257eefe93b954ddc4cc97d69b92d876cf9aae7",
+    "Del5452compilado.html": "f5c716f57f3de040801abe6e63eab612d507711577a655decc350b1d23b2687c",
+    "L10406compilada.html": "c9249c2ff99249a3a93f51c71876060c42d71c226fe13e1f79acedcd715006fe",
+    "L13105compilada.html": "b9b8a9153e4ae886c37c7d63268fb9c24c58fa4675b7d8129279f4ab6b7122c8",
+    "L14133.html": "88a25d81386427d51d531e7fd04f84c55b823fe8f6e6f0e49c374ed766550371",
+    "L5172COMPILADO.html": "166694c96455c9eb24f0671d6f74c6ea62eb223cca905a7b5f2c0d337604e3bd",
+    "L7210.html": "822d3a7122f63783cae86b700fc767476984d699690326b6c8313d5eddc5c610",
+    "L8069.html": "3b0d113eb26db476b80ab354ee6b15649e085b2637d33f8cc31b496020c2f96b",
+    "L8078compilado.html": "e344dbb3b7b7ed7459e7712bbb634aa27da6308cc866cc91a8af617a7bdfc507",
+    "L8429.html": "6b89bc808fb75199ca7beee8df7d5503d88dac4449b81fc0292f825f0d6f9810",
+    "Lei nº 11.340.html": "9e8c59e80fd03e5ba6b25c3a0c0e88ef82ed01899f353e3b9baa9870f75597aa"
+  },
+  "preservedExistingRecords": true,
+  "otherTenSourcesUnchanged": true,
+  "fixtureAfterSha256": "0973233a8bebd308b876656526c3c2fe56da76dd14b397935d79592b6b4c8899",
+  "scripts": {
+    "refresh_previous_html_sources.py": "a8c93fef6d65cced95cfd59e8c62821b48cc248d78d6cdd8f18cb23a7cca5ccf",
+    "prepare_previous_only.py": "9f066143600ff3d678c75488c8e8ad15d08b15821eb0745b917611ec3df01cd6",
+    "extract_previous_html.py": "0668f73a6c69bb0f2ecb7e8d7f46b35c7363e41fb3bebf36af68bb110c29bcf6"
+  },
+  "files": {
+    "existing.json": "318b569c252828be156b9ea69c789c735b529a4b5844cbd37ebf4a48f6bbfe80",
+    "previous-fixture-before.json": "4ee83fdcefba0d40043bd65555de00086d2fe4d4ba9aa394c90ff42e7948174b",
+    "reader-ids.json": "880d7e74476e5f9135b492d4f71210983a1bc53d49bc9956510c8f95919090ed",
+    "results.json": "ead02920a0de53fe47fe58019dd93b009eeb0853ddbeab860f20a25f229d3163",
+    "incoming/Constituição.html": "12278976041fb60bfcdb04a59d1ace4a76c376206ce54a19f9e851a9da4e1f41",
+    "incoming/Del3689.html": "a378beca371ffa9cc9a9dbc4c1257eefe93b954ddc4cc97d69b92d876cf9aae7",
+    "incoming/L13105.html": "b9b8a9153e4ae886c37c7d63268fb9c24c58fa4675b7d8129279f4ab6b7122c8"
+  }
+}
