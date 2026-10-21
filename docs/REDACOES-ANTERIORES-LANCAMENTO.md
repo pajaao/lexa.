@@ -37,12 +37,12 @@ Não foi localizado um protocolo anterior de validação por risco formalizado n
 
 - `data/previous-wordings/candidate.json`: somente os 1.679 selecionados, todos ainda `pending`; textos, notas e referências preservados. Evidências extensas ficam na execução original; a distribuição mantém fonte/hash/localização, links e identificação de auditoria.
 - `data/previous-wordings/release.json`: IDs, quantidades, hashes dos dados/leitor/validação e campos separados de autorização.
-- `scripts/previous-wordings-release.mjs`: build verifica integridade e seleção; nenhum `pending` vira homologado. `publicationAuthorized: false` mantém o build normal sem registros. A candidata utiliza a mesma aplicação e a PWA normal, sem desativá-la.
+- `scripts/previous-wordings-release.mjs`: build verifica integridade e seleção; nenhum `pending` vira homologado. `publicationAuthorized: false` mantém o novo lote fora do build normal, preservando o piloto já publicado do art. 215. A candidata utiliza a mesma aplicação e a PWA normal, sem desativá-la.
 - A autorização efetiva exige decisões expressas registradas em `governanceDecision`, `riskReviewDecision` e `publicationDecision`, além de `publicationAuthorized: true`. Não preencher esses campos por resultado automatizado ou por inspeção de IA. A condição foi registrada no Processo de Trabalho, sem aprovar dispensa de homologação.
 
 O leitor mantém a interface aprovada: caputs diretamente, demais unidades recolhidas, ou todas diretamente quando não há caput. Os arquivos legislativos do build são idênticos aos do build normal; parágrafos sem risco não são removidos. A separação visual de redações antigas continua limitada aos parágrafos integralmente riscados que correspondam inequivocamente a registros selecionados; nenhum texto atual é reescrito.
 
-Reversão: registrar `publicationAuthorized: false`, gerar novamente o build e submeter a reversão à autorização de publicação. Isso desabilita os controles sem apagar fontes, registros, evidências ou estados de revisão. A PWA mantém seu mecanismo de atualização consentida.
+Reversão: registrar `publicationAuthorized: false`, gerar novamente o build e submeter a reversão à autorização de publicação. Isso desabilita os controles do novo lote, mantendo o piloto anterior, sem apagar fontes, registros, evidências ou estados de revisão. A PWA mantém seu mecanismo de atualização consentida.
 
 ## Testes e desempenho observados
 
@@ -70,3 +70,5 @@ Pendências de decisão: formalizar a aceitação do regime de validação por r
 ### Integração do PR e portabilidade
 
 O PR integra código, testes e candidata com publicação bloqueada. O merge na main aciona o pipeline normal de Pages, mas `publicationAuthorized: false` impede a disponibilização dos registros. A autorização de merge não é tratada como autorização de homologação ou de ativação do lote. Os hashes dos HTMLs/dados/evidências são byte a byte; hashes de código e da representação JS do leitor usam UTF-8 com quebras LF, explicitamente, para reprodução em Windows/Linux sem alterar os arquivos jurídicos. As rotinas novas também integram a suíte essencial de CI.
+
+Compatibilidade com a main: os três registros aprovados do piloto original permanecem em `src/legislative-history-data.js`, com textos, notas, referências e revisão preservados. A apresentação mostra seus dois caputs anteriores e não repete o terceiro, correspondente ao texto atual. O bloqueio do novo lote não remove esse conteúdo já publicado.

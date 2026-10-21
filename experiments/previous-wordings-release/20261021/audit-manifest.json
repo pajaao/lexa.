@@ -4,6 +4,7 @@
   "textHashMode": "utf8-lf",
   "files": {
     "experiments/previous-wordings-release/20261021/audit-before-git-portability.json": "359b25d246ffdf0a9a9893dcef7482fbffe387555c2570a554a6122a517c1ddb",
+    "experiments/previous-wordings-release/20261021/audit-before-published-pilot-compatibility.json": "fc5d0352fe6b839bdd2730764d68b9bf408c23f1cadcf5ce1f8eac7f6d0f1f78",
     "experiments/previous-wordings-release/20261021/git-status.txt": "71731935748be5606ad8c334897ae01bbfb4647cc81167e0b664bec34907cdc8",
     "experiments/previous-wordings-release/20261021/independent-sample.json": "42a02d3f7b3492d15d04a4517a4a0e03c43daa657f24bd73df85c9d52b1ed230",
     "experiments/previous-wordings-release/20261021/preservation.json": "70b9d7947997108eb6414cfb259d3be05c76bdfb4f03156f21e29146e9d46502",
@@ -39,8 +40,9 @@
     "scripts/build.mjs": "f3f729d14490e31b76d7a37d65b1c17063bce696c9cd28abc3fec003f98c97a0",
     "scripts/build-pages.mjs": "b6358f85020bf19f880036a2f0cacad74aaa87fc3a73a2776eead822bdba0cbf",
     "src/legislative-history-model.js": "7017582712f83855e7d4be61aafe32661b2093e06fc965351905122dde50ff62",
-    "src/legislative-history.js": "77e11fa8f0189f50e14591db445ea2e74c0750412e8ce4c6c39268eee2da5ec3",
-    "docs/REDACOES-ANTERIORES-LANCAMENTO.md": "e5b03b293ad294188bd94d2be533035f25e8bb6f8fb282fdfcba880626b864f7",
-    "docs/PROCESSO-DE-TRABALHO.md": "5a88440e3ecc04ed397e65d22de37e4d4ec96f395b4530f16bccbb4403f1f347"
+    "src/legislative-history.js": "814252c39be446beef148843fb8b5ebaebe74b214533b1859fa2f96bcf8c924e",
+    "docs/REDACOES-ANTERIORES-LANCAMENTO.md": "3a7a380a29933382b1df77bf8dfb10b2e8c100325d28f69f4db0cd1beacce28c",
+    "docs/PROCESSO-DE-TRABALHO.md": "5a88440e3ecc04ed397e65d22de37e4d4ec96f395b4530f16bccbb4403f1f347",
+    "src/legislative-history-data.js": "317e29303b48619295959bc49fb89a70b24872f56b0c174beb7f767fea545651"
   }
 }

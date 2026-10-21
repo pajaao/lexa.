@@ -68,7 +68,8 @@ test('pacote normal exclui fixtures; demonstração exige build explícito e nã
  const normal=await buildPackage();
  const pilot=await buildPackage({legislativeHistoryPilot:true});
  const contains=pack=>[...pack.files.values()].some(bytes=>String(bytes).includes('penal-215-caput-01'));
- assert.equal(contains(normal),false);assert.equal(contains(pilot),true);
+ assert.equal(contains(normal),true);assert.equal(contains(pilot),true);
+ assert.ok(![...normal.files.values()].some(bytes=>String(bytes).includes('penal-213-caput-01')));
  assert.ok(historyContent(approvedData,'penal','215').includes('homologação jurídica independente pendente'));
  await assert.rejects(stagePages(undefined,{legislativeHistoryPilot:true}),/Demonstração não pode/);
  });
@@ -94,7 +95,8 @@ test('unidades documentadas distinguem inciso de caput',()=>{
  }
  const normal=await buildPackage();
  const source=[...normal.files].find(([name])=>name.endsWith('/legislative-history-data.js'))[1];
- assert.match(source,/records:\[\]/);
+ assert.match(source,/penal-215-caput-01/);
+ assert.ok(!source.includes('"status": "pending"'));
  assert.ok(!source.includes('penal-44-caput'));
  });
 

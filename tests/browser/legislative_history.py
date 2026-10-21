@@ -19,7 +19,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 def previous_rows(rows,code,article):
     rows=sorted([r for r in rows if r['codeId']==code and r['articleId']==article and r.get('wording',{}).get('status')=='previous'],key=lambda r:(r['sequence']['order'],r['id']))
-    return [r for r in rows if r['part']!='caput' or not any(other['part']=='article' and other.get('unitLabel')=='Trecho da fonte: caput e pena' and ' '.join(other['text'].split()).startswith(' '.join(r['text'].split())+' Pena') for other in rows)]
+    visible=[r for r in rows if r['part']!='caput' or not any(other['part']=='article' and other.get('unitLabel')=='Trecho da fonte: caput e pena' and ' '.join(other['text'].split()).startswith(' '.join(r['text'].split())+' Pena') for other in rows)]
+    caputs=[r for r in visible if r['part']=='caput']; others=[r for r in visible if r['part']!='caput']
+    return caputs+others if caputs and others else visible
 
 all_previous_data=json.loads((ROOT/'experiments/html-history/existing-records.json').read_text(encoding='utf-8'))
 for name in ['legislative-history-html.json','previous-wordings-html.json']:
@@ -258,6 +260,24 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     context.close()
             finally:
                 production.shutdown()
+            # The normal build preserves the published pilot while the new batch is gated.
+            normal=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT/'dist')))
+            threading.Thread(target=normal.serve_forever,daemon=True).start()
+            try:
+                context=browser.new_context(service_workers='block')
+                page=context.new_page()
+                page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/215')
+                page.locator('#art-215 [data-legislative-history]').click()
+                expect(page.locator('.legislative-text')).to_have_text([
+                    'Art. 215 - Ter conjunção carnal com mulher honesta, mediante fraude:',
+                    'Art. 215. Ter conjunção carnal com mulher, mediante fraude:'])
+                expect(page.locator('.legislative-demo')).to_have_count(0)
+                page.keyboard.press('Escape')
+                page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/213')
+                expect(page.locator('#art-213 [data-legislative-history]')).to_have_count(0)
+                context.close()
+            finally:
+                normal.shutdown();normal.server_close()
             browser.close()
     finally:
         server.shutdown()

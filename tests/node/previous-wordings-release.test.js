@@ -5,12 +5,25 @@ import {buildPackage} from '../../scripts/build.mjs';
 import {checkRelease} from '../../scripts/previous-wordings-release.mjs';
 import {previousRecords,readingArticle} from '../../src/legislative-history-model.js';
 import {officialImported} from '../../data/official/legislation.js';
+import {legislativeHistoryData as publishedPilot} from '../../src/legislative-history-data.js';
+import {legislativeHistoryData as originalPilot} from '../fixtures/legislative-history-pilot.js';
 
 const root=new URL('../../',import.meta.url);
 async function inputs(){
  const manifest=JSON.parse(await readFile(new URL('data/previous-wordings/release.json',root),'utf8'));
  return [manifest,await readFile(new URL('data/previous-wordings/candidate.json',root)),await readFile(new URL('data/official/legislation.js',root)),await readFile(new URL(manifest.validationReport,root))];
 }
+
+test('bloqueio do novo lote preserva os dois caputs anteriores já publicados sem mudar aprovação',()=>{
+ assert.equal(publishedPilot.records.length,3);
+ assert.ok(publishedPilot.records.every(r=>r.review.status==='approved'));
+ assert.deepEqual(previousRecords(publishedPilot,'penal','215').map(r=>r.id),['penal-215-caput-01','penal-215-caput-02']);
+ assert.ok(!publishedPilot.records.some(r=>r.review.status==='pending'));
+ for(const record of publishedPilot.records){
+  const original=originalPilot.records.find(r=>r.id===record.id);
+  for(const key of ['text','notes','reference','source','review'])assert.deepEqual(record[key],original[key]);
+ }
+});
 
 test('publicação fica bloqueada sem decisões expressas e não transforma pending em homologado',async()=>{
  const args=await inputs();
