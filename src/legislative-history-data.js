@@ -90,10 +90,3 @@ export const legislativeHistoryData={
     }
   ]
 };
-
-// Preserve the already published pilot without enabling any pending batch.
-// The third approved caput is the current wording, not an earlier wording.
-const previousPilotIds=new Set(['penal-215-caput-01','penal-215-caput-02']);
-for(const record of legislativeHistoryData.records){
- record.wording={status:previousPilotIds.has(record.id)?'previous':'current_candidate',basis:'Classificação de apresentação do piloto já autorizado; textos e revisão preservados.'};
-}

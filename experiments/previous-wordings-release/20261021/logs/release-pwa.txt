@@ -1,1 +1,0 @@
-PWA validada: subpasta, leitura offline, atualiza��o consentida, preserva��o de favoritos/prefer�ncias, limpeza isolada e reutiliza��o sem download de JSON e rejei��o de shell incompleto e JSON adulterado.

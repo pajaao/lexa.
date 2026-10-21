@@ -2,14 +2,14 @@
 Requires Playwright for Python and its Chromium; run npm run build first.
 """
 from pathlib import Path
-import functools, hashlib, http.server, re, shutil, tempfile, threading, json, os
+import functools, hashlib, http.server, re, shutil, tempfile, threading, json
 from support import chromium_executable
 from playwright.sync_api import sync_playwright, expect
 
 root=Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory() as temporary:
     site=Path(temporary)/'lexa.'
-    shutil.copytree(Path(os.environ.get('LEXA_TEST_SITE',root/'dist')),site)
+    shutil.copytree(root/'dist',site)
     failure={'enabled':False};requests=[]
     class Handler(http.server.SimpleHTTPRequestHandler):
         extensions_map={**http.server.SimpleHTTPRequestHandler.extensions_map,'.webmanifest':'application/manifest+json'}

@@ -1,4 +1,3 @@
-import {releaseData} from './previous-wordings-release.mjs';
 import {readFile,readdir} from 'node:fs/promises';
 import {recentTextUpdates} from './recent-updates.mjs';
 import {createHash} from 'node:crypto';
@@ -12,7 +11,7 @@ import {updateHistory} from '../data/history/legislation.js';
 import {sumulaUpdates} from '../data/history/sumulas.js';
 const root=new URL('../',import.meta.url);
 export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
-export async function buildPackage({css:cssOverride,history:historyOverride,legislativeHistoryDemo=false,legislativeHistoryPilot=false,legislativeHistorySimple=false,previousWordingsCandidate=false}={}){
+export async function buildPackage({css:cssOverride,history:historyOverride,legislativeHistoryDemo=false}={}){
  const files=new Map();
  function asset(id,value){
   const bytes=JSON.stringify(value),sha=sha256(bytes),file=`data/${id}.${sha}.json`;
@@ -38,27 +37,8 @@ export async function buildPackage({css:cssOverride,history:historyOverride,legi
 export const collections=initialCatalog.collections.map(code=>({...code,articles:[],sections:[],loaded:false}));
 export const codes=collections.filter(code=>code.kind!=='sumulas');`);
  modules.set('catalog.js',"export {codes as catalog} from './collections.js';");
- if(previousWordingsCandidate&&(legislativeHistoryDemo||legislativeHistoryPilot||legislativeHistorySimple))throw new Error('Candidata não pode misturar dados experimentais.');
- const released=await releaseData({candidate:previousWordingsCandidate});
- if(released.records.length||previousWordingsCandidate)modules.set('legislative-history-data.js','export const legislativeHistoryData='+JSON.stringify(released)+';');
- if(legislativeHistorySimple&&(legislativeHistoryDemo||legislativeHistoryPilot))throw new Error('Escolha apenas uma prévia.');
- if(legislativeHistorySimple){
-  const fixture=JSON.parse(await readFile(new URL('tests/fixtures/previous-wordings-simple.json',root),'utf8'));
-  if(!fixture.preview||fixture.records.some(r=>r.review?.status!=='pending'||r.wording?.status!=='previous'))throw new Error('Prévia HTML inválida.');
-  modules.set('legislative-history-data.js','export const legislativeHistoryData='+JSON.stringify(fixture)+';');
-  modules.set('pwa.js',"export function setupPwa(){}");
- }
- if(legislativeHistoryDemo&&legislativeHistoryPilot)throw new Error("Escolha apenas uma prévia.");
- if(legislativeHistoryDemo||legislativeHistoryPilot){
-  modules.set('legislative-history-data.js',await readFile(new URL(legislativeHistoryPilot?'tests/fixtures/legislative-history-pilot.js':'tests/fixtures/legislative-history-demo.js',root),'utf8'));
-  if(legislativeHistoryPilot){
-   const batch=JSON.parse(await readFile(new URL('tests/fixtures/legislative-history-batch.json',root),'utf8'));
-   modules.set('legislative-history-data.js',modules.get('legislative-history-data.js')+'\nlegislativeHistoryData.records.push(...'+JSON.stringify(batch.records)+');');
-   const previous=JSON.parse(await readFile(new URL('tests/fixtures/previous-wordings-html.json',root),'utf8'));
-   modules.set('legislative-history-data.js',modules.get('legislative-history-data.js')+'\nlegislativeHistoryData.records.push(...'+JSON.stringify(previous.records)+');');
-   const html=JSON.parse(await readFile(new URL('tests/fixtures/legislative-history-html.json',root),'utf8'));
-   modules.set('legislative-history-data.js',modules.get('legislative-history-data.js')+'\nlegislativeHistoryData.records.push(...'+JSON.stringify(html.records)+');');
-  }
+ if(legislativeHistoryDemo){
+  modules.set('legislative-history-data.js',await readFile(new URL('tests/fixtures/legislative-history-demo.js',root),'utf8'));
   modules.set('pwa.js',"export function setupPwa(){}");
  }
  const moduleHash=createHash('sha256');
