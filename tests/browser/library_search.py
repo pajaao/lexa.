@@ -32,6 +32,14 @@ try:
   search.fill('Art. 60 CF');expect(page.locator('#quick-reference a')).to_have_attribute('href','#/cf/60')
   assert page.locator('.text-result-group').count()==0
   search.press('Enter');page.wait_for_url('**/#/cf/60');expect(page.locator('#art-60')).to_be_visible()
+  for width,query,route,article in [(390,'art 60 penal','penal/60','60'),(1280,'art 54 constituição','cf/54','54')]:
+   page.set_viewport_size({'width':width,'height':900})
+   page.locator('.reader-top .back').click()
+   search.fill(query)
+   expect(page.locator('#quick-reference a')).to_have_attribute('href','#/'+route)
+   search.press('Enter')
+   page.wait_for_url('**/#/'+route)
+   expect(page.locator('#art-'+article)).to_be_visible()
   page.locator('.reader-top .back').click();search.fill('educacao');expect(page.locator('.text-result-group')).to_have_count(12)
   assert 'Educação' in page.locator('#text-results').inner_text() or 'educação' in page.locator('#text-results').inner_text()
   search.fill('dignidade');expect(page.locator('.text-result-group')).to_have_count(12)

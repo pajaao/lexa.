@@ -26,6 +26,22 @@ test('acentos, áreas e referências diretas mantêm seus significados',()=>{
  assert.deepEqual(searchLibraryText('umaexpressaoquenuncaexistenabasedolexa'),[]);
 });
 
+test('nome abreviado da legislação após o artigo resolve referência única',()=>{
+ for(const [query,codeId,id] of [
+  ['art 60 penal','penal','60'],['Art. 60 do Penal','penal','60'],
+  ['penal art 60','penal','60'],['ART 359-M-A PENAL','penal','359-M-A'],
+  ['art 54 constituição','cf','54'],['art 54 constituicao','cf','54'],
+  ['art 54 da Constituição','cf','54']
+ ]){
+  assert.deepEqual(searchLibraryReferences(query).map(r=>[r.code.id,r.article.id]),[[codeId,id]]);
+  assert.deepEqual(searchLibraryText(query),[]);
+ }
+ assert.deepEqual(searchLibraryReferences('art 99999 penal'),[]);
+ assert.equal(searchLibraryReferences('art 60 penal militar'),null);
+ assert.equal(searchLibraryReferences('art 60 penal cf'),null);
+ assert.equal(searchLibraryReferences('direito penal'),null);
+});
+
 test('trecho mostra a ocorrência original, com acento e riscados preservados',()=>{
  const text='Antes '.repeat(70)+'Educação e liberdade '+'depois '.repeat(60);
  const match={text,runs:[{text,deleted:true}],query:'educacao',index:normalize(text).indexOf('educacao')};

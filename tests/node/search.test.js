@@ -95,6 +95,9 @@ test('referências qualificadas encontram o dispositivo na coleção correta',()
  assert.deepEqual(searchArticles(code('cpc'),'Art. 1.022 CPC').map(a=>a.id),['1022']);
  assert.deepEqual(searchArticles(code('cdc'),'Art. 54-A CDC').map(a=>a.id),['54-A']);
  assert.deepEqual(searchArticles(code('penal'),'Art. 359-M-A CP').map(a=>a.id),['359-M-A']);
+ assert.deepEqual(searchArticles(code('penal'),'art 60 penal').map(a=>a.id),['60']);
+ assert.deepEqual(searchArticles(code('cf'),'art 54 constituição').map(a=>a.id),['54']);
+ assert.deepEqual(searchArticles(code('civil'),'art 60 penal'),[]);
  assert.deepEqual(searchArticles(code('cf'),'Art. 1 do ADCT').map(a=>a.id),['adct-1']);
  assert.deepEqual(searchArticles(code('cf'),'Art. 60 CF','adct').map(a=>a.id),['60']);
 });

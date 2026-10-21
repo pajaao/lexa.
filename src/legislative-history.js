@@ -19,10 +19,10 @@ export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativ
  dialog.setAttribute('aria-labelledby','legislative-history-title');
  dialog.innerHTML='<div class="legislative-heading"><h2 id="legislative-history-title">Histórico do artigo</h2><button type="button" aria-label="Fechar histórico do artigo" autofocus>Fechar</button></div><div class="legislative-body"></div>';
  reading.append(dialog);
- let previous=null;
+ let previous=null,outsidePointer=null;
  function close(restoreFocus=true){
   if(!previous)return;
-  const saved=previous;previous=null;
+  const saved=previous;previous=null;outsidePointer=null;
   if(dialog.open)dialog.close();
   document.body.style.cssText=saved.bodyStyle;
   window.scrollTo({left:saved.x,top:saved.y,behavior:'instant'});
@@ -46,6 +46,21 @@ export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativ
  dialog.querySelector('button').onclick=()=>close();
  dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
  dialog.addEventListener('close',()=>close());
+ const isOutside=event=>{
+  const rect=dialog.getBoundingClientRect();
+  return event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom;
+ };
+ // Both ends must be on the backdrop: selecting text or dragging across the
+ // panel boundary must not dismiss the history accidentally.
+ dialog.addEventListener('pointerdown',event=>{
+  outsidePointer=event.isPrimary&&event.button===0&&isOutside(event)?event.pointerId:null;
+ });
+ dialog.addEventListener('pointerup',event=>{
+  const dismiss=outsidePointer===event.pointerId&&isOutside(event);
+  outsidePointer=null;
+  if(dismiss)close();
+ });
+ dialog.addEventListener('pointercancel',()=>{outsidePointer=null;});
  dialog.addEventListener('keydown',event=>{
   if(event.key!=='Tab')return;
   const targets=[...dialog.querySelectorAll('button,a[href],summary')].filter(el=>el.getClientRects().length);

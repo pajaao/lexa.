@@ -74,6 +74,25 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                 close.click()
                 expect(button).to_be_focused()
                 assert abs(page.evaluate('scrollY') - before) < 2
+                if width == 1280:
+                    button.click()
+                    bounds = panel.bounding_box()
+                    inside = {'x': bounds['x'] + 30, 'y': 110}
+                    outside = {'x': bounds['x'] - 30, 'y': 110}
+                    page.mouse.click(**inside)
+                    expect(panel).to_be_visible()
+                    # A gesture crossing either boundary is not an outside click.
+                    for start, end in ((inside, outside), (outside, inside)):
+                        page.mouse.move(**start)
+                        page.mouse.down()
+                        page.mouse.move(**end)
+                        page.mouse.up()
+                        expect(panel).to_be_visible()
+                    page.mouse.click(**outside)
+                    expect(panel).to_be_hidden()
+                    expect(button).to_be_focused()
+                    assert abs(page.evaluate('scrollY') - before) < 2
+                    assert page.locator('#art-1 .legal-unit').all_text_contents() == original
                 # Another article must not inherit the first article's records.
                 empty = page.locator('#art-2 [data-legislative-history]')
                 empty.click()
