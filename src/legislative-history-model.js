@@ -63,7 +63,7 @@ export function readingArticle(data,codeId,article){
   const remaining=normativeParagraph({...paragraph,runs});
   // Drop orphan unit markers and notes left by a wholly struck body.
   const body=(remaining?.plain??runs.map(run=>run.text).join('')).replace(/(?:Art\.?\s*\d+[º°]?(?:-[A-Z])?[.:-]?|Parágrafo\s+único|§\s*\d+[º°]?|[IVXLCDM]+\s*[-–—]|[a-z]\))/gu,'').replace(/[\s.:-]/gu,'');
-  if(!body)return [];
+  if(!/[\p{L}\p{N}]/u.test(body))return [];
   return [{...paragraph,runs}];
  });
  return changed?{...article,paragraphs}:article;

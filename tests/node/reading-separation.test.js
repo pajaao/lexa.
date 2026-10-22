@@ -22,7 +22,8 @@ test('marcadores e notas órfãos somem; texto não riscado permanece literal',(
  const old=paragraph([['a) ',false],['Corpo antigo;',true],[' b) ',false],['Outro antigo;',true]]);
  const note=paragraph([['Art. 1. Antiga.',true],[' (Redação dada pela Lei nº 1)',false]]);
  const mixed=paragraph([['Art. 1. ',false],['trecho antigo ',true],['texto da fonte. (Revogado pela Lei nº 2)',false]]);
- const article={id:'1',paragraphs:[old,note,mixed]};
+ const punctuation=paragraph([['Texto antigo',true],[' - ;',false]]);
+ const article={id:'1',paragraphs:[old,note,punctuation,mixed]};
  const snapshot=JSON.stringify(article);
  const visible=readingArticle({records:[]},'civil',article);
  assert.equal(visible.paragraphs.length,1);
