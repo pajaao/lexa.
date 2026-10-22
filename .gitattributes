@@ -17,3 +17,7 @@
 # Preserve the supplied license and notice bytes on Windows.
 /LICENSE -text
 /NOTICE.md -text
+
+# Official documentary sources are not application code; keep diffs visible.
+/HTML/** linguist-documentation
+/experiments/**/*.html linguist-documentation
