@@ -8,7 +8,7 @@
 - [Redações anteriores — HTML simples](REDACOES-ANTERIORES-SIMPLES.md), [núcleo técnico](EXTRATOR-REDACOES-HTML.md) e [decisão de lançamento](REDACOES-ANTERIORES-LANCAMENTO.md).
 - [Governança v3](PROCESSO-DE-TRABALHO.md), [instruções para agentes](../AGENTS.md) e [Codex no Windows](CODEX-LOCAL.md).
 - [Verificações de PR](../.github/workflows/verify.yml) e [publicação](../.github/workflows/deploy-pages.yml). Estado corrente de Issues, PRs e execuções deve ser consultado no GitHub.
-- [LICENSE](../LICENSE): minuta proprietária para revisão jurídica, ainda não aprovada.
+- Código sob [PolyForm Noncommercial 1.0.0](../LICENSE), com avisos em [NOTICE.md](../NOTICE.md).
 
 ## Fontes e evidências
 

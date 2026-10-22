@@ -160,4 +160,4 @@ Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhe
 
 ## Direitos e licenciamento
 
-O código do Lexa é licenciado para uso não comercial sob a [PolyForm Noncommercial 1.0.0](LICENSE). Consulte também os [avisos do projeto](NOTICE.md).
+O código do Lexa é licenciado para uso não comercial sob a [PolyForm Noncommercial 1.0.0](LICENSE). Consulte também os [avisos do projeto](NOTICE.md). O uso do site continua gratuito.
