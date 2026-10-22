@@ -1,41 +1,25 @@
-# Índice da documentação — Lexa
+# Documentação do Lexa
 
-**Escopo:** documentação corrente da `main` e ligações explícitas para registros históricos. Referências a commits antigos identificam a proveniência dos documentos, não o estado atual da aplicação.
+## Operação corrente
 
-## Introdução e arquitetura — documentação corrente
-- [README principal](../README.md): produto, instalação, navegação, fontes e desenvolvimento.
-- [Estrutura do projeto](ESTRUTURA.md): diretórios, ESM, build, versões e política de publicação.
+- [README](../README.md): produto, consulta, instalação e execução local.
+- [Estrutura](ESTRUTURA.md): responsabilidades de fontes, dados, evidências e build.
+- [Manutenção](MANUTENCAO.md), [monitor das legislações](../monitor/README.md) e [STF](../monitor/stf/README.md): procedimentos; coleta do STF pausada.
+- [Redações anteriores — HTML simples](REDACOES-ANTERIORES-SIMPLES.md), [núcleo técnico](EXTRATOR-REDACOES-HTML.md) e [decisão de lançamento](REDACOES-ANTERIORES-LANCAMENTO.md).
+- [Governança v3](PROCESSO-DE-TRABALHO.md), [instruções para agentes](../AGENTS.md) e [Codex no Windows](CODEX-LOCAL.md).
+- [Verificações de PR](../.github/workflows/verify.yml) e [publicação](../.github/workflows/deploy-pages.yml). Estado corrente de Issues, PRs e execuções deve ser consultado no GitHub.
+- [LICENSE](../LICENSE): minuta proprietária para revisão jurídica, ainda não aprovada.
 
-## Operação e manutenção — documentação corrente
-- [Manutenção](MANUTENCAO.md): execução, fontes, PWA, testes e implantação.
-- [Monitoramento das legislações](../monitor/README.md): Planalto, propostas de revisão, dados oficiais e histórico.
-- [Monitoramento do STF](../monitor/stf/README.md): automação de súmulas pausada; diagnóstico manual.
-- [Workflows](../.github/workflows/verify.yml): verificações de PR; [publicação](../.github/workflows/deploy-pages.yml) condicionada a push na `main`.
+## Fontes e evidências
 
-## Fontes jurídicas e proveniência — documentação corrente
-- [Manifesto de PDFs](../sources/manifest.json), [manifesto oficial](../sources/official-manifest.json), [súmulas](../sources/sumulas-manifest.json) e [relatório de importação](../sources/import-report.json).
-- [Catálogo](../src/catalog.js), [dados arquivados](../data/archive/), [edições oficiais](../data/official/), [histórico](../data/history/). Estes são **dados e código de referência**, não documentos descartáveis.
-- [Configuração das fontes monitoradas](../monitor/sources.json). Edição incorporada, edição publicada e vigência são conceitos diferentes.
+- [PDFs e manifestos](../sources/), [HTMLs locais](../HTML/), [capturas do monitor](../monitor/official/), [dados oficiais](../data/official/) e [dados PDF arquivados](../data/archive/).
+- [Distribuição de redações anteriores](../data/previous-wordings/) e [inventário de preservação externa](../experiments/PRESERVACAO.json). A autorização de consulta não altera os estados de homologação.
 
-## Desempenho e otimizações — registros históricos, preservados
-- [Baseline de desempenho](BASELINE-DESEMPENHO.md), [revisão de desempenho](REVISAO-DESEMPENHO.md) e [etapas 2–6](OTIMIZACAO-ETAPAS-2-6.md).
-- [Dados de baselines](baselines/) e [medição UX etapa 2](medicoes/ux-etapa-2-carregamento.json). Não atualizar métricas antigas para refletir resultados novos.
+## Registros históricos
 
-## UX e histórico de melhorias — registros históricos
-- [Refinamentos etapa 1](UX-REFINAMENTOS-ETAPA-1.md) e [etapa 2](UX-REFINAMENTOS-ETAPA-2.md).
+- [Fluxo HTML anterior](REDACOES-ANTERIORES.md): reprodução de experimentos anteriores; não é o procedimento corrente.
+- [Baseline de desempenho](BASELINE-DESEMPENHO.md), [revisão](REVISAO-DESEMPENHO.md), [otimizações](OTIMIZACAO-ETAPAS-2-6.md), [baselines](baselines/) e [medições](medicoes/ux-etapa-2-carregamento.json).
+- [UX etapa 1](UX-REFINAMENTOS-ETAPA-1.md), [etapa 2](UX-REFINAMENTOS-ETAPA-2.md) e [portabilidade Windows](VALIDACAO-PORTABILIDADE-WINDOWS.md). Seus resultados descrevem execuções passadas, não testes executados agora.
+- [Coordenação](coordenacao/INDEX.md): sem duplicar pareceres administrativos no código.
 
-## Testes e verificações — documentação corrente
-- [Instruções de manutenção e execução](MANUTENCAO.md), [comandos npm](../package.json), [suíte Node](../tests/node/), [suíte Python](../tests/python/) e [suíte browser](../tests/browser/).
-- [Verificação CI](../.github/workflows/verify.yml). Testes descritos em pareceres não equivalem a execuções próprias.
-
-## Remissões expressas — funcionalidade temporariamente suspensa
-
-As remissões expressas foram retiradas temporariamente do Lexa e **não integram a interface nem a documentação operacional corrente**. Sua eventual retomada é uma decisão futura; os protótipos e pareceres anteriores não autorizam ativação, não constituem homologação jurídica e não alteram o texto das normas.
-
-Para preservar a rastreabilidade sem sobrecarregar a documentação de uso, os registros experimentais permanecem consultáveis pelo [histórico de desenvolvimento das remissões (commit fixado)](https://github.com/pajaao/lexa./tree/64862b4b47811ab886396b9b22d4888af49aa4db/docs/remissoes) e pelo [PR #19](https://github.com/pajaao/lexa./pull/19). A Coordenação também registrou um [backup ZIP no Drive](https://drive.google.com/file/d/1SwW70b05p6H7pEmtmrH9_eLRfwOQYGAx/view) e um [inventário de arquivos e SHAs](https://docs.google.com/document/d/1WWYtqP3ot84Wq0Lr9u0HwkvWOUUbIIJxGyHz9KlsL-0/edit); **o conteúdo do ZIP e seus hashes ainda não foram verificados independentemente**. Nenhum desses registros é parte do produto publicado.
-
-## Pareceres e Coordenação — Drive como repositório administrativo
-- [Índice dos pareceres, bases e PRs](coordenacao/INDEX.md).
-- [Parecer O1 no Google Drive](https://docs.google.com/document/d/1uFfKWgjsr_PI0IGksg2JlgM46ZHfOBJX-cu-x8Jx7dE/edit), preservado após [encerramento do PR #17 sem merge](https://github.com/pajaao/lexa./pull/17); [commit original](https://github.com/pajaao/lexa./blob/8c93c9dd9fabfa4296e1faff417f04a3ab2650da/docs/coordenacao/01-engenharia-organizacao-o1.md).
-
-**Regra de manutenção:** atualizar este índice após confirmar refs/commits e diffs efetivos, sem reescrever históricos, inventários ou relatórios originais.
+Remissões expressas e os fluxos de PDFs/Câmara para redações anteriores estão suspensos. Os registros antigos continuam no histórico Git; não constituem funcionalidades ativas nem autorização de publicação. Não se mantém neste índice referência a backups externos cujo conteúdo não foi verificado.

@@ -1,6 +1,7 @@
-> Direção atual: o fluxo simplificado independente está em [REDACOES-ANTERIORES-SIMPLES.md](REDACOES-ANTERIORES-SIMPLES.md). O material abaixo documenta a implementação anterior, preservada; `--pilot` não é a nova prévia.
+# Redações anteriores — registro do fluxo HTML anterior
 
-# Redações anteriores — fluxo experimental consolidado
+> Registro histórico: as contagens e os comandos abaixo pertencem à implementação anterior. Para operação corrente, use [o fluxo HTML simples](REDACOES-ANTERIORES-SIMPLES.md) e [a decisão de lançamento](REDACOES-ANTERIORES-LANCAMENTO.md). Não executar os preparadores antigos para atualizar o lote publicado.
+
 
 ## Escopo aprovado
 

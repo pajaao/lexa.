@@ -21,12 +21,16 @@ O Lexa é um site estático: o navegador recebe a interface e a base de leitura,
 | `src/history.js` | Comparação e filtros do histórico | Editar a lógica aqui |
 | `public/` | Ícones e manifesto da PWA | Atualizar os recursos de instalação aqui |
 | `src/pwa.js` e `src/sw.js` | Instalação, leitura offline e atualização da PWA | Editar o worker de origem; sua versão é gerada no build |
-| `data/archive/` | Extrações dos PDFs de referência | Geradas pelos importadores de PDFs |
-| `data/official/` | Edições de fontes oficiais | Geradas pelos coletores e conversores, incorporadas após revisão |
+| `data/archive/` | Dados derivados dos PDFs de referência | Preservar para comparação e testes; não são cópias redundantes da edição oficial |
+| `data/official/` | Dados derivados oficiais usados pelo leitor | Gerados pelos conversores e incorporados após revisão |
 | `data/history/` | Versões e diferenças registradas | Geradas junto com as propostas de atualização |
 | `sources/` | PDFs e manifestos de procedência | Preservar os originais e seus hashes |
-| `monitor/official/` | Capturas estruturadas do Planalto | Geradas pelo monitor |
+| `monitor/official/` | Capturas estruturadas primárias do monitor | Texto, blocos e hashes usados na conversão; não equivalem aos HTMLs locais |
 | `monitor/stf/` | Configuração e referências do STF | Coleta automática pausada |
+| `HTML/` | 13 documentos primários salvos do Planalto para Redações anteriores | Preservar bytes, nomes, codificação e proveniência |
+| `data/previous-wordings/` | Distribuição derivada e manifesto de autorização | Não editar textos ou promover estados manualmente |
+| `tests/fixtures/` | Dados de demonstração e corpora de regressão | Nem toda fixture integra o build; o lote público é controlado pelo manifesto |
+| `experiments/` | Evidências e snapshots ainda usados em reprodução/testes | Preservar dependências; execuções substituídas estão inventariadas em `PRESERVACAO.json` |
 | `scripts/` | Build, servidor, importação e coleta | Ferramentas de manutenção |
 | `tests/node/` | Testes da aplicação e publicação | Executados com `npm test` |
 | `tests/browser/` | Fluxos reais e benchmark Chromium | Executar com `scripts/run_browser_tests.py`; ver [baseline](BASELINE-DESEMPENHO.md) |
@@ -51,3 +55,13 @@ O monitor do Planalto prepara os dados oficiais, o histórico e uma proposta em 
 As súmulas continuam com atualização manual; a rotina de coleta do STF permanece disponível somente para diagnóstico manual. Esta organização não reativa a coleta.
 
 Consulte [Manutenção](MANUTENCAO.md), o [monitor das legislações](../monitor/README.md) e o [monitor do STF](../monitor/stf/README.md) para procedimentos e limites das fontes. Não edite diretamente os dados gerados para corrigir o processamento: ajuste o importador e confira a saída e a procedência.
+
+## Redações anteriores e preservação
+
+O fluxo corrente e seus comandos estão em [REDACOES-ANTERIORES-SIMPLES.md](REDACOES-ANTERIORES-SIMPLES.md). `experiments/html-history/existing-records.json` é a base de 96 registros usada pelos testes dos fluxos anteriores; não é um log descartável. O snapshot `experiments/previous-wordings-simple/20261021-associations-corrected/` contém extração, apresentação e leitor de referência do lote corrente. `experiments/previous-wordings-release/20261021-associations/validation.json` é dependência do controle de integridade do build.
+
+As cópias locais retiradas do índice estão em [experiments/PRESERVACAO.json](../experiments/PRESERVACAO.json), com SHA-256, ZIP externo e commit-base. Elas continuam no histórico Git; o saneamento reduz o checkout futuro, não o histórico já armazenado. Não apagar evidências nem sobrescrever fontes para economizar espaço.
+
+## Licenciamento
+
+[LICENSE](../LICENSE) contém uma minuta proprietária, pendente de revisão jurídica e confirmação da titularidade. Não constitui aprovação definitiva nem muda os direitos sobre textos oficiais ou materiais de terceiros.
