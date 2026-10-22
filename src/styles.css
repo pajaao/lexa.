@@ -535,3 +535,11 @@ header nav>a,header nav>button{min-height:44px;padding:10px 12px;font-size:13px}
 @media(forced-colors:active){header nav>a[aria-current=page]{outline:2px solid CanvasText;outline-offset:-2px}}
 
 .legislative-wording{display:inline-block;margin:0 0 .65rem;padding:.2rem .55rem;border:1px solid var(--border);border-radius:.3rem;font-size:.8rem;font-weight:600;}
+
+/* Autoria e apresentação do projeto no rodapé. */
+footer .creator-credit{flex-basis:100%;padding-top:18px;border-top:1px solid var(--border);color:var(--ink)}
+footer .creator-credit>p{margin:0;font-size:14px;line-height:1.8}
+.creator-credit strong{font-weight:600}
+.about-lexa{margin-top:8px;max-width:680px;font-size:13px;line-height:1.8;letter-spacing:normal}
+.about-lexa summary{width:fit-content;min-height:44px;display:list-item;align-content:center;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+footer .about-lexa p{font-size:13px;line-height:1.8;color:var(--muted)}

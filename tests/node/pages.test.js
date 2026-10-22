@@ -23,7 +23,7 @@ test('pacote publicado inclui HTML, ícones e PDFs íntegros',async()=>{
   assert.match(html,/<style>/);
   assert.doesNotMatch(html,/<(?:script|link)[^>]+(?:src|href)="\//);
   assert.match(html,/Confira a edição indicada e a fonte oficial/);
-  assert.match(html,/Idealizado por João Antônio, UFRN/);
+  assert.match(html,/Idealizado e desenvolvido por <strong>João Antônio<\/strong>/);
   for(const file of ['favicon.svg','favicon.ico','apple-touch-icon.png']){
    const bytes=await readFile(join(output,file));
    assert.deepEqual(bytes,await readFile(new URL('../../public/'+file,import.meta.url)));
