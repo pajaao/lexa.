@@ -8,7 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 ESSENTIAL = ['interface_review', 'data_loading', 'reading', 'reader_navigation', 'library_search', 'home_refinements', 'home_search_layout', 'home_geometry', 'favorites', 'clipboard', 'pwa', 'pwa_update_check', 'offline_policy', 'benchmark_contract', 'ux_lote1', 'mobile_settings', 'mobile_index', 'mobile_search']
-ESSENTIAL.extend(['legislative_history','simple_previous_wordings','previous_wordings_groups','previous_release'])
+ESSENTIAL.extend(['legislative_history','simple_previous_wordings','previous_wordings_groups','previous_release','feedback'])
 ALL = [*ESSENTIAL, 'structure', 'additional_legislation', 'memory_session', 'partial_update', 'recent_updates_pwa']
 
 
