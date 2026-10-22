@@ -13,3 +13,7 @@
 /experiments/previous-wordings-release/** -text
 /tests/fixtures/previous-wordings-simple.json -text
 /data/previous-wordings/*.json -text
+
+# Preserve the supplied license and notice bytes on Windows.
+/LICENSE -text
+/NOTICE.md -text
