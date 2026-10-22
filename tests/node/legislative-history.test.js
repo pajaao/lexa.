@@ -64,11 +64,12 @@ test('pacote normal exclui fixtures; demonstração exige build explícito e nã
  await assert.rejects(stagePages(undefined,{legislativeHistoryDemo:true}),/Demonstração não pode/);
 });
 
- test('piloto real fica fora do pacote publicável e exige prévia explícita',async()=>{
+ test('piloto explícito é preservado e publicação normal segue autorização do lote',async()=>{
  const normal=await buildPackage();
  const pilot=await buildPackage({legislativeHistoryPilot:true});
  const contains=pack=>[...pack.files.values()].some(bytes=>String(bytes).includes('penal-215-caput-01'));
- assert.equal(contains(normal),true);assert.equal(contains(pilot),true);
+ const release=JSON.parse(await readFile(new URL('../../data/previous-wordings/release.json',import.meta.url),'utf8'));
+ assert.equal(contains(normal),!release.publicationAuthorized);assert.equal(contains(pilot),true);
  assert.ok(![...normal.files.values()].some(bytes=>String(bytes).includes('penal-213-caput-01')));
  assert.ok(historyContent(approvedData,'penal','215').includes('homologação jurídica independente pendente'));
  await assert.rejects(stagePages(undefined,{legislativeHistoryPilot:true}),/Demonstração não pode/);
@@ -95,8 +96,16 @@ test('unidades documentadas distinguem inciso de caput',()=>{
  }
  const normal=await buildPackage();
  const source=[...normal.files].find(([name])=>name.endsWith('/legislative-history-data.js'))[1];
- assert.match(source,/penal-215-caput-01/);
- assert.ok(!source.includes('"status": "pending"'));
+ const release=JSON.parse(await readFile(new URL('../../data/previous-wordings/release.json',import.meta.url),'utf8'));
+ const published=JSON.parse(source.slice(source.indexOf('=')+1).trim().replace(/;$/u,''));
+ if(release.publicationAuthorized){
+  assert.equal(published.records.length,release.recordCount);
+  assert.ok(published.records.every(r=>r.review.status==='pending'));
+  assert.equal(published.publication.authorized,true);
+ }else{
+  assert.match(source,/penal-215-caput-01/);
+  assert.ok(!source.includes('"status": "pending"'));
+ }
  assert.ok(!source.includes('penal-44-caput'));
  });
 

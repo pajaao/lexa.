@@ -99,6 +99,8 @@ try:
                 expect(page.locator('#article-search')).to_be_visible()
                 assert page.locator('#font-up').count() == 1
                 page.set_viewport_size({'width': width, 'height': 812})
+                # Wait for the responsive control transition before testing its shortcut.
+                expect(summary).to_have_attribute('aria-haspopup', 'dialog')
                 page.keyboard.press('/')
                 expect(page.locator('#article-search')).to_be_focused()
                 page.locator('#article-search').fill('dignidade')

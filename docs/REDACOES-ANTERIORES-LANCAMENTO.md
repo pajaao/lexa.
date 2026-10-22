@@ -1,74 +1,54 @@
-# Redações anteriores — candidata de lançamento
+# Redações anteriores — integração e liberação do lote corrigido
 
-Situação: integração técnica preparada; publicação bloqueada. Branch `codex/historico-triagem-fontes`, base `d93120f15d0e94ed3e5340831bf5851a79c9a676`. Sem novo commit, push, merge ou publicação.
+## Governanca
 
-## Seleção final
+O responsável por Produto solicitou integrar à main o lote corrigido após relatar avaliação favorável de um conjunto determinístico de artigos difíceis e pediu um ponto de restauração. A avaliação e a lista da amostra foram informadas pelo próprio responsável nesta conversa em 21/10/2026.
 
-| Legislação | Registros |
-| --- | ---: |
-| Constituição e ADCT | 666 |
-| Código Penal | 270 |
-| CPP | 366 |
-| CLT | 1 |
-| Código Civil | 0 |
-| CPC | 65 |
-| Licitações | 7 |
-| CTN | 1 |
-| LEP | 76 |
-| ECA | 150 |
-| CDC | 0 |
-| Improbidade | 67 |
-| Maria da Penha | 10 |
-| **Total** | **1.679** |
+A liberação é registrada como decisão de Produto por avaliação de risco/amostragem. Não é uma declaração de homologação individual dos 3.036 registros nem de revisão jurídica humana independente de todo o lote. Os estados documentais permanecem pending. A autorização de consulta pública é distinta desses estados e não os transforma em approved.
 
-São 560 dispositivos. Partimos dos 1.903 associados; 224 registros do CPP, em 88 artigos, foram excluídos conservadoramente da candidata. Os 593 não associados e os 692 blocos sem unidade completa não foram recuperados nem incorporados. Zero no Civil/CDC é resultado válido.
+## Avaliacao do responsavel
 
-## Validação e revisão
+Declaração recebida: "Fiz uma avaliação de um conjunto determinístico com o histórico em artigos que são realmente dificultosos [...] em todos". O responsável solicitou colocar o conjunto na main e informou a seguinte amostra e os pontos de conferência:
 
-`scripts/prepare_previous_release.py --verify` reproduz as 13 fontes e confere integralmente os 1.903 registros associados: texto, notas, referência, unidade, fonte/hash, localização, contexto e evidência de associação. Também compara integralmente os campos da candidata com os registros de origem, sem modificar estados. A comparação textual existente usa apenas normalização documentada de espaços; originais preservados.
+| Legislação | Artigo | Escopo informado |
+|---|---|---|
+| Código Penal | 215 | Caput, penas, parágrafo único e rubrica anteriores |
+| Código Penal | 334 | Quatro registros antes associados ao art. 333 |
+| Código Penal | 234-A | Incisos III/IV e associação ao artigo |
+| Código Penal | 65 | Redação antiga identificada no HTML |
+| Constituição | 7 | Oito registros anteriores |
+| CPC | 1.042 | Associação das redações anteriores |
+| CPC | 1.063 | Associação das redações anteriores |
+| ECA | 4 | Recuperação dos dispositivos antigos |
+| ECA | 233 | Texto antigo próximo de nota editorial malformada |
+| CPP | 406 | Numeração e contexto documental do procedimento do júri |
 
-A revisão independente por IA examinou 49 registros das 11 legislações com resultados, com seleção determinística e casos de maior risco. Um parser HTML separado e conferência direta de intervalos/hashes não encontraram divergências textuais ou de notas na amostra. Identificou, porém, associação circular no CPP antigo: o art. 439 sobre alistamento de jurados era tratado como redação do art. 439 posterior sobre exercício/idoneidade. Igualdade com o texto já agrupado no leitor não demonstrava continuidade normativa.
+Protocolo registrado: amostra determinística de dez artigos, dirigida aos defeitos corrigidos e estruturas difíceis, com avaliação favorável relatada pelo responsável. Não há afirmação de que todos os demais artigos tenham recebido conferência individual. A lista recebida não detalha cada operação de confronto documental; não se presume uma auditoria integral dos 13 HTMLs pelo usuário.
 
-Excluímos o intervalo documental inteiro `[1559,1812)` de Del3689.html (antiga organização do júri entre as duas ocorrências do art. 406). Nenhuma equivalência foi reconstruída. Os 224 registros e suas evidências permanecem na execução experimental; 16 estavam na amostra. As outras 33 amostras permanecem na candidata. Lista e método: `experiments/previous-wordings-release/20261021/independent-sample.json`. Nenhuma conferência ou homologação jurídica humana foi realizada nesta tarefa.
+Riscos residuais: casos fora da amostra, semântica de rubricas, associação documental em reorganizações e diferenças de apresentação. A funcionalidade não reconstrói sucessões nem comprova equivalência entre os textos antigos e atuais. Nos blocos antigos do CP/CPP, a interface mostra explicitamente essa ausência de equivalência estabelecida.
 
-Não foi localizado um protocolo anterior de validação por risco formalizado nos documentos consultados. O método executado está registrado para ratificação, sem alegar que substitui homologação humana. Reorganizações sem reinício numérico e problemas fora da amostra continuam como riscos residuais.
+## Autorizacao de publicacao
 
-## Integração e autorização
+A solicitação de integrar o lote completo à main, feita após a avaliação acima, autoriza este lançamento. Os campos governanceDecision, riskReviewDecision e publicationDecision do manifesto apontam para este registro humano; não foram preenchidos em razão apenas dos testes ou de parecer de IA. publicationAuthorized habilita consulta pública, preservando todos os estados pending.
 
-- `data/previous-wordings/candidate.json`: somente os 1.679 selecionados, todos ainda `pending`; textos, notas e referências preservados. Evidências extensas ficam na execução original; a distribuição mantém fonte/hash/localização, links e identificação de auditoria.
-- `data/previous-wordings/release.json`: IDs, quantidades, hashes dos dados/leitor/validação e campos separados de autorização.
-- `scripts/previous-wordings-release.mjs`: build verifica integridade e seleção; nenhum `pending` vira homologado. `publicationAuthorized: false` mantém o novo lote fora do build normal, preservando o piloto já publicado do art. 215. A candidata utiliza a mesma aplicação e a PWA normal, sem desativá-la.
-- A autorização efetiva exige decisões expressas registradas em `governanceDecision`, `riskReviewDecision` e `publicationDecision`, além de `publicationAuthorized: true`. Não preencher esses campos por resultado automatizado ou por inspeção de IA. A condição foi registrada no Processo de Trabalho, sem aprovar dispensa de homologação.
+O lote contém 3.034 ocorrências associadas e 3.036 registros. Foram preservadas 154 exclusões: estruturas supra-artigo/ementas, riscos sem texto normativo antigo, indicações de veto/revogação e duplicatas. As fontes, o texto vigente e os três registros aprovados do piloto original permanecem preservados em seus arquivos; nenhuma aprovação é transferida automaticamente aos novos IDs.
 
-O leitor mantém a interface aprovada: caputs diretamente, demais unidades recolhidas, ou todas diretamente quando não há caput. Os arquivos legislativos do build são idênticos aos do build normal; parágrafos sem risco não são removidos. A separação visual de redações antigas continua limitada aos parágrafos integralmente riscados que correspondam inequivocamente a registros selecionados; nenhum texto atual é reescrito.
+A distribuição deriva integralmente da fixture validada. O site transporta textos, notas, referências, fonte/hash/localização, contexto documental e identificadores das evidências. O HTML bruto permanece nos snapshots versionados; não é duplicado no pacote público.
 
-Reversão: registrar `publicationAuthorized: false`, gerar novamente o build e submeter a reversão à autorização de publicação. Isso desabilita os controles do novo lote, mantendo o piloto anterior, sem apagar fontes, registros, evidências ou estados de revisão. A PWA mantém seu mecanismo de atualização consentida.
+A interface mantém caputs visíveis e a seção inicialmente recolhida "Outras redações anteriores", com contagem das demais unidades. Artigos sem caput anterior mostram diretamente as outras unidades. Não se altera o Histórico de versões.
 
-## Testes e desempenho observados
+## Ponto de restauracao
 
-- 10 testes Python da extração/apresentação, reprodução documental integral e validação de seleção aprovados.
-- 81 testes Node aprovados, incluindo hashes, autorização separada de homologação, exclusões, preservação do leitor, build/PWA e regressões. A primeira execução detectou um contrato antigo sobre o módulo gerado; o contrato foi ajustado para conferir o manifesto e os testes repetidos, com os logs anteriores preservados.
-- Navegador da candidata: desktop/celular, cinco cenários da interface, teclado, fechamento, expansão/recolhimento e posição de leitura aprovados. Regressões de busca global e navegação aprovadas.
-- PWA real aprovada: subpasta, biblioteca offline, atualização consentida, favoritos/preferências e rejeição de recursos adulterados. Painel de redações anteriores também conferido após recarga offline.
-- Cinco medições locais de build: mediana normal 129,27 ms; candidata 133,98 ms. Módulo de registros: 1.869.399 bytes, ou 193.625 bytes em gzip; o servidor local não aplica gzip.
-- Cinco contextos Chromium novos, viewport 390 px, localhost e sem limitação de rede/CPU: mediana até o controle visível 314,51 ms; abertura do painel 77,25 ms. São observações locais, não estimativas de aparelho ou conexão móvel real.
+Tag remota anterior à integração: restore/redacoes-anteriores-20261021-f712d32.
 
-Foram conferidos 127 arquivos protegidos sem alteração, incluindo os 13 HTMLs, as duas ferramentas simples e dados/evidências anteriores; os outros 99 arquivos também foram preservados. Manifesto de auditoria e logs em `experiments/previous-wordings-release/20261021/`.
+Commit preservado: f712d32fed8a88d834c9a9b27bcc1bb5b8df531d.
 
-## Execução local e pendências
+Se surgir um problema relevante, preparar um PR que reverta o commit de integração e publique a versão restaurada. Não usar reset destrutivo ou force-push. Alternativamente, publicationAuthorized: false desativa o lote novo e restaura o piloto aprovado no build, sem apagar evidências ou alterar estados documentais. A PWA conserva a atualização consentida.
 
-```powershell
-python -B scripts/prepare_previous_release.py --verify
-npm test
-node scripts/preview-previous-release.mjs
-```
+## Verificacao e reproducao
 
-Candidata local: `http://127.0.0.1:3013/#/penal/215`. Para os testes de navegador existentes, `LEXA_TEST_SITE` pode apontar para `test-results/previous-wordings-release/site`. A candidata é impedida de substituir `dist/`; o build público continua bloqueado por manifesto.
+- scripts/prepare_previous_release.py --verify reproduz os 13 HTMLs, a associação completa, os fragmentos, as 154 exclusões e os hashes do lote público.
+- npm test confere integridade, estados, autorização, leitura e isolamento das prévias.
+- A suíte essencial de navegador valida desktop/celular, painel, agrupamento, teclado, posição de leitura e PWA antes do merge e da publicação.
 
-Pendências de decisão: formalizar a aceitação do regime de validação por risco em substituição à homologação individual, definir/registrar a conferência humana exigida nesse regime e autorizar expressamente o lançamento. A candidata técnica está disponível para essa decisão; não está declarada juridicamente homologada nem autorizada para publicação.
-
-### Integração do PR e portabilidade
-
-O PR integra código, testes e candidata com publicação bloqueada. O merge na main aciona o pipeline normal de Pages, mas `publicationAuthorized: false` impede a disponibilização dos registros. A autorização de merge não é tratada como autorização de homologação ou de ativação do lote. Os hashes dos HTMLs/dados/evidências são byte a byte; hashes de código e da representação JS do leitor usam UTF-8 com quebras LF, explicitamente, para reprodução em Windows/Linux sem alterar os arquivos jurídicos. As rotinas novas também integram a suíte essencial de CI.
-
-Compatibilidade com a main: os três registros aprovados do piloto original permanecem em `src/legislative-history-data.js`, com textos, notas, referências e revisão preservados. A apresentação mostra seus dois caputs anteriores e não repete o terceiro, correspondente ao texto atual. O bloqueio do novo lote não remove esse conteúdo já publicado.
+Os resultados efetivamente executados desta integração ficam registrados no PR. Os documentos/validações anteriores em experiments/previous-wordings-release/20261021 permanecem preservados; seus números não são os deste lote.

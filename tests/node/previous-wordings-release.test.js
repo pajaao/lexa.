@@ -28,22 +28,25 @@ test('bloqueio do novo lote preserva os dois caputs anteriores já publicados se
 test('publicação fica bloqueada sem decisões expressas e não transforma pending em homologado',async()=>{
  const args=await inputs();
  assert.deepEqual(checkRelease({...args[0],publicationAuthorized:false},...args.slice(1)).records,[]);
- assert.throws(()=>checkRelease({...args[0],publicationAuthorized:true},...args.slice(1)),/decisões expressas/);
+ for(const field of ['governanceDecision','riskReviewDecision','publicationDecision'])assert.throws(()=>checkRelease({...args[0],publicationAuthorized:true,[field]:null},...args.slice(1)),/decisões expressas/);
  const candidate=checkRelease(...args,{candidate:true});
- assert.equal(candidate.records.length,1679);
+ assert.equal(candidate.records.length,3036);
  assert.ok(candidate.records.every(r=>r.review.status==='pending'));
  const authorized=checkRelease({...args[0],publicationAuthorized:true,governanceDecision:'decision:test-governance',riskReviewDecision:'decision:test-risk',publicationDecision:'decision:test-launch'},...args.slice(1));
- assert.equal(previousRecords(authorized,'penal','215').length,5);
+ assert.equal(previousRecords(authorized,'penal','215').length,6);
  assert.ok(authorized.records.every(r=>r.review.status==='pending'));
  assert.equal(previousRecords({records:candidate.records},'penal','215').length,0);
 });
 
-test('manifesto rejeita adulteração e exclusões CPP não entram na candidata',async()=>{
+test('manifesto rejeita adulteração e mantém contexto documental no CPP antigo',async()=>{
  const args=await inputs();
  assert.throws(()=>checkRelease(args[0],Buffer.from('{}'),args[2],args[3]),/Integridade/);
  assert.throws(()=>checkRelease({...args[0],recordCount:1},...args.slice(1)),/Seleção/);
  const data=checkRelease(...args,{candidate:true});
- assert.ok(!data.records.some(r=>r.codeId==='cpp'&&r.evidence.block>=1559&&r.evidence.block<1812));
+ const old=data.records.filter(r=>r.codeId==='cpp'&&r.evidence.block>=1559&&r.evidence.block<1812);
+ assert.ok(old.length>0);assert.ok(old.every(r=>r.documentaryContext?.includes('não estabelecida')));
+ const report=JSON.parse(args[3]);assert.equal(report.excluded.length,154);assert.equal(report.associatedOccurrenceCount,3034);
+ const excluded=new Set(report.excluded.map(r=>r.id));assert.ok(data.records.every(r=>!excluded.has(r.evidence.auditId)));
 });
 
 test('candidata conserva a PWA e todos os arquivos legislativos do build normal',async()=>{
