@@ -276,6 +276,19 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                 page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/213')
                 expect(page.locator('#art-213 [data-legislative-history]')).to_have_count(0)
                 context.close()
+                for width in (390,1280):
+                    context=browser.new_context(viewport={'width':width,'height':850},service_workers='block')
+                    page=context.new_page()
+                    for code,article_id in [('penal','215'),('cf','7')]:
+                        page.goto(f'http://127.0.0.1:{normal.server_port}/#/{code}/{article_id}')
+                        article=page.locator(f'#art-{article_id}')
+                        expect(article).to_be_visible()
+                        expect(article.locator('del')).to_have_count(0)
+                        expect(article.locator('.deleted-note')).to_have_count(0)
+                        expect(article).to_contain_text('outro ato libidinoso' if code=='penal' else 'São direitos dos trabalhadores')
+                        if code=='cf': expect(article.locator('[data-legislative-history]')).to_have_count(0)
+                        page.screenshot(path=artifact_path(f'published-reader-{code}-{article_id}-{width}.png'))
+                    context.close()
             finally:
                 normal.shutdown();normal.server_close()
             browser.close()

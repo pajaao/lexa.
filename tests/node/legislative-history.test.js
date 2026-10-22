@@ -186,15 +186,15 @@ test('leitor separa anteriores integrais sem exigir substituta nem alterar a fon
  assert.deepEqual(readingArticle(data,'penal',article).paragraphs,[article.paragraphs[1]]);
  assert.equal(JSON.stringify(article),snapshot);
  assert.equal(wordingLabel(latest,article),'Redação atual na edição consultada');
- assert.equal(readingArticle({...data,preview:false},'penal',article),article);
+ assert.deepEqual(readingArticle({...data,preview:false},'penal',article).paragraphs,[article.paragraphs[1]]);
  const missing={...article,paragraphs:[article.paragraphs[0]]};
  assert.deepEqual(readingArticle(data,'penal',missing).paragraphs,[]);
  const mixed={...article,paragraphs:[{runs:[{text:'Art. 1. Texto ',deleted:true},{text:'anterior:',deleted:false}]},article.paragraphs[1]]};
- assert.equal(readingArticle(data,'penal',mixed),mixed);
+ assert.ok(readingArticle(data,'penal',mixed).paragraphs.every(p=>p.runs.every(r=>!r.deleted)));
  const incomplete={...article,paragraphs:[paragraph(old.text+' (Redação dada sem fechamento',true),article.paragraphs[1]]};
- assert.equal(readingArticle(data,'penal',incomplete),incomplete);
+ assert.deepEqual(readingArticle(data,'penal',incomplete).paragraphs,[article.paragraphs[1]]);
  const ambiguous={...data,records:[...data.records,{...old,id:'other-unit',part:'paragraph',unitLabel:'§ 1'}]};
- assert.equal(readingArticle(ambiguous,'penal',article),article);
+ assert.deepEqual(readingArticle(ambiguous,'penal',article).paragraphs,[article.paragraphs[1]]);
 });
 
 test('Constituição art. 6 mantém caput e parágrafo atual no leitor e três anteriores no histórico',async()=>{
