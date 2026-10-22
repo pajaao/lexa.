@@ -1,6 +1,8 @@
 # Manutenção do Lexa
 
-Biblioteca de legislação federal brasileira com leitura dentro do site. Inclui Código Civil, Código Penal, CPC, CDC, CTN e Constituição Federal com ADCT.
+Biblioteca de 13 legislações federais, com Constituição/ADCT, e súmulas vinculantes do STF. Consulte o catálogo corrente no README.
+
+O fluxo corrente de redações anteriores está em [HTML simples](REDACOES-ANTERIORES-SIMPLES.md); as responsabilidades das pastas e a preservação externa estão em [Estrutura](ESTRUTURA.md).
 
 Os comandos abaixo devem ser executados na raiz do repositório. Para uma apresentação do site, veja o [README principal](../README.md).
 
@@ -23,7 +25,7 @@ Os PDFs fornecidos pelo usuário estão preservados em `sources/`. `sources/mani
 
 Os PDFs de referência dos cinco códigos foram impressos do Planalto em 15/10/2026. O PDF da Constituição é a 69ª edição da Câmara (2026), até a EC 138/2025. Essas referências continuam arquivadas. Nas edições HTML incorporadas por revisão, o leitor informa a página oficial, a data de coleta e o hash do texto extraído. **Nenhuma dessas datas certifica a redação vigente ou o início dos efeitos de uma alteração.** Constituição e ADCT permanecem separados; o importador não mistura as emendas ou os tratados anexos aos artigos constitucionais.
 
-A extração preserva parágrafos, incisos, alíneas, notas de alterações e redações riscadas. Artigos com letras têm identificadores próprios, inclusive sufixos como `359-M-A`. Revogações agrupadas são mantidas como no documento: buscar o art. 55 do CTN abre a referência aos arts. 52 a 58, sem inventar uma redação para cada dispositivo revogado.
+A extração preserva parágrafos, incisos, alíneas, notas de alterações e redações riscadas nos dados de origem. A consulta principal filtra os trechos riscados; o painel de Redações anteriores é independente do Histórico de versões. Artigos com letras têm identificadores próprios, inclusive sufixos como `359-M-A`. Revogações agrupadas são mantidas como no documento: buscar o art. 55 do CTN abre a referência aos arts. 52 a 58, sem inventar uma redação para cada dispositivo revogado.
 
 Nas edições PDF, o leitor informa o arquivo e a página inicial; nas edições oficiais HTML, informa fonte e data da coleta, com referências internas ao bloco original para rastreabilidade. Houve validação automatizada e conferência de casos representativos; **não houve revisão jurídica integral nem comparação com alterações posteriores aos PDFs**. A presença de notas de vigência no arquivo não significa que o sistema tenha calculado automaticamente seus efeitos.
 
@@ -34,7 +36,7 @@ Nas edições PDF, o leitor informa o arquivo e a página inicial; nas edições
 - Índice de capítulos, leitura em grupos de 15 entradas e navegação anterior/próxima.
 - Constituição e ADCT com buscas separadas. `ADCT 1` também busca diretamente no ADCT.
 - Destaque de resultados, tamanho da fonte e tema escuro.
-- Favoritos armazenados somente no navegador atual, acessíveis pelo filtro “Meus favoritos”.
+- Favoritos armazenados somente no navegador atual, acessíveis pela página “Favoritos” e pelo filtro “Somente favoritos”.
 - Página “Atualizações” (`#/atualizacoes`), com registros por legislação, filtros por artigo e comparação lado a lado. O verde destaca diferenças na versão coletada; o rosa, na anterior. Riscados já existentes na fonte continuam riscados.
 
 O histórico persistente é gerado em `data/history/legislation.js` junto com cada proposta de textos oficiais. O primeiro registro estabelece uma referência inicial, sem tratar a conversão de PDFs para HTML como mudança legislativa. As versões seguintes guardam os textos anterior e novo dos artigos modificados. Mudanças apenas de espaços ou quebras de parágrafo não contam como alteração de artigo. Ausência de artigo, adição de texto e alteração de redação são descrições da comparação, não decisões sobre revogação ou vigência. A página não usa dados fictícios para preencher o histórico inicial.

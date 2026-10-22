@@ -58,7 +58,7 @@ Na busca da página inicial, digite o nome ou a sigla de uma coleção, ou indiq
 
 Clique no resultado para abrir o texto. Quando houver apenas uma referência encontrada, você também pode pressionar **Enter**.
 
-Dentro de cada coleção, a busca aceita números e expressões do texto, como `superendividamento`. Ela ignora diferenças entre letras maiúsculas, minúsculas e acentos. Na página inicial, palavras e expressões também são procuradas nos artigos, títulos e materiais de aplicação das súmulas, com resultados agrupados por coleção. Digite pelo menos dois caracteres. Cada resultado mostra um trecho com destaque; ao abri-lo, a busca continua no leitor. Use os filtros de área e “Mostrar mais” para explorar os resultados. Redações riscadas e ocorrências em precedentes ou observações são identificadas. As coleções também continuam sendo encontradas pelo nome, área, sigla ou descrição.
+Dentro de cada coleção, a busca aceita números e expressões do texto, como `superendividamento`. Ela ignora diferenças entre letras maiúsculas, minúsculas e acentos. Na página inicial, palavras e expressões também são procuradas nos artigos, títulos e materiais de aplicação das súmulas, com resultados agrupados por coleção. Digite pelo menos dois caracteres. Cada resultado mostra um trecho com destaque; ao abri-lo, a busca continua no leitor. Use os filtros de área e “Mostrar mais” para explorar os resultados. Ocorrências em precedentes ou observações são identificadas. As coleções também continuam sendo encontradas pelo nome, área, sigla ou descrição.
 
 ## Uma leitura mais confortável
 
@@ -69,8 +69,9 @@ Dentro de cada coleção, a busca aceita números e expressões do texto, como `
 - **Modo de foco:** concentre a tela no texto e nos controles de leitura. Use “Sair do foco” ou a tecla Esc para voltar.
 - **Continuar leitura:** retome pela biblioteca o último artigo ou súmula consultado. O registro fica somente neste navegador e pode ser removido no próprio cartão.
 - **Favoritos:** use a estrela para guardar uma entrada no navegador atual. A página “Favoritos”, no menu, reúne as marcações por norma, com busca e remoção individual.
-- **Cópia com referência:** no menu “Copiar” de cada entrada, copie o texto com a identificação da norma, a edição e os links de consulta, ou copie somente o link. Nas súmulas, a cópia inclui o enunciado, separado dos precedentes. Trechos riscados são identificados no texto copiado.
+- **Cópia com referência:** no menu “Copiar” de cada entrada, copie o texto com a identificação da norma, a edição e os links de consulta, ou copie somente o link. Nas súmulas, a cópia inclui o enunciado, separado dos precedentes.
 - **Contexto das súmulas:** abra a seção de precedentes, jurisprudência e observações quando precisar aprofundar a consulta.
+- **Redações anteriores:** consulte os trechos antigos documentados no painel do artigo; caputs aparecem diretamente e as demais unidades ficam em “Outras redações anteriores”. Não representa uma reconstrução histórica completa.
 - **Histórico de versões:** acompanhe as edições incorporadas e compare as diferenças registradas.
 
 Os favoritos ficam no seu dispositivo e navegador. Eles não são sincronizados entre aparelhos e podem ser perdidos ao limpar os dados do navegador.
@@ -130,7 +131,7 @@ Veja o [guia da estrutura](docs/ESTRUTURA.md) para saber o que editar e o que é
 
 **Desenvolvimento e coordenação:** veja o [processo de trabalho](docs/PROCESSO-DE-TRABALHO.md), as [instruções para agentes](AGENTS.md) e o [guia do Codex local no Windows](docs/CODEX-LOCAL.md).
 
-A [central de documentação](docs/INDEX.md) organiza os guias correntes, os registros históricos e os [pareceres da Coordenação](docs/coordenacao/INDEX.md), com indicação explícita de seus estados.
+A [documentação](docs/INDEX.md) reúne os guias correntes e distingue os registros históricos. Issues, PRs e verificações permanecem no GitHub.
 
 ### Executar no computador
 
@@ -156,3 +157,7 @@ Para testes de navegador, metodologia e medições reproduzíveis, consulte a **
 Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhes sobre fontes, importação de PDFs, testes, estrutura dos arquivos e configuração do Pages. Veja também o **[monitor das legislações](monitor/README.md)** e a documentação da **[coleta pausada do STF](monitor/stf/README.md)**.
 
 </details>
+
+## Direitos e licenciamento
+
+O acesso público ao código não concede uma licença geral de reutilização. [LICENSE](LICENSE) contém a **minuta proprietária, com todos os direitos reservados, pendente de revisão jurídica e confirmação da titularidade**. A minuta não é uma licença definitiva aprovada. Textos legislativos oficiais e materiais de terceiros não são reivindicados como propriedade intelectual do Lexa; permanecem sujeitos ao regime e aos direitos próprios. O uso normal do site e os direitos decorrentes dos termos do GitHub são ressalvados.

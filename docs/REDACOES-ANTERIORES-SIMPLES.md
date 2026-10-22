@@ -1,6 +1,6 @@
 # Redações anteriores — fluxo HTML simples
 
-## Implementação local corrigida
+## Fluxo corrente
 
 O fluxo existente separa identificação documental, conteúdo riscado e apresentação. Não reconstrói sucessões legislativas nem exige correspondência com o texto atual.
 
@@ -15,14 +15,14 @@ Diretório: `experiments/previous-wordings-simple/20261021-associations-correcte
 
 - `extraction.json`: 3.188 ocorrências, textos/runs/HTML bruto, localização, hashes e contexto documental.
 - `presentation.json`: todas as decisões; 3.034 ocorrências associadas e 154 excluídas, com motivos.
-- `reader.json`: leitor usado como referência de existência dos dispositivos, sem exigir igualdade com a redação atual. Seu conteúdo é idêntico ao snapshot já preservado em `20261021-complete/reader.json`.
+- `reader.json`: leitor usado como referência de existência dos dispositivos, sem exigir igualdade com a redação atual. É também a referência do teste de agrupamento do painel; a cópia idêntica da execução substituída foi preservada fora do Git.
 - `tests/fixtures/previous-wordings-simple.json`: 3.036 registros `pending`; uma ocorrência da CLT gera três fragmentos separados. Não são versões completas de artigos.
 
 Os 1.680 IDs anteriores, seus textos, notas, referências, fontes e estados foram preservados. Quatro vínculos documentais foram corrigidos de CP 333 para CP 334 após reconhecer o marcador `A rt. 334`, sem modificar sua grafia na transcrição.
 
 As 154 exclusões são: 85 estruturas supra-artigo, duas ementas, 37 ocorrências sem texto normativo antigo, 17 indicações de veto/revogação e 13 duplicatas. Todas as decisões estão no snapshot de apresentação.
 
-As fontes originais já versionadas em `HTML/` permitem reproduzir a execução. Cópias duplicadas de HTML, preview duplicado, backup de fixture, logs, relatórios temporários e manifesto da execução local completa não integram este conjunto mínimo. Permanecem preservados localmente. Os três JSONs acima são referências de teste, não um diretório completo para executar `--verify` diretamente.
+As fontes originais já versionadas em `HTML/` permitem reproduzir a execução. Cópias duplicadas de HTML, preview duplicado, backup de fixture, logs, relatórios temporários e manifesto da execução local completa não integram este conjunto mínimo. O inventário e a localização do arquivo externo estão em [PRESERVACAO.json](../experiments/PRESERVACAO.json). Os três JSONs acima são referências de teste, não um diretório completo para executar `--verify` diretamente.
 
 ## Testes e prévia
 
@@ -54,7 +54,7 @@ O build normal não incorpora `tests/fixtures/previous-wordings-simple.json`. A 
 
 Tags `s`, `strike`, `del`, CSS inline e seletores simples incorporados são reconhecidos. CSS externo e regras complexas/conflitantes exigem conferência. Espaços são normalizados apenas na apresentação; evidências originais são preservadas. Não se corrigem palavras, acentos ou pontuação por inferência.
 
-A preparação não certifica vigência nem equivalência normativa. Publicação exige validação humana/decisão de governança aplicável e autorização expressa, independentes deste commit experimental.
+A preparação não certifica vigência nem equivalência normativa. Publicação exige validação humana/decisão de governança aplicável e autorização expressa, independentes da preparação automatizada.
 
 ## Integridade dos arquivos de referência
 

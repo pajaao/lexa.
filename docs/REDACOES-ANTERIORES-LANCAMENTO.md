@@ -51,4 +51,4 @@ Se surgir um problema relevante, preparar um PR que reverta o commit de integra�
 - npm test confere integridade, estados, autorização, leitura e isolamento das prévias.
 - A suíte essencial de navegador valida desktop/celular, painel, agrupamento, teclado, posição de leitura e PWA antes do merge e da publicação.
 
-Os resultados efetivamente executados desta integração ficam registrados no PR. Os documentos/validações anteriores em experiments/previous-wordings-release/20261021 permanecem preservados; seus números não são os deste lote.
+Os resultados efetivamente executados desta integração ficam registrados no PR. Os documentos/validações da candidata anterior foram preservados em arquivo externo, identificado por hashes em [PRESERVACAO.json](../experiments/PRESERVACAO.json), e no histórico Git; seus números não são os deste lote.

@@ -1,0 +1,52 @@
+MINUTA PARA REVISÃO JURÍDICA — NÃO APROVADA
+LEXA — LICENCIAMENTO PROPRIETÁRIO / TODOS OS DIREITOS RESERVADOS
+
+Copyright (c) 2026 João Antônio.
+Titular indicado para revisão; confirmar a titularidade e o alcance dos direitos
+antes de aprovar e publicar a versão definitiva deste instrumento.
+
+1. ESCOPO
+Este texto propõe as condições de utilização do código-fonte, da documentação
+autoral e dos demais elementos originais do Lexa sobre os quais o titular detenha
+direitos. A exposição do repositório ao público permite a consulta do código,
+mas não representa sua disponibilização como software de código aberto.
+
+2. RESERVA DE DIREITOS
+Salvo autorização prévia, expressa e por escrito do titular, direitos previstos
+em lei ou permissões obrigatórias decorrentes dos termos da plataforma,
+não se concede autorização geral para reproduzir, modificar, criar obras
+derivadas, redistribuir, sublicenciar ou explorar comercialmente os elementos
+abrangidos por este instrumento. Usos não expressamente permitidos dependem
+de autorização prévia do titular.
+
+3. CONSULTA PÚBLICA E USO DO SITE
+A consulta ao repositório e o uso normal do site publicamente disponibilizado
+pelo titular, inclusive as cópias técnicas necessárias à navegação e ao
+funcionamento offline oferecido pelo próprio site, não implicam licença geral
+para reutilizar o código ou distribuir outra aplicação.
+A reserva de direitos não afasta os direitos de visualizar ou criar forks
+internos ao GitHub concedidos pelos termos aplicáveis do serviço, nem limita
+exceções ou permissões legais inderrogáveis. Esses direitos não constituem,
+por si, autorização geral de exploração fora de seu alcance.
+
+4. TEXTOS OFICIAIS E MATERIAIS DE TERCEIROS
+Os textos legislativos oficiais, decisões judiciais e demais atos oficiais
+reproduzidos no projeto não são reivindicados como propriedade intelectual
+do Lexa. Esta reserva não impede sua utilização conforme o regime legal próprio.
+Arquivos de terceiros, componentes, marcas e outros materiais sujeitos a
+direitos próprios não são abrangidos pela reserva além dos direitos que o
+titular efetivamente detenha. Suas condições, créditos e avisos devem ser
+preservados. Não se declara exclusividade sobre documentos públicos nem se
+concede autorização sobre direitos de terceiros.
+
+5. ESTADO DA MINUTA
+Este arquivo é uma proposta local para revisão jurídica, não um instrumento
+definitivamente aprovado. Sua preparação não certifica titularidade, validade
+ou eficácia das cláusulas e não autoriza publicação ou alteração retroativa
+de permissões anteriormente concedidas.
+
+Referências para a revisão:
+- https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository
+- https://docs.github.com/en/site-policy/github-terms/github-terms-of-service
+- Lei nº 9.610/1998, art. 8º, IV:
+  https://www2.camara.leg.br/legin/fed/lei/1998/lei-9610-19-fevereiro-1998-365399-normaatualizada-pl.html

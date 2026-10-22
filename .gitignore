@@ -13,3 +13,7 @@ _site/
 /test-results/
 
 .venv/
+
+# Execuções substituídas: cópias locais preservadas, inventário em experiments/PRESERVACAO.json
+/experiments/previous-wordings-simple/20261021-complete/
+/experiments/previous-wordings-release/20261021/

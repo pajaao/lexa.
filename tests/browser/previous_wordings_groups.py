@@ -24,7 +24,7 @@ for key,items in groups.items():
 caput_only=next(k for k,v in groups.items() if v and all(r['part']=='caput' for r in v))
 other_only=next(k for k,v in groups.items() if v and all(r['part'] in {'penalty','paragraph'} for r in v))
 multiple=next(k for k,v in groups.items() if any(r['part']=='caput' for r in v) and sum(r['part']!='caput' for r in v)>1 and k!=('penal','215'))
-reader=json.loads((ROOT/'experiments/previous-wordings-simple/20261021-complete/reader.json').read_text(encoding='utf-8'))
+reader=json.loads((ROOT/'experiments/previous-wordings-simple/20261021-associations-corrected/reader.json').read_text(encoding='utf-8'))
 empty=next((c,a) for c,v in reader.items() for a in v['articles'] if (c,a) not in groups)
 
 

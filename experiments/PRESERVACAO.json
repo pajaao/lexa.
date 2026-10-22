@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "c0a1f36684ff55af33ad8ad00802f7c00d02508f",
+  "archiveFilename": "experimentos-substituidos.zip",
+  "archiveSha256": "64a1f77f0b58118001a08d4e78b28e48ae00e2da5d79935e2f4a49bb7b790493",
+  "archiveLocalDirectory": "D:/Projetos/lexa/test-results/repository-preservation/20261022-saneamento",
+  "recovery": "Os caminhos e bytes originais permanecem no ZIP externo e no commit-base; nenhuma reescrita de histórico. Extrair para pasta separada e verificar SHA-256 antes de utilizar.",
+  "files": [
+    {
+      "path": "experiments/previous-wordings-release/20261021/audit-before-git-portability.json",
+      "bytes": 4258,
+      "sha256": "359b25d246ffdf0a9a9893dcef7482fbffe387555c2570a554a6122a517c1ddb",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/audit-before-published-pilot-compatibility.json",
+      "bytes": 5197,
+      "sha256": "fc5d0352fe6b839bdd2730764d68b9bf408c23f1cadcf5ce1f8eac7f6d0f1f78",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/audit-manifest.json",
+      "bytes": 5476,
+      "sha256": "2a283024450386b82febebfa777efd8417260b0c1ead424f0120d67a4bfabc47",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/git-status.txt",
+      "bytes": 3490,
+      "sha256": "71731935748be5606ad8c334897ae01bbfb4647cc81167e0b664bec34907cdc8",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/independent-sample.json",
+      "bytes": 27154,
+      "sha256": "42a02d3f7b3492d15d04a4517a4a0e03c43daa657f24bd73df85c9d52b1ed230",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-browser-performance.json",
+      "bytes": 590,
+      "sha256": "065939f85c83e90bdb7685da060e7a38a7b6abecbb1c01653b1a52716e28304e",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-browser-performance.txt",
+      "bytes": 439,
+      "sha256": "0607a2a81ae5af3901962140ddbdbe78d404e91edf83caa000b8386e181d96ce",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-browser.txt",
+      "bytes": 1949,
+      "sha256": "9872dbad8e60c4e4a3f7ae7f57310312f175752e5799eb1c52649f6565e66cbd",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-integrity-final.txt",
+      "bytes": 519,
+      "sha256": "df95bdc2855c7022d22bed4815f8def1aa5e078809bc1fb14a289bfe8f49777f",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-navigation.txt",
+      "bytes": 133,
+      "sha256": "c3e162a237c0b79f455563151fcf04bb8f6ec7cf2dea5934258ab76596e83b4c",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-node-delivery.txt",
+      "bytes": 8028,
+      "sha256": "56a9b8804c744d5933b66944603b0bff3e485eb6eb16963a7745575e4f878071",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-node-final.txt",
+      "bytes": 8030,
+      "sha256": "f900ccabd63e40e8fb0c0f9ab38bbf4d2b6e3df4268c1ca83d7c6dbc996e19a2",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-node-final2.txt",
+      "bytes": 8028,
+      "sha256": "49d7576d23556d85afee7afe114fa1eb7d75812fdb2c64e4827b7411b7f4d46a",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-node.txt",
+      "bytes": 10107,
+      "sha256": "3df3e8dbe2c5b63b261c4100a966344ff7b8e53f8c564f8a8c9e6443d217b5eb",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-performance.json",
+      "bytes": 456,
+      "sha256": "c614b14ba28cc4e6525c88c9991b991bb57c175f010aff92f779f3ab33d6d58e",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-pwa.txt",
+      "bytes": 225,
+      "sha256": "985b4b8295d57059fc071b40719f5fd65a4eeeda2c7cf5a0fc402b0088035e68",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-python.txt",
+      "bytes": 114,
+      "sha256": "0d704134f863fe3f4d4c73da5f2e63906732cf6ff7f5fd24e6e6b7cf32e64be1",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-search.txt",
+      "bytes": 146,
+      "sha256": "4b6bb9bacc0fe6a6806a413ce0f20d962dd436f92aada6b567bb9c77652d2912",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-validation-final.txt",
+      "bytes": 73,
+      "sha256": "237ba823772f8fb0db22f6e520ef2615e6213ec71270ee0b225bf55e01f80051",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-validation-final2.txt",
+      "bytes": 73,
+      "sha256": "237ba823772f8fb0db22f6e520ef2615e6213ec71270ee0b225bf55e01f80051",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/logs/release-validation.txt",
+      "bytes": 73,
+      "sha256": "237ba823772f8fb0db22f6e520ef2615e6213ec71270ee0b225bf55e01f80051",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/preservation.json",
+      "bytes": 200,
+      "sha256": "70b9d7947997108eb6414cfb259d3be05c76bdfb4f03156f21e29146e9d46502",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/release-before-git-portability.json",
+      "bytes": 64681,
+      "sha256": "df801b8a7abac7e20c26f3948164db1b701b5d9e2b27def864943cbc49e78812",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/validation-before-context-clarification.json",
+      "bytes": 1171311,
+      "sha256": "5b3b3aaad426dceaab733644d2d205d96ec6ab61e62c16058aee4ea668264e50",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/validation-before-git-portability.json",
+      "bytes": 1241946,
+      "sha256": "eb42e0b9b013de88aa43b8e6d71cbd9cce7d9ee192baa9cb7aacc53064a87bfe",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-release/20261021/validation.json",
+      "bytes": 1241946,
+      "sha256": "0af1798e3486366670fe38acc82618c2b4d64760e4c2743ccc8a5357e7bb633a",
+      "reason": "Logs, backups e evidências da candidata anterior; não utilizados pelo build nem pelos testes correntes."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/extraction.json",
+      "bytes": 11735665,
+      "sha256": "a7c4c6c4872ade23eae92a457ea7abd23309af7de431a48d80a132a902a68be5",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/fixture-before.json",
+      "bytes": 4653952,
+      "sha256": "a9c2e108cbc92e9c7c47ac9db08acc52e9cc8fbb1aea573244e2bf44bbb83b9b",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/logs/simple-browser.txt",
+      "bytes": 165,
+      "sha256": "743b09363e7083f6a1678581384b11794fc1bec5644495eeecdaf70c5e6f241c",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/logs/simple-node.txt",
+      "bytes": 7289,
+      "sha256": "f032526d443fab03ff1770ae4578e9331d17b3506bc642d2c5c804b858c23597",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/logs/simple-python.txt",
+      "bytes": 114,
+      "sha256": "7f0d0063c0a39f0de52d1cc80d31e6add93ddac91676342d6e6119ed34a31a92",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/manifest-before-git-portability.json",
+      "bytes": 3213,
+      "sha256": "d532aafb02623ea4baf8095bd29e0aac9ccc5d75804ff02aa55ef929b7aace74",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/manifest-initial.json",
+      "bytes": 2159,
+      "sha256": "d936f4e66ec4e929b60268d55880c32d0ce0ae5e950769fbd19911d14a8be604",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/manifest.json",
+      "bytes": 3358,
+      "sha256": "f61b23c122b21ddc566dc11192a532694b75d47c4d084357c9a115217d516c45",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/presentation.json",
+      "bytes": 7836192,
+      "sha256": "8e0cdb82230d7614c070d9cd001d51f3c9408d89479c2deb47c4d066fb8e4716",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/preview.json",
+      "bytes": 6742888,
+      "sha256": "eceb65fc6ed6f574513b39579920e23d8fed9981e28cfd95040e60f9f892e0e4",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/reader.json",
+      "bytes": 12563019,
+      "sha256": "18cdf5320b330264b79054cac4f36413a8177ea88b52dc0ffe9273c5d7f018f9",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/Constituição.html",
+      "bytes": 2002431,
+      "sha256": "12278976041fb60bfcdb04a59d1ace4a76c376206ce54a19f9e851a9da4e1f41",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/DEL2848.html",
+      "bytes": 1103950,
+      "sha256": "7e63bae8522566ca5597a20004448e955cf442c1cae870a6f18a2250a9936a8a",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/Del3689.html",
+      "bytes": 1623686,
+      "sha256": "a378beca371ffa9cc9a9dbc4c1257eefe93b954ddc4cc97d69b92d876cf9aae7",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/Del5452compilado.html",
+      "bytes": 1612703,
+      "sha256": "f5c716f57f3de040801abe6e63eab612d507711577a655decc350b1d23b2687c",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L10406compilada.html",
+      "bytes": 975974,
+      "sha256": "c9249c2ff99249a3a93f51c71876060c42d71c226fe13e1f79acedcd715006fe",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L13105compilada.html",
+      "bytes": 1995566,
+      "sha256": "b9b8a9153e4ae886c37c7d63268fb9c24c58fa4675b7d8129279f4ab6b7122c8",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L14133.html",
+      "bytes": 657146,
+      "sha256": "88a25d81386427d51d531e7fd04f84c55b823fe8f6e6f0e49c374ed766550371",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L5172COMPILADO.html",
+      "bytes": 302826,
+      "sha256": "166694c96455c9eb24f0671d6f74c6ea62eb223cca905a7b5f2c0d337604e3bd",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L7210.html",
+      "bytes": 319086,
+      "sha256": "822d3a7122f63783cae86b700fc767476984d699690326b6c8313d5eddc5c610",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L8069.html",
+      "bytes": 736189,
+      "sha256": "3b0d113eb26db476b80ab354ee6b15649e085b2637d33f8cc31b496020c2f96b",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L8078compilado.html",
+      "bytes": 172965,
+      "sha256": "e344dbb3b7b7ed7459e7712bbb634aa27da6308cc866cc91a8af617a7bdfc507",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/L8429.html",
+      "bytes": 219585,
+      "sha256": "6b89bc808fb75199ca7beee8df7d5503d88dac4449b81fc0292f825f0d6f9810",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    },
+    {
+      "path": "experiments/previous-wordings-simple/20261021-complete/sources/Lei nº 11.340.html",
+      "bytes": 263962,
+      "sha256": "9e8c59e80fd03e5ba6b25c3a0c0e88ef82ed01899f353e3b9baa9870f75597aa",
+      "reason": "Execução substituída; preservada fora do Git. O leitor duplicado passa a usar a cópia idêntica da execução corrigida."
+    }
+  ]
+}
