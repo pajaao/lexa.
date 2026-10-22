@@ -60,7 +60,7 @@ test('candidata conserva a PWA e todos os arquivos legislativos do build normal'
  await assert.rejects(buildPackage({previousWordingsCandidate:true,legislativeHistorySimple:true}),/não pode misturar/);
 });
 
-test('leitor não altera fontes ou parágrafos sem risco e move somente trechos documentados',async()=>{
+test('leitor não altera fontes ou parágrafos sem risco e separa risco independentemente da disponibilidade do painel',async()=>{
  const candidate=checkRelease(...await inputs(),{candidate:true});
  const snapshot=JSON.stringify(officialImported);
  let removed=0;
@@ -71,7 +71,7 @@ test('leitor não altera fontes ou parágrafos sem risco e move somente trechos 
    if(!displayed.paragraphs.includes(paragraph)){
     removed++;
     assert.ok(paragraph.runs.some(r=>r.deleted));
-    assert.ok(previousRecords(candidate,codeId,article.id).length);
+    assert.ok(displayed.paragraphs.every(p=>p.runs.every(r=>!r.deleted)));
    }
   }
  }

@@ -36,6 +36,14 @@ try:
   assert page.locator('#copy-content').evaluate('e=>e.selectionEnd-e.selectionStart===e.value.length')
   for width in [320,390,1280]:
    page.set_viewport_size({'width':width,'height':900})
+   # Viewport changes can finish before the browser lays out the modal.
+   # Wait for the same required geometry; persistent overflow still fails.
+   try:
+    page.wait_for_function('(width)=>innerWidth===width && document.documentElement.scrollWidth<=innerWidth',arg=width,timeout=5000)
+   except Exception:
+    page.screenshot(path=artifact_path(f'lexa-copy-overflow-{width}.png'))
+    print(page.evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth).slice(0,10).map(e=>({tag:e.tagName,id:e.id,class:e.className,right:e.getBoundingClientRect().right}))})'))
+    raise
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
    assert page.locator('#copy-dialog').bounding_box()['width']<=width
    page.screenshot(path=artifact_path(f'lexa-copy-dialog-{width}.png'))
@@ -47,6 +55,14 @@ try:
   for width in [320,390,1280]:
    page.set_viewport_size({'width':width,'height':900})
    page.locator('#art-13 .article-copy>summary').click()
+   # Viewport changes can finish before the browser lays out the modal.
+   # Wait for the same required geometry; persistent overflow still fails.
+   try:
+    page.wait_for_function('(width)=>innerWidth===width && document.documentElement.scrollWidth<=innerWidth',arg=width,timeout=5000)
+   except Exception:
+    page.screenshot(path=artifact_path(f'lexa-copy-overflow-{width}.png'))
+    print(page.evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll("body *")].filter(e=>e.getBoundingClientRect().right>innerWidth).slice(0,10).map(e=>({tag:e.tagName,id:e.id,class:e.className,right:e.getBoundingClientRect().right}))})'))
+    raise
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),width
    page.screenshot(path=artifact_path(f'lexa-copy-menu-{width}.png'))
    page.locator('#art-13 .article-copy>summary').click()

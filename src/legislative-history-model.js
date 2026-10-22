@@ -51,25 +51,22 @@ function normativeParagraph(paragraph){
  const text=plain.normalize('NFC');
  return {text,plain,struck:states.length>0&&states.every(Boolean),unstruck:states.length>0&&states.every(value=>!value)};
 }
-const normText=text=>text.replace(/\s+/gu,' ').trim().normalize('NFC');
-const unitKey=record=>record.part+'|'+(record.unitLabel||record.part).toLowerCase();
-
-// Move only whole source paragraphs exactly documented as previous wordings.
-// No replacement, amendment chain or validity period is required.
-// Partial runs and ambiguous unit matches remain visible.
+// The source deletion mark controls reader separation, independently of whether
+// an occurrence can be safely associated with a previous-wording record.
+// Never mutate source paragraphs or infer replacement wording.
 export function readingArticle(data,codeId,article){
- const records=previousRecords(data,codeId,article.id);
- if(!records.length)return article;
- const analyzed=article.paragraphs.map(normativeParagraph);
- const hidden=new Set();
- analyzed.forEach((source,index)=>{
-  if(!source?.struck)return;
-  const prior=records.filter(r=>r.wording?.status==='previous'&&normText(r.text)===source.text);
-  const keys=new Set(prior.map(unitKey));
-  if(keys.size!==1)return;
-  hidden.add(index);
+ let changed=false;
+ const paragraphs=article.paragraphs.flatMap(paragraph=>{
+  if(!paragraph.runs.some(run=>run.deleted))return [paragraph];
+  changed=true;
+  const runs=paragraph.runs.filter(run=>!run.deleted);
+  const remaining=normativeParagraph({...paragraph,runs});
+  // Drop orphan unit markers and notes left by a wholly struck body.
+  const body=(remaining?.plain??runs.map(run=>run.text).join('')).replace(/(?:Art\.?\s*\d+[º°]?(?:-[A-Z])?[.:-]?|Parágrafo\s+único|§\s*\d+[º°]?|[IVXLCDM]+\s*[-–—]|[a-z]\))/gu,'').replace(/[\s.:-]/gu,'');
+  if(!/[\p{L}\p{N}]/u.test(body))return [];
+  return [{...paragraph,runs}];
  });
- return hidden.size?{...article,paragraphs:article.paragraphs.filter((p,index)=>!hidden.has(index))}:article;
+ return changed?{...article,paragraphs}:article;
 }
 
 // “Current” is relative to the edition actually loaded, including when its
