@@ -50,7 +50,7 @@ A apresentação salva a fixture anterior no novo diretório antes de atualizar 
 
 ## Isolamento e limites
 
-O build normal não incorpora `tests/fixtures/previous-wordings-simple.json`. A flag `--simple` é explícita, desativa a PWA na prévia e é proibida para `dist/`. A autorização de lote em `data/previous-wordings/release.json` permanece falsa e os registros não são homologados automaticamente.
+O build normal não incorpora `tests/fixtures/previous-wordings-simple.json`. A flag `--simple` é explícita, desativa a PWA na prévia e é proibida para `dist/`. O lote corrigido tem autorização expressa registrada em `data/previous-wordings/release.json`, vinculada à decisão e amostra em `REDACOES-ANTERIORES-LANCAMENTO.md`. A prévia não concede autorização por si só e os registros continuam `pending`, sem homologação automática.
 
 Tags `s`, `strike`, `del`, CSS inline e seletores simples incorporados são reconhecidos. CSS externo e regras complexas/conflitantes exigem conferência. Espaços são normalizados apenas na apresentação; evidências originais são preservadas. Não se corrigem palavras, acentos ou pontuação por inferência.
 

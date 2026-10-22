@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {buildPackage} from '../../scripts/build.mjs';
 import {stagePages} from '../../scripts/build-pages.mjs';
 
-test('prévia HTML simples contém somente a nova fixture pending e produção permanece vazia',async()=>{
+test('prévia HTML simples mantém pending e não contorna a autorização de produção',async()=>{
  const fixture=JSON.parse(await readFile(new URL('../fixtures/previous-wordings-simple.json',import.meta.url),'utf8'));
  assert.ok(fixture.records.length>0);
  assert.ok(fixture.records.every(r=>r.review.status==='pending'&&r.wording.status==='previous'));

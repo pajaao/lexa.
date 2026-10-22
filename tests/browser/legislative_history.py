@@ -260,7 +260,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     context.close()
             finally:
                 production.shutdown()
-            # The normal build preserves the published pilot while the new batch is gated.
+            # The normal build follows the explicit release authorization; preview flags never release a batch.
             normal=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT/'dist')))
             threading.Thread(target=normal.serve_forever,daemon=True).start()
             try:
@@ -268,13 +268,22 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                 page=context.new_page()
                 page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/215')
                 page.locator('#art-215 [data-legislative-history]').click()
-                expect(page.locator('.legislative-text')).to_have_text([
-                    'Art. 215 - Ter conjunção carnal com mulher honesta, mediante fraude:',
-                    'Art. 215. Ter conjunção carnal com mulher, mediante fraude:'])
+                release=json.loads((ROOT/'data/previous-wordings/release.json').read_text(encoding='utf8'))
+                public_rows=json.loads((ROOT/'data/previous-wordings/candidate.json').read_text(encoding='utf8'))['records'] if release['publicationAuthorized'] else []
+                rows215=sorted([r for r in public_rows if r['codeId']=='penal' and r['articleId']=='215'],key=lambda r:(r['sequence']['order'],r['id']))
+                if release['publicationAuthorized']:
+                    caps=[r for r in rows215 if r['part']=='caput'];others=[r for r in rows215 if r['part']!='caput']
+                    expect(page.locator('.legislative-text')).to_have_text([r['text'] for r in caps+others])
+                    expect(page.locator('.legislative-other')).not_to_have_attribute('open','')
+                    expect(page.locator('.legislative-other > summary')).to_have_text(f'Outras redações anteriores ({len(others)})')
+                else:
+                    expect(page.locator('.legislative-text')).to_have_text([
+                        'Art. 215 - Ter conjunção carnal com mulher honesta, mediante fraude:',
+                        'Art. 215. Ter conjunção carnal com mulher, mediante fraude:'])
                 expect(page.locator('.legislative-demo')).to_have_count(0)
                 page.keyboard.press('Escape')
                 page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/213')
-                expect(page.locator('#art-213 [data-legislative-history]')).to_have_count(0)
+                expect(page.locator('#art-213 [data-legislative-history]')).to_have_count(int(any(r['codeId']=='penal' and r['articleId']=='213' for r in public_rows)))
                 context.close()
                 for width in (390,1280):
                     context=browser.new_context(viewport={'width':width,'height':850},service_workers='block')
@@ -286,7 +295,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                         expect(article.locator('del')).to_have_count(0)
                         expect(article.locator('.deleted-note')).to_have_count(0)
                         expect(article).to_contain_text('outro ato libidinoso' if code=='penal' else 'São direitos dos trabalhadores')
-                        if code=='cf': expect(article.locator('[data-legislative-history]')).to_have_count(0)
+                        if code=='cf': expect(article.locator('[data-legislative-history]')).to_have_count(int(any(r['codeId']=='cf' and r['articleId']=='7' for r in public_rows)))
                         page.screenshot(path=artifact_path(f'published-reader-{code}-{article_id}-{width}.png'))
                     context.close()
             finally:
