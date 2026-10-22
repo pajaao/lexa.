@@ -13,7 +13,8 @@ ROOT=Path(__file__).resolve().parents[2]
 rows=json.loads((ROOT/'tests/fixtures/previous-wordings-simple.json').read_text(encoding='utf-8'))['records']
 selected={}
 for row in rows: selected.setdefault(row['codeId'],row['articleId'])
-selected.update(cf='6',penal='215',cpp='439')
+selected.update(cf='7',penal='215',cpp='439')
+cases=list(dict.fromkeys([*selected.items(),('cpc','1042'),('cpc','1063'),('eca','4'),('eca','233'),('penal','65'),('penal','234-A'),('penal','334'),('penal','29'),('civil','66'),('cdc','8')]))
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -33,11 +34,17 @@ with tempfile.TemporaryDirectory(prefix='simple-previous-',dir=ROOT/'test-result
                 context=browser.new_context(viewport={'width':width,'height':850},service_workers='block')
                 page=context.new_page(); errors=[]
                 page.on('pageerror',lambda error:errors.append(str(error)))
-                for code,article in selected.items():
+                for code,article in cases:
                     page.goto(f'http://127.0.0.1:{server.server_port}/#/{code}/{article}')
                     trigger=page.locator(f'#art-{article} [data-legislative-history]')
+                    expect(page.locator(f'#art-{article} del')).to_have_count(0)
+                    if not any(r['codeId']==code and r['articleId']==article for r in rows):
+                        expect(trigger).to_have_count(0)
+                        continue
                     expect(trigger).to_be_visible(); trigger.scroll_into_view_if_needed()
+                    expect(page.locator(f'#art-{article} del')).to_have_count(0)
                     before=page.locator(f'#art-{article} .legal-unit').all_text_contents()
+                    if code in ('penal','cf'): page.screenshot(path=artifact_path(f'separated-reader-{code}-{article}-{width}.png'))
                     position=page.evaluate('scrollY');trigger.click()
                     panel=page.locator('.legislative-panel');expect(panel).to_be_visible()
                     expected=sorted([r for r in rows if r['codeId']==code and r['articleId']==article],key=lambda r:(r['sequence']['order'],r['id']))
@@ -52,7 +59,7 @@ with tempfile.TemporaryDirectory(prefix='simple-previous-',dir=ROOT/'test-result
                     panel.get_by_text('Fonte e contexto documental',exact=True).click()
                     expect(panel.get_by_role('link',name='Consultar fonte')).to_have_count(len(expected))
                     assert panel.evaluate('(el)=>el.scrollWidth<=el.clientWidth')
-                    if code=='penal': page.screenshot(path=artifact_path(f'simple-previous-215-{width}.png'))
+                    if code in ('penal','cf'): page.screenshot(path=artifact_path(f'separated-{code}-{article}-{width}.png'))
                     page.keyboard.press('Escape');expect(panel).not_to_be_visible();expect(trigger).to_be_focused()
                     assert abs(page.evaluate('scrollY')-position)<2
                     assert page.locator(f'#art-{article} .legal-unit').all_text_contents()==before
@@ -61,4 +68,4 @@ with tempfile.TemporaryDirectory(prefix='simple-previous-',dir=ROOT/'test-result
             browser.close()
     finally:
         server.shutdown();server.server_close()
-print(f'Simple preview PASS: {len(selected)} collections, 390/1280px, full text/source, keyboard and reading continuity.')
+print(f'Simple preview PASS: {len(cases)} devices across 13 collections, 390/1280px, full text/source, keyboard and reading continuity.')

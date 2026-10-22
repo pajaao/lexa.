@@ -10,42 +10,33 @@ from extract_struck_html import ROOT, read, write, split_notes, spaces
 
 
 def prepare(extraction, reader):
-    records=[]; decisions=[]; seen=set()
+    records=[];decisions=[];seen=set()
     for source in extraction['sources']:
         code=reader.get(source['codeId'],{})
         for entry in source['entries']:
-            reasons=list(entry['reasons'])
-            context=entry['context']; article=context['articleId']
-            if context['region'] in {'original_general_part','approval_decree','quoted'}:
-                reasons.append('incompatible_or_quoted_document_context')
-            target=code.get('articles',{}).get(article)
-            if not target: reasons.append('no_reader_device')
-            matching=[]; witnesses=[]
-            if target:
-                for i,paragraph in enumerate(target['paragraphs']):
-                    raw=''.join(r['text'] for r in paragraph['runs'])
-                    try: body=split_notes(raw)[0]
-                    except ValueError: continue
-                    if spaces(body)==spaces(entry['text']): matching.append(i)
-                    witnesses.extend(dict(sourceBlock=w['block'],readerParagraph=i) for w in context.get('unstruckCaputs',[]) if spaces(w['text'])==spaces(body))
-                if not matching and not witnesses: reasons.append('no_documentary_text_or_current_caput_witness')
-            identity=(source['codeId'],article,entry['part'],entry['unitLabel'],spaces(entry['text']))
-            if not reasons and identity in seen: reasons.append('duplicate_documentary_text')
-            if not reasons:
+            reasons=list(entry['reasons']);context=entry['context'];article=context['articleId']
+            if not code.get('articles',{}).get(article):reasons.append('no_reader_device')
+            associated_ids=[]
+            pieces=entry.get('fragments') or [dict(text=entry['text'])]
+            for index,piece in enumerate(pieces):
+                identity=(source['codeId'],context.get('region'),article,entry['part'],entry['unitLabel'],spaces(piece['text']))
+                if not reasons and identity in seen:continue
+                if reasons:continue
                 seen.add(identity)
-                records.append(dict(id=entry['id'],codeId=entry['codeId'],articleId=article,
-                    part=entry['part'],unitLabel=entry['unitLabel'],text=entry['text'],notes=entry['notes'],
-                    reference='\n'.join(note for note in entry['notes'] if re.search(r'\b(?:Lei|Emenda|Decreto|Medida Provisória)\b',note)) or None,sequence=dict(order=entry['evidence']['block'],
-                        basis='Ordem na fonte HTML local; não demonstra sucessão legislativa ou vigência.'),
-                    review=dict(status='pending'),wording=dict(status='previous',basis='Unidade integralmente riscada na fonte local.'),
-                    source=entry['source'],evidence=entry['evidence']))
-            decisions.append(dict(id=entry['id'],codeId=entry['codeId'],articleId=article,
-                associated=not reasons,reasons=sorted(set(reasons)),readerParagraphMatches=matching,currentCaputWitnesses=witnesses))
-    return dict(records=records,decisions=decisions,summary=[dict(codeId=s['codeId'],
-        found=len(s['entries']),extracted=sum(e['extracted'] for e in s['entries']),
-        associated=sum(d['associated'] for d in decisions if d['codeId']==s['codeId']),
-        reasons=dict(Counter(r for d in decisions if d['codeId']==s['codeId'] for r in d['reasons'])))
-        for s in extraction['sources']])
+                record_id=entry['id'] if not entry.get('fragments') else entry['id']+f'-fragment-{index+1:03d}'
+                evidence=dict(entry['evidence'])
+                if piece.get('textRange'):evidence['fragmentTextRange']=piece['textRange']
+                record=dict(id=record_id,codeId=entry['codeId'],articleId=article,part=entry['part'],unitLabel=entry['unitLabel'],text=piece['text'],notes=entry['notes'],reference='\n'.join(note for note in entry['notes'] if re.search(r'\b(?:Lei|Emenda|Decreto|Medida Provisória)\b',note)) or None,sequence=dict(order=entry['evidence']['block'],basis='Ordem na fonte HTML local; não demonstra sucessão legislativa ou vigência.'),review=dict(status='pending'),wording=dict(status='previous',basis='Unidade integralmente riscada na fonte local.'),source=entry['source'],evidence=evidence)
+                if context.get('region') in {'original_general_part','restructured_jury'}:
+                    record['documentaryContext']='Numeração do bloco antigo da própria fonte. Correspondência com o conteúdo do dispositivo atual não estabelecida.'
+                if entry.get('fragments'):
+                    record['unitLabel']='Trecho riscado · '+entry['unitLabel']
+                    record['wording']['basis']='Fragmento efetivamente riscado; não reconstrói a redação integral da unidade.'
+                if entry.get('warnings'):record['documentaryWarnings']=entry['warnings']
+                records.append(record);associated_ids.append(record_id)
+            if not reasons and not associated_ids:reasons.append('duplicate_documentary_text')
+            decisions.append(dict(id=entry['id'],codeId=entry['codeId'],articleId=article,documentaryAssociated=article is not None and not any(r in entry['reasons'] for r in ['supra_article_structure','quoted_context_without_native_article_evidence','caption_or_fragment_association_uncertain','no_documentary_article']),associated=bool(associated_ids),recordIds=associated_ids,reasons=sorted(set(reasons)),associationBasis=context.get('basis'),articleBlock=context.get('articleBlock')))
+    return dict(records=records,decisions=decisions,summary=[dict(codeId=s['codeId'],found=len(s['entries']),extracted=sum(e['extracted'] for e in s['entries']),associated=sum(d['associated'] for d in decisions if d['codeId']==s['codeId']),recordCount=sum(r['codeId']==s['codeId'] for r in records),reasons=dict(Counter(r for d in decisions if d['codeId']==s['codeId'] for r in d['reasons']))) for s in extraction['sources']])
 
 
 def main():
