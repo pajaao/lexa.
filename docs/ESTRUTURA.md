@@ -64,4 +64,4 @@ As cópias locais retiradas do índice estão em [experiments/PRESERVACAO.json](
 
 ## Licenciamento
 
-[LICENSE](../LICENSE) contém uma minuta proprietária, pendente de revisão jurídica e confirmação da titularidade. Não constitui aprovação definitiva nem muda os direitos sobre textos oficiais ou materiais de terceiros.
+O código do Lexa está sob a [PolyForm Noncommercial 1.0.0](../LICENSE), com avisos em [NOTICE.md](../NOTICE.md).

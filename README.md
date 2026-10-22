@@ -160,4 +160,4 @@ Consulte a **[documentação de manutenção](docs/MANUTENCAO.md)** para detalhe
 
 ## Direitos e licenciamento
 
-O acesso público ao código não concede uma licença geral de reutilização. [LICENSE](LICENSE) contém a **minuta proprietária, com todos os direitos reservados, pendente de revisão jurídica e confirmação da titularidade**. A minuta não é uma licença definitiva aprovada. Textos legislativos oficiais e materiais de terceiros não são reivindicados como propriedade intelectual do Lexa; permanecem sujeitos ao regime e aos direitos próprios. O uso normal do site e os direitos decorrentes dos termos do GitHub são ressalvados.
+O código do Lexa é licenciado para uso não comercial sob a [PolyForm Noncommercial 1.0.0](LICENSE). Consulte também os [avisos do projeto](NOTICE.md). O uso do site continua gratuito.
