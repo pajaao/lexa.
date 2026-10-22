@@ -7,6 +7,13 @@ export const number = n => n.toLocaleString('pt-BR');
 
 export const codeHref = (code,article='') => `#/${encodeURIComponent(code.id)}${article?'/'+article:''}`;
 
+export function feedbackHref(code,article) {
+ const form=new URL('https://docs.google.com/forms/d/e/1FAIpQLSfV7zTS0Fb8I6L5RK9zSkBVNe1FsmvLitU2wJjvvp_V3mFKyA/viewform');
+ form.searchParams.set('usp','pp_url');
+ form.searchParams.set('entry.1354902092','https://pajaao.github.io/lexa./'+codeHref(code,article));
+ return form.href;
+}
+
 export const collectionDate = source => new Intl.DateTimeFormat('pt-BR',{timeZone:'America/Sao_Paulo',dateStyle:'short'}).format(new Date(source.capturedAt));
 
 export function sourcePanel(source) {

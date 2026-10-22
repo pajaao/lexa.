@@ -543,3 +543,6 @@ footer .creator-credit>p{margin:0;font-size:14px;line-height:1.8}
 .about-lexa{margin-top:8px;max-width:680px;font-size:13px;line-height:1.8;letter-spacing:normal}
 .about-lexa summary{width:fit-content;min-height:44px;display:list-item;align-content:center;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 footer .about-lexa p{font-size:13px;line-height:1.8;color:var(--muted)}
+
+footer .feedback-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:4px;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.feedback-link svg{flex-shrink:0}

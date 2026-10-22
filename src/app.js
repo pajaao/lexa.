@@ -32,7 +32,13 @@ function lastReading(){
  return article?{code,article}:null;
 }
 let cleanupReader=()=>{};
-function toast(message) { const el=document.querySelector('#toast'); el.textContent=message; el.classList.add('visible'); setTimeout(()=>el.classList.remove('visible'),2500); }
+let toastTimer;
+function toast(message,duration=2500) { const el=document.querySelector('#toast'); clearTimeout(toastTimer); el.textContent=message; el.classList.add('visible'); toastTimer=setTimeout(()=>el.classList.remove('visible'),duration); }
+document.addEventListener('click',event=>{
+ if(navigator.onLine!==false||!event.target.closest('.feedback-link,.article-feedback'))return;
+ event.preventDefault();
+ toast('O formulário precisa de internet. Conecte-se e tente novamente. Sua leitura continua disponível.',8000);
+});
 document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();app.focus();app.scrollIntoView({block:'start'});});
 const historyArticleIds=new Set([...recordedUpdates.flatMap(event=>event.changes.map(change=>event.codeId+'/'+change.articleId)),...collections.flatMap(code=>(code.changedArticleIds||[]).map(id=>code.id+'/'+id))]);
 
