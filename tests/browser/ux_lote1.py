@@ -65,7 +65,7 @@ try:
      page.locator('#art-186 [data-save]').click();page.locator('#saved-filter').click();expect(page.locator('#saved-filter')).to_have_text('Mostrar todos');expect(page.locator('#articles .article')).to_have_count(1)
      page.goto(base+'#/favoritos');expect(page.locator('.favorite-link')).to_have_count(1);page.reload();expect(page.locator('.favorite-link')).to_have_count(1)
      page.locator('.favorite-link').click();expect(page.locator('#art-186')).to_be_visible();page.goto(base)
-     expect(page.locator('.resume-reading')).to_contain_text('Continuar leitura');expect(page.locator('.resume-reading>a')).to_have_text('Abrir artigo →');expect(page.locator('.resume-reading>a')).to_have_attribute('href','#/civil/186')
+     expect(page.locator('.resume-reading')).to_contain_text('Continuar leitura');expect(page.locator('.resume-reading>a')).to_contain_text('Art. 186');expect(page.locator('.resume-reading>a')).to_have_attribute('href','#/civil/186')
      search=page.locator('#library-search');search.fill('zzzxxyyinexistente');expect(page.locator('.empty')).to_be_visible();no_overflow(page)
     assert not errors,errors
     observations.append({'width':width,'theme':'dark' if dark else 'light','overflow':False,'mobileIndexExpanded':width<701,'physicalDevice':False,'paletteContrastRatios':palette})

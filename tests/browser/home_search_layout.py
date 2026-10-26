@@ -1,4 +1,4 @@
-"""Original home presentation, approved copy and functional search/navigation."""
+"""Editorial homepage, approved copy and functional search/navigation."""
 from pathlib import Path
 import functools, http.server, threading
 from playwright.sync_api import sync_playwright, expect
@@ -17,7 +17,7 @@ def navigation_state(page, href):
     active = page.locator('header nav>a[aria-current="page"]')
     expect(active).to_have_count(1)
     expect(active).to_have_attribute('href', href)
-    assert active.evaluate("el=>getComputedStyle(el).backgroundColor") != 'rgba(0, 0, 0, 0)'
+    assert active.evaluate("el=>getComputedStyle(el).boxShadow") != 'none'
 
 try:
     with sync_playwright() as p:
@@ -39,7 +39,7 @@ try:
                     assert box['height'] >= 24 and box['width'] >= 24, (width, box)
                 assert page.locator('header nav>a,header nav>button').evaluate_all('(els)=>els.every(el=>el.scrollWidth<=el.clientWidth+1)'), width
                 field = page.locator('.hero-search').bounding_box()
-                assert field['width'] <= 580 and field['width'] > 200, (width, field)
+                assert field['width'] <= width-32 and field['width'] > 200, (width, field)
                 expect(page.locator('.hero-ornament')).to_have_count(0)
                 assert page.locator('.hero-note').bounding_box()['y'] < page.locator('.library').bounding_box()['y']
                 page.keyboard.press('/')
@@ -81,6 +81,6 @@ try:
         expect(page.locator('.hero-geometry:visible')).to_have_count(0)
         context.close()
         browser.close()
-    print('Home original e textos aprovados: busca, teclado, navegação, alvos mínimos de 24 px; 320–1440 px, claro/escuro e alto contraste.')
+    print('Home editorial e textos aprovados: busca, teclado, navegação, alvos mínimos de 24 px; 320–1440 px, claro/escuro e alto contraste.')
 finally:
     server.shutdown();server.server_close()

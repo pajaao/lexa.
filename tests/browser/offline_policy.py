@@ -22,7 +22,7 @@ try:
   context.set_offline(True);page.reload();reader_ready(page)
   assert 'Art. 186' in page.locator('#articles').inner_text()
   context.set_offline(False)
-  page.locator('.pwa-help').evaluate('(el)=>el.open=true')
+  page.goto(base+'#/sobre-e-ajustes');page.locator('.pwa-help').evaluate('(el)=>el.open=true')
   page.locator('#pwa-cache-all').click()
   page.wait_for_function("document.querySelector('#pwa-status').dataset.offlineMode==='full'")
   context.set_offline(True);page.goto(base+'#/cpc/1');reader_ready(page)

@@ -17,8 +17,7 @@ try:
    page.on('pageerror',lambda error:errors.append(str(error)));page.on('request',lambda request:requested.append(request.url))
    page.goto(base);expect(page.locator('#cards .code-card')).to_have_count(14)
    assert not [url for url in requested if '/data/' in url]
-   expect(page.locator('.history-invite')).to_have_count(1)
-   expect(page.locator('.recent-updates>li')).to_have_count(len(recent))
+   expect(page.locator('.legislative-indicator')).to_have_count(1 if recent else 0)
    for query,code,article in [('Art. 5 CF','cf','5'),('Art. 186 CC','civil','186'),('SV 13','sv','13')]:
     page.locator('#library-search').fill(query);link=page.locator('#quick-reference a')
     expect(link).to_have_count(1);expect(link).to_have_attribute('href',f'#/{code}/{article}')
@@ -42,13 +41,10 @@ try:
    page.locator('#library-search').fill('Art. 186 CC');expect(page.locator('#quick-reference a')).to_have_count(1)
    page.screenshot(path=artifact_path(f'lexa-ux2-reference-{width}.png'))
    if recent:
-    event=recent[0];article=event['articles'][0]['articleId']
-    href='#/atualizacoes?'+urlencode({'codigo':event['codeId'],'artigo':article})
-    page.locator(f'.recent-articles a[href="{href}"]').first.click()
-    expect(page.locator('#history-code')).to_have_value(event['codeId']);expect(page.locator('#history-article')).to_have_value(article)
+    page.locator('.legislative-indicator').click()
     expect(page.locator('.article-change')).not_to_have_count(0)
-    page.goto(base);expect(page.locator('.recent-updates>li')).to_have_count(len(recent))
-    page.reload();expect(page.locator('.recent-updates>li')).to_have_count(len(recent))
+    page.goto(base);expect(page.locator('.legislative-indicator')).to_have_count(1)
+    page.reload();expect(page.locator('.legislative-indicator')).to_have_count(1)
    if width<700:
     page.goto(base+'#/cf/5');page.locator('#art-5').wait_for()
     assert not page.locator('.reading-settings').evaluate('(element)=>element.open')
@@ -68,5 +64,5 @@ try:
     expect(page.locator('#reading-spacing')).to_have_value('standard')
    context.close()
   assert not errors,errors
-  browser.close();print('Home: referências únicas e diretas, 13 referências ambíguas preservadas, busca textual/estados vazios, ajustes móveis de 44 px e teclado, resumo persistente e links filtrados; sem histórico na carga inicial.')
+  browser.close();print('Home: referências únicas e diretas, 13 referências ambíguas preservadas, busca textual/estados vazios, ajustes móveis de 44 px e teclado, indicador persistente e acesso ao histórico; sem histórico na carga inicial.')
 finally:server.shutdown();server.server_close();thread.join()

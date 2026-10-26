@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory() as temporary:
                 page.wait_for_function('navigator.serviceWorker.controller !== null')
                 check = page.get_by_role('button', name='Verificar atualizações', exact=True)
                 status = page.locator('#pwa-check-status')
-                page.locator('.pwa-help>summary').click()
+                page.goto(base+'#/sobre-e-ajustes');page.locator('.pwa-help').evaluate('(el)=>el.open=true')
                 expect(check).to_be_enabled()
                 expect(check).to_have_attribute('aria-describedby', 'pwa-check-status')
                 expect(status).to_have_attribute('role', 'status')
@@ -111,7 +111,7 @@ with tempfile.TemporaryDirectory() as temporary:
                 expect(status).to_have_attribute('data-state', 'current')
 
                 # Real foreground-triggered edition change, with no consent to activate yet.
-                page.locator('[data-save="60"]').click()
+                page.goto(base+'#/cf/60');page.locator('[data-save="60"]').click()
                 if width <= 700:
                     page.locator('.reading-settings>summary').click()
                     page.locator('#font-up').click()
@@ -135,7 +135,7 @@ with tempfile.TemporaryDirectory() as temporary:
 
                 # A failed preparation must not be reported as an up-to-date edition.
                 deploy('v3');failure['shell'] = True
-                page.locator('.pwa-help>summary').click()
+                page.goto(base+'#/sobre-e-ajustes');page.locator('.pwa-help').evaluate('(el)=>el.open=true')
                 check.click()
                 expect(status).to_have_attribute('data-state', 'error')
                 expect(page.locator('#pwa-update')).to_be_hidden()
@@ -149,7 +149,7 @@ with tempfile.TemporaryDirectory() as temporary:
             unsupported = browser.new_context()
             unsupported.add_init_script('delete Navigator.prototype.serviceWorker')
             page = unsupported.new_page();page.goto(base)
-            page.locator('.pwa-help>summary').click()
+            page.goto(base+'#/sobre-e-ajustes');page.locator('.pwa-help').evaluate('(el)=>el.open=true')
             expect(page.locator('#pwa-check')).to_be_disabled()
             expect(page.locator('#pwa-check-status')).to_have_attribute('data-state', 'unsupported')
             unsupported.close();browser.close()

@@ -12,7 +12,7 @@ try:
  with sync_playwright() as p:
   b=p.chromium.launch(executable_path=chromium_executable(),args=['--no-sandbox','--disable-dev-shm-usage'])
   page=b.new_page(viewport={'width':375,'height':812},service_workers='block');base=f'http://127.0.0.1:{server.server_port}/'
-  for route,selector in [('', '.hero>p,.features h3'),('#/favoritos','.favorites-intro'),('#/atualizacoes','.updates-hero>p')]:
+  for route,selector in [('', '.hero-copy>p,.consultation-guide p'),('#/favoritos','.favorites-intro'),('#/atualizacoes','.updates-hero>p')]:
    page.goto(base+route)
    for text in page.locator(selector).all_inner_texts():assert not re.search(r'[.,][A-Za-zÀ-ÿ]',text),text
   assert '0 alterações' not in page.locator('.history-stats').inner_text()
