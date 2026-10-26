@@ -22,6 +22,17 @@ export function previousRecords(data,codeId,articleId){
  return records.filter(record=>record.part!=='caput'||!records.some(other=>other.part==='article'&&other.unitLabel==='Trecho da fonte: caput e pena'&&other.text.replace(/\s+/gu,' ').trim().startsWith(record.text.replace(/\s+/gu,' ').trim()+' Pena')));
 }
 
+// Build once for the mounted reader. Keep validation/publication rules in
+// previousRecords; only narrow the documentary candidates scanned per article.
+export function previousRecordLookup(data,codeId){
+ const articles=new Map();
+ for(const record of data.records)if(record.codeId===codeId){
+  if(!articles.has(record.articleId))articles.set(record.articleId,[]);
+  articles.get(record.articleId).push(record);
+ }
+ return articleId=>previousRecords({...data,records:articles.get(articleId)||[]},codeId,articleId);
+}
+
 export function sourceLink(url){
  if(typeof url!=='string')return null;
  try{const parsed=new URL(url);return ['https:','http:'].includes(parsed.protocol)&&!parsed.username&&!parsed.password?parsed.href:null;}catch{return null;}

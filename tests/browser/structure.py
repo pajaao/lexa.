@@ -4,7 +4,7 @@ import functools,http.server,threading,json,subprocess
 from support import artifact_path, chromium_executable
 from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
-model=json.loads(subprocess.check_output(['node','--input-type=module','-e',"import {collections} from './src/data.js'; console.log(JSON.stringify(collections));"],cwd=root))
+model=json.loads(subprocess.check_output(['node','--input-type=module','-e',"import {collections} from './src/data.js'; import {readingArticle} from './src/legislative-history-model.js'; console.log(JSON.stringify(collections.map(code=>({...code,articles:code.articles.map(article=>({...article,readerParagraphs:code.kind==='sumulas'?article.paragraphs:readingArticle({},code.id,article).paragraphs}))}))));"],cwd=root))
 class Handler(http.server.SimpleHTTPRequestHandler):
  def log_message(self,*args):pass
 server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(root/'dist')))
@@ -20,9 +20,17 @@ try:
    section=code['sections'][0]
    assert page.locator('.legal-heading').first.inner_text().split('\n')[0] in section['title']
    for article in code['articles'][:15]:
-    expected=[''.join(r['text'] for r in para['runs']) for para in article['paragraphs']]
+    # This integration test checks the model-to-DOM contract; deletion semantics
+    # have independent model tests. Untouched source paragraphs remain a separate oracle.
+    expected=[''.join(r['text'] for r in para['runs']) for para in article['readerParagraphs']]
     actual=page.locator('#art-'+article['id']+'>p.legal-unit').all_text_contents()
     assert actual==expected,(code['id'],article['id'])
+    untouched=[''.join(r['text'] for r in para['runs']) for para in article['paragraphs'] if all(not r.get('deleted') for r in para['runs'])]
+    assert all(text in actual for text in untouched),(code['id'],article['id'],'unaltered source paragraph lost')
+    expect(page.locator('#art-'+article['id']+' del')).to_have_count(0)
+    if code['id']=='cf' and article['id']=='6':
+     assert actual==untouched and len(actual)==2
+     assert sum(any(r.get('deleted') for r in para['runs']) for para in article['paragraphs'])==3
    assert page.locator('#index-list [aria-current="location"]').count()==1
    if code['id'] in ['civil','cpc']:
     assert page.locator('.legal-parte').count() and page.locator('.legal-livro').count() and page.locator('.legal-capitulo').count()
