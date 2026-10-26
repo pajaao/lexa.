@@ -1,5 +1,5 @@
 import {escape} from './presentation.js';
-import {previousRecords,historicalParts,sourceLink,readingArticle} from './legislative-history-model.js';
+import {previousRecords,previousRecordLookup,historicalParts,sourceLink,readingArticle} from './legislative-history-model.js';
 import {legislativeHistoryData} from './legislative-history-data.js';
 
 export function historyContent(data,codeId,articleId,currentArticle){
@@ -20,6 +20,7 @@ export function historyContent(data,codeId,articleId,currentArticle){
 }
 
 export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativeHistoryData}){
+ const recordsFor=previousRecordLookup(data,code.id);
  const dialog=document.createElement('dialog');
  dialog.className='legislative-panel';dialog.id='legislative-history-panel';
  dialog.setAttribute('aria-labelledby','legislative-history-title');
@@ -41,7 +42,7 @@ export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativ
   previous={x:window.scrollX,y:window.scrollY,bodyStyle:document.body.style.cssText,button};
   dialog.querySelector('h2').textContent=`Redações anteriores · ${code.short} · ${button.dataset.legislativeHistory}`;
   const body=dialog.querySelector('.legislative-body');
-  body.innerHTML=historyContent(data,code.id,button.dataset.legislativeHistory,code.articles.find(article=>article.id===button.dataset.legislativeHistory));
+  body.innerHTML=historyContent({...data,records:recordsFor(button.dataset.legislativeHistory)},code.id,button.dataset.legislativeHistory,code.articles.find(article=>article.id===button.dataset.legislativeHistory));
   document.body.style.position='fixed';document.body.style.top=-previous.y+'px';
   document.body.style.left='0';document.body.style.right='0';
   button.setAttribute('aria-expanded','true');dialog.showModal();body.scrollTop=0;
@@ -73,5 +74,5 @@ export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativ
   const destination=event.shiftKey&&document.activeElement===targets[0]?targets.at(-1):!event.shiftKey&&document.activeElement===targets.at(-1)?targets[0]:null;
   if(destination){event.preventDefault();destination.focus({preventScroll:true});}
  });
- return {readingArticle(article){return readingArticle(data,code.id,article);},hasRecords(articleId){return previousRecords(data,code.id,articleId).length>0;},get isOpen(){return dialog.open;},cleanup(){close(false);reading.removeEventListener('click',click);dialog.remove();}};
+ return {readingArticle(article){return readingArticle(data,code.id,article);},hasRecords(articleId){return recordsFor(articleId).length>0;},get isOpen(){return dialog.open;},cleanup(){close(false);reading.removeEventListener('click',click);dialog.remove();}};
 }

@@ -3,12 +3,32 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {buildPackage} from '../../scripts/build.mjs';
 import {checkRelease} from '../../scripts/previous-wordings-release.mjs';
-import {previousRecords,readingArticle} from '../../src/legislative-history-model.js';
+import {previousRecords,previousRecordLookup,readingArticle} from '../../src/legislative-history-model.js';
+import {historyContent} from '../../src/legislative-history.js';
 import {officialImported} from '../../data/official/legislation.js';
 import {legislativeHistoryData as publishedPilot} from '../../src/legislative-history-data.js';
 import {legislativeHistoryData as originalPilot} from '../fixtures/legislative-history-pilot.js';
 
 const root=new URL('../../',import.meta.url);
+
+test('índice por artigo preserva todos os registros, ordem, conteúdo e bloqueios do lote',async()=>{
+ const [manifest,bytes,readerBytes,validationBytes]=await inputs();
+ const data=checkRelease(manifest,bytes,readerBytes,validationBytes);
+ assert.equal(data.records.length,manifest.recordCount);
+ const original=JSON.stringify(data);
+ for(const codeId of Object.keys(manifest.byLegislation)){
+  const lookup=previousRecordLookup(data,codeId);
+  const blocked=previousRecordLookup({...data,publication:{authorized:false}},codeId);
+  const ids=new Set([...data.records.filter(r=>r.codeId===codeId).map(r=>r.articleId),'not-an-article']);
+  for(const id of ids){
+   assert.deepEqual(lookup(id),previousRecords(data,codeId,id));
+   assert.deepEqual(blocked(id),[]);
+   assert.equal(historyContent({...data,records:lookup(id)},codeId,id),historyContent(data,codeId,id));
+  }
+ }
+ assert.equal(JSON.stringify(data),original);
+});
+
 async function inputs(){
  const manifest=JSON.parse(await readFile(new URL('data/previous-wordings/release.json',root),'utf8'));
  return [manifest,await readFile(new URL('data/previous-wordings/candidate.json',root)),await readFile(new URL('data/official/legislation.js',root)),await readFile(new URL(manifest.validationReport,root))];
