@@ -1,4 +1,4 @@
-"""Validate restored original decoration and approved copy without redesign."""
+"""Validate approved editorial home, guide and responsive geometry."""
 from pathlib import Path
 import functools, http.server, threading
 from playwright.sync_api import sync_playwright, expect
@@ -12,7 +12,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Handler, directory=str(root/'dist')))
 threading.Thread(target=server.serve_forever, daemon=True).start()
 base = f'http://127.0.0.1:{server.server_port}/'
-content = '.hero h1,.hero>p,.hero>.field-label,.hero-search,.search-examples button,.search-examples>span,.hero-note>span,.library,.code-card:first-child'
+content = '.hero h1,.hero-copy>p,.hero>.field-label,.hero-search,.search-examples button,.search-examples>span,.hero-note>span,.library,.code-card:first-child'
 
 def positions(page):
     return page.locator(content).evaluate_all('(els)=>els.map(el=>el.getBoundingClientRect().toJSON())')
@@ -28,29 +28,20 @@ try:
                 if dark: page.locator('#theme').click()
                 page.evaluate('document.fonts.ready')
                 expect(page.locator('.hero-geometry,.hero-ornament')).to_have_count(0)
-                art = page.locator('.hero-art')
-                expect(art).to_have_count(1)
-                expect(art).to_have_attribute('aria-hidden','true')
-                expect(art.locator('.book')).to_have_count(2)
-                expect(art.locator('button,a,input')).to_have_count(0)
-                assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
-                if width <= 900:
-                    expect(art).to_be_hidden()
-                else:
-                    expect(art).to_be_visible()
-                    # The restored illustration must remain outside the search field.
-                    box = art.bounding_box()
-                    search = page.locator('.hero-search').bounding_box()
-                    assert box['x'] >= search['x']+search['width'], (width,box,search)
-                expect(page.locator('.hero>p')).to_have_text('Pesquise normas, artigos e súmulas na biblioteca do Lexa.')
-                expect(page.locator('.section-heading>p')).to_have_text('Consulte as normas e súmulas disponíveis.')
+                expect(page.locator('.hero-art,.book,.orbit')).to_have_count(0)
+                guide=page.locator('.consultation-guide')
+                expect(guide).to_have_count(1)
+                if width<=900:expect(guide).to_be_hidden()
+                else:expect(guide).to_be_visible()
+                expect(page.locator('.hero-copy>p')).to_have_text('Pesquise normas, artigos e súmulas na biblioteca do Lexa.')
+                expect(page.locator('.section-heading>p')).to_have_text('Navegue pelas legislações e refine a consulta por área do Direito.')
                 page.keyboard.press('/')
                 expect(page.locator('#library-search')).to_be_focused()
                 page.locator('#library-search').blur();page.mouse.move(width-1,0)
                 if width in (320,390,1440):
-                    page.screenshot(path=artifact_path(f'original-restored-{width}-{"dark" if dark else "light"}.png'))
+                    page.screenshot(path=artifact_path(f'editorial-{width}-{"dark" if dark else "light"}.png'))
                 context.close()
         browser.close()
-    print('Interface original: livros decorativos acessíveis, busca livre de sobreposição, textos aprovados e teclado; 320–1920 px, claro/escuro.')
+    print('Home editorial: orientação responsiva, busca sem sobreposição, catálogo real e teclado; 320–1920 px, claro/escuro.')
 finally:
     server.shutdown();server.server_close()

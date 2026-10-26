@@ -39,7 +39,7 @@ document.addEventListener('click',event=>{
  event.preventDefault();
  toast('O formulário precisa de internet. Conecte-se e tente novamente. Sua leitura continua disponível.',8000);
 });
-document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();app.focus();app.scrollIntoView({block:'start'});});
+document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();const target=document.querySelector('#settings-page').hidden?app:document.querySelector('#settings-title');target.focus();target.scrollIntoView({block:'start'});});
 const historyArticleIds=new Set([...recordedUpdates.flatMap(event=>event.changes.map(change=>event.codeId+'/'+change.articleId)),...collections.flatMap(code=>(code.changedArticleIds||[]).map(id=>code.id+'/'+id))]);
 
 function favoritesPage(){
@@ -77,24 +77,16 @@ function favoritesPage(){
 }
 
 function recentUpdatesSection(){
- const events=initialCatalog?.recentUpdates||[];
- return `<section class="history-invite" aria-labelledby="recent-updates-title"><div><div class="eyebrow">HISTÓRICO DE VERSÕES</div><h2 id="recent-updates-title">Alterações registradas</h2><p>${events.length?'Alterações registradas na versão consultada pelo Lexa. A coleta não certifica vigência.':'Acompanhe os registros e compare os textos das atualizações.'}</p>${events.length?`<ul class="recent-updates">${events.map(event=>{
-  const code=collections.find(code=>code.id===event.codeId);
-  const params=new URLSearchParams({codigo:code.id});
-  const remaining=event.totalChanges-event.articles.length;
-  return `<li data-recent-event="${escape(event.id)}"><h3>${escape(code.name)}</h3><p class="recent-articles">${event.articles.map(article=>{
-   const query=new URLSearchParams({codigo:code.id,artigo:article.articleId});
-   const label=articleLabel({...article,kind:code.kind==='sumulas'?'vinculante':article.kind});
-   return `<a href="#/atualizacoes?${escape(query.toString())}" aria-label="Ver alterações de ${escape(label)} — ${escape(code.name)}">${escape(label)}</a>`;
-  }).join(' · ')}${remaining?` · e mais ${number(remaining)} ${remaining===1?'entrada':'entradas'}`:''}</p><small>Coleta em <time datetime="${escape(event.capturedAt)}">${collectionDate(event)}</time></small><a class="recent-details" href="#/atualizacoes?${escape(params.toString())}" aria-label="Ver detalhes das alterações — ${escape(code.name)}">Ver detalhes →</a></li>`;
- }).join('')}</ul>`:''}</div><a href="#/atualizacoes">Ver histórico completo →</a></section>`;
+ // This build projection contains only incorporated textual changes, not baselines or processing events.
+ const events=(initialCatalog?.recentUpdates||[]).filter(event=>event.totalChanges>0&&collections.some(code=>code.id===event.codeId));
+ return events.length?'<a class="legislative-indicator" href="#/atualizacoes" aria-label="Consultar alterações legislativas registradas">Alterações<span class="indicator-full"> registradas</span> ↗</a>':'';
 }
 
 function home() {
  const resume=lastReading();
  let homeActive=true,searchSequence=0;
  document.title='Lexa — Consulta à legislação brasileira';
- app.innerHTML=`<section class="hero"><div class="eyebrow"><span></span> CONSULTE A LEGISLAÇÃO</div><h1>O que você deseja <br><em>consultar?</em></h1><p>Pesquise normas, artigos e súmulas na biblioteca do Lexa.</p><label class="field-label" for="library-search">Buscar norma, artigo ou palavra</label><div class="search hero-search"><span aria-hidden="true">⌕</span><input id="library-search" placeholder="Ex.: art. 60 CF, Código Civil ou educação"><kbd aria-hidden="true">/</kbd></div><div class="search-examples" role="group" aria-label="Exemplos de busca"><span>Exemplos de busca</span>${['Art. 5 CF','SV 13','dignidade'].map(query=>`<button type="button" data-example="${escape(query)}">${escape(query)}</button>`).join('')}</div><div class="quick-reference" id="quick-reference" aria-label="Resultados por referência" hidden></div><div class="hero-note">§ <span>${collections.filter(c=>c.kind!=='sumulas').length} legislações · ${number(total)} entradas de artigos · ${collections.find(c=>c.id==='sv').articleCount} súmulas vinculantes</span></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="book book-back"></div><div class="book book-front"><span>LEXA / BIBLIOTECA JURÍDICA</span><b>Normas <br>para <br>consulta.</b><i>§</i><small>LEGISLAÇÃO FEDERAL BRASILEIRA</small></div><div class="art-tag">↗ Biblioteca do Lexa</div></div></section>${resume?`<section class="resume-reading" aria-label="Continuar leitura"><div><span class="eyebrow">Continuar leitura</span><p><strong>${escape(resume.code.name)}</strong> · ${articleLabel(resume.article)}</p><small>Salva somente neste navegador.</small></div><a href="${codeHref(resume.code,resume.article.id)}">${resume.code.kind==='sumulas'?'Abrir súmula':'Abrir artigo'} →</a><button id="forget-reading" aria-label="Remover esta consulta da página inicial">×</button></section>`:''}<section class="library"><div class="section-heading"><div class="eyebrow">NORMAS E SÚMULAS</div><h2>Explore a biblioteca</h2><p>Consulte as normas e súmulas disponíveis.</p></div><div class="filters" aria-label="Filtrar por área">${['Todas as áreas','Constitucional','Civil','Penal','Processual','Consumidor','Tributário','Trabalho','Infância e Juventude','Mulher','Administrativo','Súmulas'].map(x=>`<button class="${x===category?'active':''}" data-category="${x}" aria-pressed="${x===category}">${x}</button>`).join('')}</div><p id="library-results" class="library-results" role="status"></p><div class="cards" id="cards"></div><div id="text-results" class="text-results"></div><div class="notice"><span>ⓘ</span><div><strong>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'Textos extraídos das fontes oficiais':'Base de leitura e atualização'}</strong><p>${collections.filter(c=>c.kind!=='sumulas').every(c=>c.source.kind==='official_html')?'As legislações foram extraídas das páginas oficiais do Planalto. A data de coleta aparece em cada legislação.':'Esta edição usa os PDFs fornecidos. A Constituição segue a 69ª edição da Câmara (2026), até a EC 138/2025.'} Novas coletas são propostas para revisão antes de incorporar os textos ao site. A data de coleta não certifica o início de vigência de cada alteração. ${collections.find(c=>c.id==='sv').source.kind==='official_stf'?'As súmulas vinculantes usam a edição das páginas oficiais do STF incorporada após revisão.':'As súmulas vinculantes usam o PDF fornecido, com consulta declarada em 16/10/2026.'} As situações constam em cada entrada.</p></div></div></section>${recentUpdatesSection()}<section class="features"><div><span>01 / ENCONTRE</span><h3>Normas e súmulas <br>para consulta.</h3><p>Legislações e súmulas organizadas, com indicação da edição consultada.</p></div><div><span>02 / NAVEGUE</span><h3>Busca por artigo <br>ou palavra.</h3><p>Busque por palavras, artigos com letras ou números como 1.022. Constituição e ADCT têm navegação separada.</p></div><div><span>03 / LEIA</span><h3>Ajustes <br>de leitura.</h3><p>Fonte ajustável, tema escuro e marcações salvas no seu dispositivo.</p></div></section>`;
+ app.innerHTML=`<section class="hero editorial-hero"><div class="hero-copy"><div class="eyebrow">Consulte a legislação</div><h1>O que você deseja consultar?</h1><p>Pesquise normas, artigos e súmulas na biblioteca do Lexa.</p><label class="field-label" for="library-search">Buscar norma, artigo ou palavra</label><div class="search hero-search"><span aria-hidden="true">⌕</span><input id="library-search" placeholder="Ex.: art. 5 CF, SV 13, dignidade"><kbd aria-hidden="true">/</kbd></div><div class="search-examples" role="group" aria-label="Exemplos de busca"><span>Exemplos</span>${['Art. 5 CF','SV 13','dignidade'].map(query=>`<button type="button" data-example="${escape(query)}">${escape(query)}</button>`).join('')}</div><div class="quick-reference" id="quick-reference" aria-label="Resultados por referência" hidden></div></div><aside class="consultation-guide" aria-label="Como consultar"><div class="eyebrow">Como consultar</div><p><b>01</b><span>Referência exata<small>Art. 5 CF ou SV 13</small></span></p><p><b>02</b><span>Expressão no texto<small>Ex.: dignidade</small></span></p></aside><div class="hero-note"><span><strong>${collections.filter(c=>c.kind!=='sumulas').length}</strong> legislações <i aria-hidden="true"></i> <strong>${number(total)}</strong> entradas <i aria-hidden="true"></i> <strong>${collections.find(c=>c.id==='sv').articleCount}</strong> súmulas</span>${recentUpdatesSection()}</div></section>${resume?`<section class="resume-reading" aria-label="Continuar leitura"><a class="resume-link" href="${codeHref(resume.code,resume.article.id)}"><span class="eyebrow">Continuar leitura</span><p><strong>${escape(resume.code.name)}</strong> · ${articleLabel(resume.article)}</p></a><button id="forget-reading" aria-label="Remover esta consulta da página inicial">×</button></section>`:''}<section class="library"><div class="section-heading"><div class="eyebrow">Biblioteca / acervo</div><h2>Explore a biblioteca</h2><p>Navegue pelas legislações e refine a consulta por área do Direito.</p></div><div class="filters" aria-label="Filtrar por área">${['Todas as áreas','Constitucional','Civil','Penal','Processual','Consumidor','Tributário','Trabalho','Infância e Juventude','Mulher','Administrativo','Súmulas'].map(x=>`<button class="${x===category?'active':''}" data-category="${x}" aria-pressed="${x===category}">${x}</button>`).join('')}</div><p id="library-results" class="library-results" role="status"></p><div class="catalog-heading"><span>Legislações e súmulas disponíveis</span><span>${collections.length} no acervo</span></div><div class="cards" id="cards"></div><div id="text-results" class="text-results"></div></section>`;
  document.querySelector('#library-search').value=libraryQuery;
  document.querySelector('#forget-reading')?.addEventListener('click',()=>{try{localStorage.removeItem('lexa-last-reading');}catch{}document.querySelector('.resume-reading').remove();});
  const findReferences=query=>{
@@ -133,7 +125,7 @@ function home() {
   }
   document.querySelector('#library-results').textContent='';
   const filtered=collections.filter(c=>(category==='Todas as áreas'||c.area.includes(category))&&normalize(c.name+' '+c.short+' '+c.area+' '+c.description).includes(q));
-  document.querySelector('#cards').innerHTML=filtered.length?filtered.map(c=>`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-icon">${escape(c.icon)}</span><span class="code-short">${escape(c.short)}</span></div><span class="area">${escape(c.area)}</span><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p><span class="card-count">${number(c.articleCount)} ${c.kind==='sumulas'?'súmulas':'entradas'}${c.id==='cf'?' · inclui ADCT':''}</span><div class="card-bottom"><small>${escape(c.law)}</small><span>Consultar <b>↗</b></span></div></a>`).join(''):'';
+  document.querySelector('#cards').innerHTML=filtered.map(c=>`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-short">${escape(c.short)} / ${c.kind==='sumulas'?'súmulas':'legislação'}</span><span class="catalog-number">${String(collections.indexOf(c)+1).padStart(2,'0')}</span></div><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p></a>`).join('');
   textGroups=q.length>=2?searchLibraryText(currentQuery,category):[];
   const count=textGroups.reduce((sum,group)=>sum+group.matches.length,0);
   if(q){
@@ -225,7 +217,11 @@ async function route(){
  cleanupReader();cleanupReader=()=>{};
  const [path,query='']=location.hash.slice(1).split('?');
  const [,id,article]=path.split('/');
- const activeNav=id==='favoritos'?'#/favoritos':id==='atualizacoes'?'#/atualizacoes':'#';
+ const leavingSettings=!document.querySelector('#settings-page').hidden;
+ const settings=id==='sobre-e-ajustes'||id==='sobre-lexa'||path==='sobre-lexa';
+ document.querySelector('#settings-page').hidden=!settings;app.hidden=settings;
+ document.body.classList.toggle('settings-view',settings);
+ const activeNav=settings?'#/sobre-e-ajustes':id==='favoritos'?'#/favoritos':id==='atualizacoes'?'#/atualizacoes':'#';
  document.querySelectorAll('header nav>a').forEach(link=>{
   if(link.getAttribute('href')===activeNav)link.setAttribute('aria-current','page');
   else link.removeAttribute('aria-current');
@@ -235,6 +231,7 @@ async function route(){
  const needsData=code&&!code.loaded||id==='favoritos'||id==='atualizacoes';
  if(needsData)app.innerHTML=`<section class="loading-panel"><p role="status">${code?'Carregando '+escape(code.name)+'…':id==='favoritos'?'Carregando favoritos…':'Carregando histórico…'}</p></section>`;
  try{
+  if(settings){document.title='Sobre e ajustes — Lexa';app.innerHTML='';document.querySelector('#settings-title').focus({preventScroll:true});window.scrollTo(0,0);return;}
   if(id==='favoritos'){
    await loadSearchIndexes(collections.filter(code=>saved.some(key=>key.startsWith(code.id+'/'))));
    if(generation!==routeGeneration)return;
@@ -246,7 +243,7 @@ async function route(){
    updatesPage(new URLSearchParams(query));window.scrollTo(0,0);return;
   }
   if(code){await loadCollection(code);if(generation!==routeGeneration)return;reader(code,article,new URLSearchParams(query),readerServices());}
-  else home();
+  else{home();if(leavingSettings)app.focus({preventScroll:true});}
   if(!article)window.scrollTo(0,0);
  }catch(error){
   if(generation!==routeGeneration)return;
@@ -256,7 +253,14 @@ async function route(){
 }
 let dark=false;try{dark=localStorage.getItem('lexa-theme')==='dark';}catch{}
 document.documentElement.classList.toggle('dark',dark);
-document.querySelector('#theme').onclick=()=>{dark=!dark;document.documentElement.classList.toggle('dark',dark);try{localStorage.setItem('lexa-theme',dark?'dark':'light');}catch{}};
+function setTheme(value){
+ dark=value;document.documentElement.classList.toggle('dark',dark);
+ document.querySelectorAll('[data-theme]').forEach(button=>button.setAttribute('aria-pressed',String((button.dataset.theme==='dark')===dark)));
+ try{localStorage.setItem('lexa-theme',dark?'dark':'light');}catch{}
+}
+document.querySelector('#theme').onclick=()=>setTheme(!dark);
+document.querySelectorAll('[data-theme]').forEach(button=>button.onclick=()=>setTheme(button.dataset.theme==='dark'));
+setTheme(dark);
 document.addEventListener('keydown',e=>{
  if(e.key==='Escape'&&!document.querySelector('#copy-dialog').open){const menu=document.querySelector('.article-copy[open]');if(menu){menu.open=false;menu.querySelector('summary').focus({preventScroll:true});e.stopImmediatePropagation();return;}}
  if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();document.querySelector('input')?.focus();}});

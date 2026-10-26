@@ -45,14 +45,14 @@ with tempfile.TemporaryDirectory() as temporary:
             page.wait_for_function('navigator.serviceWorker.controller !== null',timeout=20000)
             expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','partial')
             assert not [path for path in requests if '/data/search-' in path],'Instalação inicial baixou índices completos'
-            page.locator('.pwa-help>summary').click();page.locator('#pwa-cache-all').click()
+            page.goto(base+'#/sobre-e-ajustes');page.locator('.pwa-help>summary').click();page.locator('#pwa-cache-all').click()
             expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','full',timeout=30000)
             scope=page.evaluate('(async()=> (await navigator.serviceWorker.ready).scope)()')
             assert scope==base
             manifest=page.evaluate("(async()=>await (await fetch('./manifest.webmanifest')).json())()")
             assert manifest['start_url']=='./' and manifest['scope']=='./'
             page.evaluate("caches.open('unrelated-project').then(cache=>cache.put('/unrelated',new Response('keep')))")
-            page.locator('#font-up').click()
+            page.goto(base+'#/cf/60');page.locator('#font-up').click()
             page.locator('[data-save="60"]').click()
             assert page.evaluate("(async()=> (await Promise.all((await caches.keys()).map(async key=>(await (await caches.open(key)).keys()).map(r=>r.url)))).flat().every(url=>!url.endsWith('.pdf')))()")
             context.set_offline(True)
@@ -132,7 +132,7 @@ with tempfile.TemporaryDirectory() as temporary:
             assert page.evaluate("(async()=> (await caches.keys()).filter(k=>k.startsWith('lexa-offline:')).length)()")==1
             fresh=browser.new_context();first=fresh.new_page();first.goto(base)
             expect(first.locator('#pwa-status')).to_have_attribute('data-offline-mode','partial',timeout=20000)
-            first.locator('.pwa-help>summary').click();first.locator('#pwa-cache-all').click()
+            first.goto(base+'#/sobre-e-ajustes');first.locator('.pwa-help>summary').click();first.locator('#pwa-cache-all').click()
             expect(first.locator('#pwa-status')).to_contain_text('Não foi possível completar',timeout=30000)
             assert first.locator('#pwa-status').get_attribute('data-offline-mode')!='full'
             fresh.close()

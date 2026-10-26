@@ -47,7 +47,8 @@ try:
                 assert params['entry.1354902092']==[f'https://pajaao.github.io/lexa./#/{code}/{article}']
                 assert params['usp']==['pp_url']
                 activate(page,link)
-            general=page.locator('footer .feedback-link')
+            page.goto(base+'#/sobre-e-ajustes')
+            general=page.locator('#settings-page .feedback-link')
             expect(general).to_have_attribute('href','https://forms.gle/2m4zgB2PKf9GdJMv7')
             activate(page,general)
             assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
@@ -57,7 +58,8 @@ try:
             expect(page.locator('#pwa-status')).to_have_attribute('data-offline-mode','full',timeout=30000)
             context.unroute(external);context.set_offline(True)
             page.goto(base+'#/penal/215');expect(page.locator('#art-215')).to_be_visible()
-            for selector in ['#art-215 .article-feedback','footer .feedback-link']:
+            for selector in ['#art-215 .article-feedback','#settings-page .feedback-link']:
+                page.goto(base+('#/sobre-e-ajustes' if selector.startswith('#settings') else '#/penal/215'))
                 link=page.locator(selector);link.scroll_into_view_if_needed();link.focus()
                 before=state(page);page_count=len(context.pages)
                 page.keyboard.press('Enter')
@@ -68,6 +70,7 @@ try:
                 expect(link).to_be_focused()
             context.set_offline(False)
             context.route(external,lambda route:route.fulfill(body='External destination stub',content_type='text/html'))
+            page.goto(base+'#/penal/215')
             activate(page,page.locator('#art-215 .article-feedback'))
             expect(page.locator('#art-215')).to_be_visible()
             context.close()
