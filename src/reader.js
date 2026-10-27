@@ -196,7 +196,7 @@ export function reader(code, requested, params, context) {
    controls.append(focusButton);
   }else{
    summary.removeAttribute('aria-haspopup');summary.removeAttribute('aria-controls');summary.removeAttribute('aria-expanded');
-   settings.open=desktopSettingsOpen;document.querySelector('.reading-context').append(focusButton);
+   settings.open=desktopSettingsOpen;controls.append(focusButton);
   }
   updateReadingOffset();
  }
