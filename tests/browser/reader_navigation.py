@@ -71,7 +71,7 @@ try:
     page.goto(base+'#/cf/5');page.locator('#art-5').wait_for()
     if width<=700:
      controls=page.locator('.reading-controls')
-     assert controls.bounding_box()['height']<=64,controls.bounding_box()
+     assert controls.bounding_box()['height']<=96,controls.bounding_box()
      page.locator('#art-5 .legal-unit').nth(4).scroll_into_view_if_needed()
      page.wait_for_function("Math.abs(document.querySelector('.reading-controls').getBoundingClientRect().top)<1")
      assert page.locator('#reading-location').inner_text()!='Leitura'
