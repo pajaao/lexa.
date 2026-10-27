@@ -10,4 +10,16 @@
 <div id="pwa-update" class="pwa-update" role="status" hidden><p>Uma atualização do Lexa está pronta.</p><button id="pwa-refresh">Atualizar agora</button><span>Atualizar recarrega a página. Confira sua consulta antes de continuar. Favoritos e preferências serão mantidos.</span></div>
 <dialog id="copy-dialog" class="copy-dialog" aria-labelledby="copy-dialog-title"><form method="dialog"><button class="copy-close" aria-label="Fechar cópia manual">×</button><h2 id="copy-dialog-title">Copiar manualmente</h2><p id="copy-dialog-help">Seu navegador não permitiu a cópia automática. Selecione e copie o conteúdo abaixo.</p><textarea id="copy-content" aria-label="Conteúdo para copiar" aria-describedby="copy-dialog-help" readonly></textarea><button class="copy-select" type="button" id="copy-select">Selecionar tudo</button><button class="copy-done">Concluir</button></form></dialog>
 <div id="toast" role="status"></div><script type="module" src="./app.js"></script>
+<!-- Cloudflare Web Analytics: somente no endereço publicado -->
+<script type="module">
+if (location.origin === 'https://pajaao.github.io' && location.pathname.startsWith('/lexa./') &&
+    !document.querySelector('script[data-cf-beacon]')) {
+  const beacon = document.createElement('script');
+  beacon.type = 'module';
+  beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  beacon.setAttribute('data-cf-beacon', '{"token":"ce56a8770f484f11a8af59f3d85f481a"}');
+  document.head.append(beacon);
+}
+</script>
+<!-- End Cloudflare Web Analytics -->
 </body></html>

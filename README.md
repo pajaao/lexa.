@@ -105,6 +105,16 @@ Cada coleção mostra sua edição e procedência em **“Sobre esta versão e a
 
 Na página **[Atualizações](https://pajaao.github.io/lexa./#/atualizacoes)**, o primeiro registro estabelece a referência inicial. As versões seguintes mostram as diferenças registradas. Os destaques descrevem mudanças no texto; a classificação jurídica de seus efeitos depende de conferência na fonte.
 
+## Privacidade e serviços externos
+
+Favoritos, preferências e posição de leitura ficam salvos neste navegador, sem sincronização entre dispositivos. O Lexa pode ser consultado sem cadastro.
+
+A integração preparada com o **Cloudflare Web Analytics** permite compreender o uso da plataforma, acompanhar o tráfego e orientar melhorias, por meio de estatísticas como visitas, visualizações de páginas e informações agregadas de tráfego e desempenho. O script está limitado a `https://pajaao.github.io/lexa./`, sem carregamento nas prévias locais; a coleta efetiva depende da publicação e da confirmação no painel do serviço.
+
+Segundo o [fornecedor](https://www.cloudflare.com/web-analytics/), o Web Analytics funciona sem cookies e sem identificação individual de visitantes para fins de análise. O tratamento está sujeito às condições aplicáveis da Cloudflare e à sua [Política de Privacidade](https://www.cloudflare.com/privacypolicy/). Essa descrição não significa ausência de qualquer tratamento de dados pessoais nem dispensa automática de obrigações legais.
+
+O envio de feedback é voluntário e abre um **Google Forms externo**, sujeito à [Política de Privacidade do Google](https://policies.google.com/privacy). O mantenedor recebe as informações enviadas para analisar problemas e sugestões; o acesso ao formulário também envolve o tratamento de dados pelo Google. No leitor, o link da norma e do artigo é pré-preenchido para contextualizar a mensagem. Não envie dados pessoais sensíveis.
+
 ## Encontrou algo que podemos melhorar?
 
 Abra um registro na aba **[Issues](https://github.com/pajaao/lexa./issues)** do repositório. Conte o que você tentou fazer, qual resultado esperava e o que apareceu. Para um problema de conteúdo, inclua o número do artigo ou da súmula e o link da fonte oficial, se tiver.

@@ -24,7 +24,7 @@ O nome "Lexa", o logotipo, os ícones e a identidade visual não são licenciado
 
 ## 5. Dependências de terceiros
 
-O aplicativo publicado **não tem dependências npm** nem carrega fontes ou scripts externos. As dependências abaixo são usadas apenas em desenvolvimento, em testes e na importação de dados, e **não são distribuídas** com o site. Cada uma segue a licença de seus autores:
+O aplicativo publicado **não tem dependências npm** nem carrega fontes externas. No endereço público do Lexa, carrega o script externo do **Cloudflare Web Analytics** para medir acessos; esse script não é carregado nas prévias locais. As dependências abaixo são usadas apenas em desenvolvimento, em testes e na importação de dados, e **não são distribuídas** com o site. Cada uma segue a licença de seus autores:
 
 | Dependência | Uso | Licença indicada pelos autores |
 | --- | --- | --- |
