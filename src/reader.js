@@ -47,7 +47,11 @@ export function reader(code, requested, params, context) {
  }
  function readingAnchor(){
   const line=controls.getBoundingClientRect().bottom+12;
-  const element=[...document.querySelectorAll('#articles .legal-unit,#articles .article-heading')].find(el=>el.getBoundingClientRect().bottom>line);
+  // Use the same visible normative unit as the reader-continuity check.
+  // A heading immediately above it is not a stable anchor when line spacing changes.
+  const units=[...document.querySelectorAll('#articles .legal-unit')];
+  const element=units.find(el=>el.getBoundingClientRect().bottom>line)
+   ||[...document.querySelectorAll('#articles .article-heading')].find(el=>el.getBoundingClientRect().bottom>line);
   return element?{element,top:element.getBoundingClientRect().top}:null;
  }
  function savePreferences(){
