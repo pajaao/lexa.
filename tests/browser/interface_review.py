@@ -30,7 +30,7 @@ try:
    for dark in [False,True]:
     page.goto(base+'#/cf/5');expect(page.locator('#art-5')).to_be_visible()
     page.evaluate('(dark)=>document.documentElement.classList.toggle("dark",dark)',dark)
-    assert page.locator('#art-5').evaluate('el=>parseFloat(getComputedStyle(el).paddingLeft)')>=16
+    assert page.locator('#art-5').evaluate('el=>parseFloat(getComputedStyle(el).paddingLeft)')==0  # Leitura contínua editorial, sem recuo de cartão
     assert page.locator('#theme svg').bounding_box()['width']==18
   b.close();print('Interface: frases separadas, exemplos por teclado, histórico, recuo e SVG validados.')
 finally:server.shutdown();server.server_close()
