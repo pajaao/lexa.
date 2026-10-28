@@ -19,7 +19,7 @@ export function historyContent(data,codeId,articleId,currentArticle){
   }).join('')+'</details>');
 }
 
-export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativeHistoryData}){
+export function setupLegislativeHistory({reading,code,beforeOpen,afterRender,data=legislativeHistoryData}){
  const recordsFor=previousRecordLookup(data,code.id);
  const dialog=document.createElement('dialog');
  dialog.className='legislative-panel';dialog.id='legislative-history-panel';
@@ -43,6 +43,7 @@ export function setupLegislativeHistory({reading,code,beforeOpen,data=legislativ
   dialog.querySelector('h2').textContent=`Redações anteriores · ${code.short} · ${button.dataset.legislativeHistory}`;
   const body=dialog.querySelector('.legislative-body');
   body.innerHTML=historyContent({...data,records:recordsFor(button.dataset.legislativeHistory)},code.id,button.dataset.legislativeHistory,code.articles.find(article=>article.id===button.dataset.legislativeHistory));
+  afterRender?.(body,button.dataset.legislativeHistory);
   document.body.style.position='fixed';document.body.style.top=-previous.y+'px';
   document.body.style.left='0';document.body.style.right='0';
   button.setAttribute('aria-expanded','true');dialog.showModal();body.scrollTop=0;

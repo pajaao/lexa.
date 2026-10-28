@@ -13,6 +13,9 @@
 /experiments/previous-wordings-release/** -text
 /tests/fixtures/previous-wordings-simple.json -text
 /data/previous-wordings/*.json -text
+# Candidate EC hashes pin JSON and official HTML bytes across platforms.
+/data/amendments/candidate/** -text
+/data/amendments/candidate/originals/** linguist-documentation
 
 # Preserve the supplied license and notice bytes on Windows.
 /LICENSE -text

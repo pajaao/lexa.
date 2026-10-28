@@ -1,0 +1,830 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-itunes-app" content="app-id=1049343067" />
+    <meta name="google-play-app" content="app-id=br.leg.camara.infolegmovel" />
+    <script>
+      (function () {
+        let initialized = false;
+        let loading = false;
+
+        function ensureBody(callback) {
+          if (document.body) {
+            callback();
+          } else {
+            setTimeout(() => ensureBody(callback), 50);
+          }
+        }
+
+        function loadScript() {
+          if (loading || window.VLibras) return;
+          loading = true;
+
+          ensureBody(() => {
+            const s = document.createElement("script");
+            s.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
+            s.onload = initVLibras;
+            document.body.appendChild(s);
+          });
+        }
+
+        function initVLibras() {
+          if (initialized || !window.VLibras) return;
+
+          ensureBody(() => {
+            if (!document.querySelector("[vw]")) {
+              const container = document.createElement("div");
+              container.innerHTML = `
+              <div vw class="enabled">
+                <div vw-access-button class="active"></div>
+                <div vw-plugin-wrapper>
+                  <div class="vw-plugin-top-wrapper"></div>
+                </div>
+              </div>
+            `;
+              document.body.appendChild(container);
+            }
+
+            (new window.VLibras.Widget(
+              "https://vlibras.gov.br/app",
+              "https://vlibras.gov.br/config/camara.json",
+            ),
+              $("body").append(
+                '<aside><div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div></aside>',
+              ));
+            initialized = true;
+
+            injectCSS();
+            if (!window.location.pathname.includes("/comissoes")) {
+              bindButton();
+            }
+          });
+        }
+
+        function injectCSS() {
+          if (document.getElementById("vlibras-style")) return;
+          const style = document.createElement("style");
+          style.id = "vlibras-style";
+          style.innerHTML = `
+          [vw-access-button] { display: none !important; }
+          div[vw] { z-index: 999999 !important; }
+        `;
+          document.head.appendChild(style);
+        }
+
+        function bindButton() {
+          const btn = document.getElementById("meu-botao-vlibras");
+          if (!btn) {
+            setTimeout(bindButton, 300);
+            return;
+          }
+
+          btn.onclick = function (e) {
+            e.preventDefault();
+            const original = document.querySelector("[vw-access-button]");
+            if (original) original.click();
+          };
+        }
+
+        // OBSERVA MUTA&#199;&#213;ES DO DOM (ESSENCIAL NO PLONE)
+        const observer = new MutationObserver(() => {
+          if (!document.querySelector("[vw]") && !initialized) {
+            loadScript();
+          }
+        });
+
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+        });
+
+        window.addEventListener("load", loadScript);
+      })();
+    </script>
+
+    <title>Portal da Câmara dos Deputados</title>
+  <style type="text/css">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/member-cachekey-46bb2e0fc9968a457e63f356c0ff3900.css);</style><style type="text/css">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/portlets-cachekey-8a45f49b338591ae0c9c8a91f261dc78.css);</style><style type="text/css" media="screen">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/deprecated-cachekey-32595b622b36f2eee9478f07796d4f67.css);</style><style type="text/css" media="screen">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/resourceplone.app.discussion.stylesheetsdiscussion-cachekey-5b23f388acd88bdb65020b51a5a278fb.css);</style><style type="text/css">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/elements-cachekey-57e40a70bd8192a6f63782abff5c2748.css);</style><style type="text/css" media="all">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/ploneCustom-cachekey-7fb44e17264e070fccf4e31d9f2ada1c.css);</style><link rel="stylesheet" type="text/css" href="https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/themecamara.leg.viradadigitalcsslibsbootstrap-datetimepicker.min-cachekey-ab2d257c1b49d2d194633e2ecb4564a2.css" /><link rel="stylesheet" type="text/css" href="https://www.camara.leg.br/tema/global/camara-custom.css" /><link rel="stylesheet" type="text/css" href="https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/++theme++camara.leg.viradadigital/css/all.min.css" /><link rel="apple-touch-icon" sizes="180x180" href="https://www.camara.leg.br/tema/apple-touch-icon.png" /><link rel="icon" type="image/png" sizes="32x32" href="https://www.camara.leg.br/tema/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="https://www.camara.leg.br/tema/favicon-16x16.png" /><link rel="manifest" href="https://www.camara.leg.br/tema/site.webmanifest" /><link rel="mask-icon" href="https://www.camara.leg.br/tema/safari-pinned-tab.svg" color="#009e49" /><link rel="search" href="http://www2.camara.leg.br/busca-geral" title="Buscar neste site" /><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/resourceplone.app.jquery-cachekey-3fa72abea58e1799bd3b0bc237335d45.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/styleswitcher-cachekey-9178d2d1bc80488214ac8d40a46c7bdf.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/impressaoIframes-cachekey-7de901cf3c737563606c12fa53b7a321.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/GoogleAnalyticsTracker.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/kss-bbb-cachekey-df10a37e7aa4176c3b122c2e3b0ee128.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/inline_validation-cachekey-35d4d75a94cdb17b403a636871dd92cb.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljsbootstrap.min-cachekey-c15df71e2ec454087fe4c4eab0ce9d3e.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsmoment.min-cachekey-860514b918ea422f7e82fa48125015c4.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsmoment-pt-br-cachekey-0aafba4fb000126f1ed0f6701186de00.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsbootstrap-datetimepicker.min-cachekey-fac2884b384d9c99236b26d0746facc4.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsjquery.maskedinput.min-cachekey-e2f8b2523378532cc132594675b6dc6f.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljsacoes-tema-cachekey-a0084cf69f1785571a18f6a58a4986ac.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljscorrecoes-bootstrap-tema-cachekey-bd4c19550531506aa59d8b0aa7e8d6c5.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitalvendorjquery.mmenu.all-cachekey-f0e297313e30d6b2b2c2588ef23b5ef2.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitaljsvd_correcoes-cachekey-52a3614631388ad9e07bf35264bc73d5.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitaljsmmenu-correcoes-cachekey-8e45cc1e451978774afbfe2f5f1e95cf.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitaljsselecao-idioma-cachekey-998dbb210e1353a5d7f94011740ee16c.js"></script><meta name="msapplication-TileColor" content="#00a300" /><meta name="msapplication-TileImage" content="https://www.camara.leg.br/tema/mstile-144x144.png" /><meta name="theme-color" content="#009e49" /><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><link rel="canonical" href="" /><script type="text/javascript">
+          $("link[rel='canonical']").attr("href", window.location.href);
+        </script>
+
+
+
+
+
+
+
+<title>EMENDA CONSTITUCIONAL Nº 19, DE 1998 - Publicação Original - Portal Câmara dos Deputados</title>
+
+<meta name="description" content="Publicação de Emenda Constitucional: Modifica o regime e dispõe sobre princípio e normas da Administração Pública, Servidores e Agentes políticos, controle de despesas e finanças públicas e custeio de atividades a cargo do Distrito Federal, e dá outras providências. " />
+
+<!-- Coloque aqui sua referência ao CSS local -->
+<link rel="stylesheet" type="text/css" href="../../../_css/legislacao-v1.css" />
+
+<!-- Coloque aqui seu javascript -->
+<!-- script type="text/javascript" src="caminho-e-nome-do-arquivo.js"></script -->
+
+</head>
+<body>
+    <header class="l-cabecalho-portal" role="banner" id="portal-header">
+        <ul aria-label="Acesso direto" class="acesso-direto">
+          <!-- Links para saltar diretamente para &#225;reas importantes da p&#225;gina accesskey 2 = conte&#250;do e 3 = navega&#231;&#227;o -->
+          <li>
+            <a class="acesso-direto__link" href="#main-content" accesskey="2">Ir ao conteúdo</a>
+          </li>
+          <li>
+            <a class="acesso-direto__link" href="#main-nav" accesskey="3">Ir à navegação principal</a>
+          </li>
+        </ul>
+
+        <!--[if lte IE 9]>
+          <p class="browserupgrade">
+            Voc&#234; est&#225; usando um navegador <strong>defasado</strong>. Por favor,
+            <a href="https://browsehappy.com/">atualize seu navegador</a> para
+            melhorar sua experi&#234;ncia e sua seguran&#231;a.
+          </p>
+        <![endif]-->
+
+        <div class="nav-top">
+          <div class="container nav-top--container">
+            <a href="https://www2.camara.leg.br" class="logo-camara" accesskey="1"><span class="sr-only">Página inicial</span></a>
+
+            <div class="nav-top__palacio"></div>
+
+            <div class="nav-top__menu-superior">
+              <ul aria-label="Ferramentas de apoio" class="links-apoio">
+                <li class="links-apoio__item links-apoio__item--vlibras">
+                  <a id="meu-botao-vlibras" href="javascript:void(0);">
+                    <span>
+                      <img src="https://www.camara.leg.br/tema/assets/images/ico-vlibras-branco.png" alt="Ativar VLibras" width="28px" height="30px" />
+                    </span>
+                  </a>
+                </li>
+                <li class="links-apoio__item links-apoio__item--acessibilidade">
+                  <a href="https://www2.camara.leg.br/acessibilidade/recursos-de-acessibilidade" accesskey="0">Acessibilidade</a>
+                </li>
+                <li class="links-apoio__item links-apoio__item--faleconosco">
+                  <a href="https://www.camara.leg.br/fale-conosco" accesskey="9">Fale Conosco</a>
+                </li>
+              </ul>
+
+              <ul class="orgaos-parceiros" aria-label="Órgãos parceiros">
+                <li class="orgaos-parceiros__item orgaos-parceiros__item--congresso">
+                  <a href="http://www.congressonacional.leg.br"><span>Congresso</span></a>
+                </li>
+                <li class="orgaos-parceiros__item orgaos-parceiros__item--senado">
+                  <a href="http://www.senado.leg.br"><span>Senado</span></a>
+                </li>
+              </ul>
+
+              <div class="lista-idiomas">
+                <button class="botao-idioma-topo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="4,0">
+                  <span class="botao-idioma-topo__sigla">PT</span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-right l-lista-idiomas" aria-label="Idioma">
+                  <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/english" class="idioma-topo">
+                      <span class="idioma-topo__bandeira idioma-topo__bandeira--ingles" aria-hidden="true"></span>
+                      <span class="idioma-topo__nome">English</span>
+                      <span class="idioma-topo__sigla">EN</span>
+                    </a>
+                  </li>
+                  <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/espanol" class="idioma-topo">
+                      <span class="idioma-topo__bandeira idioma-topo__bandeira--espanhol" aria-hidden="true"></span>
+                      <span class="idioma-topo__nome">Español</span>
+                      <span class="idioma-topo__sigla">ES</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="home-camara-menu">
+    <nav class="menu-global navbar navbar-expand-lg" role="navigation" aria-label="Navegação principal" id="menuglobal">
+      <div class="container menu-global--container">
+      
+
+        <a href="https://www.camara.leg.br" class="logo-camara" accesskey="1">
+          <span class="sr-only">Página inicial</span>
+        </a>
+
+      
+        
+        <!-- icone menu -->
+        <button class="menu-global--btnmenu navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarportal" aria-controls="navbarportal" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="menu-global--icon"></span>
+        </button>
+
+        <!-- icone busca -->
+        <button class="menu-global--btnsearch" type="button" data-toggle="collapse" data-target="#buscaportal" aria-controls="buscaportal" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-search"></span>
+        </button>
+
+        <div class="navbar-collapse hidden-sm hidden-md hidden-xs" id="navbarportal">
+          <ul title="Navegação Principal" id="main-nav" class="navbar-nav">
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-temas nav-link dropdown-toggle" id="temas">Assuntos</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="temas">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/agropecuaria">Agropecuária</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/cidades-e-transportes">Cidades e transportes</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/ciencia-tecnologia-e-comunicacoes">Ciência, tecnologia e comunicações</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/consumidor">Consumidor</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/direitos-humanos">Direitos humanos</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/economia">Economia</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/educacao-cultura-e-esportes">Educação, cultura e esportes</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/meio-ambiente-e-energia">Meio ambiente e energia</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/politica-e-administracao-publica">Política e administração pública</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/relacoes-exteriores">Relações exteriores</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/saude">Saúde</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/seguranca">Segurança</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/trabalho-previdencia-e-assistencia">Trabalho, previdência e assistência</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-institucional nav-link dropdown-toggle" id="institucional">Institucional</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="institucional">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/agenda">Agenda</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/transparencia/servicos-ao-cidadao">Serviços</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/a-camara/estruturaadm/mesa/presidencia">Presidência</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/biblioteca-e-publicacoes/">Biblioteca e publicações</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/escola-da-camara/">Escola da Câmara</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/papel-e-estrutura/">Papel e estrutura</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/historia-e-arquivo/">História e arquivo</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/a-camara/visiteacamara">Visite</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-deputados nav-link dropdown-toggle" id="deputados">Deputados</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="deputados">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/deputados/quem-sao">Quem são</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/deputados/liderancas-e-bancadas-partidarias">Lideranças e bancadas</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/deputados/frentes-e-grupos-parlamentares">Frentes e grupos parlamentares</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-atvlegislativa nav-link dropdown-toggle" id="atvlegislativa">Atividade Legislativa</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="atvlegislativa">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/busca-portal/proposicoes/pesquisa-simplificada">Propostas legislativas</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/plenario">Plenário</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/comissoes">Comissões</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/sessoesereunioes">Sessões e reuniões</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/atividade-legislativa/estudos-e-notas-tecnicas">Estudos legislativos</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/atividade-legislativa/orcamento-da-uniao">Orçamento da União</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/legislacao">Legislação</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/entenda-o-processo-legislativo/">Entenda o processo legislativo</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/atividade-legislativa/participe">Participe</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-comunicacao nav-link dropdown-toggle" id="comunicacao">Comunicação</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="comunicacao">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/noticias">Agência Câmara de Notícias</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/radio">Rádio Câmara</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/tv">TV Câmara</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/banco-imagens">Banco de Imagens</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assessoria-de-imprensa">Assessoria de Imprensa</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/comprove">Comprove uma notícia</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-transprestcontas nav-link dropdown-toggle" id="transprestcontas">Transparência e prestação de contas</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="transprestcontas">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/transparencia/">Transparência</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/transparencia/prestacao-de-contas">Prestação de contas</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://dadosabertos.camara.leg.br/">Dados abertos</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+          </ul>
+          <div class="outras-opcoes-menu-usuario hidden-md hidden-lg">
+            <ul aria-label="Ferramentas de apoio" class="links-apoio links-apoio--menu-mobile">
+              <li class="links-apoio__item links-apoio__item--acessibilidade">
+                <a href="https://www2.camara.leg.br/acessibilidade/recursos-de-acessibilidade" accesskey="0">Acessibilidade</a>
+              </li>
+              <li class="links-apoio__item links-apoio__item--faleconosco">
+                <a href="https://www.camara.leg.br/fale-conosco" accesskey="9">Fale Conosco</a>
+              </li>
+            </ul>
+          </div>
+          <div class="lista-idiomas hidden-md hidden-lg">
+            <button id="botao-idioma-topo" class="botao-idioma-topo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="4,0">
+                <span class="botao-idioma-topo__sigla">PT</span>
+            </button>
+        
+            <ul class="dropdown-menu-right l-lista-idiomas " aria-label="Idioma">
+                <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/english" class="idioma-topo">
+                        <span class="idioma-topo__bandeira idioma-topo__bandeira--ingles" aria-hidden="true"></span>
+                        <span class="idioma-topo__nome">English</span>
+                        <span class="idioma-topo__sigla">EN</span>
+                    </a>
+                </li>
+                <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/espanol" class="idioma-topo">
+                        <span class="idioma-topo__bandeira idioma-topo__bandeira--espanhol" aria-hidden="true"></span>
+                        <span class="idioma-topo__nome">Español</span>
+                        <span class="idioma-topo__sigla">ES</span>            
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+
+
+        <div class="collapse box-search" id="buscaportal">
+          <form role="search" accesskey="4" class="box-search__busca form-inline" action="https://www.camara.leg.br/busca-geral">
+            <label for="termo" class="sr-only box-search__label">Pesquise no Portal da Câmara</label>
+            <input class="form-control box-search__campo" type="search" name="termo" id="termo" placeholder="Buscar" aria-label="Search" />
+          </form>
+        </div>
+      </div>
+    </nav>
+  </div>
+      </header>
+
+    <div class="breadcrumbs-marcacao">
+        <div class="container">
+            <nav aria-label="Onde estou">
+                <ol class="breadcrumb portal-breadcrumbs">
+                    <li class="breadcrumb-item"><a href="//www.camara.leg.br">Início</a></li>
+                    
+	<li class='breadcrumb-item'><a href='http://www2.camara.gov.br/atividade-legislativa'>Atividade Legislativa</a></li>
+    <li class='breadcrumb-item'><a href='http://www2.camara.gov.br/atividade-legislativa/legislacao'>Legislação</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Esta página</li>
+                </ol>
+            </nav>
+        </div>
+        
+        <div class="container-fluid p-0">
+            <div id="menu-secoes-internas" class="menu-secoes-internass">
+                <div id="portal-mainsection">
+                    <div class="l-identificacao-landing">
+                        <div class="container">
+                            <h1 class="titulo-landing">Legislação</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="marcacao-conteudo-portal" class="conteudo-portal container nopadding-right nopadding-left">
+        <div class="coluna-centro col-md-12">
+
+
+<div id="portal-column-content">
+	<div id="portal-content-wrapper">
+		<div class="documentContent">
+			<div id="content">
+	
+				<h2 class="documentFirstHeading">Legislação Informatizada - EMENDA CONSTITUCIONAL Nº 19, DE 1998 - Publicação Original</h2>
+				<div class="vejaTambem">
+			    	<p>Veja também:</p>
+			    	<ul>
+                                        <li>
+
+
+                                                <a href="emendaconstitucional-19-4-junho-1998-372816-normaatualizada-pl.html" target="_blank">Texto Atualizado <span class="descricaoArquivo">(HTML)</span></a>&nbsp;
+                                                (<a href="emendaconstitucional-19-4-junho-1998-372816-normaatualizada-pl.doc">formato doc</a>)
+                                                &nbsp;
+                                                    (<a href="emendaconstitucional-19-4-junho-1998-372816-normaatualizada-pl.pdf">formato pdf</a>)
+
+                                            
+                                        </li>
+                                            <li>  	
+                                                <a href="emendaconstitucional-19-4-junho-1998-372816-exposicaodemotivos-148914-pl.html">Exposição de Motivos</a>
+                                            </li>
+                                        <li>
+                                            <a href="http://www.camara.gov.br/sileg/Prop_Detalhe.asp?id=169506">Proposição Originária</a>
+                                        </li>
+                                    <li>
+                                        <a href="emendaconstitucional-19-4-junho-1998-372816-norma-pl.html">Dados da Norma</a>
+                                    </li>
+                                </ul>
+			    </div>	
+                                
+
+					<h1>EMENDA CONSTITUCIONAL Nº 19, DE 1998</h1>
+				
+				<div class="textoNorma">
+				
+						<p class="ementa">
+							Modifica o regime e dispõe sobre princípio e normas da Administração Pública, Servidores e Agentes políticos, controle de despesas e finanças públicas e custeio de atividades a cargo do Distrito Federal, e dá outras providências. 
+						</p>
+				
+						<div class="texto">
+							As Mesas da Câmara dos Deputados e do Senado Federal, nos termos do § 3º do art. 60 da Constituição Federal, promulgam esta Emenda ao texto constitucional: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 1º&nbsp;Os incisos XIV e XXII do art. 21 e XXVII do art. 22 da Constituição Federal passam a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 21.&nbsp;Compete à União: <BR>................................................................................................... <BR><BR>XIV - organizar e manter a polícia civil, a polícia militar e o corpo de bombeiros militar do Distrito Federal, bem como prestar assistência financeira ao Distrito Federal para a execução de serviços públicos, por meio de fundo próprio; <BR>.................................................................................................... <BR>XXII - executar os serviços de polícia marítima, aeroportuária e de fronteiras; ...................................................................................................."</DIR><BR><BR>
+<DIR>"Art. 22.&nbsp;Compete privativamente à União legislar sobre: ................................................................................................... <BR><BR>XXVII - normas gerais de licitação e contratação, em todas as modalidades, para as administrações públicas diretas, autárquicas e fundacionais da União, Estados, Distrito Federal e Municípios, obedecido o disposto no art. 37, XXI, e para as empresas públicas e sociedades de economia mista, nos termos do art. 173, § 1°, III; ..................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 2º&nbsp;O § 2º do art. 27 e os incisos V e VI do art. 29 da Constituição Federal passam a vigorar com a seguinte redação, inserindo-se § 2º no art. 28 e renumerando-se para § 1º o atual parágrafo único: <BR><BR>
+<DIR>"Art. 27.&nbsp;.................................................................................... .................................................................................................. <BR><BR>§ 2º O subsídio dos Deputados Estaduais será fixado por lei de iniciativa da Assembléia Legislativa, na razão de, no máximo, setenta e cinco por cento daquele estabelecido, em espécie, para os Deputados Federais, observado o que dispõem os arts. 39, § 4º, 57, § 7º, 150, II, 153, III, e 153, § 2º, I. .................................................................................................."</DIR><BR><BR>
+<DIR>"Art. 28.&nbsp;...................................................................................... <BR><BR>§ 1º Perderá o mandato o Governador que assumir outro cargo ou função na administração pública direta ou indireta, ressalvada a posse em virtude de concurso público e observado o disposto no art. 38, I, IV e V. <BR><BR>§ 2º Os subsídios do Governador, do Vice-Governador e dos Secretários de Estado serão fixados por lei de iniciativa da Assembléia Legislativa, observado o que dispõem os arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I."</DIR><BR><BR>
+<DIR>"Art. 29........................................................................................&nbsp; <BR>..................................................................................................... <BR><BR>V - subsídios do Prefeito, do Vice-Prefeito e dos Secretários Municipais fixados por lei de iniciativa da Câmara Municipal, observado o que dispõem os arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I; <BR>VI - subsídio dos Vereadores fixado por lei de iniciativa da Câmara Municipal, na razão de, no máximo, setenta e cinco por cento daquele estabelecido, em espécie, para os Deputados Estaduais, observado o que dispõem os arts. 39, § 4º, 57, § 7º, 150, II, 153, III, e 153, § 2º, I; ...................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 3º&nbsp;O <EM>caput</EM>, os incisos I, II, V, VII, X, XI, XIII, XIV, XV, XVI, XVII e XIX e o § 3º do art. 37 da Constituição Federal passam a vigorar com a seguinte redação, acrescendo-se ao artigo os §§ 7º a 9º: <BR><BR>
+<DIR>"Art. 37.&nbsp;A administração pública direta e indireta de qualquer dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios obedecerá aos princípios de legalidade, impessoalidade, moralidade, publicidade e eficiência e, também, ao seguinte: <BR><BR>I - os cargos, empregos e funções públicas são acessíveis aos brasileiros que preencham os requisitos estabelecidos em lei, assim como aos estrangeiros, na forma da lei; <BR>II - a investidura em cargo ou emprego público depende de aprovação prévia em concurso público de provas ou de provas e títulos, de acordo com a natureza e a complexidade do cargo ou emprego, na forma prevista em lei, ressalvadas as nomeações para cargo em comissão declarado em lei de livre nomeação e exoneração; ..................................................................................................... <BR>V - as funções de confiança, exercidas exclusivamente por servidores ocupantes de cargo efetivo, e os cargos em comissão, a serem preenchidos por servidores de carreira nos casos, condições e percentuais mínimos previstos em lei, destinam-se apenas às atribuições de direção, chefia e assessoramento; ..................................................................................................... <BR>VII - o direito de greve será exercido nos termos e nos limites definidos em lei específica; ..................................................................................................... <BR>X - a remuneração dos servidores públicos e o subsídio de que trata o § 4º do art. 39 somente poderão ser fixados ou alterados por lei específica, observada a iniciativa privativa em cada caso, assegurada revisão geral anual, sempre na mesma data e sem distinção de índices; <BR>XI - a remuneração e o subsídio dos ocupantes de cargos, funções e empregos públicos da administração direta, autárquica e fundacional, dos membros de qualquer dos Poderes da União, dos Estados, do Distrito Federal e dos Municípios, dos detentores de mandato eletivo e dos demais agentes políticos e os proventos, pensões ou outra espécie remuneratória, percebidos cumulativamente ou não, incluídas as vantagens pessoais ou de qualquer outra natureza, não poderão exceder o subsídio mensal, em espécie, dos Ministros do Supremo Tribunal Federal; <BR>.................................................................................................... <BR>XIII - é vedada a vinculação ou equiparação de quaisquer espécies remuneratórias para o efeito de remuneração de pessoal do serviço público; <BR>XIV - os acréscimos pecuniários percebidos por servidor público não serão computados nem acumulados para fins de concessão de acréscimos ulteriores; <BR>XV - o subsídio e os vencimentos dos ocupantes de cargos e empregos públicos são irredutíveis, ressalvado o disposto nos incisos XI e XIV deste artigo e nos arts. 39, § 4º, 150, II, 153, III, e 153, § 2º, I; <BR>XVI - é vedada a acumulação remunerada de cargos públicos, exceto, quando houver compatibilidade de horários, observado em qualquer caso o disposto no inciso XI: <BR>
+<TABLE>
+<TBODY>
+<TR>
+<TD width=20></TD>
+<TD vAlign=UP width=30 align=right><I>a)</I></TD>
+<TD>a de dois cargos de professor; </TD></TR></TBODY></TABLE>
+<TABLE>
+<TBODY>
+<TR>
+<TD width=20></TD>
+<TD vAlign=UP width=30 align=right><I>b)</I></TD>
+<TD>a de um cargo de professor com outro, técnico ou científico; </TD></TR></TBODY></TABLE>
+<TABLE>
+<TBODY>
+<TR>
+<TD width=20></TD>
+<TD vAlign=UP width=30 align=right><I>c)</I></TD>
+<TD>a de dois cargos privativos de médico; </TD></TR></TBODY></TABLE><BR>XVII - a proibição de acumular estende-se a empregos e funções e abrange autarquias, fundações, empresas públicas, sociedades de economia mista, suas subsidiárias, e sociedades controladas, direta ou indiretamente, pelo poder público; <BR>................................................................................................... <BR>XIX - somente por lei específica poderá ser criada autarquia e autorizada a instituição de empresa pública, de sociedade de economia mista e de fundação, cabendo à lei complementar, neste último caso, definir as áreas de sua atuação; <BR>................................................................................................... <BR><BR>§ 3º A lei disciplinará as formas de participação do usuário na administração pública direta e indireta, regulando especialmente: <BR><BR>I - as reclamações relativas à prestação dos serviços públicos em geral, asseguradas a manutenção de serviços de atendimento ao usuário e a avaliação periódica, externa e interna, da qualidade dos serviços; <BR>II - o acesso dos usuários a registros administrativos e a informações sobre atos de governo, observado o disposto no art. 5º, X e XXXIII; <BR>III - a disciplina da representação contra o exercício negligente ou abusivo de cargo, emprego ou função na administração pública. <BR>.................................................................................................... <BR><BR>§ 7º A lei disporá sobre os requisitos e as restrições ao ocupante de cargo ou emprego da administração direta e indireta que possibilite o acesso a informações privilegiadas. <BR><BR>§ 8º A autonomia gerencial, orçamentária e financeira dos órgãos e entidades da administração direta e indireta poderá ser ampliada mediante contrato, a ser firmado entre seus administradores e o poder público, que tenha por objeto a fixação de metas de desempenho para o órgão ou entidade, cabendo à lei dispor sobre: <BR><BR>I - o prazo de duração do contrato; <BR>II - os controles e critérios de avaliação de desempenho, direitos, obrigações e responsabilidade dos dirigentes; <BR>III - a remuneração do pessoal. <BR><BR>§ 9º O disposto no inciso XI aplica-se às empresas públicas e às sociedades de economia mista, e suas subsidiárias, que receberem recursos da União, dos Estados, do Distrito Federal ou dos Municípios para pagamento de despesas de pessoal ou de custeio em geral."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 4º&nbsp;O <EM>caput</EM> do art. 38 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 38.&nbsp;Ao servidor público da administração direta, autárquica e fundacional, no exercício de mandato eletivo, aplicam-se as seguintes disposições: <BR>..............................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 5º&nbsp;O art. 39 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 39.&nbsp;A União, os Estados, o Distrito Federal e os Municípios instituirão conselho de política de administração e remuneração de pessoal, integrado por servidores designados pelos respectivos Poderes. <BR><BR>§ 1º A fixação dos padrões de vencimento e dos demais componentes do sistema remuneratório observará: <BR><BR>I - a natureza, o grau de responsabilidade e a complexidade dos cargos componentes de cada carreira; <BR>II - os requisitos para a investidura; <BR>III - as peculiaridades dos cargos. <BR><BR>§ 2º A União, os Estados e o Distrito Federal manterão escolas de governo para a formação e o aperfeiçoamento dos servidores públicos, constituindo-se a participação nos cursos um dos requisitos para a promoção na carreira, facultada, para isso, a celebração de convênios ou contratos entre os entes federados. <BR><BR>§ 3º Aplica-se aos servidores ocupantes de cargo público o disposto no art. 7º, IV, VII, VIII, IX, XII, XIII, XV, XVI, XVII, XVIII, XIX, XX, XXII e XXX, podendo a lei estabelecer requisitos diferenciados de admissão quando a natureza do cargo o exigir. <BR><BR>§ 4º O membro de Poder, o detentor de mandato eletivo, os Ministros de Estado e os Secretários Estaduais e Municipais serão remunerados exclusivamente por subsídio fixado em parcela única, vedado o acréscimo de qualquer gratificação, adicional, abono, prêmio, verba de representação ou outra espécie remuneratória, obedecido, em qualquer caso, o disposto no art. 37, X e XI. <BR><BR>§ 5º Lei da União, dos Estados, do Distrito Federal e dos Municípios poderá estabelecer a relação entre a maior e a menor remuneração dos servidores públicos, obedecido, em qualquer caso, o disposto no art. 37, XI. <BR><BR>§ 6º Os Poderes Executivo, Legislativo e Judiciário publicarão anualmente os valores do subsídio e da remuneração dos cargos e empregos públicos. <BR><BR>§ 7º Lei da União, dos Estados, do Distrito Federal e dos Municípios disciplinará a aplicação de recursos orçamentários provenientes da economia com despesas correntes em cada órgão, autarquia e fundação, para aplicação no desenvolvimento de programas de qualidade e produtividade, treinamento e desenvolvimento, modernização, reaparelhamento e racionalização do serviço público, inclusive sob a forma de adicional ou prêmio de produtividade. <BR><BR>§ 8º A remuneração dos servidores públicos organizados em carreira poderá ser fixada nos termos do § 4º."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 6º&nbsp;O art. 41 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 41.&nbsp;São estáveis após três anos de efetivo exercício os servidores nomeados para cargo de provimento efetivo em virtude de concurso público. <BR><BR>§ 1º O servidor público estável só perderá o cargo: <BR><BR>I - em virtude de sentença judicial transitada em julgado; <BR>II - mediante processo administrativo em que lhe seja assegurada ampla defesa; <BR>III - mediante procedimento de avaliação periódica de desempenho, na forma de lei complementar, assegurada ampla defesa. <BR><BR>§ 2º Invalidada por sentença judicial a demissão do servidor estável, será ele reintegrado, e o eventual ocupante da vaga, se estável, reconduzido ao cargo de origem, sem direito a indenização, aproveitado em outro cargo ou posto em disponibilidade com remuneração proporcional ao tempo de serviço. <BR><BR>§ 3º Extinto o cargo ou declarada a sua desnecessidade, o servidor estável ficará em disponibilidade, com remuneração proporcional ao tempo de serviço, até seu adequado aproveitamento em outro cargo. <BR><BR>§ 4º Como condição para a aquisição da estabilidade, é obrigatória a avaliação especial de desempenho por comissão instituída para essa finalidade."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 7º&nbsp;O art. 48 da Constituição Federal passa a vigorar acrescido do seguinte inciso XV: <BR><BR>
+<DIR>"Art. 48.&nbsp;Cabe ao Congresso Nacional, com a sanção do Presidente da República, não exigida esta para o especificado nos arts. 49, 51 e 52, dispor sobre todas as matérias de competência da União, especialmente sobre: <BR>.................................................................................................. <BR><BR>XV - fixação do subsídio dos Ministros do Supremo Tribunal Federal, por lei de iniciativa conjunta dos Presidentes da República, da Câmara dos Deputados, do Senado Federal e do Supremo Tribunal Federal, observado o que dispõem os arts. 39, § 4º, 150, II, 153, III, e 153, § 2º, I."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 8º&nbsp;Os incisos VII e VIII do art. 49 da Constituição Federal passam a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 49.&nbsp;É da competência exclusiva do Congresso Nacional: <BR>.................................................................................................. <BR><BR>VII - fixar idêntico subsídio para os Deputados Federais e os Senadores, observado o que dispõem os arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I; <BR>VIII - fixar os subsídios do Presidente e do Vice-Presidente da República e dos Ministros de Estado, observado o que dispõem os arts. 37, XI, 39, § 4º, 150, II, 153, III, e 153, § 2º, I; .................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 9º&nbsp;O inciso IV do art. 51 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 51.&nbsp;Compete privativamente à Câmara dos Deputados: .................................................................................................... <BR><BR>IV - dispor sobre sua organização, funcionamento, polícia, criação, transformação ou extinção dos cargos, empregos e funções de seus serviços, e a iniciativa de lei para fixação da respectiva remuneração, observados os parâmetros estabelecidos na lei de diretrizes orçamentárias; ...................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 10.&nbsp;O inciso XIII do art. 52 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 52.&nbsp;Compete privativamente ao Senado Federal: ................................................................................................... <BR><BR>XIII - dispor sobre sua organização, funcionamento, polícia, criação, transformação ou extinção dos cargos, empregos e funções de seus serviços, e a iniciativa de lei para fixação da respectiva remuneração, observados os parâmetros estabelecidos na lei de diretrizes orçamentárias; <BR>..................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 11.&nbsp;O § 7º do art. 57 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 57.&nbsp;.................................................................................... .................................................................................................. <BR><BR>§ 7º Na sessão legislativa extraordinária, o Congresso Nacional somente deliberará sobre a matéria para a qual foi convocado, vedado o pagamento de parcela indenizatória em valor superior ao do subsídio mensal."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 12.&nbsp;O parágrafo único do art. 70 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 70.&nbsp;..................................................................................... <BR><BR><I>Parágrafo único. </I>Prestará contas qualquer pessoa física ou jurídica, pública ou privada, que utilize, arrecade, guarde, gerencie ou administre dinheiros, bens e valores públicos ou pelos quais a União responda, ou que, em nome desta, assuma obrigações de natureza pecuniária."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 13.&nbsp;O inciso V do art. 93, o inciso III do art. 95 e a alínea <EM>b</EM> do inciso II do art. 96 da Constituição Federal passam a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 93.&nbsp;.................................................................................... ................................................................................................... <BR><BR>V - o subsídio dos Ministros dos Tribunais Superiores corresponderá a noventa e cinco por cento do subsídio mensal fixado para os Ministros do Supremo Tribunal Federal e os subsídios dos demais magistrados serão fixados em lei e escalonados, em nível federal e estadual, conforme as respectivas categorias da estrutura judiciária nacional, não podendo a diferença entre uma e outra ser superior a dez por cento ou inferior a cinco por cento, nem exceder a noventa e cinco por cento do subsídio mensal dos Ministros dos Tribunais Superiores, obedecido, em qualquer caso, o disposto nos arts. 37, XI, e 39, § 4º; ................................................................................................."</DIR><BR><BR>
+<DIR>"Art. 95.&nbsp;Os juízes gozam das seguintes garantias: <BR>................................................................................................... <BR><BR>III - irredutibilidade de subsídio, ressalvado o disposto nos arts. 37, X e XI, 39, 4º, 150, II, 153, III, e 153, § 2º, I. <BR><BR>..................................................................................................."</DIR><BR><BR>
+<DIR>"Art. 96.&nbsp;Compete privativamente: <BR><BR>................................................................................................... <BR><BR>II - ao Supremo Tribunal Federal, aos Tribunais Superiores e aos Tribunais de Justiça propor ao Poder Legislativo respectivo, observado o disposto no art. 169: <BR>................................................................................................... <BR>
+<TABLE>
+<TBODY>
+<TR>
+<TD width=20></TD>
+<TD vAlign=UP width=30 align=right><I>b)</I></TD>
+<TD>a criação e a extinção de cargos e a remuneração dos seus serviços auxiliares e dos juízos que lhes forem vinculados, bem como a fixação do subsídio de seus membros e dos juizes, inclusive dos tribunais inferiores, onde houver, ressalvado o disposto no art. 48, XV; ..................................................................................." </TD></TR></TBODY></TABLE></DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 14.&nbsp;O § 2º do art. 127 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 127.&nbsp;.................................................................................. .................................................................................................. <BR><BR>§ 2º Ao Ministério Público é assegurada autonomia funcional e administrativa, podendo, observado o disposto no art. 169, propor ao Poder Legislativo a criação e extinção de seus cargos e serviços auxiliares, provendo-os por concurso público de provas ou de provas e títulos, a política remuneratória e os planos de carreira; a lei disporá sobre sua organização e funcionamento. <BR>................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 15.&nbsp;A alínea <EM>c</EM> do inciso I do § 5º do art. 128 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 128.&nbsp;.................................................................................. .................................................................................................. <BR><BR>§ 5º Leis complementares da União e dos Estados, cuja iniciativa é facultada aos respectivos Procuradores-Gerais, estabelecerão a organização, as atribuições e o estatuto de cada Ministério Público, observadas, relativamente a seus membros: <BR><BR>I - as seguintes garantias: <BR>.................................................................................................. <BR>
+<TABLE>
+<TBODY>
+<TR>
+<TD width=20></TD>
+<TD vAlign=UP width=30 align=right><I>c)</I></TD>
+<TD>irredutibilidade de subsídio, fixado na forma do art. 39, § 4º, e ressalvado o disposto nos arts. 37, X e XI, 150, II, 153, III, 153, § 2º, I; <BR>................................................................................. " </TD></TR></TBODY></TABLE></DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 16.&nbsp;A Seção II do Capítulo IV do Título IV da Constituição Federal passa a denominar-se "DA ADVOCACIA PÚBLICA". <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 17.&nbsp;O art. 132 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 132.&nbsp;Os Procuradores dos Estados e do Distrito Federal, organizados em carreira, na qual o ingresso dependerá de concurso público de provas e títulos, com a participação da Ordem dos Advogados do Brasil em todas as suas fases, exercerão a representação judicial e a consultoria jurídica das respectivas unidades federadas. <BR><BR><I>Parágrafo único. </I>Aos procuradores referidos neste artigo é assegurada estabilidade após três anos de efetivo exercício, mediante avaliação de desempenho perante os órgãos próprios, após relatório circunstanciado das corregedorias."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 18.&nbsp;O art. 135 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 135.&nbsp;Os servidores integrantes das carreiras disciplinadas nas Seções II e III deste Capítulo serão remunerados na forma do art. 39, § 4º."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 19.&nbsp;O § 1º e seu inciso III e os §§ 2º e 3º do art. 144 da Constituição Federal passam a vigorar com a seguinte redação, inserindo-se no artigo § 9º: <BR><BR>
+<DIR>"Art. 144.&nbsp;.................................................................................... .................................................................................................... <BR><BR>§ 1º A polícia federal, instituída por lei como órgão permanente, organizado e mantido pela União e estruturado em carreira, destina-se a: <BR>..................................................................................................... <BR><BR>III - exercer as funções de polícia marítima, aeroportuária e de fronteiras; <BR>..................................................................................................... <BR><BR>§ 2º A polícia rodoviária federal, órgão permanente, organizado e mantido pela União e estruturado em carreira, destina-se, na forma da lei, ao patrulhamento ostensivo das rodovias federais. <BR><BR>§ 3º A polícia ferroviária federal, órgão permanente, organizado e mantido pela União e estruturado em carreira, destina-se, na forma da lei, ao patrulhamento ostensivo das ferrovias federais. ................................................................................................... <BR><BR>§ 9º A remuneração dos servidores policiais integrantes dos órgãos relacionados neste artigo será fixada na forma do § 4º do art. 39."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 20.&nbsp;O <EM>caput</EM> do art. 167 da Constituição Federal passa a vigorar acrescido de inciso X, com a seguinte redação: <BR><BR>
+<DIR>"Art. 167.&nbsp;São vedados: <BR>.................................................................................................. <BR><BR>X - a transferência voluntária de recursos e a concessão de empréstimos, inclusive por antecipação de receita, pelos Governos Federal e Estaduais e suas instituições financeiras, para pagamento de despesas com pessoal ativo, inativo e pensionista, dos Estados, do Distrito Federal e dos Municípios. ...................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 21.&nbsp;O art. 169 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 169.&nbsp;A despesa com pessoal ativo e inativo da União, dos Estados, do Distrito Federal e dos Municípios não poderá exceder os limites estabelecidos em lei complementar. <BR><BR>§ 1º A concessão de qualquer vantagem ou aumento de remuneração, a criação de cargos, empregos e funções ou alteração de estrutura de carreiras, bem como a admissão ou contratação de pessoal, a qualquer título, pelos órgãos e entidades da administração direta ou indireta, inclusive fundações instituídas e mantidas pelo poder público, só poderão ser feitas: <BR><BR>I - se houver prévia dotação orçamentária suficiente para atender às projeções de despesa de pessoal e aos acréscimos dela decorrentes; <BR>II - se houver autorização específica na lei de diretrizes orçamentárias, ressalvadas as empresas públicas e as sociedades de economia mista. <BR><BR>§ 2º Decorrido o prazo estabelecido na lei complementar referida neste artigo para a adaptação aos parâmetros ali previstos, serão imediatamente suspensos todos os repasses de verbas federais ou estaduais aos Estados, ao Distrito Federal e aos Municípios que não observarem os referidos limites. <BR><BR>§ 3º Para o cumprimento dos limites estabelecidos com base neste artigo, durante o prazo fixado na lei complementar referida no <EM>caput</EM> , a União, os Estados, o Distrito Federal e os Municípios adotarão as seguintes providências: <BR><BR>I - redução em pelo menos vinte por cento das despesas com cargos em comissão e funções de confiança; <BR>II - exoneração dos servidores não estáveis. <BR><BR>§ 4º Se as medidas adotadas com base no parágrafo anterior não forem suficientes para assegurar o cumprimento da determinação da lei complementar referida neste artigo, o servidor estável poderá perder o cargo, desde que ato normativo motivado de cada um dos Poderes especifique a atividade funcional, o órgão ou unidade administrativa objeto da redução de pessoal. <BR><BR>§ 5º O servidor que perder o cargo na forma do parágrafo anterior fará jus a indenização correspondente a um mês de remuneração por ano de serviço. <BR><BR>§ 6º O cargo objeto da redução prevista nos parágrafos anteriores será considerado extinto, vedada a criação de cargo, emprego ou função com atribuições iguais ou assemelhadas pelo prazo de quatro anos. <BR><BR>§ 7º Lei federal disporá sobre as normas gerais a serem obedecidas na efetivação do disposto no § 4º."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 22.&nbsp;O § 1º do art. 173 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 173....................................................................................&nbsp; <BR><BR>§ 1º A lei estabelecerá o estatuto jurídico da empresa pública, da sociedade de economia mista e de suas subsidiárias que explorem atividade econômica de produção ou comercialização de bens ou de prestação de serviços, dispondo sobre: <BR><BR>I - sua função social e formas de fiscalização pelo Estado e pela sociedade; <BR>II - a sujeição ao regime jurídico próprio das empresas privadas, inclusive quanto aos direitos e obrigações civis, comerciais, trabalhistas e tributários; <BR>III - licitação e contratação de obras, serviços, compras e alienações, observados os princípios da administração pública; <BR>IV - a constituição e o funcionamento dos conselhos de administração e fiscal, com a participação de acionistas minoritários; <BR>V - os mandatos, a avaliação de desempenho e a responsabilidade dos administradores. .................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 23.&nbsp;O inciso V do art. 206 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 206.&nbsp;O ensino será ministrado com base nos seguintes princípios: ................................................................................................... <BR><BR>V - valorização dos profissionais do ensino, garantidos, na forma da lei, planos de carreira para o magistério público, com piso salarial profissional e ingresso exclusivamente por concurso público de provas e títulos; ................................................................................................."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 24.&nbsp;O art. 241 da Constituição Federal passa a vigorar com a seguinte redação: <BR><BR>
+<DIR>"Art. 241.&nbsp;A União, os Estados, o Distrito Federal e os Municípios disciplinarão por meio de lei os consórcios públicos e os convênios de cooperação entre os entes federados, autorizando a gestão associada de serviços públicos, bem como a transferência total ou parcial de encargos, serviços, pessoal e bens essenciais à continuidade dos serviços transferidos."</DIR><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 25.&nbsp;Até a instituição do fundo a que se refere o inciso XIV do art. 21 da Constituição Federal, compete à União manter os atuais compromissos financeiros com a prestação de serviços públicos do Distrito Federal. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 26.&nbsp;No prazo de dois anos da promulgação desta Emenda, as entidades da administração indireta terão seus estatutos revistos quanto à respectiva natureza jurídica, tendo em conta a finalidade e as competências efetivamente executadas. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 27.&nbsp;O Congresso Nacional, dentro de cento e vinte dias da promulgação desta Emenda, elaborará lei de defesa do usuário de serviços públicos. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 28.&nbsp;É assegurado o prazo de dois anos de efetivo exercício para aquisição da estabilidade aos atuais servidores em estágio probatório, sem prejuízo da avaliação a que se refere o § 4º do art. 41 da Constituição Federal. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 29.&nbsp;Os subsídios, vencimentos, remuneração, proventos da aposentadoria e pensões e quaisquer outras espécies remuneratórias adequar-se-ão, a partir da promulgação desta Emenda, aos limites decorrentes da Constituição Federal, não se admitindo a percepção de excesso a qualquer título. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 30.&nbsp;O projeto de lei complementar a que se refere o art. 163 da Constituição Federal será apresentado pelo Poder Executivo ao Congresso Nacional no prazo máximo de cento e oitenta dias da promulgação desta Emenda. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 31.&nbsp;Os servidores públicos federais da administração direta e indireta, os servidores municipais e os integrantes da carreira policial militar dos ex-Territórios Federais do Amapá e de Roraima, que comprovadamente encontravam-se no exercício regular de suas funções prestando serviços àqueles ex-Territórios na data em que foram transformados em Estados; os policiais militares que tenham sido admitidos por força de lei federal, custeados pela União; e, ainda, os servidores civis nesses Estados com vínculo funcional já reconhecido pela União, constituirão quadro em extinção da administração federal, assegurados os direitos e vantagens inerentes aos seus servidores, vedado o pagamento, a qualquer título, de diferenças remuneratórias. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; § 1º Os servidores da carreira policial militar continuarão prestando serviços aos respectivos Estados, na condição de cedidos, submetidos às disposições legais e regulamentares a que estão sujeitas as corporações das respectivas Polícias Militares, observadas as atribuições de função compatíveis com seu grau hierárquico. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; § 2º Os servidores civis continuarão prestando serviços aos respectivos Estados, na condição de cedidos, até seu aproveitamento em órgão da administração federal. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 32.&nbsp;A Constituição Federal passa a vigorar acrescida do seguinte artigo: <BR><BR>
+<DIR>"Art. 247.&nbsp;As leis previstas no inciso III do § 1º do art. 41 e no § 7º do art. 169 estabelecerão critérios e garantias especiais para a perda do cargo pelo servidor público estável que, em decorrência das atribuições de seu cargo efetivo, desenvolva atividades exclusivas de Estado. <BR><BR><I>Parágrafo único. </I>Na hipótese de insuficiência de desempenho, a perda do cargo somente ocorrerá mediante processo administrativo em que lhe sejam assegurados o contraditório e a ampla defesa."</DIR>
+<P><BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 33.&nbsp;Consideram-se servidores não estáveis, para os fins do art. 169, § 3º, II, da Constituição Federal aqueles admitidos na administração direta, autárquica e fundacional sem concurso público de provas ou de provas e títulos após o dia 5 de outubro de 1983. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 34.&nbsp;Esta Emenda Constitucional entra em vigor na data de sua promulgação. <BR></P>
+<P>Brasília, 4 de junho de 1998 </P>
+<P>Mesa da Câmara dos Deputados <BR>DEPUTADO MICHEL TEMER <BR>Presidente <BR>Deputado Heráclito Fortes <BR>1º Vice-Presidente <BR>Deputado <BR>Severino Cavalcanti <BR>2º Vice-Presidente <BR>Deputado Ubiratan Aguiar <BR>1º Secretário <BR>Deputado Nelson Trad <BR>2º Secretário <BR>Deputado Efraim Morais <BR>4º Secretário </P>
+<P>Mesa do Senado Federal <BR>SENADOR ANTONIO CARLOS MAGALHÃES <BR>Presidente <BR>Senador Geraldo Melo <BR>1º Vice-Presidente <BR>Senadora Júnia Marise <BR>2º Vice-Presidente <BR>Senador Carlos Patrocínio <BR>2º Secretário <BR>Senador Flaviano Melo <BR>3º Secretário <BR>Senador Lucídio Portella <BR>4º Secretário </P>
+						</div>
+					    
+				</div>
+				
+
+                                            <br>
+                                            <div class="rodapeTexto">
+                                                <div class="texto">
+                                                    Este texto não substitui o original publicado no Diário do Senado Federal de 05/06/1998
+                                                </div>
+                                            </div>
+
+					<br><br>
+					<div class="publicacoesTI">
+                                            <strong>Publicação:</strong>
+                                            <ul class="listaMarcada">
+                                                    <li>
+                                                        
+                                                        Diário do Senado Federal
+                                                         - 5/6/1998, Página 9837       
+                                                        
+                                                        (Publicação Original)
+                                                        
+                                                    </li>
+                                                    <li>
+                                                        
+                                                        Diário do Congresso Nacional
+                                                         - 5/6/1998, Página 4438       
+                                                        
+                                                        (Publicação Original)
+                                                        
+                                                    </li>
+                                                    <li>
+                                                        
+                                                        Diário Oficial da União - Seção 1 - Eletrônico
+                                                         - 5/6/1998, Página 1          
+                                                        
+                                                        (Publicação Original)
+                                                        
+                                                    </li>
+                                                    <li>
+                                                        
+                                                        Diário da Câmara dos Deputados
+                                                         - 20/6/1998, Página 16947      
+                                                        
+                                                        (Publicação Original)
+                                                        
+                                                    </li>
+                                            </ul>
+					</div>
+
+
+
+			</div> <!-- content // -->
+		</div> <!-- documentContent // -->
+	</div> <!-- portal-content-wrapper // -->
+</div> <!-- portal-column-content // --> 
+</div></div>
+<div class="js-mmenu-container">
+      
+
+      
+      
+
+      
+
+      <footer role="contentinfo" class="rodape-portal">
+        <!-- Coloque aqui o endere&#231;o e demais informa&#231;&#245;es de assinatura -->
+        <address class="rodape-portal-info">
+          <div class="container">
+            <div class="rodape-portal-info__nome">
+              <p>
+                <strong id="legislaturaRodape">57ª Legislatura - 4ª Sessão Legislativa Ordinária</strong>
+              </p>
+            </div>
+
+            <div class="l-rodape-info">
+              <div class="l-rodape-info__local rodape-portal-info__texto">
+                <span class="rodape-info">Câmara dos Deputados - Palácio do Congresso Nacional - Praça
+                  dos Três Poderes</span>
+                <span class="rodape-info">Brasília - DF - Brasil - CEP 70160-900</span>
+                <span class="rodape-info"><span class="rodape-info__destaque">CNPJ:</span>
+                  00.530.352/0001-59</span>
+              </div>
+
+              <div class="l-rodape-info__telefones rodape-portal-info__texto">
+                <ul class="list-unstyled" aria-label="Número para contato e horário de atendimento">
+                  <li>
+                    <span class="rodape-info__destaque">Disque-Câmara:</span>
+                    <a href="tel:0800-0-619-619">0800-0-619-619</a>, das 8h às
+                    20h
+                  </li>
+                  <li>
+                    <span class="rodape-info__destaque">Atendimento por WhatsApp:</span>
+                    <a href="https://wa.me//556132160000?text">(61) 3216-0000</a>, das 8h às 19h
+                  </li>
+                  <li>
+                    <span class="rodape-info__destaque">Atendimento presencial:</span>
+                    das 9h às 19h
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="acesso-provedor text-right">
+              <a title="Autenticar-se no site" href="/login_form">
+                <i class="fas fa-lock" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </address>
+        <!-- Coloque aqui a lista de redes sociais da C&#226;mara -->
+        <div class="rodape-portal-links rodape-portal-links--redes-sociais">
+          <div class="container">
+            <ul class="rodape-portal-links__lista" aria-label="Câmara nas redes sociais">
+              <li class="rodape-portal-links__item">
+                <a href="https://whatsapp.com/channel/0029Va2fexI3gvWgfMs6Fv31" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--whatsapp" aria-hidden="true"></span>
+                  <span class="sr-only">Whatsapp</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://t.me/CamaradosDeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--telegram" aria-hidden="true"></span>
+                  <span class="sr-only">Telegram</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.facebook.com/camaradeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--facebook" aria-hidden="true"></span>
+                  <span class="sr-only">Facebook</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://twitter.com/camaradeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--twitter" aria-hidden="true"></span>
+                  <span class="sr-only">X</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.youtube.com/channel/UC-ZkSRh-7UEuwXJQ9UMCFJA" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--youtube" aria-hidden="true"></span>
+                  <span class="sr-only">Youtube</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://tiktok.com/@camaradosdeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--tiktok" aria-hidden="true"></span>
+                  <span class="sr-only">Tiktok</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.instagram.com/camaradeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--instagram" aria-hidden="true"></span>
+                  <span class="sr-only">Instagram</span>
+                </a>
+              </li>
+              <li class="rodape-portal-links__item">
+                  <a href="https://www.threads.com/@camaradosdeputados" class="rodape-portal-links__link">
+                      <span class="g-social-icon-outline g-social-icon-outline--threads" aria-hidden="true"></span>
+                      <span class="sr-only">Threads</span>
+                  </a>
+              </li>
+              <li class="rodape-portal-links__item">
+                  <a href="https://bsky.app/profile/camara.leg.br" class="rodape-portal-links__link">
+                      <span class="g-social-icon-outline g-social-icon-outline--bluesky" aria-hidden="true"></span>
+                      <span class="sr-only">Bluesky</span>
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Coloque aqui a lista de links de apoio do rodap&#233; -->
+        <div class="rodape-portal-links rodape-portal-links--apoio">
+          <div class="container">
+            <ul class="rodape-portal-links__lista" aria-label="Links de apoio">
+              <li class="rodape-portal-links__item">
+                <a href="https://www2.camara.leg.br/sobre-o-portal" class="rodape-portal-links__link">Sobre o portal</a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www2.camara.leg.br/termo-de-uso-e-politica-de-privacidade" class="rodape-portal-links__link">Termos de uso</a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www2.camara.leg.br/aplicativos/" class="rodape-portal-links__link">Aplicativos</a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.camara.leg.br/extranet" class="rodape-portal-links__link">Extranet</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+      <div class="barra-carregando" style="display: none">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Carregando</h5>
+            </div>
+            <div class="modal-body">
+              <p>Por favor, aguarde.</p>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  <span class="sr-only"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
