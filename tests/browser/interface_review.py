@@ -1,4 +1,4 @@
-"""Mobile sentence spacing, accessible examples, theme icon and focused text inset."""
+"""Sentence spacing, examples and continuous/focused article alignment."""
 from pathlib import Path
 import functools,http.server,threading,re
 from support import chromium_executable
@@ -6,6 +6,15 @@ from playwright.sync_api import sync_playwright,expect
 root=Path(__file__).resolve().parents[2]
 class H(http.server.SimpleHTTPRequestHandler):
  def log_message(self,*args):pass
+def assert_article_readable(article):
+ heading=article.locator('.article-heading>a').bounding_box()
+ caput=article.locator('.legal-unit').first.bounding_box()
+ assert heading and caput and abs(heading['x']-caput['x'])<1
+ assert article.locator('.legal-unit').evaluate_all('''els=>els.length>0 && els.every(el=>{
+  const style=getComputedStyle(el),box=el.getBoundingClientRect(),article=el.closest('.article').getBoundingClientRect();
+  return parseFloat(style.fontSize)>=16 && parseFloat(style.lineHeight)>=1.5*parseFloat(style.fontSize)
+   && box.left>=article.left && box.right<=article.right+1;
+ })''')
 server=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(H,directory=str(root/'dist')))
 threading.Thread(target=server.serve_forever,daemon=True).start()
 try:
@@ -28,9 +37,19 @@ try:
   for width in [375,1280]:
    page.set_viewport_size({'width':width,'height':900})
    for dark in [False,True]:
+    page.goto(base+'#/cf');expect(page.locator('#art-1')).to_be_visible()
+    page.evaluate('(dark)=>document.documentElement.classList.toggle("dark",dark)',dark)
+    ordinary=page.locator('#articles .article:not(.focused-article)')
+    assert ordinary.count()>0
+    assert ordinary.evaluate_all('els=>els.every(el=>parseFloat(getComputedStyle(el).paddingLeft)===0 && parseFloat(getComputedStyle(el).paddingRight)===0)')
+    assert_article_readable(page.locator('#art-1'))
     page.goto(base+'#/cf/5');expect(page.locator('#art-5')).to_be_visible()
     page.evaluate('(dark)=>document.documentElement.classList.toggle("dark",dark)',dark)
-    assert page.locator('#art-5').evaluate('el=>parseFloat(getComputedStyle(el).paddingLeft)')==0  # Leitura contínua editorial, sem recuo de cartão
+    selected=page.locator('#art-5')
+    expect(selected).to_have_class(re.compile(r'\bfocused-article\b'))
+    # Only the selected article has an inset beside its highlight border.
+    assert selected.evaluate('el=>parseFloat(getComputedStyle(el).paddingLeft)')==(9 if width<=700 else 14)
+    assert_article_readable(selected)
     assert page.locator('#theme svg').bounding_box()['width']==18
   b.close();print('Interface: frases separadas, exemplos por teclado, histórico, recuo e SVG validados.')
 finally:server.shutdown();server.server_close()
