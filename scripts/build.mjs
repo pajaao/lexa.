@@ -1,3 +1,4 @@
+import {amendmentAssets} from './amendments.mjs';
 import {releaseData} from './previous-wordings-release.mjs';
 import {readFile,readdir} from 'node:fs/promises';
 import {recentTextUpdates} from './recent-updates.mjs';
@@ -12,7 +13,7 @@ import {updateHistory} from '../data/history/legislation.js';
 import {sumulaUpdates} from '../data/history/sumulas.js';
 const root=new URL('../',import.meta.url);
 export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
-export async function buildPackage({css:cssOverride,history:historyOverride,legislativeHistoryDemo=false,legislativeHistoryPilot=false,legislativeHistorySimple=false,previousWordingsCandidate=false}={}){
+export async function buildPackage({css:cssOverride,history:historyOverride,legislativeHistoryDemo=false,legislativeHistoryPilot=false,legislativeHistorySimple=false,previousWordingsCandidate=false,amendmentsCandidate=false,amendmentsDirectory}={}){
  const files=new Map();
  function asset(id,value){
   const bytes=JSON.stringify(value),sha=sha256(bytes),file=`data/${id}.${sha}.json`;
@@ -27,6 +28,8 @@ export async function buildPackage({css:cssOverride,history:historyOverride,legi
  const recentUpdates=recentTextUpdates(history.filter(event=>metadata.some(code=>code.id===event.codeId)));
  const manifest={collections:metadata,history:asset('history',history),recentUpdates};
  manifest.offlineBytes=metadata.reduce((sum,code)=>sum+code.bytes+code.search.bytes,manifest.history.bytes);
+ const amendments=await amendmentAssets({candidate:amendmentsCandidate,asset,directory:amendmentsDirectory});
+ if(amendments){manifest.amendments=amendments;manifest.offlineBytes+=[...files].filter(([name])=>name.startsWith('data/ec-')).reduce((sum,[,bytes])=>sum+Buffer.byteLength(bytes),0);}
  files.set('catalog.json',JSON.stringify(manifest));
  const [template,originalCss]=await Promise.all(['index.html','styles.css'].map(path=>readFile(new URL('src/'+path,root),'utf8')));
  const css=cssOverride??originalCss;
@@ -71,7 +74,7 @@ export const codes=collections.filter(code=>code.kind!=='sumulas');`);
  }
  if(css.toLowerCase().includes('</style'))throw new Error('Estilo incompatível com incorporação HTML');
  let html=slot(template,'<link rel="stylesheet" href="./styles.css">',`<style>${css}</style>`);
- const preloads=[...modules.keys()].map(name=>`<link rel="modulepreload" href="./${namespace+name}">`).join('');
+ const preloads=[...modules.keys()].filter(name=>!['amendments.js','amendment-reading.js'].includes(name)).map(name=>`<link rel="modulepreload" href="./${namespace+name}">`).join('');
  html=slot(html,'<script type="module" src="./app.js"></script>',preloads+`<script type="module" src="./${namespace}app.js"></script>`);
  return {html,files,manifest};
 }

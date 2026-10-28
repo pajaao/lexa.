@@ -1,0 +1,27 @@
+name: Identificar novas Emendas Constitucionais
+on:
+  schedule:
+    - cron: '25 10 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  proposals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: ./.github/actions/setup-browser
+      - name: Descobrir ECs e preparar apenas propostas verificáveis
+        run: python scripts/maintain_amendments.py discover --collect --output monitor/run/amendments
+      - name: Guardar propostas para revisão sem publicar ou alterar o repositório
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: propostas-emendas-${{ github.run_id }}
+          path: monitor/run/amendments/
+          retention-days: 30
+          if-no-files-found: warn

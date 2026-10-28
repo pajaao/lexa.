@@ -7,7 +7,7 @@ export function activateCollection(id){readerCache.activate(id);}
 let pendingHistory;
 const visitedFiles=new Set();
 export function loadedResourceFiles(){return [...visitedFiles];}
-async function fetchVerifiedJson(spec){
+export async function fetchVerifiedJson(spec){
  const response=await fetch(new URL(spec.file,document.baseURI),{cache:'default'});
  if(!response.ok)throw new Error('Não foi possível carregar esta edição.');
  const bytes=await response.arrayBuffer();

@@ -150,7 +150,7 @@ function home() {
   }
   document.querySelector('#library-results').textContent='';
   const filtered=collections.filter(c=>(category==='Todas as áreas'||c.area.includes(category))&&normalize(c.name+' '+c.short+' '+c.area+' '+c.description).includes(q));
-  document.querySelector('#cards').innerHTML=filtered.map(c=>`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-short">${escape(c.short)} / ${c.kind==='sumulas'?'súmulas':'legislação'}</span><span class="catalog-number">${String(collections.indexOf(c)+1).padStart(2,'0')}</span></div><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p></a>`).join('');
+  document.querySelector('#cards').innerHTML=filtered.map(c=>c.id==='cf'&&initialCatalog.amendments?`<div class="code-card constitution-card"><a class="constitution-main" href="${codeHref(c)}"><div class="card-top"><span class="code-short">${escape(c.short)} / Legislação</span><span class="catalog-number">${String(collections.indexOf(c)+1).padStart(2,'0')}</span></div><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p></a><a class="constitution-amendments" href="#/emendas">Emendas Constitucionais →</a></div>`:`<a class="code-card" href="${codeHref(c)}"><div class="card-top"><span class="code-short">${escape(c.short)} / ${c.kind==='sumulas'?'súmulas':'legislação'}</span><span class="catalog-number">${String(collections.indexOf(c)+1).padStart(2,'0')}</span></div><h3>${escape(c.name)}</h3><p>${escape(c.description)}</p></a>`).join('');
   textGroups=q.length>=2?searchLibraryText(currentQuery,category):[];
   const count=textGroups.reduce((sum,group)=>sum+group.matches.length,0);
   if(q){
@@ -243,7 +243,7 @@ let routeGeneration=0;
 async function route(){
  const generation=++routeGeneration;
  const copyDialog=document.querySelector('#copy-dialog');if(copyDialog.open)copyDialog.close();
- cleanupReader();cleanupReader=()=>{};
+ cleanupReader();cleanupReader=()=>{};app.classList.remove('amendment-reader','amendment-full');
  const [path,query='']=location.hash.slice(1).split('?');
  const [,id,article]=path.split('/');
  const leavingSettings=!document.querySelector('#settings-page').hidden;
@@ -260,6 +260,15 @@ async function route(){
  const needsData=code&&!code.loaded||id==='favoritos'||id==='atualizacoes';
  if(needsData)app.innerHTML=`<section class="loading-panel"><p role="status">${code?'Carregando '+escape(code.name)+'…':id==='favoritos'?'Carregando favoritos…':'Carregando histórico…'}</p></section>`;
  try{
+  if(id==='emendas'){
+   if(!initialCatalog.amendments)throw new Error('Biblioteca de Emendas não habilitada nesta edição.');
+   app.innerHTML='<p class="loading-panel" role="status">Carregando Emendas Constitucionais…</p>';
+   const amendments=await import('./amendments.js');
+   if(!article){await amendments.amendmentLibrary(app,new URLSearchParams(query),()=>generation===routeGeneration);return;}
+   const {document,entry}=await amendments.loadAmendment(article),links=await amendments.loadAmendmentLinks();if(generation!==routeGeneration)return;
+   const collection=amendments.amendmentCollection(document,entry),services=readerServices();services.renderParagraphs=amendments.amendmentParagraphs;services.storageWrite=(key,value)=>key==='lexa-last-reading'?true:storageWrite(key,value);
+   reader(collection,path.split('/')[3],new URLSearchParams(query),services);amendments.enhanceAmendmentReader(app,document,links,new URLSearchParams(query));return;
+  }
   if(settings){document.title='Sobre e ajustes — Lexa';app.innerHTML='';document.querySelector('#settings-title').focus({preventScroll:true});window.scrollTo(0,0);return;}
   if(id==='favoritos'){
    await loadSearchIndexes(collections.filter(code=>saved.some(key=>key.startsWith(code.id+'/'))));
@@ -271,7 +280,11 @@ async function route(){
    recordedUpdates.splice(0,recordedUpdates.length,...history);
    updatesPage(new URLSearchParams(query));window.scrollTo(0,0);return;
   }
-  if(code){await loadCollection(code);if(generation!==routeGeneration)return;reader(code,article,new URLSearchParams(query),readerServices());}
+  if(code){await loadCollection(code);const services=readerServices();let amendments,links;
+   if(code.id==='cf'&&initialCatalog.amendments){amendments=await import('./amendments.js');links=await amendments.loadAmendmentLinks();services.amendmentNotes={records:links.records,decorate:amendments.decorateAmendmentNotes};}
+   if(generation!==routeGeneration)return;reader(code,article,new URLSearchParams(query),services);
+   const ec=new URLSearchParams(query).get('emenda');if(ec&&links?.records.some(x=>String(x.ec)===ec&&x.articleId===article)){const back=document.createElement('a');back.className='back';back.href='#/emendas/'+ec;back.textContent='← Voltar à EC '+ec;app.querySelector('.reader-top').prepend(back);}
+  }
   else{home();if(leavingSettings)app.focus({preventScroll:true});}
   if(!article)window.scrollTo(0,0);
  }catch(error){
