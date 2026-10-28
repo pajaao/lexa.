@@ -33,7 +33,7 @@ try:
                 page.wait_for_function("Math.abs(document.querySelector('.reading-controls').getBoundingClientRect().top)<1")
                 if width == 390:
                     page.evaluate("document.documentElement.classList.add('dark')")
-                assert page.locator('.reading-controls').bounding_box()['height'] <= 64
+                assert page.locator('.reading-controls').bounding_box()['height'] <= 96
                 assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
                 expect(page.locator('#article-search')).to_be_hidden()
                 page.screenshot(path=artifact_path(f'sheet-closed-{width}-{motion}.png'))
@@ -48,7 +48,7 @@ try:
                 expect(sheet).to_be_visible()
                 expect(close).to_be_focused()
                 assert abs(anchor.bounding_box()['y']-before) < 2
-                assert page.locator('.reading-controls').bounding_box()['height'] <= 64
+                assert page.locator('.reading-controls').bounding_box()['height'] <= 96
                 assert page.locator('#font-up').count() == 1
                 page.keyboard.press('Shift+Tab')
                 expect(page.locator('#reset-reading')).to_be_focused()

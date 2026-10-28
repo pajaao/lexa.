@@ -52,7 +52,7 @@ with tempfile.TemporaryDirectory() as temporary:
             manifest=page.evaluate("(async()=>await (await fetch('./manifest.webmanifest')).json())()")
             assert manifest['start_url']=='./' and manifest['scope']=='./'
             page.evaluate("caches.open('unrelated-project').then(cache=>cache.put('/unrelated',new Response('keep')))")
-            page.goto(base+'#/cf/60');page.locator('#font-up').click()
+            page.goto(base+'#/cf/60');page.locator('.reading-settings>summary').click();page.locator('#font-up').click()
             page.locator('[data-save="60"]').click()
             assert page.evaluate("(async()=> (await Promise.all((await caches.keys()).map(async key=>(await (await caches.open(key)).keys()).map(r=>r.url)))).flat().every(url=>!url.endsWith('.pdf')))()")
             context.set_offline(True)

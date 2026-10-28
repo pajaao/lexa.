@@ -117,6 +117,7 @@ with tempfile.TemporaryDirectory() as temporary:
                     page.locator('#font-up').click()
                     page.locator('.sheet-close').click()
                 else:
+                    page.locator('.reading-settings>summary').click()
                     page.locator('#font-up').click()
                 page.locator('#art-60').scroll_into_view_if_needed()
                 snapshot = page.evaluate('({hash:location.hash,storage:JSON.stringify(localStorage),y:scrollY})')

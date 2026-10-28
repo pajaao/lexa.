@@ -667,3 +667,151 @@ footer>span{margin:0;font-size:11px;color:var(--muted)}
 .dark:has(.editorial-hero),.dark:has(#settings-page:not([hidden])){--bg:#12231d;--surface:#192f27;--soft:#203a30;--ink:#e9eee4;--muted:#a9b7ad;--border:#345044}
 @media(max-width:600px){.editorial-hero .hero-note{flex-wrap:nowrap}.editorial-hero .hero-note>span{display:block;white-space:nowrap;font-size:10px}.hero-note i{margin:0 4px;vertical-align:middle}.indicator-full{display:none}.legislative-indicator{flex-shrink:0;gap:2px}}
 @media(max-width:360px){.editorial-hero .hero-note>span{font-size:9px}.hero-note i{width:5px;margin:0 2px}}
+
+
+/* Leitor editorial (Figma 51:2 e 54:2): escopo exclusivo do leitor jurídico.
+   Não altera o conteúdo normativo, a proveniência ou as funções existentes. */
+#app:has(> .reader-top){max-width:1440px}
+:root.dark:has(.reader-layout){
+  --bg:#12231d;--surface:#192f27;--soft:#203a30;
+  --ink:#e9eee4;--muted:#a9b7ad;--border:#345044
+}
+
+/* Identificação e proveniência compactas, sempre acessíveis. */
+.reader-top{padding:26px 56px 21px}
+.reader-top .back{min-height:44px;display:inline-flex;align-items:center;margin:0 0 10px;font-size:12px}
+.reader-top .eyebrow{font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.reader-top h1{font:500 clamp(37px,4vw,50px)/1.15 var(--serif);margin:11px 0 9px;max-width:none}
+.reader-top>p{font-size:13px;line-height:1.65;margin:0}
+.reader-top>p span{margin-inline:8px}
+.reader-top .reading-notice{font-size:12px;line-height:1.65;margin:12px 0 3px}
+.reader-top .reading-notice br{display:none}
+.reader-top .edition-label{display:inline;color:var(--muted);font-size:10px;margin-right:10px;letter-spacing:.08em}
+.reader-top .reading-notice strong{font-weight:600;color:var(--ink);margin-right:8px}
+.reader-top .source-details{font-size:12px;margin:0}
+.reader-top .source-details>summary{min-height:44px;display:list-item;width:fit-content;padding:10px 0;font-size:12px}
+
+/* Usar a área horizontal sem esticar indefinidamente as linhas normativas. */
+.reader-layout{grid-template-columns:276px minmax(0,1fr);gap:30px;padding:24px 56px 58px}
+.reader-layout aside{min-width:0;padding-right:18px;border-right:1px solid var(--border)}
+.reader-index{max-width:none}
+.reader-index>summary{font-size:13px}
+.reader-index .index-branch>summary{font-size:13px;line-height:1.55}
+.reader-index .index-branch>summary small{font-size:10.5px}
+.reader-index .index-entry{font-size:13px}
+.reading{min-width:0;width:100%;max-width:952px;--reading-leading:1.72;--reading-paragraph:.75em}
+.reading[data-spacing=comfortable]{--reading-leading:2.2;--reading-paragraph:1.4em}
+.reading[data-spacing=wide]{--reading-leading:2.5;--reading-paragraph:1.8em}
+
+/* Barra contextual: a busca continua direta; ajustes passam a ser recolhidos.
+   Mantém um único campo de pesquisa e os próprios controles de preferências. */
+@media(min-width:701px){
+ .reading-controls{display:flex;flex-wrap:nowrap;align-items:center;gap:10px;
+   position:sticky;top:0;z-index:5;min-height:66px;padding:8px 0 11px;
+   background:var(--bg);border-bottom:1px solid var(--border)}
+ .reading-context{display:contents}
+ .reading-context .reader-breadcrumb{order:1;flex:1;min-width:100px}
+ .reading-toolbar{order:2;display:flex;align-items:center;flex:0 1 247px;min-width:175px}
+ .reading-toolbar .reader-search-field{min-width:0;width:100%}
+ .reading-toolbar .reader-search-field .field-label{position:absolute;width:1px;height:1px;
+   padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .reading-toolbar .search{height:44px;min-height:44px;padding:7px 11px}
+ .reading-toolbar .search input{font-size:13px}
+ .reading-settings{order:3;position:relative;margin:0;flex-shrink:0}
+ .reading-settings>summary{list-style:none;display:flex;align-items:center;justify-content:center;
+   min-height:44px;min-width:98px;padding:10px 13px;cursor:pointer;
+   font-size:12px;border:1px solid var(--control-border);border-radius:5px;
+   background:var(--surface);color:var(--ink)}
+ .reading-settings>summary::-webkit-details-marker{display:none}
+ .reading-settings .settings-label-long{display:none}
+ .reading-settings[open] .reading-adjustments{position:absolute;right:0;top:calc(100% + 8px);
+   z-index:12;width:min(460px,calc(100vw - 30px));display:flex;flex-wrap:wrap;gap:12px;
+   background:var(--surface);border:1px solid var(--border);border-radius:7px;
+   padding:16px;box-shadow:0 12px 35px #0004}
+ .reading-settings[open] .reading-adjustments #reset-reading{margin-left:auto}
+ .reading-controls #focus-mode{order:4;flex-shrink:0;min-height:44px;min-width:80px;
+   padding:9px 13px;font-size:12px;white-space:nowrap}
+}
+@media(min-width:701px) and (max-width:1100px){
+ .reader-top{padding-inline:26px}
+ .reader-layout{grid-template-columns:clamp(188px,22vw,242px) minmax(0,1fr);
+   gap:22px;padding-inline:26px}
+ .reading-controls{flex-wrap:wrap;row-gap:6px}
+ .reading-context .reader-breadcrumb{flex-basis:100%;min-width:0}
+ .reading-toolbar{margin-right:auto}
+}
+
+/* Hierarquia legal em leitura contínua: sem cartões competindo com o texto. */
+.reading #articles .article{background:transparent;box-shadow:none;border:0;
+  border-bottom:1px solid var(--border);border-radius:0;
+  padding:24px 0 28px;margin:0 0 18px}
+.reading #articles .article.focused-article{border-left:2px solid var(--ring);
+  padding-left:14px}
+.reading #articles .article:target{background:var(--soft)}
+.reading #articles .article .article-heading{display:flex;align-items:center;
+  flex-wrap:wrap;gap:10px;padding:0 0 5px;margin:0 0 8px}
+.reading #articles .article .article-heading>a{font:500 27px/1.3 var(--serif);
+  border-left:0;padding-left:0;letter-spacing:-.02em}
+.reading #articles .article .article-heading>div{margin-left:auto;gap:10px}
+.reading #articles .article .article-heading [data-save]{min-width:44px;min-height:44px}
+.reading #articles .article .article-copy>summary{min-height:44px;padding:10px 14px}
+.reading #articles .article .legal-unit{font-size:1em;line-height:var(--reading-leading)}
+.reading #articles .article .article-source{font-size:11px;line-height:1.8;
+  padding:14px 0 0;margin-top:20px;border-top:1px solid var(--border)}
+.reading #articles .article .article-source a{line-height:1.6;text-decoration:underline;
+  text-underline-offset:3px}
+.reading .legal-heading{margin-top:30px}
+.reading .legal-heading>strong{font-family:var(--serif)}
+.reading-options{margin-top:13px}
+
+/* Mobile: posição curta acima dos quatro botões, espaçamento e área de toque.
+   Painéis existentes (índice, busca, ajustes) continuam sem duplicação. */
+@media(max-width:700px){
+ .reader-top{padding:13px 16px 12px}
+ .reader-top .back{min-height:40px;margin-bottom:2px;font-size:12px}
+ .reader-top .eyebrow{font-size:10px;letter-spacing:.06em}
+ .reader-top h1{font-size:clamp(30px,8.3vw,36px);line-height:1.13;margin:10px 0 8px}
+ .reader-top>p{font-size:11px;line-height:1.6}
+ .reader-top>p span{margin-inline:3px}
+ .reader-top .reading-notice{font-size:11px;margin-top:9px;line-height:1.6}
+ .reader-top .source-details>summary{font-size:11px;min-height:36px;padding:7px 0}
+ .reader-layout{display:block;padding:10px 16px 40px}
+ .reader-layout>aside{display:none}
+ .reading{max-width:none;--reading-leading:1.72;--reading-paragraph:.73em}
+ .reading-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+   grid-template-rows:minmax(19px,auto) 44px;gap:8px;
+   min-height:0;padding:9px 0 10px;align-items:stretch}
+ .reading-context{grid-column:1/-1;grid-row:1;display:block;min-width:0;margin:0}
+ .reading-context .reader-breadcrumb{display:block;min-width:0}
+ .reading-context .reader-breadcrumb ol{display:flex;gap:5px;align-items:center;
+   min-width:0;white-space:nowrap;overflow:hidden}
+ .reading-context .reader-breadcrumb li:first-child{display:block;min-width:0}
+ .reading-context #reading-location{display:block;flex:1;min-width:0;
+   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .reading-context #reading-scope{display:none}
+ .reading-toolbar{display:contents}
+ .reading-toolbar .mobile-search-toggle{display:block;grid-column:1;grid-row:2;width:100%;
+   min-width:0;min-height:44px;font-size:11px}
+ .reading-toolbar .mobile-index-toggle{display:block;grid-column:2;grid-row:2;width:100%;
+   min-width:0;min-height:44px;font-size:11px}
+ .reading-settings{grid-column:3;grid-row:2;display:block;width:100%;margin:0;min-width:0}
+ .reading-settings>summary{display:flex;align-items:center;justify-content:center;
+   width:100%;min-width:0;min-height:44px;padding:8px 4px;
+   border:1px solid var(--control-border);border-radius:6px;background:var(--surface);
+   color:var(--ink);font-size:11px}
+ .reading-controls #focus-mode{grid-column:4;grid-row:2;display:block;
+   width:100%;min-width:0;min-height:44px;margin:0;padding:7px 3px;
+   border:1px solid var(--control-border);border-radius:6px;background:var(--surface);
+   color:var(--ink);font:11px var(--sans)}
+ .reading-controls #focus-mode[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+ .reader-options{margin:12px 0 16px}
+ .reading #articles .article{padding:21px 0 24px;margin-bottom:18px}
+ .reading #articles .article.focused-article{padding-left:9px}
+ .reading #articles .article .article-heading>a{font-size:26px}
+ .reading #articles .article .article-heading>div{gap:6px}
+ .reading #articles .article .article-copy>summary{padding:10px}
+ .reading #articles .article .legal-unit{overflow-wrap:anywhere}
+ .reading #articles .article .article-source{font-size:10.5px}
+ .reading .legal-heading>strong{font-size:25px}
+ .reading-focus .reader-layout{padding:0 16px 36px}
+}
