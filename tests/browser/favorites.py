@@ -36,7 +36,7 @@ try:
   page.locator('.reading-settings>summary').click();assert page.locator('#reading-spacing').input_value()=='wide'
   page.locator('.sheet-close').click()
   page.locator('[data-save="186"]').click()
-  page.goto(base+'#/favoritos');assert page.locator('.favorite-link[href="#/civil/186"]').count()==0
+  page.goto(base+'#/favoritos');page.locator('#favorites-search').fill('');assert page.locator('.favorite-link[href="#/civil/186"]').count()==0
   page.locator('[data-remove-favorite="cf/60"]').click();page.reload()
   assert page.locator('.favorite-link[href="#/cf/60"]').count()==0
   assert not page.evaluate("JSON.parse(localStorage.getItem('lexa-saved')).includes('cf/60')")
