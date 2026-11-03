@@ -895,3 +895,41 @@ footer>span{margin:0;font-size:11px;color:var(--muted)}
  .history-stats>span:first-child{flex-basis:100%;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
  .history-stats>span:first-child strong{font-size:14px;margin:0}
 }
+/* Biblioteca de Emendas: direção editorial aprovada, isolada da biblioteca principal. */
+#app:has(>.amendments-library),#app.amendment-reader{max-width:1440px}
+.amendments-library{padding:28px 64px 64px;min-width:0}
+.amendments-library .back,.amendment-heading .back,.amendment-related .back{display:flex;align-items:center;min-height:44px;font-size:12px;color:var(--action)}
+.amendments-library>.eyebrow{margin:18px 0;font-size:11px;color:var(--muted)}
+.amendments-library h1{font:500 53px/1.25 var(--serif);margin:20px 0 12px;letter-spacing:-.025em}
+.amendments-library>p{font:16px/1.7 var(--sans);color:var(--muted);margin:12px 0 28px}
+.amendments-library .candidate-notice,.candidate-notice{font:12px/1.8 var(--sans);color:var(--muted)}
+.amendment-filters{display:flex;gap:16px;border-top:1px solid var(--border);padding-top:24px;align-items:end}
+.amendment-filters label{display:flex;flex-direction:column;gap:14px;font:11px/1.6 var(--sans);text-transform:uppercase;color:var(--muted)}
+.amendment-filters label:first-child{flex:1;max-width:870px}.amendment-filters input,.amendment-filters select{font:14px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--control-border);border-radius:6px;min-height:56px;padding:14px;min-width:0}
+.amendment-filters select{min-width:200px}.amendments-library .amendment-search-help{font-size:12px;border-bottom:1px solid var(--border);padding-bottom:24px}
+.amendment-filters input::placeholder{color:var(--muted);opacity:1}
+#amendment-count{font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.amendment-entry{display:grid;grid-template-columns:100px minmax(0,1fr) 90px;gap:24px;align-items:start;padding:24px 12px;border-top:1px solid var(--border);min-width:0}
+.amendment-entry>strong{font:500 32px/1.4 var(--serif)}.amendment-entry div{min-width:0}.amendment-entry div>span{font:11px/1.7 var(--sans);text-transform:uppercase;color:var(--muted)}
+.amendment-entry p{font:15px/1.6 var(--sans);margin:12px 0;color:var(--ink);overflow-wrap:anywhere}.amendment-entry small{font:12px/1.7 var(--sans);color:var(--muted)}.amendment-open{font-size:13px;color:var(--action);padding-top:18px}
+#amendment-more{display:block;min-height:48px;padding:12px 30px;margin:30px 0 0 auto;background:var(--surface);color:var(--ink);border:1px solid var(--control-border);border-radius:6px}
+#amendment-more[hidden]{display:none}.constitution-card .constitution-main{display:block}.constitution-amendments{display:flex;align-items:center;min-height:44px;font:12px/1.6 var(--sans);color:var(--action);border-top:1px solid var(--border);padding-top:8px;margin-top:8px;text-decoration:underline;text-underline-offset:3px}
+.library .constitution-card h3{margin-top:22px}.amendment-reader .reader-top h1{font-size:52px;max-width:900px}.amendment-reader .reader-top{padding-inline:64px}
+.amendment-ementa{border-block:1px solid var(--border);padding:24px 0;margin-top:28px}.amendment-ementa p{font:18px/1.7 var(--serif);color:var(--ink);max-width:1120px}.amendment-ementa .candidate-notice{font:12px/1.8 var(--sans);color:var(--muted)}
+.amendment-caveats{font:12px/1.8 var(--sans);color:var(--muted);padding:16px 0}.amendment-caveats summary{cursor:pointer;min-height:44px;padding:10px 0}.amendment-caveats p{overflow-wrap:anywhere}
+.amendment-reader .legal-divisions{display:none}.amendment-reader [data-save],.amendment-reader #saved-filter{display:none}
+.amendment-reader .reading .ec-citation{background:none;border-left:1px solid var(--border);padding:0 0 0 14px;white-space:pre-wrap}
+.amendment-preamble{font:18px/1.8 var(--serif);white-space:pre-wrap}.amendment-related{border-top:1px solid var(--border);margin-top:30px;padding-top:24px;min-width:0}
+.amendment-related h2{font:500 21px/1.4 var(--serif)}.amendment-related>p,.amendment-related details{font:13px/1.8 var(--sans);color:var(--muted)}.amendment-related details{margin-block:20px}.amendment-related summary{cursor:pointer;min-height:44px;padding:10px 0}
+.amendment-related>div{display:flex;flex-wrap:wrap;gap:12px}.amendment-related>div a{display:flex;align-items:center;min-height:44px;border:1px solid var(--control-border);border-radius:6px;padding:12px 16px;font:13px/1.6 var(--sans)}
+.amendment-note{color:var(--action);text-decoration:underline;text-underline-offset:3px}.amendment-note[data-previous=true]:after{content:' (referência em redação anterior)';font:11px var(--sans)}
+@media(max-width:700px){
+ .amendments-library{padding:20px 16px 44px}.amendments-library h1{font-size:37px;max-width:350px}.amendments-library>p{font-size:14px}
+ .amendment-filters{flex-direction:column;align-items:stretch}.amendment-filters select{width:100%}.amendment-entry{grid-template-columns:minmax(0,1fr) 24px;gap:8px;padding:16px 10px}.amendment-entry>strong{font:600 12px/1.7 var(--sans);grid-column:1}.amendment-entry>strong:before{content:'EC Nº '}.amendment-entry>div{grid-column:1}.amendment-entry p{font-size:14px}.amendment-entry>div>span{font-size:11px}.amendment-open{grid-column:2;grid-row:2;font-size:0;align-self:end}.amendment-open:after{content:'↗';font-size:18px}
+ #amendment-more{width:100%}.amendment-reader .reader-top{padding-inline:16px}.amendment-reader .reader-top h1{font-size:36px}.amendment-ementa p{font-size:16px}.amendment-preamble{font-size:17px}.amendment-reader .reading .ec-citation{padding-left:10px}
+}
+
+.amendment-reader:not(.amendment-full) .ec-continuity-only,.amendment-reader:not(.amendment-full) .ec-continuity-dots{display:none}
+.amendment-transcription-toggle{min-height:44px;padding:10px 12px;border:1px solid var(--control-border);border-radius:5px;background:var(--surface);color:var(--ink);font:12px/1.6 var(--sans)}
+.amendment-transcription-toggle[aria-pressed=true]{background:var(--soft)}
+.amendment-reading-help{font:12px/1.7 var(--sans);color:var(--muted);margin:8px 0 20px}

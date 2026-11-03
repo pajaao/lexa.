@@ -32,9 +32,9 @@ jobs:
           cache-dependency-path: scripts/requirements-browser.txt
       - name: Testar aplicação e gerar pacote
         run: npm test
+      - uses: ./.github/actions/setup-browser
       - name: Testar monitores, importadores e medições sem rede
         run: python -m unittest discover -s tests -p 'test_*.py'
-      - uses: ./.github/actions/setup-browser
       - name: Testar fluxos essenciais no Chromium
         run: python scripts/run_browser_tests.py --suite essential
       - name: Medir baseline (opcional, sem limite absoluto de desempenho)

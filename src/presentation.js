@@ -5,7 +5,7 @@ export const escape = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 
 export const number = n => n.toLocaleString('pt-BR');
 
-export const codeHref = (code,article='') => `#/${encodeURIComponent(code.id)}${article?'/'+article:''}`;
+export const codeHref = (code,article='') => code.kind==='amendment'?`#/emendas/${code.number}${article?'/'+article:''}`:`#/${encodeURIComponent(code.id)}${article?'/'+article:''}`;
 
 export function feedbackHref(code,article) {
  const form=new URL('https://docs.google.com/forms/d/e/1FAIpQLSfV7zTS0Fb8I6L5RK9zSkBVNe1FsmvLitU2wJjvvp_V3mFKyA/viewform');

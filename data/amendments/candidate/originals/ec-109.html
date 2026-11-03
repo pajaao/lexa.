@@ -1,0 +1,823 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" xml:lang="pt-br">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-itunes-app" content="app-id=1049343067" />
+    <meta name="google-play-app" content="app-id=br.leg.camara.infolegmovel" />
+    <script>
+      (function () {
+        let initialized = false;
+        let loading = false;
+
+        function ensureBody(callback) {
+          if (document.body) {
+            callback();
+          } else {
+            setTimeout(() => ensureBody(callback), 50);
+          }
+        }
+
+        function loadScript() {
+          if (loading || window.VLibras) return;
+          loading = true;
+
+          ensureBody(() => {
+            const s = document.createElement("script");
+            s.src = "https://vlibras.gov.br/app/vlibras-plugin.js";
+            s.onload = initVLibras;
+            document.body.appendChild(s);
+          });
+        }
+
+        function initVLibras() {
+          if (initialized || !window.VLibras) return;
+
+          ensureBody(() => {
+            if (!document.querySelector("[vw]")) {
+              const container = document.createElement("div");
+              container.innerHTML = `
+              <div vw class="enabled">
+                <div vw-access-button class="active"></div>
+                <div vw-plugin-wrapper>
+                  <div class="vw-plugin-top-wrapper"></div>
+                </div>
+              </div>
+            `;
+              document.body.appendChild(container);
+            }
+
+            (new window.VLibras.Widget(
+              "https://vlibras.gov.br/app",
+              "https://vlibras.gov.br/config/camara.json",
+            ),
+              $("body").append(
+                '<aside><div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div></aside>',
+              ));
+            initialized = true;
+
+            injectCSS();
+            if (!window.location.pathname.includes("/comissoes")) {
+              bindButton();
+            }
+          });
+        }
+
+        function injectCSS() {
+          if (document.getElementById("vlibras-style")) return;
+          const style = document.createElement("style");
+          style.id = "vlibras-style";
+          style.innerHTML = `
+          [vw-access-button] { display: none !important; }
+          div[vw] { z-index: 999999 !important; }
+        `;
+          document.head.appendChild(style);
+        }
+
+        function bindButton() {
+          const btn = document.getElementById("meu-botao-vlibras");
+          if (!btn) {
+            setTimeout(bindButton, 300);
+            return;
+          }
+
+          btn.onclick = function (e) {
+            e.preventDefault();
+            const original = document.querySelector("[vw-access-button]");
+            if (original) original.click();
+          };
+        }
+
+        // OBSERVA MUTA&#199;&#213;ES DO DOM (ESSENCIAL NO PLONE)
+        const observer = new MutationObserver(() => {
+          if (!document.querySelector("[vw]") && !initialized) {
+            loadScript();
+          }
+        });
+
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+        });
+
+        window.addEventListener("load", loadScript);
+      })();
+    </script>
+
+    <title>Portal da Câmara dos Deputados</title>
+  <style type="text/css">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/member-cachekey-46bb2e0fc9968a457e63f356c0ff3900.css);</style><style type="text/css">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/portlets-cachekey-8a45f49b338591ae0c9c8a91f261dc78.css);</style><style type="text/css" media="screen">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/deprecated-cachekey-32595b622b36f2eee9478f07796d4f67.css);</style><style type="text/css" media="screen">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/resourceplone.app.discussion.stylesheetsdiscussion-cachekey-5b23f388acd88bdb65020b51a5a278fb.css);</style><style type="text/css">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/elements-cachekey-57e40a70bd8192a6f63782abff5c2748.css);</style><style type="text/css" media="all">@import url(https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/ploneCustom-cachekey-7fb44e17264e070fccf4e31d9f2ada1c.css);</style><link rel="stylesheet" type="text/css" href="https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/themecamara.leg.viradadigitalcsslibsbootstrap-datetimepicker.min-cachekey-ab2d257c1b49d2d194633e2ecb4564a2.css" /><link rel="stylesheet" type="text/css" href="https://www.camara.leg.br/tema/global/camara-custom.css" /><link rel="stylesheet" type="text/css" href="https://www2.camara.leg.br/portal_css/camara_leg_viradadigital/++theme++camara.leg.viradadigital/css/all.min.css" /><link rel="apple-touch-icon" sizes="180x180" href="https://www.camara.leg.br/tema/apple-touch-icon.png" /><link rel="icon" type="image/png" sizes="32x32" href="https://www.camara.leg.br/tema/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="https://www.camara.leg.br/tema/favicon-16x16.png" /><link rel="manifest" href="https://www.camara.leg.br/tema/site.webmanifest" /><link rel="mask-icon" href="https://www.camara.leg.br/tema/safari-pinned-tab.svg" color="#009e49" /><link rel="search" href="http://www2.camara.leg.br/busca-geral" title="Buscar neste site" /><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/resourceplone.app.jquery-cachekey-3fa72abea58e1799bd3b0bc237335d45.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/styleswitcher-cachekey-9178d2d1bc80488214ac8d40a46c7bdf.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/impressaoIframes-cachekey-7de901cf3c737563606c12fa53b7a321.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/GoogleAnalyticsTracker.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/kss-bbb-cachekey-df10a37e7aa4176c3b122c2e3b0ee128.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/inline_validation-cachekey-35d4d75a94cdb17b403a636871dd92cb.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljsbootstrap.min-cachekey-c15df71e2ec454087fe4c4eab0ce9d3e.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsmoment.min-cachekey-860514b918ea422f7e82fa48125015c4.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsmoment-pt-br-cachekey-0aafba4fb000126f1ed0f6701186de00.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsbootstrap-datetimepicker.min-cachekey-fac2884b384d9c99236b26d0746facc4.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljslibsjquery.maskedinput.min-cachekey-e2f8b2523378532cc132594675b6dc6f.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljsacoes-tema-cachekey-a0084cf69f1785571a18f6a58a4986ac.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitaljscorrecoes-bootstrap-tema-cachekey-bd4c19550531506aa59d8b0aa7e8d6c5.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitalvendorjquery.mmenu.all-cachekey-f0e297313e30d6b2b2c2588ef23b5ef2.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitaljsvd_correcoes-cachekey-52a3614631388ad9e07bf35264bc73d5.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitaljsmmenu-correcoes-cachekey-8e45cc1e451978774afbfe2f5f1e95cf.js"></script><script type="text/javascript" src="https://www2.camara.leg.br/portal_javascripts/camara_leg_viradadigital/themecamara.leg.viradadigitalviradadigitaljsselecao-idioma-cachekey-998dbb210e1353a5d7f94011740ee16c.js"></script><meta name="msapplication-TileColor" content="#00a300" /><meta name="msapplication-TileImage" content="https://www.camara.leg.br/tema/mstile-144x144.png" /><meta name="theme-color" content="#009e49" /><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /><link rel="canonical" href="" /><script type="text/javascript">
+          $("link[rel='canonical']").attr("href", window.location.href);
+        </script>
+
+
+
+
+
+
+
+<title>EMENDA CONSTITUCIONAL Nº 109, DE 2021 - Publicação Original - Portal Câmara dos Deputados</title>
+
+<meta name="description" content="Publicação de Emenda Constitucional: Altera os arts. 29-A, 37, 49, 84, 163, 165, 167, 168 e 169 da Constituição Federal e os arts. 101 e 109 do Ato das Disposições Constitucionais Transitórias; acrescenta à Constituição Federal os arts. 164-A, 167- A, 167-B, 167-C, 167-D, 167-E, 167-F e 167-G; revoga dispositivos do Ato das Disposições Constitucionais Transitórias e institui regras transitórias sobre redução de benefícios tributários; desvincula parcialmente o superávit financeiro de fundos públicos; e suspende condicionalidades para realização de despesas com concessão de auxílio emergencial residual para enfrentar as consequências sociais e econômicas da pandemia da Covid-19. " />
+
+<!-- Coloque aqui sua referência ao CSS local -->
+<link rel="stylesheet" type="text/css" href="../../../_css/legislacao-v1.css" />
+
+<!-- Coloque aqui seu javascript -->
+<!-- script type="text/javascript" src="caminho-e-nome-do-arquivo.js"></script -->
+
+</head>
+<body>
+    <header class="l-cabecalho-portal" role="banner" id="portal-header">
+        <ul aria-label="Acesso direto" class="acesso-direto">
+          <!-- Links para saltar diretamente para &#225;reas importantes da p&#225;gina accesskey 2 = conte&#250;do e 3 = navega&#231;&#227;o -->
+          <li>
+            <a class="acesso-direto__link" href="#main-content" accesskey="2">Ir ao conteúdo</a>
+          </li>
+          <li>
+            <a class="acesso-direto__link" href="#main-nav" accesskey="3">Ir à navegação principal</a>
+          </li>
+        </ul>
+
+        <!--[if lte IE 9]>
+          <p class="browserupgrade">
+            Voc&#234; est&#225; usando um navegador <strong>defasado</strong>. Por favor,
+            <a href="https://browsehappy.com/">atualize seu navegador</a> para
+            melhorar sua experi&#234;ncia e sua seguran&#231;a.
+          </p>
+        <![endif]-->
+
+        <div class="nav-top">
+          <div class="container nav-top--container">
+            <a href="https://www2.camara.leg.br" class="logo-camara" accesskey="1"><span class="sr-only">Página inicial</span></a>
+
+            <div class="nav-top__palacio"></div>
+
+            <div class="nav-top__menu-superior">
+              <ul aria-label="Ferramentas de apoio" class="links-apoio">
+                <li class="links-apoio__item links-apoio__item--vlibras">
+                  <a id="meu-botao-vlibras" href="javascript:void(0);">
+                    <span>
+                      <img src="https://www.camara.leg.br/tema/assets/images/ico-vlibras-branco.png" alt="Ativar VLibras" width="28px" height="30px" />
+                    </span>
+                  </a>
+                </li>
+                <li class="links-apoio__item links-apoio__item--acessibilidade">
+                  <a href="https://www2.camara.leg.br/acessibilidade/recursos-de-acessibilidade" accesskey="0">Acessibilidade</a>
+                </li>
+                <li class="links-apoio__item links-apoio__item--faleconosco">
+                  <a href="https://www.camara.leg.br/fale-conosco" accesskey="9">Fale Conosco</a>
+                </li>
+              </ul>
+
+              <ul class="orgaos-parceiros" aria-label="Órgãos parceiros">
+                <li class="orgaos-parceiros__item orgaos-parceiros__item--congresso">
+                  <a href="http://www.congressonacional.leg.br"><span>Congresso</span></a>
+                </li>
+                <li class="orgaos-parceiros__item orgaos-parceiros__item--senado">
+                  <a href="http://www.senado.leg.br"><span>Senado</span></a>
+                </li>
+              </ul>
+
+              <div class="lista-idiomas">
+                <button class="botao-idioma-topo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="4,0">
+                  <span class="botao-idioma-topo__sigla">PT</span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-right l-lista-idiomas" aria-label="Idioma">
+                  <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/english" class="idioma-topo">
+                      <span class="idioma-topo__bandeira idioma-topo__bandeira--ingles" aria-hidden="true"></span>
+                      <span class="idioma-topo__nome">English</span>
+                      <span class="idioma-topo__sigla">EN</span>
+                    </a>
+                  </li>
+                  <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/espanol" class="idioma-topo">
+                      <span class="idioma-topo__bandeira idioma-topo__bandeira--espanhol" aria-hidden="true"></span>
+                      <span class="idioma-topo__nome">Español</span>
+                      <span class="idioma-topo__sigla">ES</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="home-camara-menu">
+    <nav class="menu-global navbar navbar-expand-lg" role="navigation" aria-label="Navegação principal" id="menuglobal">
+      <div class="container menu-global--container">
+      
+
+        <a href="https://www.camara.leg.br" class="logo-camara" accesskey="1">
+          <span class="sr-only">Página inicial</span>
+        </a>
+
+      
+        
+        <!-- icone menu -->
+        <button class="menu-global--btnmenu navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarportal" aria-controls="navbarportal" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="menu-global--icon"></span>
+        </button>
+
+        <!-- icone busca -->
+        <button class="menu-global--btnsearch" type="button" data-toggle="collapse" data-target="#buscaportal" aria-controls="buscaportal" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-search"></span>
+        </button>
+
+        <div class="navbar-collapse hidden-sm hidden-md hidden-xs" id="navbarportal">
+          <ul title="Navegação Principal" id="main-nav" class="navbar-nav">
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-temas nav-link dropdown-toggle" id="temas">Assuntos</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="temas">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/agropecuaria">Agropecuária</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/cidades-e-transportes">Cidades e transportes</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/ciencia-tecnologia-e-comunicacoes">Ciência, tecnologia e comunicações</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/consumidor">Consumidor</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/direitos-humanos">Direitos humanos</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/economia">Economia</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/educacao-cultura-e-esportes">Educação, cultura e esportes</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/meio-ambiente-e-energia">Meio ambiente e energia</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/politica-e-administracao-publica">Política e administração pública</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/relacoes-exteriores">Relações exteriores</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/saude">Saúde</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/seguranca">Segurança</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assuntos/trabalho-previdencia-e-assistencia">Trabalho, previdência e assistência</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-institucional nav-link dropdown-toggle" id="institucional">Institucional</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="institucional">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/agenda">Agenda</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/transparencia/servicos-ao-cidadao">Serviços</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/a-camara/estruturaadm/mesa/presidencia">Presidência</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/biblioteca-e-publicacoes/">Biblioteca e publicações</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/escola-da-camara/">Escola da Câmara</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/papel-e-estrutura/">Papel e estrutura</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/historia-e-arquivo/">História e arquivo</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/a-camara/visiteacamara">Visite</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-deputados nav-link dropdown-toggle" id="deputados">Deputados</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="deputados">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/deputados/quem-sao">Quem são</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/deputados/liderancas-e-bancadas-partidarias">Lideranças e bancadas</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/deputados/frentes-e-grupos-parlamentares">Frentes e grupos parlamentares</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-atvlegislativa nav-link dropdown-toggle" id="atvlegislativa">Atividade Legislativa</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="atvlegislativa">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/busca-portal/proposicoes/pesquisa-simplificada">Propostas legislativas</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/plenario">Plenário</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/comissoes">Comissões</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/sessoesereunioes">Sessões e reuniões</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/atividade-legislativa/estudos-e-notas-tecnicas">Estudos legislativos</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/atividade-legislativa/orcamento-da-uniao">Orçamento da União</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/legislacao">Legislação</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/entenda-o-processo-legislativo/">Entenda o processo legislativo</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/atividade-legislativa/participe">Participe</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-comunicacao nav-link dropdown-toggle" id="comunicacao">Comunicação</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="comunicacao">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/noticias">Agência Câmara de Notícias</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/radio">Rádio Câmara</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/tv">TV Câmara</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/banco-imagens">Banco de Imagens</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/assessoria-de-imprensa">Assessoria de Imprensa</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/comprove">Comprove uma notícia</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+            
+              
+                <li class="nav-item dropdown">
+                  <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="menu-global__item-transprestcontas nav-link dropdown-toggle" id="transprestcontas">Transparência e prestação de contas</a>
+
+                  
+                    <ul class="dropdown-menu" aria-labelledby="transprestcontas">
+                      <li class="dropdown-item">
+                        <a href="https://www.camara.leg.br/transparencia/">Transparência</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://www2.camara.leg.br/transparencia/prestacao-de-contas">Prestação de contas</a>
+                      </li>
+                      <li class="dropdown-item">
+                        <a href="https://dadosabertos.camara.leg.br/">Dados abertos</a>
+                      </li>
+                    </ul>
+                  
+                </li>
+              
+            
+          </ul>
+          <div class="outras-opcoes-menu-usuario hidden-md hidden-lg">
+            <ul aria-label="Ferramentas de apoio" class="links-apoio links-apoio--menu-mobile">
+              <li class="links-apoio__item links-apoio__item--acessibilidade">
+                <a href="https://www2.camara.leg.br/acessibilidade/recursos-de-acessibilidade" accesskey="0">Acessibilidade</a>
+              </li>
+              <li class="links-apoio__item links-apoio__item--faleconosco">
+                <a href="https://www.camara.leg.br/fale-conosco" accesskey="9">Fale Conosco</a>
+              </li>
+            </ul>
+          </div>
+          <div class="lista-idiomas hidden-md hidden-lg">
+            <button id="botao-idioma-topo" class="botao-idioma-topo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="4,0">
+                <span class="botao-idioma-topo__sigla">PT</span>
+            </button>
+        
+            <ul class="dropdown-menu-right l-lista-idiomas " aria-label="Idioma">
+                <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/english" class="idioma-topo">
+                        <span class="idioma-topo__bandeira idioma-topo__bandeira--ingles" aria-hidden="true"></span>
+                        <span class="idioma-topo__nome">English</span>
+                        <span class="idioma-topo__sigla">EN</span>
+                    </a>
+                </li>
+                <li class="l-lista-idiomas__item">
+                    <a href="https://www2.camara.leg.br/espanol" class="idioma-topo">
+                        <span class="idioma-topo__bandeira idioma-topo__bandeira--espanhol" aria-hidden="true"></span>
+                        <span class="idioma-topo__nome">Español</span>
+                        <span class="idioma-topo__sigla">ES</span>            
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+
+
+        <div class="collapse box-search" id="buscaportal">
+          <form role="search" accesskey="4" class="box-search__busca form-inline" action="https://www.camara.leg.br/busca-geral">
+            <label for="termo" class="sr-only box-search__label">Pesquise no Portal da Câmara</label>
+            <input class="form-control box-search__campo" type="search" name="termo" id="termo" placeholder="Buscar" aria-label="Search" />
+          </form>
+        </div>
+      </div>
+    </nav>
+  </div>
+      </header>
+
+    <div class="breadcrumbs-marcacao">
+        <div class="container">
+            <nav aria-label="Onde estou">
+                <ol class="breadcrumb portal-breadcrumbs">
+                    <li class="breadcrumb-item"><a href="//www.camara.leg.br">Início</a></li>
+                    
+	<li class='breadcrumb-item'><a href='http://www2.camara.gov.br/atividade-legislativa'>Atividade Legislativa</a></li>
+    <li class='breadcrumb-item'><a href='http://www2.camara.gov.br/atividade-legislativa/legislacao'>Legislação</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Esta página</li>
+                </ol>
+            </nav>
+        </div>
+        
+        <div class="container-fluid p-0">
+            <div id="menu-secoes-internas" class="menu-secoes-internass">
+                <div id="portal-mainsection">
+                    <div class="l-identificacao-landing">
+                        <div class="container">
+                            <h1 class="titulo-landing">Legislação</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="marcacao-conteudo-portal" class="conteudo-portal container nopadding-right nopadding-left">
+        <div class="coluna-centro col-md-12">
+
+
+<div id="portal-column-content">
+	<div id="portal-content-wrapper">
+		<div class="documentContent">
+			<div id="content">
+	
+				<h2 class="documentFirstHeading">Legislação Informatizada - EMENDA CONSTITUCIONAL Nº 109, DE 2021 - Publicação Original</h2>
+				<div class="vejaTambem">
+			    	<p>Veja também:</p>
+			    	<ul>
+                                        <li>
+
+
+                                                <a href="emendaconstitucional-109-15-marco-2021-791136-normaatualizada-pl.html" target="_blank">Texto Atualizado <span class="descricaoArquivo">(HTML)</span></a>&nbsp;
+                                                (<a href="emendaconstitucional-109-15-marco-2021-791136-normaatualizada-pl.doc">formato doc</a>)
+                                                &nbsp;
+                                                    (<a href="emendaconstitucional-109-15-marco-2021-791136-normaatualizada-pl.pdf">formato pdf</a>)
+
+                                            
+                                        </li>
+                                        <li>
+                                            <a href="http://www.camara.gov.br/sileg/Prop_Detalhe.asp?id=2272137">Proposição Originária</a>
+                                        </li>
+                                    <li>
+                                        <a href="emendaconstitucional-109-15-marco-2021-791136-norma-pl.html">Dados da Norma</a>
+                                    </li>
+                                </ul>
+			    </div>	
+                                
+
+					<h1>EMENDA CONSTITUCIONAL Nº 109, DE 2021</h1>
+				
+				<div class="textoNorma">
+				
+						<p class="ementa">
+							Altera os arts. 29-A, 37, 49, 84, 163, 165, 167, 168 e 169 da Constituição Federal e os arts. 101 e 109 do Ato das Disposições Constitucionais Transitórias; acrescenta à Constituição Federal os arts. 164-A, 167- A, 167-B, 167-C, 167-D, 167-E, 167-F e 167-G; revoga dispositivos do Ato das Disposições Constitucionais Transitórias e institui regras transitórias sobre redução de benefícios tributários; desvincula parcialmente o superávit financeiro de fundos públicos; e suspende condicionalidades para realização de despesas com concessão de auxílio emergencial residual para enfrentar as consequências sociais e econômicas da pandemia da Covid-19. <BR>
+						</p>
+				
+						<div class="texto">
+							&nbsp;&nbsp;&nbsp;&nbsp; As Mesas da Câmara dos Deputados e do Senado Federal, nos termos do § 3º do art. 60 da Constituição Federal, promulgam a seguinte Emenda ao texto constitucional: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 1º&nbsp;A Constituição Federal passa a vigorar com as seguintes alterações: <BR><BR>
+<DIR>"Art. 29-A.&nbsp;O total da despesa do Poder Legislativo Municipal, incluídos os subsídios dos Vereadores e os demais gastos com pessoal inativo e pensionistas, não poderá ultrapassar os seguintes percentuais, relativos ao somatório da receita tributária e das transferências previstas no § 5º do art. 153 e nos arts. 158 e 159 desta Constituição, efetivamente realizado no exercício anterior:<BR>................................................................................................................................." (NR)</DIR>
+<DIR>"Art. 37.&nbsp;................................................................................................................. <BR>.................................................................................................................................. <BR><BR>§ 16. Os órgãos e entidades da administração pública, individual ou conjuntamente, devem realizar avaliação das políticas públicas, inclusive com divulgação do objeto a ser avaliado e dos resultados alcançados, na forma da lei." (NR)</DIR>
+<DIR>"Art. 49.&nbsp;................................................................................................................. <BR>................................................................................................................................ <BR><BR>XVIII - decretar o estado de calamidade pública de âmbito nacional previsto nos arts. 167-B, 167-C, 167-D, 167-E, 167-F e 167-G desta Constituição." (NR)</DIR>
+<DIR>"Art. 84.&nbsp;................................................................................................................. <BR>................................................................................................................................. <BR><BR>XXVIII - propor ao Congresso Nacional a decretação do estado de calamidade pública de âmbito nacional previsto nos arts. 167-B, 167-C, 167-D, 167-E, 167-F e 167-G desta Constituição. <BR>................................................................................................................................" (NR)</DIR>
+<DIR>"Art. 163.&nbsp;............................................................................................................... <BR>................................................................................................................................. <BR><BR>VIII - sustentabilidade da dívida, especificando: </DIR>
+<DIR><EM>a) </EM>indicadores de sua apuração; <BR><EM>b) </EM>níveis de compatibilidade dos resultados fiscais com a trajetória da dívida; <BR><EM>c) </EM>trajetória de convergência do montante da dívida com os limites definidos em legislação; <BR><EM>d) </EM>medidas de ajuste, suspensões e vedações; <BR><EM>e) </EM>planejamento de alienação de ativos com vistas à redução do montante da dívida.<BR><I><BR>Parágrafo único. </I>A lei complementar de que trata o inciso VIII do <I>caput</I> deste artigo pode autorizar a aplicação das vedações previstas no art. 167-A desta Constituição." (NR)</DIR>
+<DIR>"Art. 164-A.&nbsp;A União, os Estados, o Distrito Federal e os Municípios devem conduzir suas políticas fiscais de forma a manter a dívida pública em níveis sustentáveis, na forma da lei complementar referida no inciso VIII do <I>caput</I> do art. 163 desta Constituição. <BR><BR><I>Parágrafo único. </I>A elaboração e a execução de planos e orçamentos devem refletir a compatibilidade dos indicadores fiscais com a sustentabilidade da dívida."</DIR>
+<DIR>"Art. 165.&nbsp;...............................................................................................................<BR>................................................................................................................................. <BR><BR>§ 2º A lei de diretrizes orçamentárias compreenderá as metas e prioridades da administração pública federal, estabelecerá as diretrizes de política fiscal e respectivas metas, em consonância com trajetória sustentável da dívida pública, orientará a elaboração da lei orçamentária anual, disporá sobre as alterações na legislação tributária e estabelecerá a política de aplicação das agências financeiras oficiais de fomento.<BR>.................................................................................................................................... <BR><BR>§ 16. As leis de que trata este artigo devem observar, no que couber, os resultados do monitoramento e da avaliação das políticas públicas previstos no § 16 do art. 37 desta Constituição." (NR)</DIR>
+<DIR>"Art. 167.&nbsp;................................................................................................................<BR>................................................................................................................................. <BR><BR>XIV - a criação de fundo público, quando seus objetivos puderem ser alcançados mediante a vinculação de receitas orçamentárias específicas ou mediante a execução direta por programação orçamentária e financeira de órgão ou entidade da administração pública. <BR>.......................................................................................................................................... <BR><BR>§ 4º É permitida a vinculação das receitas a que se referem os arts. 155, 156, 157, 158 e as alíneas "<EM>a</EM>", "<EM>b</EM>", "<EM>d</EM>" e "<EM>e</EM>" do inciso I e o inciso II do <I>caput</I> do art. 159 desta Constituição para pagamento de débitos com a União e para prestar-lhe garantia ou contragarantia.<BR>....................................................................................................................................... <BR><BR>§ 6º Para fins da apuração ao término do exercício financeiro do cumprimento do limite de que trata o inciso III do <I>caput</I> deste artigo, as receitas das operações de crédito efetuadas no contexto da gestão da dívida pública mobiliária federal somente serão consideradas no exercício financeiro em que for realizada a respectiva despesa." (NR)</DIR>
+<DIR>"Art. 167-A.&nbsp;Apurado que, no período de 12 (doze) meses, a relação entre despesas correntes e receitas correntes supera 95% (noventa e cinco por cento), no âmbito dos Estados, do Distrito Federal e dos Municípios, é facultado aos Poderes Executivo, Legislativo e Judiciário, ao Ministério Público, ao Tribunal de Contas e à Defensoria Pública do ente, enquanto permanecer a situação, aplicar o mecanismo de ajuste fiscal de vedação da: <BR><BR>I - concessão, a qualquer título, de vantagem, aumento, reajuste ou adequação de remuneração de membros de Poder ou de órgão, de servidores e empregados públicos e de militares, exceto dos derivados de sentença judicial transitada em julgado ou de determinação legal anterior ao início da aplicação das medidas de que trata este artigo; <BR><BR>II - criação de cargo, emprego ou função que implique aumento de despesa; <BR><BR>III - alteração de estrutura de carreira que implique aumento de despesa; <BR><BR>IV - admissão ou contratação de pessoal, a qualquer título, ressalvadas: </DIR>
+<DIR><EM>a) </EM>as reposições de cargos de chefia e de direção que não acarretem aumento de despesa; <BR><EM>b) </EM>as reposições decorrentes de vacâncias de cargos efetivos ou vitalícios; <BR><EM>c) </EM>as contratações temporárias de que trata o inciso IX do <I>caput</I> do art. 37 desta Constituição; e <BR><EM>d) </EM>as reposições de temporários para prestação de serviço militar e de alunos de órgãos de formação de militares; <BR><BR>V - realização de concurso público, exceto para as reposições de vacâncias previstas no inciso IV deste <I>caput</I>; <BR><BR>VI - criação ou majoração de auxílios, vantagens, bônus, abonos, verbas de representação ou benefícios de qualquer natureza, inclusive os de cunho indenizatório, em favor de membros de Poder, do Ministério Público ou da Defensoria Pública e de servidores e empregados públicos e de militares, ou ainda de seus dependentes, exceto quando derivados de sentença judicial transitada em julgado ou de determinação legal anterior ao início da aplicação das medidas de que trata este artigo; <BR><BR>VII - criação de despesa obrigatória; <BR><BR>VIII - adoção de medida que implique reajuste de despesa obrigatória acima da variação da inflação, observada a preservação do poder aquisitivo referida no inciso IV do <I>caput</I> do art. 7º desta Constituição; <BR><BR>IX - criação ou expansão de programas e linhas de financiamento, bem como remissão, renegociação ou refinanciamento de dívidas que impliquem ampliação das despesas com subsídios e subvenções; <BR><BR>X - concessão ou ampliação de incentivo ou benefício de natureza tributária. <BR><BR>§ 1º Apurado que a despesa corrente supera 85% (oitenta e cinco por cento) da receita corrente, sem exceder o percentual mencionado no <I>caput</I> deste artigo, as medidas nele indicadas podem ser, no todo ou em parte, implementadas por atos do Chefe do Poder Executivo com vigência imediata, facultado aos demais Poderes e órgãos autônomos implementá-las em seus respectivos âmbitos. <BR><BR>§ 2º O ato de que trata o § 1º deste artigo deve ser submetido, em regime de urgência, à apreciação do Poder Legislativo. <BR><BR>§ 3º O ato perde a eficácia, reconhecida a validade dos atos praticados na sua vigência, quando: <BR><BR>I - rejeitado pelo Poder Legislativo; <BR><BR>II - transcorrido o prazo de 180 (cento e oitenta) dias sem que se ultime a sua apreciação; ou <BR><BR>III - apurado que não mais se verifica a hipótese prevista no § 1º deste artigo, mesmo após a sua aprovação pelo Poder Legislativo. <BR><BR>§ 4º A apuração referida neste artigo deve ser realizada bimestralmente. <BR><BR>§ 5º As disposições de que trata este artigo: <BR><BR>I - não constituem obrigação de pagamento futuro pelo ente da Federação ou direitos de outrem sobre o erário; <BR><BR>II - não revogam, dispensam ou suspendem o cumprimento de dispositivos constitucionais e legais que disponham sobre metas fiscais ou limites máximos de despesas. <BR><BR>§ 6º Ocorrendo a hipótese de que trata o <I>caput</I> deste artigo, até que todas as medidas nele previstas tenham sido adotadas por todos os Poderes e órgãos nele mencionados, de acordo com declaração do respectivo Tribunal de Contas, é vedada: <BR><BR>I - a concessão, por qualquer outro ente da Federação, de garantias ao ente envolvido; <BR><BR>II - a tomada de operação de crédito por parte do ente envolvido com outro ente da Federação, diretamente ou por intermédio de seus fundos, autarquias, fundações ou empresas estatais dependentes, ainda que sob a forma de novação, refinanciamento ou postergação de dívida contraída anteriormente, ressalvados os financiamentos destinados a projetos específicos celebrados na forma de operações típicas das agências financeiras oficiais de fomento."</DIR>
+<DIR>"Art. 167-B.&nbsp;Durante a vigência de estado de calamidade pública de âmbito nacional, decretado pelo Congresso Nacional por iniciativa privativa do Presidente da República, a União deve adotar regime extraordinário fiscal, financeiro e de contratações para atender às necessidades dele decorrentes, somente naquilo em que a urgência for incompatível com o regime regular, nos termos definidos nos arts. 167-C, 167-D, 167-E, 167-F e 167-G desta Constituição."</DIR>
+<DIR>"Art. 167-C.&nbsp;Com o propósito exclusivo de enfrentamento da calamidade pública e de seus efeitos sociais e econômicos, no seu período de duração, o Poder Executivo federal pode adotar processos simplificados de contratação de pessoal, em caráter temporário e emergencial, e de obras, serviços e compras que assegurem, quando possível, competição e igualdade de condições a todos os concorrentes, dispensada a observância do § 1º do art. 169 na contratação de que trata o inciso IX do <I>caput</I> do art. 37 desta Constituição, limitada a dispensa às situações de que trata o referido inciso, sem prejuízo do controle dos órgãos competentes."</DIR>
+<DIR>"Art. 167-D.&nbsp;As proposições legislativas e os atos do Poder Executivo com propósito exclusivo de enfrentar a calamidade e suas consequências sociais e econômicas, com vigência e efeitos restritos à sua duração, desde que não impliquem despesa obrigatória de caráter continuado, ficam dispensados da observância das limitações legais quanto à criação, à expansão ou ao aperfeiçoamento de ação governamental que acarrete aumento de despesa e à concessão ou à ampliação de incentivo ou benefício de natureza tributária da qual decorra renúncia de receita. <BR><BR><I>Parágrafo único. </I>Durante a vigência da calamidade pública de âmbito nacional de que trata o art. 167-B, não se aplica o disposto no § 3º do art. 195 desta Constituição."</DIR>
+<DIR>"Art. 167-E.&nbsp;Fica dispensada, durante a integralidade do exercício financeiro em que vigore a calamidade pública de âmbito nacional, a observância do inciso III do <I>caput</I> do art. 167 desta Constituição."</DIR>
+<DIR>"Art. 167-F.&nbsp;Durante a vigência da calamidade pública de âmbito nacional de que trata o art. 167-B desta Constituição: <BR><BR>I - são dispensados, durante a integralidade do exercício financeiro em que vigore a calamidade pública, os limites, as condições e demais restrições aplicáveis à União para a contratação de operações de crédito, bem como sua verificação; <BR><BR>II - o superávit financeiro apurado em 31 de dezembro do ano imediatamente anterior ao reconhecimento pode ser destinado à cobertura de despesas oriundas das medidas de combate à calamidade pública de âmbito nacional e ao pagamento da dívida pública. <BR><BR>§ 1º Lei complementar pode definir outras suspensões, dispensas e afastamentos aplicáveis durante a vigência do estado de calamidade pública de âmbito nacional. <BR><BR>§ 2º O disposto no inciso II do <I>caput</I> deste artigo não se aplica às fontes de recursos: <BR><BR>I - decorrentes de repartição de receitas a Estados, ao Distrito Federal e a Municípios; <BR><BR>II - decorrentes das vinculações estabelecidas pelos arts. 195, 198, 201, 212, 212-A e 239 desta Constituição; <BR><BR>III - destinadas ao registro de receitas oriundas da arrecadação de doações ou de empréstimos compulsórios, de transferências recebidas para o atendimento de finalidades determinadas ou das receitas de capital produto de operações de financiamento celebradas com finalidades contratualmente determinadas."</DIR>
+<DIR>"Art. 167-G.&nbsp;Na hipótese de que trata o art. 167-B, aplicam-se à União, até o término da calamidade pública, as vedações previstas no art. 167-A desta Constituição. <BR><BR>§ 1º Na hipótese de medidas de combate à calamidade pública cuja vigência e efeitos não ultrapassem a sua duração, não se aplicam as vedações referidas nos incisos II, IV, VII, IX e X do <I>caput</I> do art. 167-A desta Constituição. <BR><BR>§ 2º Na hipótese de que trata o art. 167-B, não se aplica a alínea "<EM>c</EM>" do inciso I do <I>caput</I> do art. 159 desta Constituição, devendo a transferência a que se refere aquele dispositivo ser efetuada nos mesmos montantes transferidos no exercício anterior à decretação da calamidade. <BR><BR>§ 3º É facultada aos Estados, ao Distrito Federal e aos Municípios a aplicação das vedações referidas no <I>caput</I>, nos termos deste artigo, e, até que as tenham adotado na integralidade, estarão submetidos às restrições do § 6º do art. 167-A desta Constituição, enquanto perdurarem seus efeitos para a União."</DIR>
+<DIR>"Art. 168.&nbsp;.............................................................................................................. <BR><BR>§ 1º É vedada a transferência a fundos de recursos financeiros oriundos de repasses duodecimais. <BR><BR>§ 2º O saldo financeiro decorrente dos recursos entregues na forma do <I>caput</I> deste artigo deve ser restituído ao caixa único do Tesouro do ente federativo, ou terá seu valor deduzido das primeiras parcelas duodecimais do exercício seguinte." (NR)</DIR>
+<DIR>"Art. 169.&nbsp;A despesa com pessoal ativo e inativo e pensionistas da União, dos Estados, do Distrito Federal e dos Municípios não pode exceder os limites estabelecidos em lei complementar. <BR>................................................................................................................................" (NR)</DIR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 2º&nbsp;O Ato das Disposições Constitucionais Transitórias passa a vigorar com as seguintes alterações: <BR><BR>
+<DIR>"Art. 101.&nbsp;Os Estados, o Distrito Federal e os Municípios que, em 25 de março de 2015, se encontravam em mora no pagamento de seus precatórios quitarão, até 31 de dezembro de 2029, seus débitos vencidos e os que vencerão dentro desse período, atualizados pelo Índice Nacional de Preços ao Consumidor Amplo Especial (IPCA-E), ou por outro índice que venha a substituí-lo, depositando mensalmente em conta especial do Tribunal de Justiça local, sob única e exclusiva administração deste, 1/12 (um doze avos) do valor calculado percentualmente sobre suas receitas correntes líquidas apuradas no segundo mês anterior ao mês de pagamento, em percentual suficiente para a quitação de seus débitos e, ainda que variável, nunca inferior, em cada exercício, ao percentual praticado na data da entrada em vigor do regime especial a que se refere este artigo, em conformidade com plano de pagamento a ser anualmente apresentado ao Tribunal de Justiça local. <BR>......................................................................................................................................... <BR><BR>§ 4º (Revogado). <BR><BR>I - (revogado); <BR><BR>II - (revogado); <BR><BR>III - (revogado); <BR><BR>IV - (revogado)." (NR)</DIR>
+<DIR>"Art. 109.&nbsp;Se verificado, na aprovação da lei orçamentária, que, no âmbito das despesas sujeitas aos limites do art. 107 deste Ato das Disposições Constitucionais Transitórias, a proporção da despesa obrigatória primária em relação à despesa primária total foi superior a 95% (noventa e cinco por cento), aplicam-se ao respectivo Poder ou órgão, até o final do exercício a que se refere a lei orçamentária, sem prejuízo de outras medidas, as seguintes vedações: <BR><BR>I - concessão, a qualquer título, de vantagem, aumento, reajuste ou adequação de remuneração de membros de Poder ou de órgão, de servidores e empregados públicos e de militares, exceto dos derivados de sentença judicial transitada em julgado ou de determinação legal anterior ao início da aplicação das medidas de que trata este artigo; <BR>........................................................................................................................................... <BR><BR>IV - admissão ou contratação de pessoal, a qualquer título, ressalvadas: </DIR>
+<DIR><EM>a) </EM>as reposições de cargos de chefia e de direção que não acarretem aumento de despesa; <BR><EM>b) </EM>as reposições decorrentes de vacâncias de cargos efetivos ou vitalícios; <BR><EM>c) </EM>as contratações temporárias de que trata o inciso IX do <I>caput</I> do art. 37 da Constituição Federal; e <BR><EM>d) </EM>as reposições de temporários para prestação de serviço militar e de alunos de órgãos de formação de militares;<BR>......................................................................................................................................... <BR><BR>VI - criação ou majoração de auxílios, vantagens, bônus, abonos, verbas de representação ou benefícios de qualquer natureza, inclusive os de cunho indenizatório, em favor de membros de Poder, do Ministério Público ou da Defensoria Pública, de servidores e empregados públicos e de militares, ou ainda de seus dependentes, exceto quando derivados de sentença judicial transitada em julgado ou de determinação legal anterior ao início da aplicação das medidas de que trata este artigo; <BR>.......................................................................................................................................... <BR><BR>IX - aumento do valor de benefícios de cunho indenizatório destinados a qualquer membro de Poder, servidor ou empregado da administração pública e a seus dependentes, exceto quando derivado de sentença judicial transitada em julgado ou de determinação legal anterior ao início da aplicação das medidas de que trata este artigo. <BR><BR>§ 1º As vedações previstas nos incisos I, III e VI do <I>caput</I> deste artigo, quando acionadas as vedações para qualquer dos órgãos elencados nos incisos II, III e IV do <I>caput</I> do art. 107 deste Ato das Disposições Constitucionais Transitórias, aplicam-se ao conjunto dos órgãos referidos em cada inciso. <BR><BR>§ 2º Caso as vedações de que trata o <I>caput</I> deste artigo sejam acionadas para o Poder Executivo, ficam vedadas: <BR>........................................................................................................................................... <BR><BR>§ 3º Caso as vedações de que trata o <I>caput</I> deste artigo sejam acionadas, fica vedada a concessão da revisão geral prevista no inciso X do <I>caput</I> do art. 37 da Constituição Federal. <BR><BR>§ 4º As disposições deste artigo: <BR><BR>I - não constituem obrigação de pagamento futuro pela União ou direitos de outrem sobre o erário; <BR><BR>II - não revogam, dispensam ou suspendem o cumprimento de dispositivos constitucionais e legais que disponham sobre metas fiscais ou limites máximos de despesas; e <BR><BR>III - aplicam-se também a proposições legislativas. <BR><BR>§ 5º O disposto nos incisos II, IV, VII e VIII do <I>caput</I> e no § 2º deste artigo não se aplica a medidas de combate a calamidade pública nacional cuja vigência e efeitos não ultrapassem a sua duração." (NR)</DIR>
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 3º&nbsp;Durante o exercício financeiro de 2021, a proposição legislativa com o propósito exclusivo de conceder auxílio emergencial residual para enfrentar as consequências sociais e econômicas da pandemia da Covid-19 fica dispensada da observância das limitações legais quanto à criação, à expansão ou ao aperfeiçoamento de ação governamental que acarrete aumento de despesa. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 1º As despesas decorrentes da concessão do auxílio referido no <I>caput</I> deste artigo realizadas no exercício financeiro de 2021 não são consideradas, até o limite de R$ 44.000.000.000,00 (quarenta e quatro bilhões de reais), para fins de: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I - apuração da meta de resultado primário estabelecida no <I>caput</I> do art. 2º da Lei nº 14.116, de 31 de dezembro de 2020; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II - limite para despesas primárias estabelecido no inciso I do <I>caput</I> do art. 107 do Ato das Disposições Constitucionais Transitórias. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 2º As operações de crédito realizadas para custear a concessão do auxílio referido no <I>caput</I> deste artigo ficam ressalvadas do limite estabelecido no inciso III do <I>caput</I> do art. 167 da Constituição Federal. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 3º A despesa de que trata este artigo deve ser atendida por meio de crédito extraordinário. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 4º A abertura do crédito extraordinário referido no § 3º deste artigo dar-seá independentemente da observância dos requisitos exigidos no § 3º do art. 167 da Constituição Federal.&nbsp;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 5º O disposto neste artigo aplica-se apenas à União, vedada sua adoção pelos Estados, pelo Distrito Federal e pelos Municípios. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 4º&nbsp;O Presidente da República deve encaminhar ao Congresso Nacional, em até 6 (seis) meses após a promulgação desta Emenda Constitucional, plano de redução gradual de incentivos e benefícios federais de natureza tributária, acompanhado das correspondentes proposições legislativas e das estimativas dos respectivos impactos orçamentários e financeiros. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 1º As proposições legislativas a que se refere o <I>caput</I> devem propiciar, em conjunto, redução do montante total dos incentivos e benefícios referidos no <I>caput</I> deste artigo: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I - para o exercício em que forem encaminhadas, de pelo menos 10% (dez por cento), em termos anualizados, em relação aos incentivos e benefícios vigentes por ocasião da promulgação desta Emenda Constitucional; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II - de modo que esse montante, no prazo de até 8 (oito) anos, não ultrapasse 2% (dois por cento) do produto interno bruto. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 2º O disposto no <I>caput</I> deste artigo, bem como o atingimento das metas estabelecidas no § 1º deste artigo, não se aplica aos incentivos e benefícios: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I - estabelecidos com fundamento na alínea "<EM>d</EM>" do inciso III do <I>caput</I> e no parágrafo único do art. 146 da Constituição Federal; </P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp; II - concedidos a entidades sem fins lucrativos com fundamento na alínea "<EM>c</EM>" do inciso VI do <I>caput</I> do art. 150 e no § 7º do art. 195 da Constituição Federal;&nbsp;<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;III - concedidos aos programas de que trata a alínea "<EM>c</EM>" do inciso I do <I>caput</I> do art. 159 da Constituição Federal; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV - relativos ao regime especial estabelecido nos termos do art. 40 do Ato das Disposições Constitucionais Transitórias e às áreas de livre comércio e zonas francas estabelecidas na forma da lei; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V - relacionados aos produtos que compõem a cesta básica; e <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VI - concedidos aos programas estabelecidos em lei destinados à concessão de bolsas de estudo integrais e parciais para estudantes de cursos superiores em instituições privadas de ensino superior, com ou sem fins lucrativos. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 3º Para efeitos deste artigo, considera-se incentivo ou benefício de natureza tributária aquele assim definido na mais recente publicação do demonstrativo a que se refere o § 6º do art. 165 da Constituição Federal. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 4º Lei complementar tratará de: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I - critérios objetivos, metas de desempenho e procedimentos para a concessão e a alteração de incentivo ou benefício de natureza tributária, financeira ou creditícia para pessoas jurídicas do qual decorra diminuição de receita ou aumento de despesa; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II - regras para a avaliação periódica obrigatória dos impactos econômico-sociais dos incentivos ou benefícios de que trata o inciso I deste parágrafo, com divulgação irrestrita dos respectivos resultados; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;III - redução gradual de incentivos fiscais federais de natureza tributária, sem prejuízo do plano emergencial de que trata o <I>caput</I> deste artigo. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 5º&nbsp;Até o final do segundo exercício financeiro subsequente à data da promulgação desta Emenda Constitucional, o superávit financeiro das fontes de recursos dos fundos públicos do Poder Executivo, apurados ao final de cada exercício, poderá ser destinado à amortização da dívida pública do respectivo ente. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 1º Se o ente não tiver dívida pública a amortizar, o superávit financeiro das fontes de recursos dos fundos públicos do Poder Executivo será de livre aplicação. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;§ 2º Não se aplica o disposto no <I>caput</I> deste artigo: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I - aos fundos públicos de fomento e desenvolvimento regionais, operados por instituição financeira de caráter regional; <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II - aos fundos ressalvados no inciso IV do art. 167 da Constituição Federal. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 6º&nbsp;Ficam revogados: <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I - o art. 91 do Ato das Disposições Constitucionais Transitórias; e <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II - o § 4º do art. 101 do Ato das Disposições Constitucionais Transitórias. <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Art. 7º&nbsp;Esta Emenda Constitucional entra em vigor na data de sua publicação, exceto quanto à alteração do art. 29-A da Constituição Federal, a qual entra em vigor a partir do início da primeira legislatura municipal após a data de publicação desta Emenda Constitucional. </P>
+<P>&nbsp;&nbsp;&nbsp;&nbsp; Brasília, em 15 de março de 2021 </P>
+<P>
+<TABLE class=MsoTableGrid style="BORDER-TOP: medium none; BORDER-RIGHT: medium none; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; mso-yfti-tbllook: 1184; mso-padding-alt: 0cm 5.4pt 0cm 5.4pt; mso-border-insideh: none; mso-border-insidev: none" cellSpacing=0 cellPadding=0 border=0>
+<TBODY>
+<TR style="mso-yfti-irow: 0; mso-yfti-firstrow: yes">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><B><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Mesa da Câmara dos Deputados</SPAN></B><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'><?xml:namespace prefix = "o" ns = "urn:schemas-microsoft-com:office:office" /><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><B><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Mesa do Senado Federal<o:p></o:p></SPAN></B></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'><o:p>&nbsp;</o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 1">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputado ARTHUR LIRA<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Presidente<BR style="mso-special-character: line-break"><BR style="mso-special-character: line-break"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador RODRIGO PACHECO<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Presidente<o:p></o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 2">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputado MARCELO RAMOS<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>1º Vice-Presidente<BR style="mso-special-character: line-break"><BR style="mso-special-character: line-break"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador VENEZIANO VITAL DO RÊGO<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>1º Vice-Presidente<o:p></o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 3">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputado ANDRÉ DE PAULA<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>2º Vice-Presidente<BR style="mso-special-character: line-break"><BR style="mso-special-character: line-break"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador ROMÁRIO<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>2º Vice-Presidente<o:p></o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 4">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputado LUCIANO BIVAR<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>1º Secretário<BR style="mso-special-character: line-break"><BR style="mso-special-character: line-break"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador IRAJÁ<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>1º Secretário<o:p></o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 5">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputada MARÍLIA ARRAES<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>2ª Secretária<BR style="mso-special-character: line-break"><BR style="mso-special-character: line-break"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador ELMANO FÉRRER<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>2º Secretário<o:p></o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 6">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputada ROSE MODESTO<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>3ª Secretária<BR style="mso-special-character: line-break"><BR style="mso-special-character: line-break"><o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador ROGÉRIO CARVALHO<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>3º Secretário<o:p></o:p></SPAN></P></TD></TR>
+<TR style="mso-yfti-irow: 7; mso-yfti-lastrow: yes">
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 196.8pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=262>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Deputada ROSANGELA GOMES<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>4ª Secretária<o:p></o:p></SPAN></P></TD>
+<TD style="BORDER-TOP: #f0f0f0; BORDER-RIGHT: #f0f0f0; WIDTH: 235.4pt; BORDER-BOTTOM: #f0f0f0; PADDING-BOTTOM: 0cm; PADDING-TOP: 0cm; PADDING-LEFT: 5.4pt; BORDER-LEFT: #f0f0f0; PADDING-RIGHT: 5.4pt; BACKGROUND-COLOR: transparent" vAlign=top width=314>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal; TEXT-AUTOSPACE: ; mso-layout-grid-align: none"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>Senador WEVERTON<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt; LINE-HEIGHT: normal"><SPAN style='FONT-SIZE: 12pt; FONT-FAMILY: "Arial","sans-serif"'>4º Secretário<o:p></o:p></SPAN></P></TD></TR></TBODY></TABLE><BR></P>
+						</div>
+					    
+				</div>
+				
+
+                                            <br>
+                                            <div class="rodapeTexto">
+                                                <div class="texto">
+                                                    Este texto não substitui o original publicado no Diário Oficial da União - Seção 1 de 16/03/2021
+                                                </div>
+                                            </div>
+
+					<br><br>
+					<div class="publicacoesTI">
+                                            <strong>Publicação:</strong>
+                                            <ul class="listaMarcada">
+                                                    <li>
+                                                        
+                                                        Diário Oficial da União - Seção 1
+                                                         - 16/3/2021, Página 4 
+                                                        
+                                                        (Publicação Original)
+                                                        
+                                                    </li>
+                                            </ul>
+					</div>
+
+
+
+			</div> <!-- content // -->
+		</div> <!-- documentContent // -->
+	</div> <!-- portal-content-wrapper // -->
+</div> <!-- portal-column-content // --> 
+</div></div>
+<div class="js-mmenu-container">
+      
+
+      
+      
+
+      
+
+      <footer role="contentinfo" class="rodape-portal">
+        <!-- Coloque aqui o endere&#231;o e demais informa&#231;&#245;es de assinatura -->
+        <address class="rodape-portal-info">
+          <div class="container">
+            <div class="rodape-portal-info__nome">
+              <p>
+                <strong id="legislaturaRodape">57ª Legislatura - 4ª Sessão Legislativa Ordinária</strong>
+              </p>
+            </div>
+
+            <div class="l-rodape-info">
+              <div class="l-rodape-info__local rodape-portal-info__texto">
+                <span class="rodape-info">Câmara dos Deputados - Palácio do Congresso Nacional - Praça
+                  dos Três Poderes</span>
+                <span class="rodape-info">Brasília - DF - Brasil - CEP 70160-900</span>
+                <span class="rodape-info"><span class="rodape-info__destaque">CNPJ:</span>
+                  00.530.352/0001-59</span>
+              </div>
+
+              <div class="l-rodape-info__telefones rodape-portal-info__texto">
+                <ul class="list-unstyled" aria-label="Número para contato e horário de atendimento">
+                  <li>
+                    <span class="rodape-info__destaque">Disque-Câmara:</span>
+                    <a href="tel:0800-0-619-619">0800-0-619-619</a>, das 8h às
+                    20h
+                  </li>
+                  <li>
+                    <span class="rodape-info__destaque">Atendimento por WhatsApp:</span>
+                    <a href="https://wa.me//556132160000?text">(61) 3216-0000</a>, das 8h às 19h
+                  </li>
+                  <li>
+                    <span class="rodape-info__destaque">Atendimento presencial:</span>
+                    das 9h às 19h
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="acesso-provedor text-right">
+              <a title="Autenticar-se no site" href="/login_form">
+                <i class="fas fa-lock" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </address>
+        <!-- Coloque aqui a lista de redes sociais da C&#226;mara -->
+        <div class="rodape-portal-links rodape-portal-links--redes-sociais">
+          <div class="container">
+            <ul class="rodape-portal-links__lista" aria-label="Câmara nas redes sociais">
+              <li class="rodape-portal-links__item">
+                <a href="https://whatsapp.com/channel/0029Va2fexI3gvWgfMs6Fv31" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--whatsapp" aria-hidden="true"></span>
+                  <span class="sr-only">Whatsapp</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://t.me/CamaradosDeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--telegram" aria-hidden="true"></span>
+                  <span class="sr-only">Telegram</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.facebook.com/camaradeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--facebook" aria-hidden="true"></span>
+                  <span class="sr-only">Facebook</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://twitter.com/camaradeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--twitter" aria-hidden="true"></span>
+                  <span class="sr-only">X</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.youtube.com/channel/UC-ZkSRh-7UEuwXJQ9UMCFJA" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--youtube" aria-hidden="true"></span>
+                  <span class="sr-only">Youtube</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://tiktok.com/@camaradosdeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--tiktok" aria-hidden="true"></span>
+                  <span class="sr-only">Tiktok</span>
+                </a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.instagram.com/camaradeputados" class="rodape-portal-links__link">
+                  <span class="g-social-icon-outline g-social-icon-outline--instagram" aria-hidden="true"></span>
+                  <span class="sr-only">Instagram</span>
+                </a>
+              </li>
+              <li class="rodape-portal-links__item">
+                  <a href="https://www.threads.com/@camaradosdeputados" class="rodape-portal-links__link">
+                      <span class="g-social-icon-outline g-social-icon-outline--threads" aria-hidden="true"></span>
+                      <span class="sr-only">Threads</span>
+                  </a>
+              </li>
+              <li class="rodape-portal-links__item">
+                  <a href="https://bsky.app/profile/camara.leg.br" class="rodape-portal-links__link">
+                      <span class="g-social-icon-outline g-social-icon-outline--bluesky" aria-hidden="true"></span>
+                      <span class="sr-only">Bluesky</span>
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Coloque aqui a lista de links de apoio do rodap&#233; -->
+        <div class="rodape-portal-links rodape-portal-links--apoio">
+          <div class="container">
+            <ul class="rodape-portal-links__lista" aria-label="Links de apoio">
+              <li class="rodape-portal-links__item">
+                <a href="https://www2.camara.leg.br/sobre-o-portal" class="rodape-portal-links__link">Sobre o portal</a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www2.camara.leg.br/termo-de-uso-e-politica-de-privacidade" class="rodape-portal-links__link">Termos de uso</a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www2.camara.leg.br/aplicativos/" class="rodape-portal-links__link">Aplicativos</a>
+              </li>
+
+              <li class="rodape-portal-links__item">
+                <a href="https://www.camara.leg.br/extranet" class="rodape-portal-links__link">Extranet</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+
+      <div class="barra-carregando" style="display: none">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Carregando</h5>
+            </div>
+            <div class="modal-body">
+              <p>Por favor, aguarde.</p>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  <span class="sr-only"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -18,9 +18,9 @@ async function renderHome(payload){
   assert.notEqual(original,injected);await writeFile(path,injected);
  }
  const nodes=new Map();
- const node=selector=>{if(!nodes.has(selector))nodes.set(selector,{innerHTML:'',value:'',hidden:selector==='#settings-page',dataset:{},classList:{toggle(){}},addEventListener(){}});return nodes.get(selector);};
+ const node=selector=>{if(!nodes.has(selector))nodes.set(selector,{innerHTML:'',value:'',hidden:selector==='#settings-page',dataset:{},classList:{toggle(){},remove(){}},addEventListener(){}});return nodes.get(selector);};
  const previous={document:globalThis.document,window:globalThis.window,location:globalThis.location};
- globalThis.document={body:{classList:{toggle(){}}},querySelector:node,querySelectorAll:()=>[],documentElement:{classList:{toggle(){}}},addEventListener(){}};
+ globalThis.document={body:{classList:{toggle(){},remove(){}}},querySelector:node,querySelectorAll:()=>[],documentElement:{classList:{toggle(){},remove(){}}},addEventListener(){}};
  globalThis.window={addEventListener(){},scrollTo(){}};globalThis.location={hash:''};
  try{await import(pathToFileURL(join(folder,'app/app.js')).href);return {html,nodes};}
  finally{Object.assign(globalThis,previous);await rm(folder,{recursive:true,force:true});}
