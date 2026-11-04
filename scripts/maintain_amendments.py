@@ -1,5 +1,5 @@
 """Prepare new EC proposals using official sources; never publishes or edits the current CF."""
-import argparse,json,re,hashlib,shutil,time,sys
+import argparse,json,re,hashlib,shutil,time,sys,os
 from pathlib import Path
 from datetime import datetime,timezone
 from urllib.parse import urljoin,urlsplit
@@ -26,8 +26,11 @@ def inventory(raw,url=INDEX):
 DOM='''el=>{const blocks=[];let pieces=[];const boundary=new Set(['P','DIV','BLOCKQUOTE','DIR','TD','TH','TR','LI','H1','H2','H3','H4','BR','HR']);const clean=x=>x.replace(/\\s+/gu,' ').trim();const flush=()=>{if(clean(pieces.join('')))blocks.push(pieces.join(''));pieces=[];};function walk(n){if(n.nodeType===3){pieces.push(n.nodeValue);return;}if(n.nodeType!==1||['SCRIPT','STYLE','HEAD'].includes(n.tagName))return;if(boundary.has(n.tagName))flush();for(const c of n.childNodes)walk(c);if(boundary.has(n.tagName))flush();}walk(el);flush();return blocks;}'''
 def verify_browser(html,parsed):
  from playwright.sync_api import sync_playwright
+ executable=os.environ.get('LEXA_CHROMIUM') or shutil.which('chromium') or shutil.which('chromium-browser')
+ if not executable:
+  raise RuntimeError('Chromium não encontrado: defina LEXA_CHROMIUM ou instale chromium/chromium-browser.')
  with sync_playwright() as p:
-  browser=p.chromium.launch(executable_path=shutil.which('chromium') or shutil.which('chromium-browser'),args=['--no-sandbox']);page=browser.new_page();page.route('**/*',lambda r:r.abort());page.set_content(re.sub(r'<script\b[^>]*>[\s\S]*?</script\s*>','',html,flags=re.I),wait_until='domcontentloaded');blocks=page.locator('.textoNorma').evaluate(DOM);head=page.locator('h1').all_text_contents();browser.close()
+  browser=p.chromium.launch(executable_path=executable,args=['--no-sandbox']);page=browser.new_page();page.route('**/*',lambda r:r.abort());page.set_content(re.sub(r'<script\b[^>]*>[\s\S]*?</script\s*>','',html,flags=re.I),wait_until='domcontentloaded');blocks=page.locator('.textoNorma').evaluate(DOM);head=page.locator('h1').all_text_contents();browser.close()
  return {'fullTextAndOrder':[clean(x) for x in blocks]==[clean(x['texto']) for x in parsed['linhas']],'identityHeading':parsed['identidade']['cabecalho'] in [clean(x) for x in head],'blocks':len(blocks),'method':'DOM Chromium independente, rede/scripts da fonte bloqueados; apenas espaços normalizados.'}
 def prepare(number,url,raw,directory,*,browser=True,test_only=False,transport='provided_file'):
  check_url(url,ALLOWED)
