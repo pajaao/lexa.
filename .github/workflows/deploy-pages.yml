@@ -28,9 +28,12 @@ jobs:
           python-version: '3.12'
       - name: Testar a aplicação
         run: npm test
+      # Alguns testes de preparação de emendas fazem verificação independente
+      # com Chromium; ele deve existir antes da suíte Python, não somente antes
+      # da suíte de navegador.
+      - uses: ./.github/actions/setup-browser
       - name: Testar importadores e monitores sem consultar a rede
         run: python -m unittest discover -s tests -p 'test_*.py'
-      - uses: ./.github/actions/setup-browser
       - name: Testar fluxos essenciais no Chromium antes da publicação
         run: python scripts/run_browser_tests.py --suite essential
       - name: Guardar diagnóstico dos testes de navegador
