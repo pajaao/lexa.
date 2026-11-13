@@ -17,6 +17,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         pass
 
 
+def goto_reader(page, url):
+    # Hash navigation returns before the async route has replaced the reader.
+    # Adjacent articles can already match in the old page of 15 entries,
+    # particularly while CF amendment links are loading. Visibility alone
+    # would accept that stale reader and race its removal during scrolling.
+    previous_url = page.url
+    previous_reader = page.query_selector('#articles')
+    page.goto(url)
+    if (previous_reader and previous_url != url
+            and previous_url.split('#')[0] == url.split('#')[0]):
+        page.wait_for_function('(reader) => !reader.isConnected', arg=previous_reader)
+    if previous_reader:
+        previous_reader.dispose()
+    expect(page.locator('#art-' + url.rsplit('/', 1)[-1])).to_be_visible()
+
+
 def previous_rows(rows,code,article):
     rows=sorted([r for r in rows if r['codeId']==code and r['articleId']==article and r.get('wording',{}).get('status')=='previous'],key=lambda r:(r['sequence']['order'],r['id']))
     visible=[r for r in rows if r['part']!='caput' or not any(other['part']=='article' and other.get('unitLabel')=='Trecho da fonte: caput e pena' and ' '.join(other['text'].split()).startswith(' '.join(r['text'].split())+' Pena') for other in rows)]
@@ -43,7 +59,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                 page = context.new_page()
                 errors = []
                 page.on('pageerror', lambda error: errors.append(str(error)))
-                page.goto(f'http://127.0.0.1:{server.server_port}/#/penal/1')
+                goto_reader(page, f'http://127.0.0.1:{server.server_port}/#/penal/1')
                 button = page.locator('#art-1 [data-legislative-history]')
                 expect(button).to_be_visible()
                 original = page.locator('#art-1 .legal-unit').all_text_contents()
@@ -127,14 +143,14 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     # Original General Part must never appear under reorganized IDs.
                     quarantine=json.loads((ROOT/'experiments/html-history/association-review/20261021/results.json').read_text(encoding='utf-8'))['quarantined']
                     for blocked_article in ('4','5'):
-                        page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/{blocked_article}')
+                        goto_reader(page, f'http://127.0.0.1:{production.server_port}/#/penal/{blocked_article}')
                         blocked_trigger=page.locator(f'#art-{blocked_article} [data-legislative-history]')
                         if blocked_trigger.count():
                             blocked_trigger.click()
                             blocked_text=page.locator('.legislative-text').all_text_contents()
                             assert not any(row['text'] in blocked_text for row in quarantine if row['articleId']==blocked_article)
                             page.keyboard.press('Escape')
-                    page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/215')
+                    goto_reader(page, f'http://127.0.0.1:{production.server_port}/#/penal/215')
                     button = page.locator('#art-215 [data-legislative-history]')
                     expect(button).to_be_visible()
                     # The reader renders only a window of articles; each eligible
@@ -165,7 +181,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     assert abs(page.evaluate('scrollY') - position) < 2
                     assert page.locator('#art-215 .legal-unit').all_text_contents() == original
                     for article_id in ('44','45','46','75','213','275','277','332','342','172','180','206','218','272','282','310','311','339','343'):
-                        page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/{article_id}')
+                        goto_reader(page, f'http://127.0.0.1:{production.server_port}/#/penal/{article_id}')
                         trigger = page.locator(f'#art-{article_id} [data-legislative-history]')
                         trigger.scroll_into_view_if_needed()
                         before_text = page.locator(f'#art-{article_id} .legal-unit').all_text_contents()
@@ -184,7 +200,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     html = json.loads((ROOT/'tests/fixtures/legislative-history-html.json').read_text(encoding='utf-8'))['records']
                     for article_id in dict.fromkeys(row['articleId'] for row in batch):
                         records = previous_rows(all_previous_data,'penal',article_id)
-                        page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/{article_id}')
+                        goto_reader(page, f'http://127.0.0.1:{production.server_port}/#/penal/{article_id}')
                         trigger = page.locator(f'#art-{article_id} [data-legislative-history]')
                         trigger.scroll_into_view_if_needed()
                         before_text = page.locator(f'#art-{article_id} .legal-unit').all_text_contents()
@@ -218,7 +234,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                     for selected in selections:
                         code, article_id = selected['codeId'], selected['articleId']
                         records = previous_rows(all_previous_data,code,article_id)
-                        page.goto(f'http://127.0.0.1:{production.server_port}/#/{code}/{article_id}')
+                        goto_reader(page, f'http://127.0.0.1:{production.server_port}/#/{code}/{article_id}')
                         trigger = page.locator(f'#art-{article_id} [data-legislative-history]')
                         trigger.scroll_into_view_if_needed()
                         position = page.evaluate('scrollY')
@@ -250,7 +266,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                         expect(trigger).to_be_focused()
                         assert abs(page.evaluate('scrollY')-position)<2
                         assert page.locator(f'#art-{article_id} .legal-unit').all_text_contents()==before_text
-                    page.goto(f'http://127.0.0.1:{production.server_port}/#/penal/216')
+                    goto_reader(page, f'http://127.0.0.1:{production.server_port}/#/penal/216')
                     page.locator('#art-216 [data-legislative-history]').click()
                     texts=panel.locator('.legislative-text').all_text_contents()
                     assert any('Induzir mulher honesta' in text for text in texts)
@@ -266,7 +282,7 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
             try:
                 context=browser.new_context(service_workers='block')
                 page=context.new_page()
-                page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/215')
+                goto_reader(page, f'http://127.0.0.1:{normal.server_port}/#/penal/215')
                 page.locator('#art-215 [data-legislative-history]').click()
                 release=json.loads((ROOT/'data/previous-wordings/release.json').read_text(encoding='utf8'))
                 public_rows=json.loads((ROOT/'data/previous-wordings/candidate.json').read_text(encoding='utf8'))['records'] if release['publicationAuthorized'] else []
@@ -282,14 +298,14 @@ with tempfile.TemporaryDirectory(prefix='lexa-legislative-', dir=ARTIFACTS) as t
                         'Art. 215. Ter conjunção carnal com mulher, mediante fraude:'])
                 expect(page.locator('.legislative-demo')).to_have_count(0)
                 page.keyboard.press('Escape')
-                page.goto(f'http://127.0.0.1:{normal.server_port}/#/penal/213')
+                goto_reader(page, f'http://127.0.0.1:{normal.server_port}/#/penal/213')
                 expect(page.locator('#art-213 [data-legislative-history]')).to_have_count(int(any(r['codeId']=='penal' and r['articleId']=='213' for r in public_rows)))
                 context.close()
                 for width in (390,1280):
                     context=browser.new_context(viewport={'width':width,'height':850},service_workers='block')
                     page=context.new_page()
                     for code,article_id in [('penal','215'),('cf','7')]:
-                        page.goto(f'http://127.0.0.1:{normal.server_port}/#/{code}/{article_id}')
+                        goto_reader(page, f'http://127.0.0.1:{normal.server_port}/#/{code}/{article_id}')
                         article=page.locator(f'#art-{article_id}')
                         expect(article).to_be_visible()
                         expect(article.locator('del')).to_have_count(0)
