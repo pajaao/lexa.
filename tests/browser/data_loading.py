@@ -25,7 +25,8 @@ try:
   assert len(held)==1;held.pop().continue_();page.unroute('**/data/cf.*.json')
   page.wait_for_timeout(100);expect(page.locator('.favorites-empty')).to_be_visible()
   page.goto(base+'#/cf/5');expect(page.locator('#art-5')).to_be_visible()
-  assert not [url for url in requested if '/data/' in url and '/data/cf.' not in url]
+  # Abrir a Constituição consulta também o índice compacto de vínculos das ECs publicadas.
+  assert not [url for url in requested if '/data/' in url and '/data/cf.' not in url and '/data/ec-links.' not in url]
   # An invalid response must not enter the model; retry loads the verified edition.
   page.route('**/data/civil.*.json',lambda route:route.fulfill(status=200,body='{}',content_type='application/json'))
   page.goto(base+'#/civil/186');expect(page.locator('#retry-load')).to_be_visible()
