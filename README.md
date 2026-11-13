@@ -39,6 +39,9 @@ O projeto foi pensado para estudantes, profissionais e qualquer pessoa que queir
 | Lei de Improbidade Administrativa | LIA | [Consultar](https://pajaao.github.io/lexa./#/improbidade) |
 | Lei de Licitações e Contratos Administrativos | LLCA | [Consultar](https://pajaao.github.io/lexa./#/licitacoes) |
 | Súmulas Vinculantes do STF | SV | [Consultar as súmulas](https://pajaao.github.io/lexa./#/sv) |
+| Emendas Constitucionais nº 1–141 | EC | [Consultar as emendas](https://pajaao.github.io/lexa./#/emendas) |
+
+**Aviso sobre as Emendas Constitucionais:** a biblioteca das ECs 1–141 apresenta os documentos de publicação original da Câmara. Foi disponibilizada por autorização direta do mantenedor, **sem homologação jurídica humana independente**. As ressalvas documentais e os estados pendentes permanecem registrados; para aplicação jurídica e vigência, confira as fontes oficiais.
 
 O **ADCT** reúne disposições transitórias da Constituição e tem numeração própria. As **súmulas vinculantes** são enunciados do Supremo Tribunal Federal que consolidam entendimentos sobre questões constitucionais, com efeito vinculante nos termos da Constituição.
 
