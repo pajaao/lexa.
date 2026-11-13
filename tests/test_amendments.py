@@ -7,12 +7,27 @@ from maintain_amendments import inventory,discover,prepare,incorporate,save,load
 from amendments_links import inventory as affected
 
 class Amendments(unittest.TestCase):
+ def test_browser_resolution_preserves_ci_override_and_local_playwright(self):
+  from types import SimpleNamespace
+  from maintain_amendments import browser_executable
+  with tempfile.TemporaryDirectory() as d:
+   installed=Path(d)/'playwright-chromium';installed.write_bytes(b'fixture')
+   custom=Path(d)/'ci-chromium';custom.write_bytes(b'fixture')
+   fake=SimpleNamespace(chromium=SimpleNamespace(executable_path=str(installed)))
+   with patch.dict('os.environ',{'LEXA_CHROMIUM':''}),patch('maintain_amendments.shutil.which',return_value=None):
+    self.assertEqual(browser_executable(fake),str(installed))
+   with patch.dict('os.environ',{'LEXA_CHROMIUM':str(custom)}):
+    self.assertEqual(browser_executable(fake),str(custom))
+   with patch.dict('os.environ',{'LEXA_CHROMIUM':str(Path(d)/'missing-chromium')}):
+    with self.assertRaisesRegex(RuntimeError,'LEXA_CHROMIUM'):
+     browser_executable(fake)
+
  def test_discovery_independent_of_constitution(self):
   raw=b'<html><a href="emc142.htm">142</a><a href="emc142.htm">142 repetida</a><a href="../ecr/ecr1.htm">Revisao</a></html>'
   self.assertEqual([x['number'] for x in inventory(raw)],[142])
   with tempfile.TemporaryDirectory() as d:
    result=discover(d,index_bytes=raw)
-   self.assertEqual(result['newIdentified'],1);self.assertEqual(result['queue'][0]['status'],'original_source_required');self.assertFalse(result['publicationAuthorized'])
+   self.assertEqual(result['newIdentified'],1);self.assertEqual(result['queue'][0]['status'],'original_source_required');self.assertFalse(result['publicationAuthorized']);self.assertTrue((Path(d)/'proposals.json').exists());self.assertEqual(result['totalIdentified'],1)
 
  def test_mentions_and_omissions_are_not_modifications(self):
   def block(text,kind,art='1',id='b1'):return {'texto':text,'classe':kind,'artigo':art,'id':id,'linha':1,'offset':0}
@@ -33,6 +48,10 @@ class Amendments(unittest.TestCase):
    with self.assertRaisesRegex(ValueError,'Fixture'):incorporate(proposal,CANDIDATE)
    self.assertEqual(incorporate(proposal,candidate),999)
    self.assertEqual(load(candidate/'catalog.json')['entries'][0]['review'],'pending')
+   entry=load(candidate/'catalog.json')['entries'][0]
+   for required in ('document','sha256','original','originalSha256','technicalStatus'):
+    self.assertIn(required,entry)
+   self.assertTrue((candidate/'links-audit.json').exists())
    self.assertFalse(load(candidate/'documents/ec-999.json')['review']['publicationAuthorized'])
    with self.assertRaisesRegex(ValueError,'já presente'):incorporate(proposal,candidate)
    result=subprocess.run(['node','--input-type=module','-e',"import {buildPackage} from './scripts/build.mjs';const p=await buildPackage({amendmentsCandidate:true,amendmentsDirectory:process.argv[1]});console.log(p.manifest.amendments.count)",str(candidate)],cwd=ROOT,capture_output=True,text=True)
