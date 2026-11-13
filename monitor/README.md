@@ -39,6 +39,8 @@ O histórico é consultado em `#/atualizacoes` e por links nos artigos que já t
 
 O workflow fica em `.github/workflows/monitor-legislation.yml`. Ele tenta executar diariamente por volta de **06:17 em São Paulo** (09:17 UTC), com possível atraso do GitHub. Também aceita **Run workflow** e executa após alterações nos arquivos da rotina enviadas a `main`.
 
+Se a coleta informar um destino rejeitado como `https://gov.br`, o servidor pode estar enviando o ambiente de execução ao portal institucional, em vez de entregar a legislação. Em 13/11/2026, isso foi reproduzido nos ambientes Linux e macOS do GitHub (`https://gov.br/planalto`), enquanto as 13 URLs originais foram baixadas e validadas na rede local. Trocar o identificador do cliente e usar o domínio sem `www` não resolveu. Isso não demonstra uma migração dos documentos nem uma mudança legislativa. Não amplie a lista de destinos permitidos para aceitar o portal, não desative TLS e não use referências antigas como se fossem uma coleta atual. Confira o acesso às URLs originais no ambiente escolhido para a coleta; enquanto ele não receber documentos válidos, a execução deve continuar falhando e preservar os dados existentes.
+
 Em **Settings → Actions → General**, permita os actions utilizados e a criação de PRs pelo `GITHUB_TOKEN`. O GitHub fornece esse token durante o job; não precisa fornecer valores no chat. O job usa `contents: write` e `pull-requests: write`, cria rascunhos e não aprova nem mescla propostas. Monitore falhas em Actions: execução sem sucesso não equivale a “nenhuma mudança na lei”.
 
 ## Execução local

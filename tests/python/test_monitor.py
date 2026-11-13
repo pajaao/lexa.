@@ -185,6 +185,20 @@ class OfficialHTTPTests(unittest.TestCase):
             self.assertEqual(transfer.call_count,1)
 
     @patch('official_http.shutil.which', return_value='/usr/bin/curl')
+    def test_rejected_redirect_reports_origin_without_secrets(self, _):
+        for url in ['http://www.planalto.gov.br/lei.htm?token=private',
+                    'https://user:private@example.com/path?token=private',
+                    'https://www.planalto.gov.br:8443/path?token=private']:
+            with self.subTest(url=url):
+                with patch('official_http.subprocess.run', side_effect=lambda cmd, **kw: self.response(
+                        cmd, status=302, headers=('Location: '+url+'\r\n').encode())) as transfer:
+                    with self.assertRaisesRegex(ValueError, 'fontes HTTPS oficiais permitidas: https?://') as caught:
+                        download_once(SPEC['url'])
+                    self.assertNotIn('private', str(caught.exception))
+                    self.assertNotIn('token', str(caught.exception))
+                    self.assertEqual(transfer.call_count, 1)
+
+    @patch('official_http.shutil.which', return_value='/usr/bin/curl')
     def test_tls_verification_failure_is_fatal_and_does_not_expose_proxy_details(self, _):
         sleeper=Mock()
         with patch('official_http.subprocess.run', side_effect=lambda cmd,**kw:self.response(cmd,code=60)) as transfer:

@@ -28,23 +28,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  diagnose-source:
-    if: github.event_name == 'workflow_dispatch'
-    permissions:
-      contents: read
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Comparar respostas HTTPS dos ambientes
-        run: python scripts/diagnose_official_http.py
   monitor:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -68,9 +51,6 @@ jobs:
         run: python scripts/check_official_sources.py --github-output "$GITHUB_OUTPUT"
       - name: Preparar textos candidatos para o leitor
         run: python scripts/import_official.py
-      - name: Diagnosticar respostas HTTPS sem seguir redirecionamentos
-        if: failure() && github.event_name == 'workflow_dispatch'
-        run: python scripts/diagnose_official_http.py
       - name: Validar textos e gerar a prévia
         run: npm test
       - name: Guardar evidências e diferenças
