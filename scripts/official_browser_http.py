@@ -30,7 +30,7 @@ def read_stream(session, handle):
 
 
 def collect(url, allowed_hosts=None):
-    from playwright.sync_api import sync_playwright
+    from playwright.sync_api import sync_playwright, TimeoutError as NavigationTimeout
     check_url(url, allowed_hosts)
     with sync_playwright() as p:
         options = {'headless': True}
@@ -91,11 +91,12 @@ def collect(url, allowed_hosts=None):
                 state['url'] = current
                 try:
                     page.goto(current, wait_until='commit', timeout=25000)
-                except Exception:
+                except Exception as error:
                     # Intercepted responses are intentionally aborted after
                     # their raw bytes (or redirect metadata) have been read.
                     if not any(key in state for key in ('result', 'redirect', 'error')):
-                        raise SourceFetchError('Falha na navegação HTTPS do Chromium.')
+                        raise SourceFetchError('Falha na navegação HTTPS do Chromium.',
+                                               retryable=isinstance(error, NavigationTimeout)) from error
                 if 'error' in state:
                     raise state['error']
                 if 'result' in state:

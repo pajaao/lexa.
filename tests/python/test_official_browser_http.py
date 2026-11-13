@@ -50,6 +50,7 @@ class BrowserTransportTests(unittest.TestCase):
         manager.__exit__ = Mock(return_value=False)
         module = types.ModuleType('playwright.sync_api')
         module.sync_playwright = Mock(return_value=manager)
+        module.TimeoutError = TimeoutError
         return module, playwright, browser, context, page, session
 
     def collect(self, responses, extra_request=None):
@@ -129,6 +130,15 @@ class BrowserTransportTests(unittest.TestCase):
                 client.download_once(URL)
         self.assertTrue(caught.exception.retryable)
         self.assertEqual(run.call_args.kwargs['timeout'], 40)
+
+    def test_navigation_timeout_can_retry_without_treating_tls_failure_as_transient(self):
+        setup = self.browser([])
+        setup[4].goto.side_effect = TimeoutError('private network diagnostic')
+        with patch.dict('sys.modules', {'playwright.sync_api': setup[0]}):
+            with self.assertRaises(SourceFetchError) as caught:
+                client.collect(URL)
+        self.assertTrue(caught.exception.retryable)
+        self.assertNotIn('private', str(caught.exception))
 
     def test_worker_returns_exact_bytes_and_never_publishes_stderr(self):
         def worker(command, **kwargs):
