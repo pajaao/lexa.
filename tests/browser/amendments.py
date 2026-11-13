@@ -72,6 +72,27 @@ try:
   page.wait_for_function('navigator.serviceWorker.controller!==null')
   page.wait_for_function(r'async()=>{const names=await caches.keys();for(const n of names){const keys=await (await caches.open(n)).keys();if(keys.some(x=>/data\/ec-115\./.test(x.url)))return true;}return false;}')
   context.set_offline(True);page.reload();expect(page.locator('#art-1')).to_be_visible();expect(page.locator('.reader-top h1')).to_contain_text('115')
-  context.close();browser.close()
+  context.close()
+  # Validate the actual production package too: candidate previews do not
+  # exercise the owner-directed release notices or the published catalog.
+  published=http.server.ThreadingHTTPServer(('127.0.0.1',0),functools.partial(Handler,directory=str(ROOT/'dist')))
+  threading.Thread(target=published.serve_forever,daemon=True).start()
+  try:
+   public_base=f'http://127.0.0.1:{published.server_port}/'
+   context=browser.new_context(service_workers='block');page=context.new_page()
+   page.goto(public_base+'#/emendas')
+   expect(page.locator('.amendments-library')).to_contain_text('141 emendas no acervo')
+   expect(page.locator('.candidate-notice')).to_contain_text('sem homologação jurídica independente')
+   for number in (1,141):
+    page.goto(public_base+f'#/emendas/{number}')
+    expect(page.locator('.reader-top h1')).to_have_text(f'Emenda Constitucional nº {number}')
+    expect(page.locator('.amendment-ementa .candidate-notice')).to_contain_text('revisão jurídica independente pendente')
+    doc=json.loads((ROOT/f'data/amendments/candidate/documents/ec-{number}.json').read_text(encoding='utf-8'))
+    ids=page.locator('#articles .legal-unit').evaluate_all('els=>els.map(x=>Number(x.dataset.sourceBlock))')
+    assert page.locator('#articles .legal-unit').all_text_contents()==[b['text'].replace('\r\n','\n').replace('\r','\n') for b in doc['blocks'] if b['id'] in ids]
+    expect(page.locator('.amendment-heading > p > a')).to_have_attribute('href',doc['source']['url'])
+   context.close()
+  finally:published.shutdown();published.server_close()
+  browser.close()
  print('ECs: navegação, texto integral, filtros, 320/390/1440px, dois temas e leitura offline visitada aprovados.')
 finally:server.shutdown();server.server_close()

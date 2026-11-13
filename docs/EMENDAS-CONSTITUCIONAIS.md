@@ -1,9 +1,33 @@
 # Biblioteca de Emendas Constitucionais
 
-Implementação local candidata. A validação técnica das 141 ECs não constitui
-homologação jurídica. As seis Emendas de Revisão não integram esta biblioteca.
-O build comum permanece sem as ECs enquanto `data/amendments/release.json`
-mantiver a publicação bloqueada.
+Biblioteca de 141 Emendas Constitucionais (ECs 1–141), originalmente montada
+como candidata. A validação técnica não constitui homologação jurídica.
+As seis Emendas de Revisão não integram esta biblioteca.
+O build comum só incorpora ECs quando a liberação é expressa em
+`data/amendments/release.json`.
+
+## Publicação direta autorizada pelo mantenedor
+
+Em 12/11/2026, após ser informado de que faltava homologação jurídica humana
+independente, o mantenedor solicitou explicitamente a publicação direta das
+141 Emendas, sem aguardar essa homologação. Esta decisão é uma autorização
+de publicação pelo responsável pelo produto, **não** uma declaração de revisão
+jurídica realizada e não homologa individualmente nenhum dos documentos.
+
+`data/amendments/release.json` registra a exceção com
+`ownerAuthorization.authorized=true`, `reviewPending=true`, escopo de
+ECs 1–141 e evidência neste documento. `legalReview=null` permanece
+inalterado; `approvedNumbers` delimita o conjunto a publicar, e não significa
+que os números tenham sido homologados. Os documentos preservam estado
+`pending`, originais, hashes e ressalvas.
+
+A interface deve exibir aviso explícito de ausência de revisão jurídica
+independente no catálogo e no leitor. Os textos representam publicações
+originais documentais, **não** uma consolidação da redação constitucional
+vigente. Notas e vínculos automáticos não atestam vigência ou completude.
+É necessário conferir os originais oficiais antes de uso jurídico.
+A decisão não elimina a necessidade de revisão posterior nem autoriza
+atualizações futuras sem avaliação própria.
 
 ## Reprodução e fontes
 
