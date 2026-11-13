@@ -35,7 +35,7 @@ let cleanupReader=()=>{};
 let toastTimer;
 function toast(message,duration=2500) { const el=document.querySelector('#toast'); clearTimeout(toastTimer); el.textContent=message; el.classList.add('visible'); toastTimer=setTimeout(()=>el.classList.remove('visible'),duration); }
 document.addEventListener('click',event=>{
- if(navigator.onLine!==false||!event.target.closest('.feedback-link,.article-feedback'))return;
+ if(navigator.onLine!==false||!event.target.closest('.feedback-link,.article-feedback,.privacy-contact'))return;
  event.preventDefault();
  toast('O formulário precisa de internet. Conecte-se e tente novamente. Sua leitura continua disponível.',8000);
 });
@@ -247,7 +247,7 @@ async function route(){
  const [path,query='']=location.hash.slice(1).split('?');
  const [,id,article]=path.split('/');
  const leavingSettings=!document.querySelector('#settings-page').hidden;
- const settings=id==='sobre-e-ajustes'||id==='sobre-lexa'||path==='sobre-lexa';
+ const settings=id==='privacidade'||id==='sobre-e-ajustes'||id==='sobre-lexa'||path==='sobre-lexa';
  document.querySelector('#settings-page').hidden=!settings;app.hidden=settings;
  document.body.classList.toggle('settings-view',settings);
  const activeNav=settings?'#/sobre-e-ajustes':id==='favoritos'?'#/favoritos':id==='atualizacoes'?'#/atualizacoes':'#';
@@ -269,7 +269,7 @@ async function route(){
    const collection=amendments.amendmentCollection(document,entry),services=readerServices();services.renderParagraphs=amendments.amendmentParagraphs;services.storageWrite=(key,value)=>key==='lexa-last-reading'?true:storageWrite(key,value);
    reader(collection,path.split('/')[3],new URLSearchParams(query),services);amendments.enhanceAmendmentReader(app,document,links,new URLSearchParams(query));return;
   }
-  if(settings){document.title='Sobre e ajustes — Lexa';app.innerHTML='';document.querySelector('#settings-title').focus({preventScroll:true});window.scrollTo(0,0);return;}
+  if(settings){document.title=id==='privacidade'?'Privacidade — Lexa':'Sobre e ajustes — Lexa';app.innerHTML='';const heading=document.querySelector(id==='privacidade'?'#privacy-title':'#settings-title');heading.focus({preventScroll:true});if(id==='privacidade')heading.scrollIntoView({block:'start'});else window.scrollTo(0,0);return;}
   if(id==='favoritos'){
    await loadSearchIndexes(collections.filter(code=>saved.some(key=>key.startsWith(code.id+'/'))));
    if(generation!==routeGeneration)return;
