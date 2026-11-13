@@ -51,6 +51,9 @@ jobs:
         run: python scripts/check_official_sources.py --github-output "$GITHUB_OUTPUT"
       - name: Preparar textos candidatos para o leitor
         run: python scripts/import_official.py
+      - name: Diagnosticar respostas HTTPS sem seguir redirecionamentos
+        if: failure() && github.event_name == 'workflow_dispatch'
+        run: python scripts/diagnose_official_http.py
       - name: Validar textos e gerar a prévia
         run: npm test
       - name: Guardar evidências e diferenças
