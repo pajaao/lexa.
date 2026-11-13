@@ -30,8 +30,8 @@ test('shell e módulos nativos inicializam cartões sem carregar textos jurídic
  assert.ok(Buffer.byteLength(html)<300_000);
  assert.doesNotMatch(html,/A Constituição poderá ser emendada/);
  assert.match(html,/<style>/);assert.match(html,/rel="modulepreload"/);
- assert.equal((nodes.get('#cards').innerHTML.match(/class="code-card(?:\\s|\")/g)||[]).length,collections.length);
- assert.match(nodes.get('#cards').innerHTML,/href="#\\/emendas"/);
+ assert.equal((nodes.get('#cards').innerHTML.match(/class="code-card(?:\s|")/g)||[]).length,collections.length);
+ assert.match(nodes.get('#cards').innerHTML,/href="#\/emendas"/);
  assert.match(nodes.get('#cards').innerHTML,/href="#\/sv"/);
  assert.match(nodes.get('#app').innerHTML,new RegExp(collections.find(c=>c.id==='sv').articles.length+'</strong> súmulas'));
 });
