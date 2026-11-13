@@ -19,3 +19,28 @@ for host in ['www.planalto.gov.br', 'planalto.gov.br']:
                 headers = {}
             location = urlsplit(headers.get('Location', ''))
             print(host, 'agent', i, 'curl', result.returncode, 'status', result.stdout, 'redirect', location.scheme, location.hostname, location.path, flush=True)
+
+# Compare the already available independent browser client. Redirects away from
+# the exact requested source are aborted before any destination is contacted.
+try:
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(java_script_enabled=False)
+        target = 'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'
+        def route_request(route):
+            if route.request.url == target:
+                route.continue_()
+            else:
+                dest = urlsplit(route.request.url)
+                print('browser blocked redirect/resource', dest.scheme, dest.hostname, dest.path, flush=True)
+                route.abort()
+        page.route('**/*', route_request)
+        try:
+            response = page.goto(target, wait_until='commit', timeout=25000)
+            print('browser source status', response.status, flush=True)
+        except Exception as error:
+            print('browser failed', type(error).__name__, flush=True)
+        browser.close()
+except ImportError:
+    print('browser not installed in standalone diagnostic job', flush=True)
