@@ -16,7 +16,11 @@ with tempfile.TemporaryDirectory() as directory:
    page.goto(base+'#/civil/186');reader_ready(page)
    page.wait_for_function("navigator.serviceWorker.controller && document.querySelector('#pwa-available').textContent.includes('Código Civil')")
    other=context.new_page();other.goto(base+'#/civil/186');reader_ready(other)
-   old_module=other.locator('script[type=module]').get_attribute('src')
+   # The inline analytics bootstrap is also a module; track the application
+   # entry specifically when testing coexistence of two offline editions.
+   app_module=other.locator('script[type=module][src^="./app/"]')
+   expect(app_module).to_have_count(1)
+   old_module=app_module.get_attribute('src')
    old_namespace=next((site/'app').iterdir()).name
    new_namespace=hashlib.sha256(b'new-native-namespace').hexdigest()
    shutil.copytree(site/'app'/old_namespace,site/'app'/new_namespace);shutil.rmtree(site/'app'/old_namespace)

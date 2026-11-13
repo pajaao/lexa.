@@ -41,6 +41,9 @@ jobs:
           node-version: '22'
       - name: Verificar cliente HTTPS
         run: curl --version
+      # A suíte Python também verifica propostas de emendas pelo DOM independente.
+      # Prepare o mesmo Chromium fixado usado no CI antes de executar esses testes.
+      - uses: ./.github/actions/setup-browser
       - name: Testar o monitor
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Consultar as fontes configuradas

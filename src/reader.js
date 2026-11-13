@@ -266,7 +266,7 @@ export function reader(code, requested, params, context) {
   const range=entries=>{const first=entries[0],last=entries.at(-1);return first?`${articleLabel(first)}${entries.length>1?' – '+articleLabel(last):''}`:'';};
   const render=node=>{
    const title=escape(node.label);
-   const renderSection=id=>`<button class="index-entry ${sectionId===id?'selected':''}" data-section="${id}"><span>${node.children.length?'Ler os artigos desta divisão':title}</span><small>${escape(range(bySection.get(id)||[]))}</small></button>`;
+   const renderSection=id=>`<button class="index-entry ${sectionId===id?'selected':''}" data-section="${id}"><span>${node.children.length?'Ler os artigos desta divisão':title}</span>${code.kind==='amendment'?'':`<small>${escape(range(bySection.get(id)||[]))}</small>`}</button>`;
    const body=node.items.map(item=>item.kind==='section'?renderSection(item.id):render(item.node)).join('');
    if(!node.children.length)return body;
    return `<details class="index-branch" data-node="${node.id}" ${expanded.has(node.id)?'open':''}><summary>${title}<small>${escape(range(node.articles))}</small></summary><div class="index-children"><button class="index-all ${sectionId==='branch:'+node.id?'selected':''}" data-branch="${node.id}" aria-pressed="${sectionId==='branch:'+node.id}">Ler esta divisão · ${node.articles.length} entradas</button>${body}</div></details>`;
@@ -314,7 +314,7 @@ export function reader(code, requested, params, context) {
   if(code.id==='cf')document.querySelector('#reading-scope').textContent=scope==='adct'?'ADCT':'Constituição Federal';
   document.querySelector('#clear-section').hidden=!sectionId;
   document.querySelectorAll('[data-scope]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scope===scope)));
-  document.querySelector('#introduction').innerHTML=code.kind==='amendment'&&!query&&page===0?'<p class="amendment-preamble">'+escape(code.preamble)+'</p>':code.id==='cf'&&scope==='main'&&!query&&!onlySaved&&!sectionId&&page===0?code.introductions.map(intro=>`<details class="preamble"><summary>${escape(intro.title)}</summary><p>${escape(intro.text)}</p></details>`).join(''):'';
+  document.querySelector('#introduction').innerHTML=code.kind==='amendment'&&!query&&page===0?'<p class="amendment-preamble">'+escape(code.preamble.trim())+'</p>':code.id==='cf'&&scope==='main'&&!query&&!onlySaved&&!sectionId&&page===0?code.introductions.map(intro=>`<details class="preamble"><summary>${escape(intro.title)}</summary><p>${escape(intro.text)}</p></details>`).join(''):'';
   let last=null;
   document.querySelector('#articles').innerHTML=visible.map(a=>{
    const heading=last!==a.sectionId?sectionHeadings(sectionMap.get(a.sectionId),sectionMap.get(last)):'';

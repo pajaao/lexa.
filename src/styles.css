@@ -933,3 +933,21 @@ footer>span{margin:0;font-size:11px;color:var(--muted)}
 .amendment-transcription-toggle{min-height:44px;padding:10px 12px;border:1px solid var(--control-border);border-radius:5px;background:var(--surface);color:var(--ink);font:12px/1.6 var(--sans)}
 .amendment-transcription-toggle[aria-pressed=true]{background:var(--soft)}
 .amendment-reading-help{font:12px/1.7 var(--sans);color:var(--muted);margin:8px 0 20px}
+
+#privacy-policy{overflow-wrap:anywhere}#privacy-policy h3{font-size:16px;margin:24px 0 8px}#privacy-policy a{text-decoration:underline;text-underline-offset:3px}footer{flex-wrap:wrap;gap:16px}footer>a{min-height:44px;display:inline-flex;align-items:center}
+
+.privacy-overview{margin:24px 0;display:grid;gap:0;border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:0 20px}.settings-grid .privacy-overview p{margin:0;padding:16px 0;display:grid;gap:4px}.privacy-overview p+p{border-top:1px solid var(--border)}.privacy-overview strong{font-size:13px;color:var(--ink)}.privacy-overview span{font-size:13px;line-height:1.65}.privacy-details{border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.privacy-details summary{cursor:pointer;padding:18px 0;min-height:48px;font-weight:600;font-size:13px}.privacy-details[open] summary{border-bottom:1px solid var(--border)}.privacy-document{padding:6px 0 18px}.settings-grid .privacy-document a{display:inline;min-height:0;font-size:inherit;font-weight:500}.settings-grid .privacy-document p{font-size:13px;line-height:1.85}.privacy-document>p:first-child{font-size:11px;color:var(--muted)}
+
+.settings-grid .privacy-document .privacy-contact{display:inline;padding:0;border:0;border-radius:0;background:none;min-height:0;width:auto;font-size:inherit;font-weight:500;box-decoration-break:clone}
+
+/* Source indentation is presentation-only; documentary payloads stay intact. */
+.amendment-preamble{white-space:normal;text-indent:0}
+.article-copy>summary{display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.2}
+.article-copy>summary>span[aria-hidden]{display:inline-block;flex:0 0 6px;width:6px;height:6px;font-size:0;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg)}
+.article-copy[open]>summary>span[aria-hidden]{transform:translateY(2px) rotate(225deg)}
+.reader-search-field .search{align-items:center}
+.search>span[aria-hidden]{position:relative;display:block;flex:0 0 18px;width:18px;height:18px;font-size:0;line-height:1}
+.search>span[aria-hidden]::before{content:'';position:absolute;left:1px;top:1px;width:10px;height:10px;border:1.5px solid currentColor;border-radius:50%}
+.search>span[aria-hidden]::after{content:'';position:absolute;left:11px;top:11px;width:6px;height:1.5px;background:currentColor;transform:rotate(45deg);transform-origin:left center}
+
+.legislative-indicator{column-gap:4px}
