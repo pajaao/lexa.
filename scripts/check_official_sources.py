@@ -271,11 +271,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--only', choices=['all']+[spec['id'] for spec in json.loads((ROOT/'monitor/sources.json').read_text())], default='all')
     parser.add_argument('--github-output', type=Path)
+    parser.add_argument('--client', choices=['curl', 'chromium'], default='curl')
     args = parser.parse_args()
     specs = json.loads((ROOT / 'monitor' / 'sources.json').read_text())
     if args.only != 'all':
         specs = [spec for spec in specs if spec['id'] == args.only]
-    report = run(specs, ROOT / 'monitor' / 'official', ROOT / 'monitor' / 'run')
+    fetcher = fetch
+    if args.client == 'chromium':
+        from functools import partial
+        from official_browser_http import download_once
+        fetcher = partial(fetch, downloader=download_once)
+    report = run(specs, ROOT / 'monitor' / 'official', ROOT / 'monitor' / 'run', fetcher=fetcher)
     for result in report['results']:
         print(f"{result['id']}: {result['status']}" + (f" — {result['reason']}" if result.get('reason') else ''))
     if args.github_output:

@@ -4,7 +4,7 @@ O workflow consulta as fontes cadastradas oficiais e prepara uma proposta em ras
 
 ## Fluxo diário
 
-1. `check_official_sources.py` baixa uma página por vez, por HTTPS verificado, com curl e HTTP/1.1. Faz até três tentativas para falhas transitórias, respeita `Retry-After` e não contorna falhas de certificado. Valida identidade, tamanho, artigos-base, Constituição e ADCT separados. Uma falha bloqueia o restante da atualização e preserva as referências existentes.
+1. `check_official_sources.py` baixa uma página por vez, por HTTPS verificado. No workflow, `--client chromium` usa a pilha de rede do Chromium fixado, sem executar scripts, carregar recursos secundários ou extrair o DOM renderizado. O fluxo de bytes é limitado a 12 MiB; cada tentativa tem limite externo de 40 segundos. Cada redirecionamento é validado antes do próximo acesso. O cliente curl/HTTP/1.1 continua disponível para execução local. Ambos usam até três tentativas para falhas transitórias, respeitam `Retry-After` e não contornam falhas de certificado. A mesma validação de identidade, tamanho e artigos-base, com Constituição e ADCT separados, é aplicada às respostas. Uma falha bloqueia o restante da atualização e preserva as referências existentes.
 2. `import_official.py` verifica os hashes e converte as referências cadastradas para o leitor. Preserva artigos com letras, parágrafos, incisos, redações riscadas e revogações agrupadas. Fontes incompletas, parágrafos normativos sem atribuição e estilos de exclusão não suportados bloqueiam a conversão. Não altera os PDFs originais nem `data/archive/legislation.js`.
 3. `npm test` verifica a leitura dos candidatos, e `npm run build` gera o pacote `dist/`, com shell, estilos e dados por norma com hash. A prévia usa a edição ativa de cada legislação e inclui os PDFs de referência.
 4. O GitHub guarda relatórios e prévia por 30 dias e abre ou atualiza um único pull request em rascunho. O histórico `data/history/legislation.js` entra na mesma proposta, com as comparações e a página “Atualizações” na prévia. A branch `automation/official-source-review` é reservada à rotina. Somente arquivos de referências e dados gerados entram nesse PR; a rotina não altera o código do importador.
@@ -39,17 +39,19 @@ O histórico é consultado em `#/atualizacoes` e por links nos artigos que já t
 
 O workflow fica em `.github/workflows/monitor-legislation.yml`. Ele tenta executar diariamente por volta de **06:17 em São Paulo** (09:17 UTC), com possível atraso do GitHub. Também aceita **Run workflow** e executa após alterações nos arquivos da rotina enviadas a `main`.
 
-Se a coleta informar um destino rejeitado como `https://gov.br`, o servidor pode estar enviando o ambiente de execução ao portal institucional, em vez de entregar a legislação. Em 13/11/2026, isso foi reproduzido nos ambientes Linux e macOS do GitHub (`https://gov.br/planalto`), enquanto as 13 URLs originais foram baixadas e validadas na rede local. Trocar o identificador do cliente e usar o domínio sem `www` não resolveu. Isso não demonstra uma migração dos documentos nem uma mudança legislativa. Não amplie a lista de destinos permitidos para aceitar o portal, não desative TLS e não use referências antigas como se fossem uma coleta atual. Confira o acesso às URLs originais no ambiente escolhido para a coleta; enquanto ele não receber documentos válidos, a execução deve continuar falhando e preservar os dados existentes.
+Se a coleta informar um destino rejeitado como `https://gov.br`, o servidor pode estar enviando o ambiente de execução ao portal institucional, em vez de entregar a legislação. Em 13/11/2026, isso foi reproduzido com curl nos ambientes Linux e macOS do GitHub (`https://gov.br/planalto`); trocar apenas o identificador do cliente e usar o domínio sem `www` não resolveu. O Chromium conseguiu acessar a URL original, motivando a seleção explícita desse transporte no workflow. Isso não demonstra uma migração dos documentos nem uma mudança legislativa. Não amplie a lista de destinos permitidos para aceitar o portal, não desative TLS e não use referências antigas como se fossem uma coleta atual. Se nenhum cliente receber documentos válidos, a execução deve continuar falhando e preservar os dados existentes.
 
 Em **Settings → Actions → General**, permita os actions utilizados e a criação de PRs pelo `GITHUB_TOKEN`. O GitHub fornece esse token durante o job; não precisa fornecer valores no chat. O job usa `contents: write` e `pull-requests: write`, cria rascunhos e não aprova nem mescla propostas. Monitore falhas em Actions: execução sem sucesso não equivale a “nenhuma mudança na lei”.
 
 ## Execução local
 
-Node.js 22+, Python 3.12+ (biblioteca padrão) e curl:
+Node.js 22+, Python 3.12+ e curl. Para reproduzir o transporte usado no GitHub, instale também o Playwright fixado e seu Chromium:
 
 ```sh
 npm run test:python
-python3 scripts/check_official_sources.py
+python3 -m pip install -r scripts/requirements-browser.txt
+python3 -m playwright install chromium
+python3 scripts/check_official_sources.py --client chromium
 python3 scripts/import_official.py
 npm test
 npm run build

@@ -1,2 +1,2 @@
-# Test-only dependency; the application still has no npm dependencies.
+# Browser tests and verified official-source collection; no application npm dependencies.
 playwright==1.62.0
