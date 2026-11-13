@@ -94,7 +94,12 @@ def download_once(url, allowed_hosts=None):
                 if not location or hop == 3:
                     raise SourceFetchError('Redirecionamento ausente ou limite de redirecionamentos excedido.')
                 current = urljoin(current, location)
-                check_url(current, allowed_hosts)
+                try:
+                    check_url(current, allowed_hosts)
+                except ValueError as error:
+                    # Expose only the origin, never credentials or query strings.
+                    destination = urlsplit(current)
+                    raise ValueError(f'{error}: {destination.scheme}://{destination.hostname}') from error
                 continue
             if status != 200:
                 raise SourceFetchError(f'Falha HTTP {status}; a fonte não foi validada.',
