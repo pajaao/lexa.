@@ -23,8 +23,19 @@ test('141 originais e textos candidatos preservam hashes, ordem, unidades e pend
  }
 });
 
-test('build comum não incorpora ECs; candidata lazy gera vínculos verificáveis no build',async()=>{
- const normal=await buildPackage();assert.equal(normal.manifest.amendments,undefined);assert.ok(![...normal.files.keys()].some(x=>/^data\/ec-/.test(x)));
+test('publicação direta mantém integridade, fontes e revisão jurídica pendente',async()=>{
+ const release=await json(new URL('../../data/amendments/release.json',import.meta.url));
+ assert.equal(release.publicationAuthorized,true);
+ assert.equal(release.legalReview,null);
+ assert.equal(release.ownerAuthorization.authorized,true);
+ assert.equal(release.ownerAuthorization.reviewPending,true);
+ assert.equal(release.ownerAuthorization.basis,'owner-directed-publication');
+ assert.deepEqual(release.approvedNumbers,Array.from({length:141},(_,i)=>i+1));
+ const normal=await buildPackage();
+ assert.equal(normal.manifest.amendments.count,141);
+ assert.equal(normal.manifest.amendments.publicationAuthorized,true);
+ assert.equal(normal.manifest.amendments.ownerAuthorizedUnreviewed,true);
+ assert.ok([...normal.files.keys()].some(x=>/^data\/ec-1\./.test(x)));
  const candidate=await buildPackage({amendmentsCandidate:true});const ec=candidate.manifest.amendments;
  assert.equal(ec.count,141);assert.equal(ec.publicationAuthorized,false);assert.equal(ec.auditSummary.amendments,141);
  const index=JSON.parse(candidate.files.get(ec.index.file));const links=JSON.parse(candidate.files.get(ec.links.file));
