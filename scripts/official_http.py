@@ -113,12 +113,11 @@ def download_once(url, allowed_hosts=None):
     raise SourceFetchError('Não foi possível concluir a transferência HTTPS.')
 
 
-def fetch(spec, attempts=3, sleeper=time.sleep, allowed_hosts=None, downloader=None):
+def fetch(spec, attempts=3, sleeper=time.sleep, allowed_hosts=None):
     """Retry transient failures only; never fall back to insecure TLS or HTTP."""
     for attempt in range(1, attempts + 1):
         try:
-            client = downloader or download_once
-            return client(spec['url']) if allowed_hosts is None else client(spec['url'], allowed_hosts)
+            return download_once(spec['url']) if allowed_hosts is None else download_once(spec['url'], allowed_hosts)
         except SourceFetchError as error:
             if not error.retryable or attempt == attempts:
                 raise SourceFetchError(f'{error} Tentativas realizadas: {attempt}.') from error
