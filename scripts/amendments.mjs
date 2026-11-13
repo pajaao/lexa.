@@ -8,7 +8,10 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 export async function amendmentAssets({candidate=false,asset,directory}){
  const release=JSON.parse((await readFile(new URL('release.json',root),'utf8')).replace(/^\uFEFF/,''));
  if(!candidate&&!release.publicationAuthorized)return null;
- if(!candidate&&(!release.legalReview?.approved||!release.legalReview.reviewer||!release.legalReview.evidence||!release.approvedNumbers?.length))throw new Error('Publicação de ECs sem homologação/autorização documentada');
+ const independentReview=release.legalReview?.approved===true&&Boolean(release.legalReview.reviewer)&&Boolean(release.legalReview.evidence);
+ const ownerUnreviewed=release.ownerAuthorization?.authorized===true&&release.ownerAuthorization?.reviewPending===true&&release.ownerAuthorization?.basis==='owner-directed-publication'&&release.ownerAuthorization?.evidence==='docs/EMENDAS-CONSTITUCIONAIS.md#publicacao-direta-autorizada-pelo-mantenedor';
+ if(!candidate&&(!Array.isArray(release.approvedNumbers)||!release.approvedNumbers.length||!(independentReview||ownerUnreviewed)))throw new Error('Publicação de ECs sem homologação ou decisão direta documentada do mantenedor');
+ if(!candidate&&ownerUnreviewed&&(release.approvedNumbers.length!==141||release.approvedNumbers.some((number,index)=>number!==index+1)))throw new Error('A decisão direta exige as ECs 1 a 141, sem lacunas nem duplicatas');
  if(directory&&!candidate)throw new Error('Diretório experimental não pode substituir dados publicados');
  const folder=directory?pathToFileURL(resolve(directory)+'/'):new URL('candidate/',root);
  const catalog=JSON.parse((await readFile(new URL('catalog.json',folder),'utf8')).replace(/^\uFEFF/,''));
@@ -33,5 +36,5 @@ export async function amendmentAssets({candidate=false,asset,directory}){
  const audit=JSON.parse(generated.stdout);
  const allowed=new Set(entries.map(x=>x.number));
  const links=audit.confirmed.filter(x=>allowed.has(x.ec)).map(x=>({ec:x.ec,year:x.ano,articleId:x.artigo_id,unit:x.unidade,note:x.nota_literal,block:x.origem.sourceBlock_base_1,previous:x.estado_documental==='anterior_riscada',state:x.estado_documental}));
- return {candidate,publicationAuthorized:!candidate&&release.publicationAuthorized,count:entries.length,index:asset('ec-index',{entries}),links:asset('ec-links',{constitutionSemanticHash:audit.constitutionSemanticHash,records:links}),auditSummary:audit.summary};
+ return {candidate,publicationAuthorized:!candidate&&release.publicationAuthorized,ownerAuthorizedUnreviewed:!candidate&&ownerUnreviewed,count:entries.length,index:asset('ec-index',{entries}),links:asset('ec-links',{constitutionSemanticHash:audit.constitutionSemanticHash,records:links}),auditSummary:audit.summary};
 }
