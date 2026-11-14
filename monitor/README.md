@@ -47,6 +47,8 @@ No diagnóstico controlado de 14/11/2026 (UTC), a rede local e o GitHub resolver
 
 Execuções manuais incluem um job separado `network-diagnostic`, somente com leitura do repositório, e guardam `network-diagnostic.json` por sete dias. Os scripts `diagnose_official_network.py` e `diagnose_official_https.mjs` usam HTTPS verificado, limites de tempo/tamanho e não seguem redirecionamentos. O relatório guarda somente cabeçalhos selecionados e amostra de texto, sem cookies, valores de configuração de proxy ou alterações nas referências jurídicas. A rotina diária e suas verificações permanecem ativas.
 
+Testes adicionais no GitHub em 14/11/2026 reproduziram o mesmo HTTP 302 no cliente nativo do Windows, em `ubuntu-24.04-arm` e em `ubuntu-slim` (execução `43548708147`). Sessão com cookies, revalidação de cache e diferenças usuais de maiúsculas na URL não resolveram (`43549088625`). A navegação comum do Chromium terminou explicitamente em `https://gov.br/planalto` (`43549258425`), descartando o HTTP 200 do portal como evidência da legislação. Os jobs e scripts experimentais foram retirados da versão final. Uma coleta completa e importação local em cópia temporária passaram para as 13 fontes, sem mudanças semânticas ou diferenças nos artigos. O contato de atendimento publicado na [página oficial do serviço](https://www.gov.br/pt-br/servicos/pesquisa-de-legislacao-portal-da-legislacao) é o Centro de Estudos Jurídicos da Subchefia para Assuntos Jurídicos, `centroestudos.saj@presidencia.gov.br`; o diagnóstico não identifica a regra de acesso que precisa ser verificada pela equipe responsável.
+
 ## Execução local
 
 Node.js 22+, Python 3.12+ (biblioteca padrão) e curl:
