@@ -28,6 +28,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  alternate-linux-network:
+    if: github.event_name == 'workflow_dispatch'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04-arm, ubuntu-slim]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Conferir a mesma fonte no executor alternativo
+        run: python scripts/diagnose_official_network.py --output monitor/run/network-diagnostic.json
+  windows-network:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: windows-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      # The repository name ends in a dot, which Windows normalizes away.
+      # No checkout is necessary for a read-only native HTTPS probe.
+      - name: Consultar a fonte pelo cliente nativo do Windows
+        shell: pwsh
+        working-directory: ${{ runner.temp }}
+        run: |
+          $probeBody = Join-Path $env:RUNNER_TEMP 'lexa-source-body.txt'
+          $probeHeaders = Join-Path $env:RUNNER_TEMP 'lexa-source-headers.txt'
+          curl.exe --version
+          $probeResult = & curl.exe --disable --silent --show-error --http1.1 --compressed --proto '=https' --connect-timeout 8 --max-time 25 --max-filesize 12582912 --user-agent 'Mozilla/5.0 (compatible; Lexa/0.1; public legislation research)' --header 'Accept: text/html,application/xhtml+xml' --output $probeBody --dump-header $probeHeaders --write-out '%{json}' 'https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm'
+          $probeExit = $LASTEXITCODE
+          $probeResult | ConvertFrom-Json | Select-Object http_code,remote_ip,http_version,ssl_verify_result,size_download,content_type | ConvertTo-Json -Compress
+          Write-Output "curl_exit=$probeExit"
+          if (Test-Path -LiteralPath $probeHeaders) { Get-Content -LiteralPath $probeHeaders | Select-String '^(HTTP/|Server:|Location:|Content-Type:|Content-Length:)' }
+          if (Test-Path -LiteralPath $probeBody) { Write-Output "body_bytes=$((Get-Item -LiteralPath $probeBody).Length)" }
   network-diagnostic:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
