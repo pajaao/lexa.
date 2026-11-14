@@ -41,6 +41,8 @@ jobs:
           python-version: '3.12'
       - name: Comparar DNS e HTTPS sem seguir redirecionamentos
         run: python scripts/diagnose_official_network.py --output monitor/run/network-diagnostic.json
+      - name: Comparar cliente HTTPS independente sem seguir redirecionamentos
+        run: node scripts/diagnose_official_https.mjs
       - name: Guardar diagnóstico isolado
         if: always()
         uses: actions/upload-artifact@v4
