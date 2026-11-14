@@ -28,6 +28,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  network-diagnostic:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Comparar DNS e HTTPS sem seguir redirecionamentos
+        run: python scripts/diagnose_official_network.py --output monitor/run/network-diagnostic.json
+      - name: Comparar cliente HTTPS independente sem seguir redirecionamentos
+        run: node scripts/diagnose_official_https.mjs
+      - name: Guardar diagnóstico isolado
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-rede-${{ github.run_id }}
+          path: monitor/run/network-diagnostic.json
+          retention-days: 7
   monitor:
     runs-on: ubuntu-latest
     timeout-minutes: 15
