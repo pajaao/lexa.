@@ -43,6 +43,10 @@ Se a coleta informar um destino rejeitado como `https://gov.br`, o servidor pode
 
 Em **Settings → Actions → General**, permita os actions utilizados e a criação de PRs pelo `GITHUB_TOKEN`. O GitHub fornece esse token durante o job; não precisa fornecer valores no chat. O job usa `contents: write` e `pull-requests: write`, cria rascunhos e não aprova nem mescla propostas. Monitore falhas em Actions: execução sem sucesso não equivale a “nenhuma mudança na lei”.
 
+No diagnóstico controlado de 14/11/2026 (UTC), a rede local e o GitHub resolveram `www.planalto.gov.br` para o mesmo IPv4 `170.246.255.9`, sem endereço IPv6 disponível. Localmente, auto/IPv4 receberam o Código Civil completo e validado; no GitHub, ambos receberam HTTP 302, `Server: BigIP`, corpo vazio e destino `https://gov.br/planalto`. Um segundo cliente (Node HTTPS), sem seguir redirecionamentos, confirmou a diferença: certificado válido, TLS 1.2 e a mesma cifra nos dois ambientes, mas HTTP 200 local e 302 no GitHub. Isso descarta a diferença de DNS e a seleção IPv4/IPv6 como explicação desse teste; aponta para uma decisão de acesso/encaminhamento no servidor, sem identificar sua regra exata.
+
+Execuções manuais incluem um job separado `network-diagnostic`, somente com leitura do repositório, e guardam `network-diagnostic.json` por sete dias. Os scripts `diagnose_official_network.py` e `diagnose_official_https.mjs` usam HTTPS verificado, limites de tempo/tamanho e não seguem redirecionamentos. O relatório guarda somente cabeçalhos selecionados e amostra de texto, sem cookies, valores de configuração de proxy ou alterações nas referências jurídicas. A rotina diária e suas verificações permanecem ativas.
+
 ## Execução local
 
 Node.js 22+, Python 3.12+ (biblioteca padrão) e curl:
